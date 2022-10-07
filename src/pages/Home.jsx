@@ -1,5 +1,6 @@
 import "./css/Home.css";
 
+import React, { Component }  from 'react';
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import * as Constants from "../Constants";

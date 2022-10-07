@@ -4,7 +4,7 @@ import React, { createContext, useEffect, useState } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import Header from "./components/basics/Header";
 import Footer from "./components/basics/Footer";
-import Home from "./components/Home";
+import Home from "./pages/Home";
 
 export const AuthContext = createContext();
 

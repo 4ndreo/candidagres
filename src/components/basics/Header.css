@@ -1,16 +1,9 @@
 .navbar-base {
-  max-width: 1200px;
   display: flex;
   color: grey;
   box-shadow: 0 8px 20px -15px rgba(0, 0, 0, 0.5);
   padding: 0.5rem 2rem;
-  position: fixed;
   background: white;
-  z-index: 10;
-  top: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
 }
 .brand {
   text-decoration: none;
@@ -20,12 +13,12 @@
   color: #4361ee;
 }
 .navbar-collapse {
-  justify-content: end;
+  justify-content: flex-end;
 }
 .nav-menu {
   display: flex;
   gap: 2rem;
-  justify-content: end;
+  justify-content: flex-end;
 }
 .navbar-base .navbar {
   cursor: default;
