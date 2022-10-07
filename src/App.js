@@ -1,4 +1,5 @@
 import logo from './logo.svg';
+import "bootstrap/dist/css/bootstrap.min.css";
 import './App.css';
 import React, { createContext, useEffect, useState } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
