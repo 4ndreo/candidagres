@@ -6,6 +6,8 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import Header from "./components/basics/Header";
 import Footer from "./components/basics/Footer";
 import Home from "./pages/Home";
+import Turnos from "./pages/Turnos";
+import CreateTurnos from "./components/turnos/CreateTurnos"
 
 export const AuthContext = createContext();
 
@@ -18,7 +20,9 @@ function App() {
         <Routes>
 
           <Route path="*" element={<Home />} />
-          
+          <Route path="/turnos" element={<Turnos />} />
+          <Route path="/turnos/turno" element={<CreateTurnos />} title={"Turnos"}/>
+
         </Routes>
 
         <Footer></Footer>
