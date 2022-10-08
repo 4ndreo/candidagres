@@ -29,7 +29,7 @@ export default function Header() {
       <Navbar className="w-100" expand="lg">
         <Container>
           <Link className="brand" to="/">
-            EmergenciApp
+            Candida Gres
           </Link>
           <Navbar.Toggle aria-controls="menu-nav" />
           <Navbar.Collapse id="menu-nav">
@@ -37,6 +37,7 @@ export default function Header() {
               <Link to="/login">Login</Link>
               <Link to="/register">Registrarse</Link>
               <Link to="/">Home</Link>
+              <Link to="/turnos">Turnos</Link>
               <Link to="/panel">Panel</Link>
               <button className="logout nav-menu navbar-nav" onClick={logOut}>
                 Logout
