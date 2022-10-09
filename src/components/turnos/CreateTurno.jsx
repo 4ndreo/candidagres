@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import * as turnosService from "../../services/turnos.service";
 
-export default function CreateTurnos({title}){
+export function CreateTurno({title}){
 
     const [dia, setDia] = useState("");
     const [horario, setHorario] = useState(9);
