@@ -26,7 +26,7 @@ export default function Turnos() {
                   <p>
                     Turno: {turno.dia} / Horario: {turno.horario}
                   </p>
-                  <a href={`turnos/turno/id-${turno.id}`}>Editar un turno</a>
+                  <a href={`turnos/turno/id-${turno._id}`}>Editar un turno</a>
                 </li>
               </ul>
             );

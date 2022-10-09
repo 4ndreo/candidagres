@@ -20,6 +20,7 @@ export function EditTurno({ title }) {
       .then((turno) => {
         setDia(turno.dia);
         setHorario(turno.horario);
+        console.log('dia, horario, turno')
         console.log(dia, horario, turno)
       })
       .catch((err) => setError(err.message));
@@ -47,7 +48,7 @@ export function EditTurno({ title }) {
           <label>Ingrese el dia del turno</label>
           <input
             type="text"
-            value={dia}
+            defaultValue={dia}
             required
             onChange={(e) => setDia(e.target.value)}
           />
