@@ -1,69 +1,75 @@
 import "../css/Edit.css";
 import React, { useEffect, useState } from "react";
-import * as turnosService from "../../services/turnos.service";
+import * as cursosService from "../../services/cursos.service";
 import * as Constants from "../../Constants";
 import { useNavigate, useParams } from "react-router-dom";
 
-export function EditTurno({ title }) {
+export function EditCurso({ title }) {
   let navigate = useNavigate();
 
-  const [dia, setDia] = useState("");
-  const [horario, setHorario] = useState();
+  const [nombre, setNombre] = useState("");
+  const [descripcion, setDescripcion] = useState("");
+  const [duracion, setDuracion] = useState();
   const [icons, setIcons] = useState([]);
   const [error, setError] = useState("");
   const [checked, setChecked] = useState({});
   const params = useParams();
 
   useEffect(() => {
-    turnosService
-      .findById(params?.idTurno)
-      .then((turno) => {
-        console.log(turno.dia);
-        console.log(turno.horario);
-        setHorario(turno.horario);
-        setDia(turno.dia);
-        console.log(turno.dia);
-        console.log(turno.horario);
+    cursosService
+      .findById(params?.idCurso)
+      .then((curso) => {
+        setNombre(curso.nombre);
+        setDuracion(curso.duracion);
       })
       .catch((err) => setError(err.message));
   }, []);
 
-
   function handleSubmit(e) {
     e.preventDefault();
-    turnosService.update(params?.idTurno, { dia, horario }).then((data) => {
-      setDia(data[0].dia);
+    cursosService.update(params?.idCurso, { nombre,descripcion, duracion }).then((data) => {
+      navigate("/cursos", { replace: true });
     });
-
-    navigate("/cursos", { replace: true });
   }
 
   return (
     <main className="container edit-cont">
       <h1>Editar - {title}</h1>
-      <form onSubmit={handleSubmit}>
-        <label>Nuevo dia</label>
-        <div className="d-flex">
-          <label>Ingrese el dia del turno</label>
+      <form onSubmit={handleSubmit} className="form">
+        <div class="mb-3">
+          <label className="form-label">Ingrese el nombre del curso</label>
           <input
             type="text"
-            defaultValue={dia}
+            defaultValue={nombre}
             required
-            onChange={(e) => setDia(e.target.value)}
+            onChange={(e) => setNombre(e.target.value)}
+            className="form-control"
           />
-
-          <label>A que hora comienza el turno</label>
+        </div>
+        <div class="mb-3">
+          <label className="form-label">Ingrese la descripción del curso</label>
+          <input
+            type="text"
+            required
+            onChange={(e) => setDescripcion(e.target.value)}
+            className="form-control"
+          />
+        </div>
+        <div class="mb-3">
+          <label className="form-label">
+            Defina la duración del curso (en horas)
+          </label>
           <input
             type="number"
-            defaultValue={horario}
+            defaultValue={duracion}
             required
-            max={18}
-            min={9}
-            onChange={(e) => setHorario(e.target.value)}
+            onChange={(e) => setDuracion(parseInt(e.target.value))}
+            className="form-control"
           />
-
-          <button type="submit">Crear</button>
         </div>
+        <button type="submit" className="btn btn-primary">
+          Modificar
+        </button>
       </form>
       {error && <p>{error}</p>}
     </main>

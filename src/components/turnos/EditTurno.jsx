@@ -18,41 +18,35 @@ export function EditTurno({ title }) {
     turnosService
       .findById(params?.idTurno)
       .then((turno) => {
-        console.log(turno.dia);
-        console.log(turno.horario);
         setHorario(turno.horario);
         setDia(turno.dia);
-        console.log(turno.dia);
-        console.log(turno.horario);
       })
       .catch((err) => setError(err.message));
   }, []);
 
-
   function handleSubmit(e) {
     e.preventDefault();
     turnosService.update(params?.idTurno, { dia, horario }).then((data) => {
-      setDia(data[0].dia);
+      navigate("/turnos", { replace: true });
     });
-
-    navigate("/turnos", { replace: true });
   }
 
   return (
     <main className="container edit-cont">
       <h1>Editar - {title}</h1>
       <form onSubmit={handleSubmit}>
-        <label>Nuevo dia</label>
-        <div className="d-flex">
-          <label>Ingrese el dia del turno</label>
+        <div class="mb-3">
+          <label className="form-label">Ingrese el dia del turno</label>
           <input
             type="text"
             defaultValue={dia}
             required
             onChange={(e) => setDia(e.target.value)}
+            className="form-control"
           />
-
-          <label>A que hora comienza el turno</label>
+        </div>
+        <div class="mb-3">
+          <label className="form-label">A que hora comienza el turno</label>
           <input
             type="number"
             defaultValue={horario}
@@ -60,10 +54,12 @@ export function EditTurno({ title }) {
             max={18}
             min={9}
             onChange={(e) => setHorario(e.target.value)}
+            className="form-control"
           />
-
-          <button type="submit">Crear</button>
         </div>
+        <button type="submit" className="btn btn-primary">
+          Modificar
+        </button>
       </form>
       {error && <p>{error}</p>}
     </main>
