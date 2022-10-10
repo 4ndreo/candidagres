@@ -35,7 +35,7 @@ export function EditTurno({ title }) {
       setDia(data[0].dia);
     });
 
-    navigate("/turnos", { replace: true });
+    navigate("/cursos", { replace: true });
   }
 
   return (
