@@ -5,7 +5,7 @@ export default function Footer() {
   return (
     <footer className="footer">
       <div className="container">
-        <p>Da Vinci - Andreo, Bugna, Gueiser -  DWN4AV</p>
+        <p>Da Vinci - Andreo, Gueiser -  DWN4AV</p>
       </div>
     </footer>
   );
