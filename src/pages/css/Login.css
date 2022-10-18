@@ -1,0 +1,31 @@
+.login-cont form {
+  display: flex;
+  flex-direction: column;
+}
+.login-cont input,
+button {
+  border-radius: 4px;
+  border: 1px solid grey;
+}
+.login-cont button {
+  margin-top: 2rem;
+  background: #4361ee;
+  color: white;
+  border: 1px solid #4361ee;
+  padding: 0.5rem 0;
+  transition: all ease 0.3s;
+}
+.login-cont button:hover {
+  margin-top: 2rem;
+  background: white;
+  color: #4361ee;
+  /* border: white; */
+  padding: 0.5rem 0;
+}
+
+.login-cont input {
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  border: 1px solid grey;
+  margin-bottom: 0.5rem;
+}

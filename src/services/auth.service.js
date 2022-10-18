@@ -1,5 +1,3 @@
-
-
 async function login (email, password){
     return fetch('http://localhost:2025/api/users/login', {
         method: 'POST',
