@@ -6,15 +6,22 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import Header from "./components/basics/Header";
 import Footer from "./components/basics/Footer";
 import Home from "./pages/Home";
-import Turnos from "./pages/Turnos";
+
 import PageLogin from "./pages/Login"
 import PageRegister from "./pages/Register";
 
+import Turnos from "./pages/Turnos";
 import { CreateTurno } from "./components/turnos/CreateTurno";
 import { EditTurno } from "./components/turnos/EditTurno";
+
 import Cursos from "./pages/Cursos";
 import { CreateCurso } from "./components/cursos/CreateCurso";
 import { EditCurso } from "./components/cursos/EditCurso";
+
+// import Inscripciones from "./pages/Inscripciones";
+import { CreateInscripcion } from "./components/inscripcion/CreateInscripcion";
+//import { EditInscripcion } from "./components/inscripcion/EditInscripcion";
+
 
 export const AuthContext = createContext();
 
@@ -76,6 +83,18 @@ function App() {
             path="/cursos/curso/id-:idCurso"
             element={<EditCurso title={"Curso"} />}
           />
+
+          {/* Rutas de Inscripciones */}
+         {/*<Route path="/inscripciones" element={<Inscripciones />} />*/}
+          <Route
+              path="/inscripciones/inscripcion"
+              element={<CreateInscripcion title={"Inscripcion"} />}
+          />
+          <Route
+              path="/inscripciones/inscripcion/id-:idInscripcion"
+         //     element={<EditInscripcion title={"Inscripcion"} />}
+          />
+
         </Routes>
 
         <Footer></Footer>
