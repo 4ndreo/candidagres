@@ -10,6 +10,7 @@ export default function Turnos() {
   useEffect(() => {
     cursosService.find().then((data) => {
       setCursos(data);
+      console.log(data)
     });
   }, []);
 
@@ -35,6 +36,7 @@ export default function Turnos() {
                 <p>Curso: {curso.nombre}</p>
                 <p>Descripción: {curso.descripcion}</p>
                 <p>Duración: {curso.duracion} horas</p>
+                <p>Precio: ${curso.precio} </p>
                 <a
                   href={`cursos/curso/id-${curso._id}`}
                   className="btn btn-warning btn-sm rounded-2 me-2"

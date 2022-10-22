@@ -8,6 +8,7 @@ export function CreateCurso({ title }) {
   const [nombre, setNombre] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [duracion, setDuracion] = useState();
+  const [precio, setPrecio] = useState();
   const [error, setError] = useState("");
 
   useEffect(() => {}, []);
@@ -46,6 +47,16 @@ export function CreateCurso({ title }) {
         </div>
         <div class="mb-3">
           <label className="form-label">A que hora comienza el curso</label>
+          <input
+            type="number"
+            defaultValue={0}
+            required
+            onChange={(e) => setDuracion(parseInt(e.target.value))}
+            className="form-control"
+          />
+        </div>
+        <div class="mb-3">
+          <label className="form-label">Cuanto cuesta el curso</label>
           <input
             type="number"
             defaultValue={0}
