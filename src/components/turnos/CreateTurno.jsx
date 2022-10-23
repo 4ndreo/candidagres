@@ -27,9 +27,14 @@ export function CreateTurno({ title }) {
 
   function handleOption(nombreCurso){
     console.log(nombreCurso)
-    let result = cursos.filter(curso => curso.nombre === nombreCurso)
-    setidCurso(result[0]._id)
-    console.log(result[0]._id)
+    if(nombreCurso !== "error"){
+      let result = cursos.filter(curso => curso.nombre === nombreCurso)
+      setidCurso(result[0]._id)
+      console.log(result[0]._id)
+    } else {
+      
+    }
+
   }
 
   return (
@@ -67,7 +72,7 @@ export function CreateTurno({ title }) {
               form="cursosForm"
               onChange={e => handleOption(e.target.value)}
             >
-            <option> Selecciona el curso...-</option>
+            <option value="error"> Selecciona el curso...-</option>
             {cursos.map((curso) => {
               return (
               <option

@@ -21,5 +21,5 @@ export function CreateInscripcion({ title }) {
             .catch((err) => setError(err.message));
     }
 
-    
+
 }
