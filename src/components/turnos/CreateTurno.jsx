@@ -6,7 +6,7 @@ export function CreateTurno({ title }) {
   const [dia, setDia] = useState("");
   const [horario, setHorario] = useState(9);
   const [cursos, setCursos] = useState([]);
-  const [idCurso, setidCurso] = useState("");
+  const [idCurso, setIdCurso] = useState("");
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -29,12 +29,10 @@ export function CreateTurno({ title }) {
     console.log(nombreCurso)
     if(nombreCurso !== "error"){
       let result = cursos.filter(curso => curso.nombre === nombreCurso)
-      setidCurso(result[0]._id)
+      setIdCurso(result[0]._id)
       console.log(result[0]._id)
     } else {
-      
     }
-
   }
 
   return (
