@@ -13,6 +13,7 @@ import PageRegister from "./pages/Register";
 import Turnos from "./pages/Turnos";
 import { CreateTurno } from "./components/turnos/CreateTurno";
 import { EditTurno } from "./components/turnos/EditTurno";
+import { VerTurnos } from "./components/turnos/VerTurnos";
 
 import Cursos from "./pages/Cursos";
 import { CreateCurso } from "./components/cursos/CreateCurso";
@@ -71,6 +72,10 @@ function App() {
           <Route
             path="/turnos/turno/id-:idTurno"
             element={<EditTurno title={"Turno"} />}
+          />
+          <Route
+              path="/turnos/turno/ver-:idCurso"
+              element={<VerTurnos title={"Turnos"} />}
           />
 
           {/* Rutas de cursos */}
