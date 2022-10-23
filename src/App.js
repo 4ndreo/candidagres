@@ -19,9 +19,9 @@ import Cursos from "./pages/Cursos";
 import { CreateCurso } from "./components/cursos/CreateCurso";
 import { EditCurso } from "./components/cursos/EditCurso";
 
-// import Inscripciones from "./pages/Inscripciones";
+import Inscripciones from "./pages/Inscripciones";
 import { CreateInscripcion } from "./components/inscripcion/CreateInscripcion";
-//import { EditInscripcion } from "./components/inscripcion/EditInscripcion";
+import { EditInscripcion } from "./components/inscripcion/EditInscripcion";
 
 
 export const AuthContext = createContext();
@@ -89,15 +89,15 @@ function App() {
             element={<EditCurso title={"Curso"} />}
           />
 
-          {/* Rutas de Inscripciones */}
-         {/*<Route path="/inscripciones" element={<Inscripciones />} />*/}
+           Rutas de Inscripciones
+         <Route path="/inscripciones" element={<Inscripciones />} />
           <Route
               path="/inscripciones/inscripcion"
               element={<CreateInscripcion title={"Inscripcion"} />}
           />
           <Route
               path="/inscripciones/inscripcion/id-:idInscripcion"
-         //     element={<EditInscripcion title={"Inscripcion"} />}
+              element={<EditInscripcion title={"Inscripcion"} />}
           />
 
         </Routes>
