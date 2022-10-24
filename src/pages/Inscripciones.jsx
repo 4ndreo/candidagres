@@ -15,22 +15,12 @@ export default function Inscripciones() {
         inscripcionesService.find().then((data) => {
             setInscripciones(data);
         });
+    }, []);
+    useEffect(() => {
 
         turnosService.find().then((data) => {
             setTurnos(data);
         });
-        // cursosService.find().then((data) => {
-        //     setCursos(data);
-        // });
-
-
-    }, []);
-    useEffect(() => {
-
-        // cursosService.find().then((data) => {
-        //     setCursos(data);
-        // });
-
     }, []);
 
     function handleDeleteElement(item) {
@@ -50,11 +40,14 @@ export default function Inscripciones() {
          // return "lunes"
     }
 
+    if(inscripciones.length > 0 && turnos.length > 0) {
     return (
+       
         <main className="container main m-0">
             <div className=" cont-home">
                 <h1 className="mt-4">Administrar Inscripciones</h1>
                 <a href={"inscripciones/inscripcion"} className="btn btn-primary mt-3">Crear una inscripcion</a>
+                { inscripciones.length > 0 ?
                 <ul>
                     {inscripciones.map((inscripcion) => {
                         // return <p>{turno.horario}</p>
@@ -62,6 +55,7 @@ export default function Inscripciones() {
                             <li key={inscripcion._id}>
                                 <p>Alumno: {inscripcion.nombre}</p>
                                 <p>Dia: {handleTurno(inscripcion)}</p>
+                                {/* <p>Dia: {inscripcion.dia}</p> */}
                                 <p>
                                     Monto: ${inscripcion.monto} / Metodo de Pago: {inscripcion.formaPago}
                                 </p>
@@ -87,7 +81,20 @@ export default function Inscripciones() {
                         );
                     })}
                 </ul>
+                 :
+                <p>Algo salió mal</p>
+} 
             </div>
         </main>
+    
     );
+}
+else  {
+    <main className="container main m-0">
+    <div className=" cont-home">
+
+        <p>Algo salio mal owo</p>
+        </div>
+    </main>
+}
 }
