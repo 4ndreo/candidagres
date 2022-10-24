@@ -10,10 +10,15 @@ export default function Header() {
   const [authUser, setAuthUser] = useState({});
   const [error, setError] = useState("");
 
-
   const value = useContext(AuthContext);
 
   let navigate = useNavigate();
+  useEffect(() => {
+    value.setCurrentUser(JSON.parse(localStorage.getItem("user")));
+    if (!value.token) {
+      navigate("/login", { replace: true });
+    }
+  }, []);
 
   function logOut() {
     localStorage.clear();
@@ -23,34 +28,48 @@ export default function Header() {
     navigate("/login", { replace: true });
   }
 
-  // if ((!value.token && !value.currentUser) || value.currentUser) {
-  return (
-    <header className="navbar-base">
-      <Navbar className="w-100" expand="lg">
-        <Container>
-          <Link className="brand" to="/">
-            Candida Gres
-          </Link>
-          <Navbar.Toggle aria-controls="menu-nav" />
-          <Navbar.Collapse id="menu-nav">
-            <Nav className="nav-menu">
-              <Link to="/login">Login</Link>
-              <Link to="/register">Registrarse</Link>
-              <Link to="/">Home</Link>
-              <Link to="/cursos">Cursos</Link>
-              <Link to="/turnos">Turnos</Link>
-              <Link to="/Inscripciones">Inscripciones</Link>
-              <Link to="/panel">Panel</Link>
-              <button className="logout nav-menu navbar-nav" onClick={logOut}>
-                Logout
-              </button>
-            </Nav>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
-    </header>
-  );
+  if ((!value.token && !value.currentUser) || value.currentUser) {
+    return (
+      <header className="navbar-base">
+        <Navbar className="w-100" expand="lg">
+          <Container>
+            <Link className="brand" to="/">
+              Candida Gres
+            </Link>
+            <Navbar.Toggle aria-controls="menu-nav" />
+            <Navbar.Collapse id="menu-nav">
+              <Nav className="nav-menu">
+                {/* {{
+
+
+              }} */}
+                <Link to="/">Home</Link>
+                <Link to="/cursos">Cursos</Link>
+                {!value.token ? (
+                  <>
+                    <Link to="/login">Login</Link>
+                    <Link to="/register">Registrarse</Link>
+                  </>
+                ) : (
+                  <>
+                    <Link to="/turnos">Turnos</Link>
+                    <Link to="/Inscripciones">Inscripciones</Link>
+                    <Link to="/panel">Panel</Link>
+                    <button
+                      className="logout nav-menu navbar-nav"
+                      onClick={logOut}
+                    >
+                      Logout
+                    </button>
+                  </>
+                )}
+              </Nav>
+            </Navbar.Collapse>
+          </Container>
+        </Navbar>
+      </header>
+    );
+  }
 }
-// }
 
 // export default Header;
