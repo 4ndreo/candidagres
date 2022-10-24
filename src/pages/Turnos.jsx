@@ -1,11 +1,23 @@
 import "./css/Turnos.css";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import * as turnosService from "../services/turnos.service";
+import { AuthContext } from "../App";
 
 export default function Turnos() {
   const [turnos, setTurnos] = useState([]);
+
+  const value = useContext(AuthContext);
+
+  let navigate = useNavigate();
+
+  useEffect(() => {
+    value.setCurrentUser(JSON.parse(localStorage.getItem("user")));
+    if (!value.token) {
+      navigate("/login", { replace: true });
+    }
+  }, []);
 
   useEffect(() => {
     turnosService.find().then((data) => {

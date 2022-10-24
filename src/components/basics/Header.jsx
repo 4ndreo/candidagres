@@ -44,7 +44,6 @@ export default function Header() {
 
               }} */}
                 <Link to="/">Home</Link>
-                <Link to="/cursos">Cursos</Link>
                 {!value.token ? (
                   <>
                     <Link to="/login">Login</Link>
@@ -52,8 +51,9 @@ export default function Header() {
                   </>
                 ) : (
                   <>
+                  <Link to="/cursos">Cursos</Link>
                     <Link to="/turnos">Turnos</Link>
-                    <Link to="/Inscripciones">Inscripciones</Link>
+                  <Link to="/Inscripciones">Inscripciones</Link>
                     <Link to="/panel">Panel</Link>
                     <button
                       className="logout nav-menu navbar-nav"
