@@ -29,7 +29,7 @@ export function VerTurnos() {
                                 <p>
                                     Turno: {turno.dia} / Horario: {turno.horario}
                                 </p>
-                                <a>Inscribirse</a>
+                                <a href={`/id-${turno._id}/curso/id-${turno.idCurso}`}>Inscribirse</a>
                             </li>
                         );}
                     })}
