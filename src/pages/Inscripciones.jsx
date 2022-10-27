@@ -26,12 +26,14 @@ export default function Inscripciones() {
   useEffect(() => {
     inscripcionesService.find().then((data) => {
       setInscripciones(data);
+
     });
   }, []);
   useEffect(() => {
     turnosService.find().then((data) => {
       setTurnos(data);
     });
+    console.log(inscripciones)
   }, []);
 
   function handleDeleteElement(item) {
@@ -52,7 +54,7 @@ export default function Inscripciones() {
 
   if (inscripciones.length > 0 && turnos.length > 0) {
     return (
-      <main className="container main m-0">
+      <main className="container main">
         <div className=" cont-home">
           <h1 className="mt-4">Administrar Inscripciones</h1>
           <a
@@ -102,7 +104,7 @@ export default function Inscripciones() {
     return (
       <main className="container main m-0">
         <div className="cont-home">
-          <p>Algo salio mal owo</p>
+          <p>Algo salio mal, vuelva a cargar la pagina</p>
         </div>
       </main>
     );

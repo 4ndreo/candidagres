@@ -21,6 +21,7 @@ import { EditCurso } from "./components/cursos/EditCurso";
 
 import Inscripciones from "./pages/Inscripciones";
 import { CreateInscripcion } from "./components/inscripcion/CreateInscripcion";
+import { CreateInscripcionUser } from "./components/inscripcion/CreateInscripcionUser";
 import { EditInscripcion } from "./components/inscripcion/EditInscripcion";
 
 
@@ -64,6 +65,8 @@ function App() {
           <Route path="*" element={<Home />} />
 
           {/* Rutas de turnos */}
+
+
           <Route path="/turnos" element={<Turnos />} />
           <Route
             path="/turnos/turno"
@@ -99,6 +102,12 @@ function App() {
               path="/inscripciones/inscripcion/id-:idInscripcion"
               element={<EditInscripcion title={"Inscripcion"} />}
           />
+
+            <Route
+                path="/id-:idTurnos/curso/id-:idCurso"
+                element={<CreateInscripcionUser title={"Inscripcion"} />}
+            />
+
 
         </Routes>
 

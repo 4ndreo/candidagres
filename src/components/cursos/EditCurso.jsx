@@ -36,7 +36,7 @@ export function EditCurso({ title }) {
     <main className="container edit-cont">
       <h1>Editar - {title}</h1>
       <form onSubmit={handleSubmit} className="form">
-        <div class="mb-3">
+        <div className="mb-3">
           <label className="form-label">Ingrese el nombre del curso</label>
           <input
             type="text"
@@ -46,7 +46,7 @@ export function EditCurso({ title }) {
             className="form-control"
           />
         </div>
-        <div class="mb-3">
+        <div className="mb-3">
           <label className="form-label">Ingrese la descripción del curso</label>
           <input
             type="text"
@@ -55,7 +55,7 @@ export function EditCurso({ title }) {
             className="form-control"
           />
         </div>
-        <div class="mb-3">
+        <div className="mb-3">
           <label className="form-label">
             Defina la duración del curso (en horas)
           </label>
