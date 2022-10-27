@@ -26,14 +26,17 @@ export default function Inscripciones() {
   useEffect(() => {
     inscripcionesService.find().then((data) => {
       setInscripciones(data);
+      console.log(data);
 
     });
   }, []);
+
   useEffect(() => {
     turnosService.find().then((data) => {
       setTurnos(data);
+      console.log(data)
     });
-    console.log(inscripciones)
+
   }, []);
 
   function handleDeleteElement(item) {
@@ -45,11 +48,12 @@ export default function Inscripciones() {
 
   function handleTurno(data) {
     // console.log(data.idTurno)
-    //  console.log(turnos)
+    // console.log(data)
     const result = turnos.filter((turno) => turno._id === data.idTurno);
-    console.log([result[0].dia, result[0].horario]);
+     console.log(result[0].dia);
     return result[0].dia;
-    // return "lunes"
+    // console.log(diaTurno);
+     // return "lunes"
   }
 
   if (inscripciones.length > 0 && turnos.length > 0) {
