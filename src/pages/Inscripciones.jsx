@@ -54,7 +54,7 @@ export default function Inscripciones() {
 
   if (inscripciones.length > 0 && turnos.length > 0) {
     return (
-      <main className="container main m-0">
+      <main className="container main">
         <div className=" cont-home">
           <h1 className="mt-4">Administrar Inscripciones</h1>
           <a
