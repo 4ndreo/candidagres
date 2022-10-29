@@ -9,9 +9,9 @@ export function CreateInscripcion({ title }) {
 
     const [nombre, setNombre] = useState("")
     const [monto, setMonto] = useState();
-    const [formaPago, setFormaPago] = useState("");
+    const [formaPago, setFormaPago] = useState("error");
     const [turnos, setTurnos] = useState([]);
-    const [idTurno, setIdTurno] = useState("");
+    const [idTurno, setIdTurno] = useState("error");
     const [error, setError] = useState("");
 
     useEffect(() => {
@@ -23,12 +23,17 @@ export function CreateInscripcion({ title }) {
 
     function handleSubmit(e) {
         e.preventDefault();
+        console.log(formaPago)
+        if(formaPago !== 'error' && idTurno !== 'error'){
         inscripcionesService
             .create({ nombre, monto, formaPago,idTurno })
             .then((data) => {
                 navigate("/inscripciones", { replace: true });
             })
             .catch((err) => setError(err.message));
+        } else {
+            window.alert('Tenes que seleccionar una forma de pago')
+        }
     }
 
     function handleOption(idTurno){
@@ -54,15 +59,32 @@ export function CreateInscripcion({ title }) {
                         className="form-control"
                     />
                 </div>
-                <div className="mb-3">
-                    <label className="form-label">Ingrese la forma de pago (efectivo o transferencia)</label>
-                    <input
-                        type="text"
+                {/*<div className="mb-3">*/}
+                {/*    <label className="form-label">Ingrese la forma de pago (efectivo o transferencia)</label>*/}
+                {/*    <input*/}
+                {/*        type="text"*/}
+                {/*        required*/}
+                {/*        onChange={(e) => setFormaPago(e.target.value)}*/}
+                {/*        className="form-control"*/}
+                {/*    />*/}
+                {/*</div>*/}
+
+                <div>
+                    <label htmlFor="cursos">Como desea pagar</label>
+                    <select
+                        name="cursos"
+                        id="cursos"
+                        form="cursosForm"
+                        onChange={e => setFormaPago(e.target.value)}
                         required
-                        onChange={(e) => setFormaPago(e.target.value)}
-                        className="form-control"
-                    />
+                    >
+                        <option value="error"> Selecciona el turno...-</option>
+                        <option value="transferencia"> Transferencia </option>
+                        <option value="efectivo"> Efectivo</option>
+
+                    </select>
                 </div>
+
                 <div className="mb-3">
                     <label className="form-label">Cual es el valor de la clase</label>
                     <input
