@@ -9,13 +9,13 @@ import {AuthContext} from "../../App";
 export function CreateInscripcionUser({ title }) {
     let navigate = useNavigate();
 
-    const [nombreUser, setNombreUser] = useState("")
+    const [nombre, setNombre] = useState("")
     const [dia, setDia] = useState("")
     const [horario, setHorario] = useState("");
     const [formaPago, setFormaPago] = useState("");
-    const [nombre, setNombre] = useState("");
+    const [nombreTaller, setNombreTaller] = useState("");
     const [descripcion, setDescripcion] = useState("");
-    const [precio, setPrecio] = useState();
+    const [monto, setMonto] = useState();
     const [curso, setCurso] = useState([]);
     const [turno, setTurno] = useState([]);
     const [idTurno, setIdTurno] = useState("");
@@ -39,7 +39,7 @@ export function CreateInscripcionUser({ title }) {
 
         console.log(data)
         console.log(data.email)
-        setNombreUser(data.email)
+        setNombre(data.email)
         setFormaPago('error')
         console.log(formaPago)
 
@@ -52,9 +52,9 @@ export function CreateInscripcionUser({ title }) {
       cursosService.findById(params?.idCurso)
            .then((curso) =>{
                setCurso(curso)
-               setNombre(curso.nombre)
+               setNombreTaller(curso.nombre)
                setDescripcion(curso.descripcion)
-               setPrecio(curso.precio)
+               setMonto(curso.precio)
 
                console.log(curso.deleted)
                console.log(curso)
@@ -78,7 +78,7 @@ export function CreateInscripcionUser({ title }) {
         e.preventDefault();
         if(formaPago !== 'error'){
             inscripcionesService
-                .create({ nombreUser, precio, formaPago,idTurno })
+                .create({ nombre, monto, formaPago,idTurno })
                 .then((data) => {
                     navigate("/", { replace: true });
                 })
@@ -96,12 +96,12 @@ export function CreateInscripcionUser({ title }) {
             <h1 className="mt-4">{title} Online</h1>
             <div className="card w-100 mt-5">
                 <div className="card-header">
-                    <h2>{nombreUser}</h2>
+                    <h2>{nombre}</h2>
                 </div>
                 <ul className="list-group list-group-flush">
-                    <li className="list-group-item">Nombre del Taller: {nombre}</li>
+                    <li className="list-group-item">Nombre del Taller: {nombreTaller}</li>
                     <li className="list-group-item">Descripcion: {descripcion}</li>
-                    <li className="list-group-item">Precio: ${precio}</li>
+                    <li className="list-group-item">Precio: ${monto}</li>
                 </ul>
             </div>
 
