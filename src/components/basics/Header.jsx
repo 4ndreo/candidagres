@@ -1,14 +1,12 @@
-import React, { Component } from "react";
+import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Header.css";
 
-import { Navbar, Container, Nav } from "react-bootstrap";
-import { useEffect, useState, useContext } from "react";
+import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
+import { useEffect, useContext } from "react";
 import { AuthContext } from "../../App";
 
 export default function Header() {
-  const [authUser, setAuthUser] = useState({});
-  const [error, setError] = useState("");
 
   const value = useContext(AuthContext);
 
@@ -51,14 +49,19 @@ export default function Header() {
                   </>
                 ) : (
                   <>
-                  <Link to="/cursos">Cursos</Link>
-                    <Link to="/turnos">Turnos</Link>
-                  <Link to="/Inscripciones">Inscripciones</Link>
-                    <Link to="/panel">Panel</Link>
-                    <button
-                      className="logout nav-menu navbar-nav"
-                      onClick={logOut}
-                    >
+                    <Link to="/cursos">Cursos</Link>
+                    <NavDropdown title="Panel" className="panel-ddown">
+                      <NavDropdown.Item>
+                        <Link to="/cursos">Cursos</Link>
+                      </NavDropdown.Item>
+                      <NavDropdown.Item>
+                        <Link to="/turnos">Turnos</Link>
+                      </NavDropdown.Item>
+                      <NavDropdown.Item>
+                        <Link to="/Inscripciones">Inscripciones</Link>
+                      </NavDropdown.Item>
+                    </NavDropdown>
+                    <button className="logout" onClick={logOut}>
                       Logout
                     </button>
                   </>

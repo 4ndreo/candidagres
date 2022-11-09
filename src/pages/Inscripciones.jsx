@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import * as inscripcionesService from "../services/inscripciones.service";
 import * as turnosService from "../services/turnos.service";
 import * as cursosService from "../services/cursos.service";
+import Loader from "../components/basics/Loader";
 import { AuthContext } from "../App";
 
 export default function Inscripciones() {
@@ -22,21 +23,19 @@ export default function Inscripciones() {
       navigate("/login", { replace: true });
     }
   }, []);
-
+  
   useEffect(() => {
     inscripcionesService.find().then((data) => {
       setInscripciones(data);
       console.log(data);
-
+      turnosService.find().then((data) => {
+        setTurnos(data);
+        console.log(data);
+      });
     });
   }, []);
-
+  
   useEffect(() => {
-    turnosService.find().then((data) => {
-      setTurnos(data);
-      console.log(data)
-    });
-
   }, []);
 
   function handleDeleteElement(item) {
@@ -46,15 +45,15 @@ export default function Inscripciones() {
     });
   }
 
-  function handleTurno(data) {
-    // console.log(data.idTurno)
-    // console.log(data)
-    const result = turnos.filter((turno) => turno._id === data.idTurno);
-     console.log(result[0].dia);
-    return result[0].dia;
-    // console.log(diaTurno);
-     // return "lunes"
-  }
+  // function handleTurno(data) {
+  //   // console.log(data.idTurno)
+  //   // console.log(data)
+  //   const result = turnos.filter((turno) => turno._id === data.idTurno);
+  //   console.log(result[0].dia);
+  //   return result[0].dia;
+  //   // console.log(diaTurno);
+  //   // return "lunes"
+  // }
 
   if (inscripciones.length > 0 && turnos.length > 0) {
     return (
@@ -73,7 +72,7 @@ export default function Inscripciones() {
               return (
                 <li key={inscripcion._id}>
                   <p>Alumno: {inscripcion.nombre}</p>
-                  <p>Dia: {handleTurno(inscripcion)}</p>
+                  {/* <p>Dia: {handleTurno(inscripcion)}</p> */}
                   {/* <p>Dia: {inscripcion.dia}</p> */}
                   <p>
                     Monto: ${inscripcion.monto} / Metodo de Pago:{" "}
@@ -109,6 +108,7 @@ export default function Inscripciones() {
       <main className="container main m-0">
         <div className="cont-home">
           <p>Algo salio mal, vuelva a cargar la pagina</p>
+          {/* <Loader></Loader> */}
         </div>
       </main>
     );

@@ -112,6 +112,7 @@ function App() {
         </Routes>
 
         <Footer></Footer>
+        <script src="https://cdn.lordicon.com/qjzruarw.js"></script>
       </AuthContext.Provider>
     </>
   );
