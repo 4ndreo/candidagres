@@ -24,6 +24,8 @@ import { CreateInscripcion } from "./components/inscripcion/CreateInscripcion";
 import { CreateInscripcionUser } from "./components/inscripcion/CreateInscripcionUser";
 import { EditInscripcion } from "./components/inscripcion/EditInscripcion";
 
+import Perfil from "./pages/Perfil";
+import { PerfilTurnos } from "./components/perfil/PerfilTurnos";
 
 export const AuthContext = createContext();
 
@@ -92,7 +94,7 @@ function App() {
             element={<EditCurso title={"Curso"} />}
           />
 
-           Rutas de Inscripciones
+           {/* Rutas de Inscripciones */}
          <Route path="/inscripciones" element={<Inscripciones />} />
           <Route
               path="/inscripciones/inscripcion"
@@ -107,6 +109,11 @@ function App() {
                 path="/id-:idTurnos/curso/id-:idCurso"
                 element={<CreateInscripcionUser title={"Inscripcion"} />}
             />
+
+          {/* Rutas Perfil */}
+          <Route path="/perfil" element={<Perfil/>} />
+
+          <Route path="perfil/turno/id-:idTurno/inscripcion/id-:idInscripcion" element={<PerfilTurnos title={"Turnos"}/>} />
 
 
         </Routes>

@@ -15,12 +15,14 @@ export function EditInscripcion({ title }) {
     const params = useParams();
 
     useEffect(() => {
+
         inscripcionesService
             .findById(params?.idInscripcion)
             .then((inscripcion) => {
                 setMonto(inscripcion.monto);
                 setFormaPago(inscripcion.formaPago);
                 setNombre(inscripcion.nombre);
+                setFormaPago('error')
             })
             .catch((err) => setError(err.message));
     }, []);
@@ -28,10 +30,14 @@ export function EditInscripcion({ title }) {
     function handleSubmit(e) {
         e.preventDefault();
         console.log(monto)
+        if(formaPago !== 'error'){
         inscripcionesService.update(params?.idInscripcion, { monto, formaPago }).then((data) => {
             console.log(monto)
             navigate("/inscripciones", { replace: true });
         });
+        } else {
+            window.alert('Tenes que seleccionar una forma de pago')
+        }
     }
 
     return (
@@ -39,15 +45,20 @@ export function EditInscripcion({ title }) {
             <h1>Editar - {title}</h1>
             <h2>Alumno: {nombre}</h2>
             <form onSubmit={handleSubmit}>
-                <div className="mb-3">
-                    <label className="form-label">Ingrese la forma de pago (transferencia o efectivo)</label>
-                    <input
-                        type="text"
-                        defaultValue={formaPago}
+                <div>
+                    <label htmlFor="cursos">Como desea pagar</label>
+                    <select
+                        name="cursos"
+                        id="cursos"
+                        form="cursosForm"
+                        onChange={e => setFormaPago(e.target.value)}
                         required
-                        onChange={(e) => setFormaPago(e.target.value)}
-                        className="form-control"
-                    />
+                    >
+                        <option value="error"> Selecciona el turno...-</option>
+                        <option value="transferencia"> Transferencia </option>
+                        <option value="efectivo"> Efectivo</option>
+
+                    </select>
                 </div>
                 <div className="mb-3">
                     <label className="form-label">Cuanto cuesta el taller</label>
