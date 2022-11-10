@@ -50,6 +50,7 @@ export default function Header() {
                 ) : (
                   <>
                     <Link to="/cursos">Cursos</Link>
+                    <Link to="/perfil">Perfil</Link>
                     <NavDropdown title="Panel" className="panel-ddown">
                       <NavDropdown.Item>
                         <Link to="/cursos">Cursos</Link>
