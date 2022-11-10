@@ -19,6 +19,8 @@ export function CreateInscripcionUser({ title }) {
     const [curso, setCurso] = useState([]);
     const [turno, setTurno] = useState([]);
     const [idTurno, setIdTurno] = useState("");
+    const [idUser, setIdUser] = useState("");
+    const [idCurso, setIdCurso] = useState("");
     const [error, setError] = useState("");
     const params = useParams();
 
@@ -33,15 +35,17 @@ export function CreateInscripcionUser({ title }) {
     }, []);
 
     useEffect(() => {
+        setIdCurso(params?.idCurso)
         console.log(params?.idCurso)
        const data = JSON.parse(window.localStorage.getItem('user'));
 
 
-        console.log(data)
+        console.log(data._id)
         console.log(data.email)
         setNombre(data.email)
+        setIdUser(data._id)
+
         setFormaPago('error')
-        console.log(formaPago)
 
         // data.map((user) => {
         //     setNombreUser(user.email)
@@ -64,7 +68,7 @@ export function CreateInscripcionUser({ title }) {
 
     useEffect(() => {
         setIdTurno(params?.idTurnos)
-        console.log(params?.idTurnos)
+
        turnosService.findById(params?.idTurnos)
            .then((turno) =>{
                setTurno(turno)
@@ -76,9 +80,10 @@ export function CreateInscripcionUser({ title }) {
 
     function handleSubmit(e) {
         e.preventDefault();
+
         if(formaPago !== 'error'){
             inscripcionesService
-                .create({ nombre, monto, formaPago,idTurno })
+                .create({ nombre, monto, formaPago, idTurno, idUser, idCurso })
                 .then((data) => {
                     navigate("/", { replace: true });
                 })
