@@ -21,6 +21,10 @@ export function CreateInscripcion({ title }) {
         });
     }, []);
 
+    useEffect(() => {
+        console.log("nuevo effect")
+    }, [idTurno])
+
     function handleSubmit(e) {
         e.preventDefault();
         console.log(formaPago)
@@ -110,7 +114,11 @@ export function CreateInscripcion({ title }) {
                                 <option
                                     key={turno._id}
                                     value={turno._id}
-                                > {turno.dia} - {turno.horario}Hrs </option>
+                                >
+                                    <div>asdasd</div>
+                                    <div>{turno.dia} - {turno.horario}Hrs</div>
+
+                                </option>
                             );
                         })}
 
