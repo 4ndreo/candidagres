@@ -31,10 +31,13 @@ export default function Turnos() {
     }, []);
 
     const fn = async () => {
-        const [cursos, inscripciones] = await Promise.all(
-            [cursosService.find(), inscripcionesService.find()]
-        )
+        const delay = (timeout, promise) => {
+            return new Promise((resolve)=>{
+                setTimeout(()=> resolve(promise()), timeout)
+            })
+        }
 
+        const [cursos, inscripciones] = await Promise.all([delay(200,cursosService.find), inscripcionesService.find()])
 
         console.log(cursos, inscripciones)
         const user = JSON.parse(window.localStorage.getItem('user'));

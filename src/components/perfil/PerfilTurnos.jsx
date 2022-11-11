@@ -50,9 +50,10 @@ export function PerfilTurnos({ title }) {
         window.confirm('¿Estas seguro que queres eliminar tu inscripción?')
         inscripcionesService.remove(id).then((inscripcion) => {
             console.log(inscripcion);
+            navigate("/perfil", { replace: true });
         });
         //console.log(id)
-        navigate("/perfil", { replace: true });
+        
     }
 
 
