@@ -18,7 +18,7 @@ export default function Header() {
   }, []);
   // if ((!value.token && !value.currentUser) || value.currentUser) {
   return (
-      <main className="container main m-0">
+      <main className="container main">
         <div className="cont-home">
           <h1 className="mt-4">Cursos disponibles</h1>
           <ul>

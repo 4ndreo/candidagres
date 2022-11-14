@@ -137,7 +137,7 @@ export function CreateInscripcionUser({ title }) {
     );
     } else {
         return (
-            <main className="container main m-0">
+            <main className="container main">
                 <div className="cont-home">
                     <p>Algo salio mal, vuelva a cargar la pagina</p>
                 </div>
