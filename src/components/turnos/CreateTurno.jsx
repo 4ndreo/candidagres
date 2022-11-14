@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import * as turnosService from "../../services/turnos.service";
 import * as cursosService from "../../services/cursos.service";
+import { AuthContext } from "../../App";
 
 export function CreateTurno({ title }) {
   const [dia, setDia] = useState("");
@@ -9,11 +11,19 @@ export function CreateTurno({ title }) {
   const [idCurso, setIdCurso] = useState("");
   const [error, setError] = useState("");
 
+  const value = useContext(AuthContext);
+
+  let navigate = useNavigate();
+
   useEffect(() => {
     cursosService.find().then((data) => {
       setCursos(data);
-      console.log(data)
+      console.log(data);
     });
+
+    if (value.currentUser.role !== 1) {
+      navigate("/", { replace: true });
+    }
   }, []);
 
   function handleSubmit(e) {
@@ -25,12 +35,12 @@ export function CreateTurno({ title }) {
       .catch((err) => setError(err.message));
   }
 
-  function handleOption(nombreCurso){
-    console.log(nombreCurso)
-    if(nombreCurso !== "error"){
-      let result = cursos.filter(curso => curso.nombre === nombreCurso)
-      setIdCurso(result[0]._id)
-      console.log(result[0]._id)
+  function handleOption(nombreCurso) {
+    console.log(nombreCurso);
+    if (nombreCurso !== "error") {
+      let result = cursos.filter((curso) => curso.nombre === nombreCurso);
+      setIdCurso(result[0]._id);
+      console.log(result[0]._id);
     } else {
     }
   }
@@ -65,21 +75,20 @@ export function CreateTurno({ title }) {
         <div>
           <label htmlFor="cursos">A que curso pertenece el turno</label>
           <select
-              name="cursos"
-              id="cursos"
-              form="cursosForm"
-              onChange={e => handleOption(e.target.value)}
-            >
+            name="cursos"
+            id="cursos"
+            form="cursosForm"
+            onChange={(e) => handleOption(e.target.value)}
+          >
             <option value="error"> Selecciona el curso...-</option>
             {cursos.map((curso) => {
               return (
-              <option
-                  key={curso._id}
-                  value={curso.nombre}
-                  > {curso.nombre} </option>
+                <option key={curso._id} value={curso.nombre}>
+                  {" "}
+                  {curso.nombre}{" "}
+                </option>
               );
             })}
-
           </select>
         </div>
 
@@ -89,7 +98,9 @@ export function CreateTurno({ title }) {
       </form>
 
       <h2>Vista previa del nuevo turno</h2>
-      <p>El nuevo turno se imparte el {dia} a las {horario} horas</p>
+      <p>
+        El nuevo turno se imparte el {dia} a las {horario} horas
+      </p>
       {error && <p>{error}</p>}
     </main>
   );

@@ -7,7 +7,7 @@ import Header from "./components/basics/Header";
 import Footer from "./components/basics/Footer";
 import Home from "./pages/Home";
 
-import PageLogin from "./pages/Login"
+import PageLogin from "./pages/Login";
 import PageRegister from "./pages/Register";
 
 import Turnos from "./pages/Turnos";
@@ -45,8 +45,6 @@ function App() {
   async function onLogin(user, tokenInc) {
     localStorage.setItem("user", JSON.stringify(user));
     localStorage.setItem("token", tokenInc);
-
-    setCurrentUser(JSON.parse(localStorage.getItem("user")));
     navigate("/", { replace: true });
   }
 
@@ -68,7 +66,6 @@ function App() {
 
           {/* Rutas de turnos */}
 
-
           <Route path="/turnos" element={<Turnos />} />
           <Route
             path="/turnos/turno"
@@ -79,8 +76,8 @@ function App() {
             element={<EditTurno title={"Turno"} />}
           />
           <Route
-              path="/turnos/turno/ver-:idCurso"
-              element={<VerTurnos title={"Turnos"} />}
+            path="/turnos/turno/ver-:idCurso"
+            element={<VerTurnos title={"Turnos"} />}
           />
 
           {/* Rutas de cursos */}
@@ -94,27 +91,31 @@ function App() {
             element={<EditCurso title={"Curso"} />}
           />
 
-           {/* Rutas de Inscripciones */}
-         <Route path="/inscripciones" element={<Inscripciones />} />
+          {/* Rutas de Inscripciones */}
+          <Route path="/inscripciones" element={<Inscripciones />} />
           <Route
-              path="/inscripciones/inscripcion"
-              element={<CreateInscripcion title={"Inscripcion"} />}
+            path="/inscripciones/inscripcion"
+            element={<CreateInscripcion title={"Inscripcion"} />}
           />
           <Route
-              path="/inscripciones/inscripcion/id-:idInscripcion"
-              element={<EditInscripcion title={"Inscripcion"} />}
+            path="/inscripciones/inscripcion/id-:idInscripcion"
+            element={<EditInscripcion title={"Inscripcion"} />}
           />
 
-            <Route
-                path="/id-:idTurnos/curso/id-:idCurso"
-                element={<CreateInscripcionUser title={"Inscripcion"} />}
-            />
+          <Route
+            path="/id-:idTurnos/curso/id-:idCurso"
+            element={<CreateInscripcionUser title={"Inscripcion"} />}
+          />
 
           {/* Rutas Perfil */}
-          <Route path="/perfil" element={<Perfil/>} />
+          <Route path="/perfil" element={<Perfil />} />
 
-          <Route path="perfil/turno/id-:idTurno/inscripcion/id-:idInscripcion" element={<PerfilTurnos title={"Turnos"}/>} />
+          <Route
+            path="perfil/turno/id-:idTurno/inscripcion/id-:idInscripcion"
+            element={<PerfilTurnos title={"Turnos"} />}
+          />
 
+          {/* RUTAS ADMIN */}
 
         </Routes>
 

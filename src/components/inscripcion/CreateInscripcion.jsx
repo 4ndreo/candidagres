@@ -1,11 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import * as turnosService from "../../services/turnos.service";
 import * as inscripcionesService from "../../services/inscripciones.service";
+
+import { AuthContext } from "../../App";
 
 import { useNavigate, useParams } from "react-router-dom";
 
 export function CreateInscripcion({ title }) {
-    let navigate = useNavigate();
+    const value = useContext(AuthContext);
+
+  let navigate = useNavigate();
 
     const [nombre, setNombre] = useState("")
     const [monto, setMonto] = useState();
@@ -22,7 +26,9 @@ export function CreateInscripcion({ title }) {
     }, []);
 
     useEffect(() => {
-        console.log("nuevo effect")
+        if (value.currentUser.role !== 1) {
+            navigate("/", { replace: true });
+          }
     }, [idTurno])
 
     function handleSubmit(e) {

@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import * as cursosService from "../../services/cursos.service";
 import { useNavigate, useParams } from "react-router-dom";
+import { AuthContext } from "../../App";
 
 export function CreateCurso({ title }) {
+  const value = useContext(AuthContext);
+
   let navigate = useNavigate();
 
   const [nombre, setNombre] = useState("");
@@ -11,7 +14,11 @@ export function CreateCurso({ title }) {
   const [precio, setPrecio] = useState();
   const [error, setError] = useState("");
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    if (value.currentUser.role !== 1) {
+      navigate("/", { replace: true });
+    }
+  }, []);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -27,7 +34,7 @@ export function CreateCurso({ title }) {
     <main className="container edit-cont">
       <h1>Crear - {title}</h1>
       <form onSubmit={handleSubmit}>
-        <div class="mb-3">
+        <div className="mb-3">
           <label className="form-label">Ingrese el nombre del curso</label>
           <input
             type="text"
@@ -36,7 +43,7 @@ export function CreateCurso({ title }) {
             className="form-control"
           />
         </div>
-        <div class="mb-3">
+        <div className="mb-3">
           <label className="form-label">Ingrese la descripción del curso</label>
           <input
             type="text"
@@ -45,7 +52,7 @@ export function CreateCurso({ title }) {
             className="form-control"
           />
         </div>
-        <div class="mb-3">
+        <div className="mb-3">
           <label className="form-label">A que hora comienza el curso</label>
           <input
             type="number"
@@ -55,7 +62,7 @@ export function CreateCurso({ title }) {
             className="form-control"
           />
         </div>
-        <div class="mb-3">
+        <div className="mb-3">
           <label className="form-label">Cuanto cuesta el curso</label>
           <input
             type="number"

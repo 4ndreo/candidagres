@@ -15,7 +15,9 @@ function PageLogin({ onLogin }) {
     authService
       .login(email, password)
       .then(({ userData, token }) => {
+        
         value.setToken(token);
+        value.setCurrentUser(userData);
         onLogin(userData, token);
       })
       .catch((err) => setError(err.message));

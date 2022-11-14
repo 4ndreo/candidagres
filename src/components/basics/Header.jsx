@@ -7,7 +7,6 @@ import { useEffect, useContext } from "react";
 import { AuthContext } from "../../App";
 
 export default function Header() {
-
   const value = useContext(AuthContext);
 
   let navigate = useNavigate();
@@ -50,17 +49,21 @@ export default function Header() {
                 ) : (
                   <>
                     <Link to="/perfil">Perfil</Link>
+                  {value.currentUser.role === 1 ? (
                     <NavDropdown title="Panel" className="panel-ddown">
-                      <NavDropdown.Item>
-                        <Link to="/cursos">Cursos</Link>
-                      </NavDropdown.Item>
-                      <NavDropdown.Item>
-                        <Link to="/turnos">Turnos</Link>
-                      </NavDropdown.Item>
-                      <NavDropdown.Item>
-                        <Link to="/Inscripciones">Inscripciones</Link>
-                      </NavDropdown.Item>
+                      <Link to="/cursos" className="dropdown-item">
+                        Cursos
+                      </Link>
+                      <Link to="/turnos" className="dropdown-item">
+                        Turnos
+                      </Link>
+                      <Link to="/Inscripciones" className="dropdown-item">
+                        Inscripciones
+                      </Link>
                     </NavDropdown>
+                    ) : (
+                      ''
+                      )}
                     <button className="logout" onClick={logOut}>
                       Logout
                     </button>

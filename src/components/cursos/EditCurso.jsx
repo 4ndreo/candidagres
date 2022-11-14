@@ -1,10 +1,13 @@
 import "../css/Edit.css";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import * as cursosService from "../../services/cursos.service";
 import * as Constants from "../../Constants";
 import { useNavigate, useParams } from "react-router-dom";
+import { AuthContext } from "../../App";
 
 export function EditCurso({ title }) {
+  const value = useContext(AuthContext);
+
   let navigate = useNavigate();
 
   const [nombre, setNombre] = useState("");
@@ -23,13 +26,19 @@ export function EditCurso({ title }) {
         setDuracion(curso.duracion);
       })
       .catch((err) => setError(err.message));
+
+    if (value.currentUser.role !== 1) {
+      navigate("/", { replace: true });
+    }
   }, []);
 
   function handleSubmit(e) {
     e.preventDefault();
-    cursosService.update(params?.idCurso, { nombre,descripcion, duracion }).then((data) => {
-      navigate("/cursos", { replace: true });
-    });
+    cursosService
+      .update(params?.idCurso, { nombre, descripcion, duracion })
+      .then((data) => {
+        navigate("/cursos", { replace: true });
+      });
   }
 
   return (

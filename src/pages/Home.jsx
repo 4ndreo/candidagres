@@ -1,15 +1,19 @@
 import "./css/Home.css";
 
 import React, { Component } from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import * as Constants from "../Constants";
-
+import { AuthContext } from "../App";
 
 import * as cursosService from "../services/cursos.service";
 
 export default function Header() {
   const [cursos, setCursos] = useState([]);
+
+  const value = useContext(AuthContext);
+
+  let navigate = useNavigate();
 
   useEffect(() => {
     cursosService.find().then((data) => {

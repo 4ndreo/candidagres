@@ -94,7 +94,6 @@ export default function Turnos() {
 
                         return(
                             <li key={inscripcion._id}>
-                                <div className="card">
 
                                     <div className="card-body">
                                         <h5 className="card-title">{inscripcion.curso.nombre}</h5>
@@ -102,7 +101,6 @@ export default function Turnos() {
                                         <p className="card-text">Duración: {inscripcion.curso.duracion}Hrs</p>
                                         <a  href={`perfil/turno/id-${inscripcion.idTurno}/inscripcion/id-${inscripcion._id}`} className="btn btn-primary">Ver Turno</a>
                                     </div>
-                                </div>
 
                             </li>
                         )
