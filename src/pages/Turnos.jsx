@@ -13,9 +13,8 @@ export default function Turnos() {
   let navigate = useNavigate();
 
   useEffect(() => {
-    value.setCurrentUser(JSON.parse(localStorage.getItem("user")));
-    if (!value.token) {
-      navigate("/login", { replace: true });
+    if (value.currentUser.role !== 1) {
+      navigate("/", { replace: true });
     }
   }, []);
 

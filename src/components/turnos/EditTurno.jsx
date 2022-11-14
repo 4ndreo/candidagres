@@ -1,8 +1,9 @@
 import "../css/Edit.css";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import * as turnosService from "../../services/turnos.service";
 import * as Constants from "../../Constants";
 import { useNavigate, useParams } from "react-router-dom";
+import { AuthContext } from "../../App";
 
 export function EditTurno({ title }) {
   let navigate = useNavigate();
@@ -14,6 +15,8 @@ export function EditTurno({ title }) {
   const [checked, setChecked] = useState({});
   const params = useParams();
 
+  const value = useContext(AuthContext);
+
   useEffect(() => {
     turnosService
       .findById(params?.idTurno)
@@ -22,6 +25,10 @@ export function EditTurno({ title }) {
         setDia(turno.dia);
       })
       .catch((err) => setError(err.message));
+
+      if (value.currentUser.role !== 1) {
+        navigate("/", { replace: true });
+      }
   }, []);
 
   function handleSubmit(e) {
@@ -35,7 +42,7 @@ export function EditTurno({ title }) {
     <main className="container edit-cont">
       <h1>Editar - {title}</h1>
       <form onSubmit={handleSubmit}>
-        <div class="mb-3">
+        <div className="mb-3">
           <label className="form-label">Ingrese el dia del turno</label>
           <input
             type="text"
@@ -45,7 +52,7 @@ export function EditTurno({ title }) {
             className="form-control"
           />
         </div>
-        <div class="mb-3">
+        <div className="mb-3">
           <label className="form-label">A que hora comienza el turno</label>
           <input
             type="number"
