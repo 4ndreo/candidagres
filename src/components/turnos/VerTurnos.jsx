@@ -17,7 +17,7 @@ export function VerTurnos() {
 
 
     return (
-        <main className="container main m-0">
+        <main className="container main">
             <div className=" cont-home">
                 <h1 className="mt-4">Turnos disponibles</h1>
                 <ul>
