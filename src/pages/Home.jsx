@@ -16,6 +16,7 @@ import Cuenco_Marron from "../img/cuenco-marron.jpeg";
 import Cuenco_Rosado from "../img/cuenco-rosado.jpeg";
 import Plato_Blanco from "../img/plato-blanco.jpeg";
 import Pote_Blanco from "../img/pote-blanco.jpeg";
+import Torno from "../img/torno.jpeg";
 
 import * as cursosService from "../services/cursos.service";
 import Loader from "../components/basics/Loader";
@@ -96,7 +97,7 @@ export default function Header() {
             />
           </section>
           <section className="alumnos ">
-            <div className="taller-data">
+            <div className="taller-data mb-5">
               <h2>Alumnas y alumnos</h2>
               <p>
                 Lorem, ipsum dolor sit amet consectetur adipisicing elit. Modi,
@@ -148,6 +149,13 @@ export default function Header() {
                 <img
                   className="img-bnida-swiper"
                   src={Cuenco_Marron}
+                  alt="Taller donde se imparten las clases en Cándida Gres."
+                />
+              </SwiperSlide>
+              <SwiperSlide>
+                <img
+                  className="img-bnida-swiper"
+                  src={Torno}
                   alt="Taller donde se imparten las clases en Cándida Gres."
                 />
               </SwiperSlide>
