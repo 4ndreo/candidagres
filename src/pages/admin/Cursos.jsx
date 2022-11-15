@@ -1,7 +1,7 @@
 import "../css/Cursos.css";
 
 import React, { useEffect, useState, useContext } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as cursosService from "../../services/cursos.service";
 import { AuthContext } from "../../App";
 
@@ -35,9 +35,7 @@ export default function Turnos() {
     <main className="container main">
       <div className="cont-home">
         <h1 className="mt-4">Administrar Cursos</h1>
-        <a href={"cursos/curso"} className="btn btn-primary mt-3">
-          Crear un curso
-        </a>
+        <Link to="curso" className="btn btn-primary mt-3">Crear un Curso</Link>
         <ul>
           {cursos.map((curso) => {
             // return <p>{curso.horario}</p>
@@ -47,12 +45,10 @@ export default function Turnos() {
                 <p>Descripción: {curso.descripcion}</p>
                 <p>Duración: {curso.duracion} horas</p>
                 <p>Precio: ${curso.precio} </p>
-                <a
-                  href={`cursos/curso/id-${curso._id}`}
+                <Link
+                  to={"curso/id-" + curso._id}
                   className="btn btn-warning btn-sm rounded-2 me-2"
-                >
-                  Editar curso
-                </a>
+                >Editar curso</Link>
                 <button
                   onClick={() => handleDeleteElement(curso)}
                   className="btn btn-danger btn-sm rounded-2"

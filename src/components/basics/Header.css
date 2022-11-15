@@ -1,13 +1,18 @@
 .navbar-base {
   display: flex;
-  color: grey;
+  color: white;
   box-shadow: 0 8px 20px -15px rgba(0, 0, 0, 0.5);
   padding: 0.5rem 2rem;
-  background: white;
+  background: var(--main-blue);
 }
 .brand {
   text-decoration: none;
   color: inherit;
+  background: url('/public/assets/logo-cgres-blanco.svg') no-repeat left center;
+  padding: 0.5rem 0;
+  text-indent: 100%;
+   white-space: nowrap;
+   overflow:hidden;
 }
 .brand:hover {
   color: #4361ee;

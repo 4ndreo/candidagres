@@ -28,7 +28,7 @@ export default function Header() {
   if ((!value.token && !value.currentUser) || value.currentUser) {
     return (
       <header className="navbar-base">
-        <Navbar className="w-100" expand="lg">
+        <Navbar className="w-100 navbar-dark" expand="lg">
           <Container>
             <Link className="brand" to="/">
               Candida Gres
@@ -48,13 +48,14 @@ export default function Header() {
                   </>
                 ) : (
                   <>
+                    <Link to="/cursos">Cursos</Link>
                     <Link to="/perfil">Perfil</Link>
                   {value.currentUser.role === 1 ? (
                     <NavDropdown title="Panel" className="panel-ddown">
-                      <Link to="/cursos" className="dropdown-item">
+                      <Link to="panel/cursos" className="dropdown-item">
                         Cursos
                       </Link>
-                      <Link to="/turnos" className="dropdown-item">
+                      <Link to="panel/turnos" className="dropdown-item">
                         Turnos
                       </Link>
                       <Link to="/Inscripciones" className="dropdown-item">

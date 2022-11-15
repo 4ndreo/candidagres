@@ -15,7 +15,8 @@ import { CreateTurno } from "./components/turnos/CreateTurno";
 import { EditTurno } from "./components/turnos/EditTurno";
 import { VerTurnos } from "./components/turnos/VerTurnos";
 
-import Cursos from "./pages/admin/Cursos";
+import Cursos from "./pages/Cursos";
+import AdminCursos from "./pages/admin/Cursos";
 import { CreateCurso } from "./components/cursos/CreateCurso";
 import { EditCurso } from "./components/cursos/EditCurso";
 
@@ -66,13 +67,13 @@ function App() {
 
           {/* Rutas de turnos */}
 
-          <Route path="/turnos" element={<Turnos />} />
+          <Route path="/panel/turnos" element={<Turnos />} />
           <Route
-            path="/turnos/turno"
+            path="/panel/turnos/turno"
             element={<CreateTurno title={"Turno"} />}
           />
           <Route
-            path="/turnos/turno/id-:idTurno"
+            path="/panel/turnos/turno/id-:idTurno"
             element={<EditTurno title={"Turno"} />}
           />
           <Route
@@ -82,12 +83,13 @@ function App() {
 
           {/* Rutas de cursos */}
           <Route path="/cursos" element={<Cursos />} />
+          <Route path="/panel/cursos" element={<AdminCursos />} />
           <Route
-            path="/cursos/curso"
+            path="/panel/cursos/curso"
             element={<CreateCurso title={"Curso"} />}
           />
           <Route
-            path="/cursos/curso/id-:idCurso"
+            path="/panel/cursos/curso/id-:idCurso"
             element={<EditCurso title={"Curso"} />}
           />
 

@@ -1,7 +1,7 @@
 import "../css/Turnos.css";
 
 import React, { useEffect, useState, useContext } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import * as inscripcionesService from "../../services/inscripciones.service";
 import * as turnosService from "../../services/turnos.service";
 import * as cursosService from "../../services/cursos.service";
@@ -77,12 +77,12 @@ export default function Inscripciones() {
                     Monto: ${inscripcion.monto} / Metodo de Pago:{" "}
                     {inscripcion.formaPago}
                   </p>
-                  <a
-                    href={`inscripciones/inscripcion/id-${inscripcion._id}`}
+                  <Link
+                    to={"inscripcion/id-" + inscripcion._id}
                     className="btn btn-warning btn-sm rounded-2 me-2"
                   >
                     Editar inscripcion
-                  </a>
+                  </Link>
                   <button
                     onClick={() => handleDeleteElement(inscripcion)}
                     className="btn btn-danger btn-sm rounded-2"
