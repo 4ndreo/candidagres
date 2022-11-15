@@ -1,7 +1,7 @@
 import "../css/Turnos.css";
 
 import React, { useEffect, useState, useContext } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import * as turnosService from "../../services/turnos.service";
 import { AuthContext } from "../../App";
 import Loader from "../../components/basics/Loader";
@@ -37,7 +37,7 @@ export default function Turnos() {
     <main className="container main">
       <div className=" cont-home">
       <h1 className="mt-4">Administrar Turnos</h1>
-        <a href={"turnos/turno"} className="btn btn-primary mt-3">Crear un turno</a>
+        <Link to="turno" className="btn btn-primary mt-3">Crear un turno</Link>
         <ul>
           {turnos.map((turno) => {
             // return <p>{turno.horario}</p>
@@ -46,12 +46,12 @@ export default function Turnos() {
                 <p>
                   Turno: {turno.dia} / Horario: {turno.horario}
                 </p>
-                <a
-                  href={`turnos/turno/id-${turno._id}`}
+                <Link
+                  to={"turno/id-" + turno._id}
                   className="btn btn-warning btn-sm rounded-2 me-2"
                 >
                   Editar turno
-                </a>
+                </Link>
                 <button
                   onClick={() => handleDeleteElement(turno)}
                   className="btn btn-danger btn-sm rounded-2"

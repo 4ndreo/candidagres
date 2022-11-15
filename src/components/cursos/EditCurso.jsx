@@ -23,6 +23,7 @@ export function EditCurso({ title }) {
       .findById(params?.idCurso)
       .then((curso) => {
         setNombre(curso.nombre);
+        setDescripcion(curso.descripcion);
         setDuracion(curso.duracion);
       })
       .catch((err) => setError(err.message));
@@ -59,6 +60,7 @@ export function EditCurso({ title }) {
           <label className="form-label">Ingrese la descripción del curso</label>
           <input
             type="text"
+            defaultValue={descripcion}
             required
             onChange={(e) => setDescripcion(e.target.value)}
             className="form-control"
