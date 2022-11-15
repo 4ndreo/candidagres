@@ -1,12 +1,12 @@
-import "./css/Turnos.css";
+import "../css/Turnos.css";
 
 import React, { useEffect, useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import * as inscripcionesService from "../services/inscripciones.service";
-import * as turnosService from "../services/turnos.service";
-import * as cursosService from "../services/cursos.service";
-import Loader from "../components/basics/Loader";
-import { AuthContext } from "../App";
+import * as inscripcionesService from "../../services/inscripciones.service";
+import * as turnosService from "../../services/turnos.service";
+import * as cursosService from "../../services/cursos.service";
+import Loader from "../../components/basics/Loader";
+import { AuthContext } from "../../App";
 
 export default function Inscripciones() {
   const [inscripciones, setInscripciones] = useState([]);
@@ -102,14 +102,13 @@ export default function Inscripciones() {
         </div>
       </main>
     );
-  } else {
+  }
+  else 
+  {
     return (
       <main className="container main">
-        <div className="cont-home">
-          <p>Algo salio mal, vuelva a cargar la pagina</p>
-          {/* <Loader></Loader> */}
-        </div>
+        <Loader></Loader>
       </main>
-    );
+    )
   }
 }
