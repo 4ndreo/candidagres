@@ -58,7 +58,7 @@ export default function Inscripciones() {
     return (
       <main className="container main">
         <div className=" cont-home">
-          <h1 className="mt-4">Administrar Inscripciones</h1>
+          <h1>Administrar Inscripciones</h1>
           <a
             href={"inscripciones/inscripcion"}
             className="btn btn-primary mt-3"

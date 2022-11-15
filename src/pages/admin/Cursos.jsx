@@ -34,7 +34,7 @@ export default function Turnos() {
   return (
     <main className="container main">
       <div className="cont-home">
-        <h1 className="mt-4">Administrar Cursos</h1>
+        <h1>Administrar Cursos</h1>
         <Link to="curso" className="btn btn-primary mt-3">Crear un Curso</Link>
         <ul>
           {cursos.map((curso) => {
