@@ -8,6 +8,8 @@ import {AuthContext} from "../../App";
 
 export function CreateInscripcionUser({ title }) {
     let navigate = useNavigate();
+    const params = useParams();
+    const value = useContext(AuthContext);
 
     const [nombre, setNombre] = useState("")
     const [dia, setDia] = useState("")
@@ -16,67 +18,107 @@ export function CreateInscripcionUser({ title }) {
     const [nombreTaller, setNombreTaller] = useState("");
     const [descripcion, setDescripcion] = useState("");
     const [monto, setMonto] = useState();
-    const [curso, setCurso] = useState([]);
-    const [turno, setTurno] = useState([]);
+    const [cursoObtenido, setCursoObtenido] = useState();
+    const [turnoObtenido, setTurnoObtenido] = useState();
     const [idTurno, setIdTurno] = useState("");
     const [idUser, setIdUser] = useState("");
     const [idCurso, setIdCurso] = useState("");
     const [error, setError] = useState("");
-    const params = useParams();
 
-    const value = useContext(AuthContext);
 
 
     useEffect(() => {
-        value.setCurrentUser(JSON.parse(localStorage.getItem("user")));
+        // value.setCurrentUser(JSON.parse(localStorage.getItem("user")));
         if (!value.token) {
             navigate("/login", { replace: true });
         }
     }, []);
 
+    // useEffect(() => {
+    //     setIdCurso(params?.idCurso)
+    //     console.log(params?.idCurso)
+    //    const data = JSON.parse(window.localStorage.getItem('user'));
+
+
+    //     console.log(data._id)
+    //     console.log(data.email)
+    //     setNombre(data.email)
+    //     setIdUser(data._id)
+
+    //     setFormaPago('error')
+
+    //     // data.map((user) => {
+    //     //     setNombreUser(user.email)
+    //     // })
+    //     // console.log(nombreUser)
+
+
+    //   cursosService.findById(params?.idCurso)
+    //        .then((curso) =>{
+    //            setCurso(curso)
+    //            setNombreTaller(curso.nombre)
+    //            setDescripcion(curso.descripcion)
+    //            setMonto(curso.precio)
+
+    //            console.log(curso.deleted)
+    //            console.log(curso)
+
+    //        })
+    // }, []);
+
+    // useEffect(() => {
+    //     setIdTurno(params?.idTurnos)
+
+    //    turnosService.findById(params?.idTurnos)
+    //        .then((turno) =>{
+    //            setTurno(turno)
+    //            setDia(turno.dia)
+    //            setHorario(turno.horario)
+    //            console.log(turno)
+    //        })
+    // }, []);
+
+    const fn = async () => {
+    const delay = (timeout, promise) => {
+      return new Promise((resolve) => {
+        setTimeout(() => resolve(promise()), timeout);
+      });
+    };
+
+    const [curso, turno] = await Promise.all([
+    //   delay(200, 
+      turnosService.findById(params?.idTurnos),
+        // ),
+      cursosService.findById(params?.idCurso),
+    ]);
+
+    console.log(curso, turno);
+    // setIdCurso(params?.idCurso)
+    setCursoObtenido(curso);
+    setTurnoObtenido(turno);
+    // setNombreTaller(curso.nombre);
+    // setMonto(curso.monto);
+    // setCurso(curso);
+        console.log(cursoObtenido)
+//     const user = JSON.parse(window.localStorage.getItem("user"));
+//     setNombre(user.email);
+//     setIdUser(user._id);
+
+    // let turnosDelCurso = turnos
+    //   .filter((turno) => turno.idCurso === idCurso)
+    //   .map((turno) => ({
+    //     ...turno,
+    //     curso: cursos.find((curso) => curso._id === turno.idCurso),
+    //   }));
+
+    //   console.log(turnosDelCurso);
+
+
+//     setInscripcionesUsuario(inscripcionesDelUsuario);
+  };
     useEffect(() => {
-        setIdCurso(params?.idCurso)
-        console.log(params?.idCurso)
-       const data = JSON.parse(window.localStorage.getItem('user'));
-
-
-        console.log(data._id)
-        console.log(data.email)
-        setNombre(data.email)
-        setIdUser(data._id)
-
-        setFormaPago('error')
-
-        // data.map((user) => {
-        //     setNombreUser(user.email)
-        // })
-        // console.log(nombreUser)
-
-
-      cursosService.findById(params?.idCurso)
-           .then((curso) =>{
-               setCurso(curso)
-               setNombreTaller(curso.nombre)
-               setDescripcion(curso.descripcion)
-               setMonto(curso.precio)
-
-               console.log(curso.deleted)
-               console.log(curso)
-
-           })
-    }, []);
-
-    useEffect(() => {
-        setIdTurno(params?.idTurnos)
-
-       turnosService.findById(params?.idTurnos)
-           .then((turno) =>{
-               setTurno(turno)
-               setDia(turno.dia)
-               setHorario(turno.horario)
-               console.log(turno)
-           })
-    }, []);
+        fn();
+      }, []);
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -95,7 +137,7 @@ export function CreateInscripcionUser({ title }) {
 
     }
 
-    if (curso.deleted === false || null) {
+    if (cursoObtenido.deleted === false || null) {
     return (
         <main className="container edit-cont">
             <h1>{title} Online</h1>
@@ -103,10 +145,10 @@ export function CreateInscripcionUser({ title }) {
                 <div className="card-header">
                     <h2>{nombre}</h2>
                 </div>
-                <ul className="list-group list-group-flush">
-                    <li className="list-group-item">Nombre del Taller: {nombreTaller}</li>
-                    <li className="list-group-item">Descripcion: {descripcion}</li>
-                    <li className="list-group-item">Precio: ${monto}</li>
+                <ul>
+                    <li>Nombre del Taller: {cursoObtenido.nombre}</li>
+                    <li>Descripcion: {descripcion}</li>
+                    <li>Precio: ${monto}</li>
                 </ul>
             </div>
 
