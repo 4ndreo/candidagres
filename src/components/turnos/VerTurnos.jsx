@@ -18,7 +18,7 @@ export function VerTurnos() {
 
     return (
         <main className="container main">
-            <div className=" cont-home">
+            <div className="cont-turno">
                 <h1>Turnos disponibles</h1>
                 <ul>
                     {turnos.map((turno) => {

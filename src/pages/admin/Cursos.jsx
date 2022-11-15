@@ -33,7 +33,7 @@ export default function Turnos() {
 
   return (
     <main className="container main">
-      <div className="cont-home">
+      <div className="cont-crear-curso">
         <h1>Administrar Cursos</h1>
         <Link to="curso" className="btn btn-primary mt-3">Crear un Curso</Link>
         <ul>
