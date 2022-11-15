@@ -1,15 +1,14 @@
 import React from "react";
 import "./Loader.css";
+import Lottie from "lottie-react";
+import * as Constants from "../../Constants";
+import LOADER from "../../lotties/loader.json";
 
 export default function Loader() {
   return (
-      
-      <lord-icon
-        src="https://cdn.lordicon.com/ymrqtsej.json"
-        trigger="loop"
-        delay="1000"
-        class="loader"
-      >a</lord-icon>
+    <>
+    <Lottie animationData={LOADER} />
+    </>
   );
 }
 

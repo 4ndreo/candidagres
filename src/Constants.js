@@ -10,4 +10,4 @@ export const FULL_WIDTH = "100%"
 export const FULL_HEIGHT = "100%"
 export const ASSETS = "./assets/"
 
-export const CLEAR_NOTIFICATIONS = 0
+export const CLEAR_NOTIFICATIONS = 0;

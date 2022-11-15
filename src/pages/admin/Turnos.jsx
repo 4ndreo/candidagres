@@ -1,12 +1,13 @@
-import "./css/Cursos.css";
+import "../css/Turnos.css";
 
 import React, { useEffect, useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import * as cursosService from "../services/cursos.service";
-import { AuthContext } from "../App";
+import * as turnosService from "../../services/turnos.service";
+import { AuthContext } from "../../App";
+import Loader from "../../components/basics/Loader";
 
 export default function Turnos() {
-  const [cursos, setCursos] = useState([]);
+  const [turnos, setTurnos] = useState([]);
 
   const value = useContext(AuthContext);
 
@@ -19,42 +20,40 @@ export default function Turnos() {
   }, []);
 
   useEffect(() => {
-    cursosService.find().then((data) => {
-      setCursos(data);
+    turnosService.find().then((data) => {
+      setTurnos(data);
     });
   }, []);
 
   function handleDeleteElement(item) {
-    cursosService.remove(item._id).then((cursos) => {
-      console.log(cursos);
-      setCursos(cursos);
+    turnosService.remove(item._id).then((turnos) => {
+      console.log(turnos);
+      setTurnos(turnos);
     });
   }
 
+  if (turnos.length > 0) {
   return (
     <main className="container main">
-      <div className="cont-home">
-        <h1 className="mt-4">Administrar Cursos</h1>
-        <a href={"cursos/curso"} className="btn btn-primary mt-3">
-          Crear un curso
-        </a>
+      <div className=" cont-home">
+      <h1 className="mt-4">Administrar Turnos</h1>
+        <a href={"turnos/turno"} className="btn btn-primary mt-3">Crear un turno</a>
         <ul>
-          {cursos.map((curso) => {
-            // return <p>{curso.horario}</p>
+          {turnos.map((turno) => {
+            // return <p>{turno.horario}</p>
             return (
-              <li key={curso._id}>
-                <p>Curso: {curso.nombre}</p>
-                <p>Descripción: {curso.descripcion}</p>
-                <p>Duración: {curso.duracion} horas</p>
-                <p>Precio: ${curso.precio} </p>
+              <li key={turno._id}>
+                <p>
+                  Turno: {turno.dia} / Horario: {turno.horario}
+                </p>
                 <a
-                  href={`cursos/curso/id-${curso._id}`}
+                  href={`turnos/turno/id-${turno._id}`}
                   className="btn btn-warning btn-sm rounded-2 me-2"
                 >
-                  Editar curso
+                  Editar turno
                 </a>
                 <button
-                  onClick={() => handleDeleteElement(curso)}
+                  onClick={() => handleDeleteElement(turno)}
                   className="btn btn-danger btn-sm rounded-2"
                   type="button"
                   data-toggle="tooltip"
@@ -63,7 +62,7 @@ export default function Turnos() {
                   data-original-title="Delete"
                 >
                   <i className="fa fa-trash-o" aria-hidden="true"></i>
-                  Eliminar curso
+                  Eliminar turno
                 </button>
               </li>
             );
@@ -72,4 +71,13 @@ export default function Turnos() {
       </div>
     </main>
   );
+}
+else 
+{
+  return (
+    <main className="container main">
+      <Loader></Loader>
+    </main>
+  )
+}
 }

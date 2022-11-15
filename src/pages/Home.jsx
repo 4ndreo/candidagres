@@ -7,6 +7,7 @@ import * as Constants from "../Constants";
 import { AuthContext } from "../App";
 
 import * as cursosService from "../services/cursos.service";
+import Loader from "../components/basics/Loader";
 
 export default function Header() {
   const [cursos, setCursos] = useState([]);
@@ -20,7 +21,7 @@ export default function Header() {
       setCursos(data);
     });
   }, []);
-  // if ((!value.token && !value.currentUser) || value.currentUser) {
+  if (cursos.length > 0) {
   return (
       <main className="container main">
         <div className="cont-home">
@@ -42,7 +43,15 @@ export default function Header() {
         </div>
       </main>
   );
-  // }
+  }
+  else 
+  {
+    return (
+      <main className="container main">
+        <Loader></Loader>
+      </main>
+    )
+  }
 }
 
 // export default Header;

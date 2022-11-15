@@ -10,16 +10,16 @@ import Home from "./pages/Home";
 import PageLogin from "./pages/Login";
 import PageRegister from "./pages/Register";
 
-import Turnos from "./pages/Turnos";
+import Turnos from "./pages/admin/Turnos";
 import { CreateTurno } from "./components/turnos/CreateTurno";
 import { EditTurno } from "./components/turnos/EditTurno";
 import { VerTurnos } from "./components/turnos/VerTurnos";
 
-import Cursos from "./pages/Cursos";
+import Cursos from "./pages/admin/Cursos";
 import { CreateCurso } from "./components/cursos/CreateCurso";
 import { EditCurso } from "./components/cursos/EditCurso";
 
-import Inscripciones from "./pages/Inscripciones";
+import Inscripciones from "./pages/admin/Inscripciones";
 import { CreateInscripcion } from "./components/inscripcion/CreateInscripcion";
 import { CreateInscripcionUser } from "./components/inscripcion/CreateInscripcionUser";
 import { EditInscripcion } from "./components/inscripcion/EditInscripcion";
@@ -115,7 +115,6 @@ function App() {
             element={<PerfilTurnos title={"Turnos"} />}
           />
 
-          {/* RUTAS ADMIN */}
 
         </Routes>
 
