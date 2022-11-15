@@ -98,7 +98,7 @@ export function CreateInscripcionUser({ title }) {
     if (curso.deleted === false || null) {
     return (
         <main className="container edit-cont">
-            <h1 className="mt-4">{title} Online</h1>
+            <h1>{title} Online</h1>
             <div className="card w-100 mt-5">
                 <div className="card-header">
                     <h2>{nombre}</h2>

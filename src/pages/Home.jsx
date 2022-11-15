@@ -25,7 +25,7 @@ export default function Header() {
   return (
       <main className="container main">
         <div className="cont-home">
-          <h1 className="mt-4">Home</h1>
+          <h1>¡Bienvenidos a Cándida Gres!</h1>
           <ul>
             {cursos.map((curso) => {
               // return <p>{curso.horario}</p>

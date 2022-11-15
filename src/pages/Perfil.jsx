@@ -77,7 +77,7 @@ export default function Turnos() {
     return (
       <main className="container main">
         <div className=" cont-home">
-          <h1 className="mt-4">Mi Perfil - {nombre}</h1>
+          <h1>Mi Perfil - {nombre}</h1>
           <h2>Cursos anotados</h2>
 
           {loading ? (

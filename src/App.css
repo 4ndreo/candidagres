@@ -1,3 +1,24 @@
+@font-face {
+  font-family: 'Satoshi-Light';
+  src: url('/public/fonts/Satoshi-Light.otf');
+}
+@font-face {
+  font-family: 'Satoshi-Regular';
+  src: url('/public/fonts/Satoshi-Regular.otf');
+}
+@font-face {
+  font-family: 'Satoshi-Medium';
+  src: url('/public/fonts/Satoshi-Medium.otf');
+}
+@font-face {
+  font-family: 'Satoshi-Bold';
+  src: url('/public/fonts/Satoshi-Bold.otf');
+}
+@font-face {
+  font-family: 'Satoshi-Black';
+  src: url('/public/fonts/Satoshi-Black.otf');
+}
+
 :root {
   --main-blue: #284277;
   --main-grey: #9B9FA3;
@@ -6,8 +27,13 @@
 body {
   margin: 0;
   padding: 0;
+  font-family: 'Satoshi-Regular';
 }
 
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Satoshi-Bold';
+  
+}
 #root {
   min-height: 100vh;
   display: grid;
