@@ -1,11 +1,41 @@
-ul {
-    padding: 0;
-    margin: 1rem 0;
+.bnida-cont {
+    padding: 2rem;
+    border: 2px solid var(--main-blue);
+    border-radius: 1rem;
+    margin-bottom: 4rem;
 }
-ul li {
-    padding: 1rem;
-    margin-bottom: 1rem;
-    border: 1px solid lightgray;
-    border-radius: 0.5rem;
-    list-style-type: none;
+.bnida-title {
+    color: var(--main-blue);
+}
+.bnida-bajada {
+    font-size: 1.5rem;
+    color: var(--main-grey);
+    margin: 0;
+}
+.cont-home section:not(:first-child) {
+    gap: 10rem;
+    margin-bottom: 4rem;
+}
+.cont-home h2 {
+    display: inline-block;
+    margin-bottom: 2rem;
+    padding-top: 1rem;
+    border-top: 0.5rem solid var(--main-blue);
+    color: var(--main-blue);
+}
+.cont-home img:not(.img-bnida-swiper) {
+    max-width: 50%;
+    max-height: 600px;
+    border-radius: 1rem;
+    object-fit: cover;
+}
+.img-bnida-swiper {
+    border-radius: 1rem;
+    object-fit: cover;
+    max-width: 100%;
+    max-height: 600px;
+}
+
+.clases {
+    flex-direction: row-reverse;
 }

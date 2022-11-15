@@ -1,4 +1,4 @@
-import "./css/Home.css";
+import "./css/Cursos.css";
 
 import React, { Component } from "react";
 import { useState, useEffect, useContext } from "react";
@@ -24,7 +24,7 @@ export default function Header() {
   if (cursos.length > 0) {
   return (
       <main className="container main">
-        <div className="cont-home">
+        <div className="cont-cursos">
           <h1>Cursos disponibles</h1>
           <ul>
             {cursos.map((curso) => {
