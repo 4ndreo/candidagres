@@ -76,7 +76,7 @@ export default function Turnos() {
   if ((nombre.length === 0 && loading) || nombre.length > 0) {
     return (
       <main className="container main">
-        <div className=" cont-home">
+        <div className="cont-perfil">
           <h1>Mi Perfil - {nombre}</h1>
           <h2>Cursos anotados</h2>
 

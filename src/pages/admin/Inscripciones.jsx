@@ -57,7 +57,7 @@ export default function Inscripciones() {
   if (inscripciones.length > 0 && turnos.length > 0) {
     return (
       <main className="container main">
-        <div className=" cont-home">
+        <div className="cont-admin-inscripciones">
           <h1>Administrar Inscripciones</h1>
           <a
             href={"inscripciones/inscripcion"}
