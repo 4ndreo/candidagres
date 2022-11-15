@@ -40,6 +40,15 @@ h1, h2, h3, h4, h5, h6 {
   grid-template-rows: auto 1fr auto;
 }
 
+.negritas {
+  font-family: 'Satoshi-Bold';
+}
+
 main {
   margin-top: 2rem;
+}
+
+.nav-menu a, button {
+  /* font-family: 'Satoshi-Bold'; */
+  font-weight: initial !important;
 }
