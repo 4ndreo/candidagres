@@ -9,6 +9,7 @@ export function EditCurso({ title }) {
   const value = useContext(AuthContext);
 
   let navigate = useNavigate();
+  const params = useParams();
 
   const [nombre, setNombre] = useState("");
   const [descripcion, setDescripcion] = useState("");
@@ -16,7 +17,6 @@ export function EditCurso({ title }) {
   const [icons, setIcons] = useState([]);
   const [error, setError] = useState("");
   const [checked, setChecked] = useState({});
-  const params = useParams();
 
   useEffect(() => {
     cursosService

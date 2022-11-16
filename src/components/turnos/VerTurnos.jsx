@@ -1,10 +1,12 @@
 import "../../pages/css/Turnos.css"
 
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import * as turnosService from "../../services/turnos.service";
 
 export function VerTurnos() {
+    let navigate = useNavigate();
+
     const [turnos, setTurnos] = useState([]);
     const params = useParams();
 
@@ -29,7 +31,7 @@ export function VerTurnos() {
                                 <p>
                                     Turno: {turno.dia} / Horario: {turno.horario}
                                 </p>
-                                <a href={`/id-${turno._id}/curso/id-${turno.idCurso}`}>Inscribirse</a>
+                                <Link to={"/id-" + turno._id + "/curso/id-" + turno.idCurso}>Inscribirse</Link>
                             </li>
                         );}
                     })}

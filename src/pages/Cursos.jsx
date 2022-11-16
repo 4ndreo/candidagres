@@ -2,7 +2,7 @@ import "./css/Cursos.css";
 
 import React, { Component } from "react";
 import { useState, useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import * as Constants from "../Constants";
 import { AuthContext } from "../App";
 
@@ -26,16 +26,16 @@ export default function Header() {
       <main className="container main">
         <div className="cont-cursos">
           <h1>Cursos disponibles</h1>
-          <ul>
+          <ul className="listado-cursos">
             {cursos.map((curso) => {
               // return <p>{curso.horario}</p>
               return (
                   <li key={curso._id}>
-                    <p>Curso: {curso.nombre}</p>
+                    <h2>Curso: {curso.nombre}</h2>
                     <p>Descripción: {curso.descripcion}</p>
                     <p>Duración: {curso.duracion} horas</p>
                     <p>Precio: ${curso.precio}</p>
-                    <p><a href={`turnos/turno/ver-${curso._id}`}>Ver Turnos Disponibles</a></p>
+                    <p><Link to={"/turnos/turno/ver-" + curso._id}>Ver Turnos Disponibles</Link></p>
                   </li>
               );
             })}
