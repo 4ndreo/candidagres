@@ -55,39 +55,42 @@ export default function Turnos() {
           <ul>
             {cursos.map((curso) => {
               return (
-                <>
-                <h2>{curso.nombre}</h2>
-                <ul>
-                  {turnos.filter((turno) => turno.idCurso === curso._id).map((turno) => {
-                    // return <p>{turno.horario}</p>
-                    return (
-                      <li key={turno._id}>
-                        <p>
-                          Turno: {turno.dia} / Horario: {turno.horario}
-                        </p>
-                        <Link
-                          to={"turno/id-" + turno._id}
-                          className="btn btn-warning btn-sm rounded-2 me-2"
-                        >
-                          Editar turno
-                        </Link>
-                        <button
-                          onClick={() => handleDeleteElement(turno)}
-                          className="btn btn-danger btn-sm rounded-2"
-                          type="button"
-                          data-toggle="tooltip"
-                          data-placement="top"
-                          title=""
-                          data-original-title="Delete"
-                        >
-                          <i className="fa fa-trash-o" aria-hidden="true"></i>
-                          Eliminar turno
-                        </button>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </>
+                <div key={curso._id}>
+                  <h2>{curso.nombre}</h2>
+                  <ul>
+                    {turnos
+                      .filter((turno) => turno.idCurso === curso._id)
+                      .map((turno) => {
+                        return (
+                          <li key={turno._id}>
+                            <p>Dia: {turno.dia}</p>
+                            <p>Horario: De {turno.horarioInicio}hs a {turno.horarioFin}hs</p>
+                            <Link
+                              to={"turno/id-" + turno._id}
+                              className="btn btn-warning btn-sm rounded-2 me-2"
+                            >
+                              Editar turno
+                            </Link>
+                            <button
+                              onClick={() => handleDeleteElement(turno)}
+                              className="btn btn-danger btn-sm rounded-2"
+                              type="button"
+                              data-toggle="tooltip"
+                              data-placement="top"
+                              title=""
+                              data-original-title="Delete"
+                            >
+                              <i
+                                className="fa fa-trash-o"
+                                aria-hidden="true"
+                              ></i>
+                              Eliminar turno
+                            </button>
+                          </li>
+                        );
+                      })}
+                  </ul>
+                </div>
               );
             })}
           </ul>
