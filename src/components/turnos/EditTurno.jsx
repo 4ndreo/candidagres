@@ -9,7 +9,8 @@ export function EditTurno({ title }) {
   let navigate = useNavigate();
 
   const [dia, setDia] = useState("");
-  const [horario, setHorario] = useState();
+  const [horarioInicio, setHorarioInicio] = useState();
+  const [horarioFin, setHorarioFin] = useState();
   const [icons, setIcons] = useState([]);
   const [error, setError] = useState("");
   const [checked, setChecked] = useState({});
@@ -21,8 +22,9 @@ export function EditTurno({ title }) {
     turnosService
       .findById(params?.idTurno)
       .then((turno) => {
-        setHorario(turno.horario);
         setDia(turno.dia);
+        setHorarioInicio(turno.horarioInicio);
+        setHorarioFin(turno.horarioFin);
       })
       .catch((err) => setError(err.message));
 
@@ -33,7 +35,7 @@ export function EditTurno({ title }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    turnosService.update(params?.idTurno, { dia, horario }).then((data) => {
+    turnosService.update(params?.idTurno, { dia, horarioInicio, horarioFin }).then((data) => {
       navigate("/turnos", { replace: true });
     });
   }
@@ -53,16 +55,27 @@ export function EditTurno({ title }) {
           />
         </div>
         <div className="mb-3">
-          <label className="form-label">A que hora comienza el turno</label>
+        <span className="form-label">El turno comenzará a las</span>
           <input
             type="number"
-            defaultValue={horario}
+            defaultValue={horarioInicio}
             required
             max={18}
             min={9}
-            onChange={(e) => setHorario(e.target.value)}
-            className="form-control"
+            onChange={(e) => setHorarioInicio(e.target.value)}
+            className="form-control input-horario"
           />
+          hs, y terminará a las
+          <input
+            type="number"
+            defaultValue={horarioFin}
+            required
+            max={18}
+            min={9}
+            onChange={(e) => setHorarioFin(e.target.value)}
+            className="form-control input-horario"
+          />
+          hs.
         </div>
         <button type="submit" className="btn btn-primary">
           Modificar
