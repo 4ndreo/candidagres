@@ -36,7 +36,7 @@ export function EditTurno({ title }) {
   function handleSubmit(e) {
     e.preventDefault();
     turnosService.update(params?.idTurno, { dia, horarioInicio, horarioFin }).then((data) => {
-      navigate("/turnos", { replace: true });
+      navigate("/panel/turnos", { replace: true });
     });
   }
 

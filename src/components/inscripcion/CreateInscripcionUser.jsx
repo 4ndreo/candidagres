@@ -88,14 +88,14 @@ export function CreateInscripcionUser({ title }) {
         setNombreTaller(curso.nombre);
         setDescripcion(curso.descripcion);
         setMonto(curso.precio);
+        turnosService.findById(params?.idTurnos).then((turno) => {
+          setTurnoObtenido(turno);
+          setIdTurno(params?.idTurnos);
+          setDia(turno.dia);
+          setHorario(turno.horario);
+        });
       })
     );
-    turnosService.findById(params?.idTurnos).then((turno) => {
-      setTurnoObtenido(turno);
-      setIdTurno(params?.idTurnos);
-      setDia(turno.dia);
-      setHorario(turno.horario);
-    });
     // turnosService.findById(params?.idTurnos).then((turno) => {
     //   setTurnoObtenido(turno);
     //   setIdTurno(params?.idTurnos);

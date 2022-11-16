@@ -30,8 +30,6 @@ export function CreateTurno({ title }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    setHorarioInicio(Number(horarioInicio));
-    setHorarioFin(Number(horarioFin));
     turnosService
       .create({ dia, horarioInicio, horarioFin, idCurso })
       .then((data) => {
