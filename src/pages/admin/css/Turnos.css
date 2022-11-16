@@ -1,8 +1,8 @@
-.cont-cursos ul {
+.cont-admin-turnos ul {
     padding: 0;
     margin: 1rem 0;
 }
-.cont-cursos ul li {
+.cont-admin-turnos ul li {
     padding: 1rem;
     margin-bottom: 1rem;
     border: 1px solid lightgray;

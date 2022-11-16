@@ -1,3 +1,4 @@
+import "../css/Edit.css";
 import React, { useEffect, useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import * as turnosService from "../../services/turnos.service";
@@ -6,7 +7,8 @@ import { AuthContext } from "../../App";
 
 export function CreateTurno({ title }) {
   const [dia, setDia] = useState("");
-  const [horario, setHorario] = useState(9);
+  const [horarioInicio, setHorarioInicio] = useState(0);
+  const [horarioFin, setHorarioFin] = useState(0);
   const [cursos, setCursos] = useState([]);
   const [idCurso, setIdCurso] = useState("");
   const [error, setError] = useState("");
@@ -28,10 +30,13 @@ export function CreateTurno({ title }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    setHorario(Number(horario));
+    setHorarioInicio(Number(horarioInicio));
+    setHorarioFin(Number(horarioFin));
     turnosService
-      .create({ dia, horario, idCurso })
-      .then((data) => {})
+      .create({ dia, horarioInicio, horarioFin, idCurso })
+      .then((data) => {
+        navigate("/panel/turnos", { replace: true });
+      })
       .catch((err) => setError(err.message));
   }
 
@@ -50,57 +55,64 @@ export function CreateTurno({ title }) {
       <h1>Crear - {title}</h1>
       <form onSubmit={handleSubmit} className="mb-5">
         <div className="mb-3">
-          <label className="form-label">Ingrese el dia del turno</label>
-          <input
-            type="text"
-            value={dia}
-            required
-            onChange={(e) => setDia(e.target.value)}
-            className="form-control"
-          />
-        </div>
-        <div className="mb-3">
-          <label className="form-label">A que hora comienza el turno</label>
-          <input
-            type="number"
-            value={horario}
-            required
-            max={18}
-            min={9}
-            onChange={(e) => setHorario(e.target.value)}
-            className="form-control"
-          />
-        </div>
-
-        <div>
-          <label htmlFor="cursos">A que curso pertenece el turno</label>
+          <label className="form-label" htmlFor="cursos">
+            Ingresá el curso al que pertenece el turno
+          </label>
           <select
+            className="form-control"
             name="cursos"
             id="cursos"
             form="cursosForm"
             onChange={(e) => handleOption(e.target.value)}
           >
-            <option value="error"> Selecciona el curso...-</option>
+            <option value="error"> Seleccioná el curso...</option>
             {cursos.map((curso) => {
               return (
-                <option key={curso._id} value={curso.nombre}>
-                  {" "}
-                  {curso.nombre}{" "}
+                <option key={curso._id} defaultValue={curso.nombre}>
+                  {curso.nombre}
                 </option>
               );
             })}
           </select>
+        </div>
+        <div className="mb-3">
+          <label className="form-label">Ingresá el día del turno</label>
+          <input
+            type="text"
+            required
+            onChange={(e) => setDia(e.target.value)}
+            className="form-control"
+            placeholder="Lunes, Martes, Miércoles..."
+          />
+        </div>
+        <div className="mb-3">
+          <span className="form-label">El turno comenzará a las</span>
+          <input
+            type="number"
+            defaultValue={horarioInicio}
+            required
+            max={18}
+            min={9}
+            onChange={(e) => setHorarioInicio(e.target.value)}
+            className="form-control input-horario"
+          />
+          hs, y terminará a las
+          <input
+            type="number"
+            defaultValue={horarioFin}
+            required
+            max={18}
+            min={9}
+            onChange={(e) => setHorarioFin(e.target.value)}
+            className="form-control input-horario"
+          />
+          hs.
         </div>
 
         <button type="submit" className="btn btn-primary">
           Crear
         </button>
       </form>
-
-      <h2>Vista previa del nuevo turno</h2>
-      <p>
-        El nuevo turno se imparte el {dia} a las {horario} horas
-      </p>
       {error && <p>{error}</p>}
     </main>
   );
