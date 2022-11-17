@@ -12,10 +12,11 @@ export function CreateInscripcion({ title }) {
   let navigate = useNavigate();
 
   const [nombre, setNombre] = useState("");
-  const [monto, setMonto] = useState();
   const [formaPago, setFormaPago] = useState("error");
   const [turnos, setTurnos] = useState([]);
   const [idTurno, setIdTurno] = useState("error");
+  const [idCurso, setIdCurso] = useState("error");
+  const [idUser, setIdUser] = useState(value.currentUser._id);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -36,7 +37,7 @@ export function CreateInscripcion({ title }) {
     console.log(formaPago);
     if (formaPago !== "error" && idTurno !== "error") {
       inscripcionesService
-        .create({ nombre, monto, formaPago, idTurno })
+        .create({ nombre, formaPago, idTurno, idUser, idCurso })
         .then((data) => {
           navigate("/inscripciones", { replace: true });
         })
@@ -51,6 +52,7 @@ export function CreateInscripcion({ title }) {
     if (idTurno !== "error") {
       let result = turnos.filter((turno) => turno._id === idTurno);
       setIdTurno(result[0]._id);
+      setIdCurso(result[0].idCurso);
       console.log(result[0]._id);
     } else {
     }
@@ -80,7 +82,9 @@ export function CreateInscripcion({ title }) {
         {/*</div>*/}
 
         <div className="mb-3">
-          <label htmlFor="cursos" className="form-label">Como desea pagar</label>
+          <label htmlFor="cursos" className="form-label">
+            Como desea pagar
+          </label>
           <select
             name="cursos"
             id="cursos"
@@ -96,17 +100,6 @@ export function CreateInscripcion({ title }) {
         </div>
 
         <div className="mb-3">
-          <label className="form-label">Cual es el valor de la clase</label>
-          <input
-            type="number"
-            defaultValue={0}
-            required
-            onChange={(e) => setMonto(parseInt(e.target.value))}
-            className="form-control"
-          />
-        </div>
-
-        <div className="mb-3">
           <label htmlFor="cursos">A que turno pertenece</label>
           <select
             name="cursos"
@@ -119,7 +112,7 @@ export function CreateInscripcion({ title }) {
             {turnos.map((turno) => {
               return (
                 <option key={turno._id} value={turno._id}>
-                  {turno.dia} - {turno.horario}Hrs
+                  {turno.dia} de {turno.horarioInicio}hs a {turno.horarioFin}hs
                 </option>
               );
             })}
@@ -130,11 +123,6 @@ export function CreateInscripcion({ title }) {
           Crear
         </button>
       </form>
-
-      <p>{nombre}</p>
-      <p>{formaPago}</p>
-      <p>{monto}</p>
-      {error && <p>{error}</p>}
     </main>
   );
 }
