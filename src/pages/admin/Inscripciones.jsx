@@ -1,4 +1,4 @@
-import "../css/Turnos.css";
+import "./css/Inscripciones.css";
 
 import React, { useEffect, useState, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";

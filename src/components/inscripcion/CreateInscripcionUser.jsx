@@ -151,7 +151,7 @@ export function CreateInscripcionUser({ title }) {
 
         <form onSubmit={handleSubmit} className="form">
           <div>
-            <label htmlFor="cursos">Como desea pagar</label>
+            <label htmlFor="cursos">Método de pago</label>
             <select
               name="cursos"
               id="cursos"
@@ -159,7 +159,7 @@ export function CreateInscripcionUser({ title }) {
               onChange={(e) => setFormaPago(e.target.value)}
               required
             >
-              <option value="error"> Selecciona el turno...-</option>
+              <option value="error"> Selecciona el método de pago...</option>
               <option value="transferencia"> Transferencia </option>
               <option value="efectivo"> Efectivo</option>
             </select>
