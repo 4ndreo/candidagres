@@ -22,7 +22,7 @@ export default function Inscripciones() {
       navigate("/", { replace: true });
     }
   }, []);
-  
+
   useEffect(() => {
     inscripcionesService.find().then((data) => {
       setInscripciones(data);
@@ -33,9 +33,8 @@ export default function Inscripciones() {
       });
     });
   }, []);
-  
-  useEffect(() => {
-  }, []);
+
+  useEffect(() => {}, []);
 
   function handleDeleteElement(item) {
     inscripcionesService.remove(item._id).then((inscripciones) => {
@@ -63,7 +62,7 @@ export default function Inscripciones() {
             href={"inscripciones/inscripcion"}
             className="btn btn-primary mt-3"
           >
-            Crear una inscripcion
+            Crear una inscripción
           </a>
           <ul>
             {inscripciones.map((inscripcion) => {
@@ -73,19 +72,16 @@ export default function Inscripciones() {
                   <p>Alumno: {inscripcion.nombre}</p>
                   {/* <p>Dia: {handleTurno(inscripcion)}</p> */}
                   {/* <p>Dia: {inscripcion.dia}</p> */}
-                  <p>
-                    Monto: ${inscripcion.monto} / Metodo de Pago:{" "}
-                    {inscripcion.formaPago}
-                  </p>
+                  <p>Metodo de Pago: {inscripcion.formaPago}</p>
                   <Link
                     to={"inscripcion/id-" + inscripcion._id}
-                    className="btn btn-warning btn-sm rounded-2 me-2"
+                    className="btn btn-warning me-2"
                   >
-                    Editar inscripcion
+                    Editar inscripción
                   </Link>
                   <button
                     onClick={() => handleDeleteElement(inscripcion)}
-                    className="btn btn-danger btn-sm rounded-2"
+                    className="btn btn-danger"
                     type="button"
                     data-toggle="tooltip"
                     data-placement="top"
@@ -93,7 +89,7 @@ export default function Inscripciones() {
                     data-original-title="Delete"
                   >
                     <i className="fa fa-trash-o" aria-hidden="true"></i>
-                    Eliminar inscripcion
+                    Eliminar inscripción
                   </button>
                 </li>
               );
@@ -102,13 +98,11 @@ export default function Inscripciones() {
         </div>
       </main>
     );
-  }
-  else 
-  {
+  } else {
     return (
       <main className="container main">
         <Loader></Loader>
       </main>
-    )
+    );
   }
 }

@@ -25,7 +25,7 @@ export function CreateCurso({ title }) {
     cursosService
       .create({ nombre, descripcion, duracion })
       .then((data) => {
-        navigate("/cursos", { replace: true });
+        navigate("/panel/cursos", { replace: true });
       })
       .catch((err) => setError(err.message));
   }
@@ -76,10 +76,6 @@ export function CreateCurso({ title }) {
           Crear
         </button>
       </form>
-
-      <p>{nombre}</p>
-      <p>{duracion}</p>
-      {error && <p>{error}</p>}
     </main>
   );
 }

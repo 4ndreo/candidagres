@@ -67,13 +67,13 @@ export default function Turnos() {
                             <p>Horario: De {turno.horarioInicio}hs a {turno.horarioFin}hs</p>
                             <Link
                               to={"turno/id-" + turno._id}
-                              className="btn btn-warning btn-sm rounded-2 me-2"
+                              className="btn btn-warning me-2"
                             >
                               Editar turno
                             </Link>
                             <button
                               onClick={() => handleDeleteElement(turno)}
-                              className="btn btn-danger btn-sm rounded-2"
+                              className="btn btn-danger"
                               type="button"
                               data-toggle="tooltip"
                               data-placement="top"

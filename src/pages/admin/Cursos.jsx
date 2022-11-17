@@ -1,4 +1,4 @@
-import "../css/Cursos.css";
+import "./css/Cursos.css";
 
 import React, { useEffect, useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -33,9 +33,11 @@ export default function Turnos() {
 
   return (
     <main className="container main">
-      <div className="cont-crear-curso">
+      <div className="cont-admin-cursos">
         <h1>Administrar Cursos</h1>
-        <Link to="curso" className="btn btn-primary mt-3">Crear un Curso</Link>
+        <Link to="curso" className="btn btn-primary mt-3">
+          Crear un Curso
+        </Link>
         <ul>
           {cursos.map((curso) => {
             // return <p>{curso.horario}</p>
@@ -47,11 +49,13 @@ export default function Turnos() {
                 <p>Precio: ${curso.precio} </p>
                 <Link
                   to={"curso/id-" + curso._id}
-                  className="btn btn-warning btn-sm rounded-2 me-2"
-                >Editar curso</Link>
+                  className="btn btn-warning me-2"
+                >
+                  Editar curso
+                </Link>
                 <button
                   onClick={() => handleDeleteElement(curso)}
-                  className="btn btn-danger btn-sm rounded-2"
+                  className="btn btn-danger"
                   type="button"
                   data-toggle="tooltip"
                   data-placement="top"
