@@ -14,7 +14,8 @@ export function CreateInscripcionUser({ title }) {
 
   const [nombre, setNombre] = useState("");
   const [dia, setDia] = useState("");
-  const [horario, setHorario] = useState("");
+  const [horarioInicio, setHorarioInicio] = useState("");
+  const [horarioFin, setHorarioFin] = useState("");
   const [formaPago, setFormaPago] = useState("");
   const [nombreTaller, setNombreTaller] = useState("");
   const [descripcion, setDescripcion] = useState("");
@@ -92,7 +93,8 @@ export function CreateInscripcionUser({ title }) {
           setTurnoObtenido(turno);
           setIdTurno(params?.idTurnos);
           setDia(turno.dia);
-          setHorario(turno.horario);
+          setHorarioInicio(turno.horarioInicio);
+          setHorarioFin(turno.horarioFin);
         });
       })
     );
@@ -123,39 +125,40 @@ export function CreateInscripcionUser({ title }) {
 
     if (formaPago !== "error") {
       inscripcionesService
-        .create({ nombre, monto, formaPago, idTurno, idUser, idCurso })
+        .create({ nombre, formaPago, idTurno, idUser, idCurso })
         .then((data) => {
           navigate("/perfil", { replace: true });
         })
         .catch((err) => setError(err.message));
-      // console.log(formaPago)
     } else {
       window.alert("Tenes que seleccionar una forma de pago");
     }
   }
 
-  if (cursoObtenido.deleted === false || null) {
+  if ((cursoObtenido.deleted === false || null) && horarioInicio > 0) {
     return (
       <main className="container edit-cont">
         <h1>{title} Online</h1>
-        <div className="card w-100 mt-5">
+        <div className="card w-100 mt-4 mb-3 ">
           <div className="card-header">
             <h2 className="mb-0">{nombreTaller}</h2>
           </div>
-          <ul>
+          <ul className="list-style-none">
             <li>Nombre del Taller: {nombreTaller}</li>
-            <li>Descripcion: {descripcion}</li>
+            <li>Descripción: {descripcion}</li>
             <li>Precio: ${monto}</li>
+            <li>Horario: {horarioInicio}hs a {horarioFin}hs</li>
           </ul>
         </div>
 
         <form onSubmit={handleSubmit} className="form">
-          <div>
-            <label htmlFor="cursos">Método de pago</label>
+          <div className="mb-3">
+            <label htmlFor="cursos" className="form-label">Método de pago</label>
             <select
               name="cursos"
               id="cursos"
               form="cursosForm"
+              className="form-control"
               onChange={(e) => setFormaPago(e.target.value)}
               required
             >
