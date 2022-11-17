@@ -52,18 +52,22 @@ export default function Header() {
             <div className="taller-data">
               <h2>Taller</h2>
               <p>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Modi,
-                illum nostrum cumque asperiores eius a ea adipisci aut debitis
-                at sint ratione dolorem aperiam perspiciatis pariatur quo ab non
-                magnam. Quasi beatae, eligendi ipsum labore asperiores, cumque
-                laborum mollitia possimus accusamus placeat voluptates,
-                laboriosam dolorem commodi nihil. Neque est eaque aspernatur?
-                Porro cupiditate sit non amet corrupti iste voluptatibus
-                commodi. Ea odit ad est nisi exercitationem, ullam sapiente,
-                maiores, recusandae perferendis praesentium quam provident autem
-                repellat amet commodi. Quod voluptatibus necessitatibus
-                perferendis quas repudiandae amet dolores rem aut distinctio
-                voluptas?
+                En el taller se pretende crear un espacio para la práctica del
+                hacer cerámico, la decoración y la ornamentación de las
+                creaciones propias, pudiendo con esto desarrollar la autonomía y
+                puesta en práctica de las capacidades adquiridas.
+              </p>
+              <p>
+                El universo cerámico es muy amplio. Hay diversas maneras de
+                construir y en nuestro taller, acompañamos la libre exploración
+                sobre las diversas técnicas de trabajo del material. Hay quienes
+                dan sus primeros pasos en el torno y quienes se están
+                perfeccionando.
+              </p>
+              <p>
+                {" "}
+                Permanecemos en constante búsqueda de creaciones innovadoras
+                para que tengas siempre algo nuevo y diferente. ¡Animate!
               </p>
             </div>
             <img
@@ -76,18 +80,27 @@ export default function Header() {
             <div className="taller-data">
               <h2>Clases</h2>
               <p>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Modi,
-                illum nostrum cumque asperiores eius a ea adipisci aut debitis
-                at sint ratione dolorem aperiam perspiciatis pariatur quo ab non
-                magnam. Quasi beatae, eligendi ipsum labore asperiores, cumque
-                laborum mollitia possimus accusamus placeat voluptates,
-                laboriosam dolorem commodi nihil. Neque est eaque aspernatur?
-                Porro cupiditate sit non amet corrupti iste voluptatibus
-                commodi. Ea odit ad est nisi exercitationem, ullam sapiente,
-                maiores, recusandae perferendis praesentium quam provident autem
-                repellat amet commodi. Quod voluptatibus necessitatibus
-                perferendis quas repudiandae amet dolores rem aut distinctio
-                voluptas?
+                Las clases de cerámica se plantean como una actividad donde
+                quienes deseen participar podrán adquirir destrezas y
+                competencias que podrán aplicar en situaciones propias del hacer
+                cerámico. Los participantes serán capaces de conocer el proceso
+                de elaboración de la pasta cerámica, amasarla, centrarla en el
+                torno, ahuecarla, estirarla verticalmente, tornear y retornear,
+                ornamentar y decorar.
+              </p>
+              <p>
+                El objetivo de este taller es el de crear un ámbito de
+                conocimiento, aprendizaje y expresión a través de la cerámica.
+                La arcilla es un material de potencialidades únicas, y al
+                trabajar con ella conectamos con algo ancestral, que ha
+                acompañado a todas las culturas humanas desde sus inicios.
+              </p>
+              <p>
+                El curso está dirigido a adultos con o sin experiencia previa.
+                La modalidad de trabajo es una guía personalizada en la
+                concepción y desarrollo de proyectos personales, incluyendo a
+                quienes –a pesar de contar con conocimientos anteriores- deseen
+                profundizar determinadas temáticas o técnicas específicas.
               </p>
             </div>
             <img
@@ -100,18 +113,13 @@ export default function Header() {
             <div className="taller-data mb-5">
               <h2>Alumnas y alumnos</h2>
               <p>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Modi,
-                illum nostrum cumque asperiores eius a ea adipisci aut debitis
-                at sint ratione dolorem aperiam perspiciatis pariatur quo ab non
-                magnam. Quasi beatae, eligendi ipsum labore asperiores, cumque
-                laborum mollitia possimus accusamus placeat voluptates,
-                laboriosam dolorem commodi nihil. Neque est eaque aspernatur?
-                Porro cupiditate sit non amet corrupti iste voluptatibus
-                commodi. Ea odit ad est nisi exercitationem, ullam sapiente,
-                maiores, recusandae perferendis praesentium quam provident autem
-                repellat amet commodi. Quod voluptatibus necessitatibus
-                perferendis quas repudiandae amet dolores rem aut distinctio
-                voluptas?
+                A continuación te mostramos algunas de las cosas que podés hacer
+                en el taller. Desde vasijas hasta platos y decoraciones, vas a
+                aprender a expresarte a través de la cerámica para sacar a
+                bailar toda tu imaginación y tus ideas. Estas piezas son de
+                alumnos que no tenían experiencia previa antes de asistir al
+                taller, y ahora pueden decorar, utilizar, vender y regalar sus
+                creaciones. ¡Vos también podes ser parte de este aprendizaje!
               </p>
             </div>
             <Swiper
