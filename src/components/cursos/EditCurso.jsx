@@ -38,7 +38,7 @@ export function EditCurso({ title }) {
     cursosService
       .update(params?.idCurso, { nombre, descripcion, duracion })
       .then((data) => {
-        navigate("/cursos", { replace: true });
+        navigate("/panel/cursos", { replace: true });
       });
   }
 

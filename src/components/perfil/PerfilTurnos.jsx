@@ -66,7 +66,7 @@ export function PerfilTurnos({ title }) {
 
                   <button
                     onClick={() => handleDeleteElement(idInscripcion)}
-                    className="btn btn-danger btn-sm rounded-2"
+                    className="btn btn-danger"
                     type="button"
                     data-toggle="tooltip"
                     data-placement="top"
