@@ -11,7 +11,9 @@ import Loader from "../components/basics/Loader";
 export default function Turnos() {
   const [nombre, setNombre] = useState("");
   const [idUser, setIdUser] = useState("");
+  const [cursos, setCursos] = useState([]);
   const [turnos, setTurnos] = useState([]);
+  const [inscripciones, setInscripciones] = useState([]);
   const [inscripcionesUsuario, setInscripcionesUsuario] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -73,6 +75,16 @@ export default function Turnos() {
     fn();
   }, []);
 
+  function handleDeleteElement(id) {
+    window.confirm("¿Estas seguro que queres eliminar tu inscripción?");
+    inscripcionesService.remove(id).then((inscripcion) => {
+      setLoading(true);
+      fn();
+      navigate("/perfil", { replace: true });
+    });
+    //console.log(id)
+  }
+
   if ((nombre.length === 0 && loading) || nombre.length > 0) {
     return (
       <main className="container main">
@@ -101,12 +113,24 @@ export default function Turnos() {
                           <p className="card-text">
                             Duración: {inscripcion.curso.duracion}Hrs
                           </p>
-                          <a
+                          {/* <a
                             href={`perfil/turno/id-${inscripcion.idTurno}/inscripcion/id-${inscripcion._id}`}
-                            className="btn btn-primary"
+                            className="btn btn-primary me-2"
                           >
                             Ver Turno
-                          </a>
+                          </a> */}
+                          <button
+                            onClick={() => handleDeleteElement(inscripcion._id)}
+                            className="btn btn-danger"
+                            type="button"
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            title=""
+                            data-original-title="Delete"
+                          >
+                            <i className="fa fa-trash-o" aria-hidden="true"></i>
+                            Eliminar Inscripción
+                          </button>
                         </div>
                       </li>
                     );

@@ -16,7 +16,9 @@ export function VerTurnos() {
 
   useEffect(() => {
     turnosService.find().then((data) => {
-      setTurnos(data);
+      setTurnos(data.sort(function(a, b) {
+        return a.horarioInicio - b.horarioInicio;
+      }));
       cursosService
         .findById(params?.idCurso)
         .then((curso) => {
