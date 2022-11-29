@@ -93,7 +93,7 @@ export function CreateInscripcion({ title }) {
             onChange={(e) => setFormaPago(e.target.value)}
             required
           >
-            <option value="error"> Selecciona el turno...</option>
+            <option value="error"> Seleccioná el turno...</option>
             <option value="transferencia"> Transferencia </option>
             <option value="efectivo"> Efectivo</option>
           </select>

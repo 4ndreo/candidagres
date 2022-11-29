@@ -144,7 +144,7 @@ export function CreateInscripcionUser({ title }) {
             <h2 className="mb-0">{nombreTaller}</h2>
           </div>
           <ul className="list-style-none">
-            <li>Nombre del Taller: {nombreTaller}</li>
+            <li>Nombre de la clase: {nombreTaller}</li>
             <li>Descripción: {descripcion}</li>
             <li>Precio: ${monto}</li>
             <li>Horario: {horarioInicio}hs a {horarioFin}hs</li>

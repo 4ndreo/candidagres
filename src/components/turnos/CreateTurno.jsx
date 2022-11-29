@@ -54,7 +54,7 @@ export function CreateTurno({ title }) {
       <form onSubmit={handleSubmit} className="mb-5">
         <div className="mb-3">
           <label className="form-label" htmlFor="cursos">
-            Ingresá el curso al que pertenece el turno
+            Ingresá la clase a la que pertenece el turno
           </label>
           <select
             className="form-control"
@@ -63,7 +63,7 @@ export function CreateTurno({ title }) {
             form="cursosForm"
             onChange={(e) => handleOption(e.target.value)}
           >
-            <option value="error"> Seleccioná el curso...</option>
+            <option value="error"> Seleccioná la clase...</option>
             {cursos.map((curso) => {
               return (
                 <option key={curso._id} defaultValue={curso.nombre}>

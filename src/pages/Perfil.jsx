@@ -90,7 +90,7 @@ export default function Turnos() {
       <main className="container main">
         <div className="cont-perfil">
           <h1>Mi Perfil - {nombre}</h1>
-          <h2>Cursos anotados</h2>
+          <h2>Clases anotadas</h2>
 
           {loading ? (
             <Loader className="w-50"></Loader>

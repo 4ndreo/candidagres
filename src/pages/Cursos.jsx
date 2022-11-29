@@ -25,13 +25,13 @@ export default function Header() {
   return (
       <main className="container main">
         <div className="cont-cursos">
-          <h1>Cursos disponibles</h1>
+          <h1>Clases disponibles</h1>
           <ul className="listado-cursos">
             {cursos.map((curso) => {
               // return <p>{curso.horario}</p>
               return (
                   <li key={curso._id}>
-                    <h2>Curso: {curso.nombre}</h2>
+                    <h2>Clase: {curso.nombre}</h2>
                     <p>Descripción: {curso.descripcion}</p>
                     <p>Duración: {curso.duracion} horas</p>
                     <p>Precio: ${curso.precio}</p>

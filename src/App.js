@@ -86,11 +86,11 @@ function App() {
           <Route path="/panel/cursos" element={<AdminCursos />} />
           <Route
             path="/panel/cursos/curso"
-            element={<CreateCurso title={"Curso"} />}
+            element={<CreateCurso title={"Clase"} />}
           />
           <Route
             path="/panel/cursos/curso/id-:idCurso"
-            element={<EditCurso title={"Curso"} />}
+            element={<EditCurso title={"Clase"} />}
           />
 
           {/* Rutas de Inscripciones */}

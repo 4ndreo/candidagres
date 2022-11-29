@@ -35,7 +35,7 @@ export function CreateCurso({ title }) {
       <h1>Crear - {title}</h1>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
-          <label className="form-label">Ingrese el nombre del curso</label>
+          <label className="form-label">Ingrese el nombre de la clase</label>
           <input
             type="text"
             required
@@ -44,7 +44,7 @@ export function CreateCurso({ title }) {
           />
         </div>
         <div className="mb-3">
-          <label className="form-label">Ingrese la descripción del curso</label>
+          <label className="form-label">Ingrese la descripción de la clase</label>
           <input
             type="text"
             required
