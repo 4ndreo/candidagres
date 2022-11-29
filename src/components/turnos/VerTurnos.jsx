@@ -33,7 +33,7 @@ if(curso && turnos.length > 0) {
   return (
     <main className="container main">
       <div className="cont-turno">
-        <h1>Turnos disponibles para el curso "{curso.nombre}"</h1>
+        <h1>Turnos disponibles para la clase "{curso.nombre}"</h1>
         <ul>
           {turnos.map((turno) => {
             if (turno.idCurso === params?.idCurso) {

@@ -48,12 +48,12 @@ export default function Header() {
                   </>
                 ) : (
                   <>
-                    <Link to="/cursos">Cursos</Link>
+                    <Link to="/cursos">Clases</Link>
                     <Link to="/perfil">Perfil</Link>
                   {value.currentUser.role === 1 ? (
                     <NavDropdown title="Panel" className="panel-ddown">
                       <Link to="panel/cursos" className="dropdown-item">
-                        Cursos
+                        Clases
                       </Link>
                       <Link to="panel/turnos" className="dropdown-item">
                         Turnos

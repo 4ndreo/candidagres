@@ -34,16 +34,16 @@ export default function Turnos() {
   return (
     <main className="container main">
       <div className="cont-admin-cursos">
-        <h1>Administrar Cursos</h1>
+        <h1>Administrar Clases</h1>
         <Link to="curso" className="btn btn-primary mt-3">
-          Crear un Curso
+          Crear una Clase
         </Link>
         <ul>
           {cursos.map((curso) => {
             // return <p>{curso.horario}</p>
             return (
               <li key={curso._id}>
-                <p>Curso: {curso.nombre}</p>
+                <p>Clase: {curso.nombre}</p>
                 <p>Descripción: {curso.descripcion}</p>
                 <p>Duración: {curso.duracion} horas</p>
                 <p>Precio: ${curso.precio} </p>
@@ -51,7 +51,7 @@ export default function Turnos() {
                   to={"curso/id-" + curso._id}
                   className="btn btn-warning me-2"
                 >
-                  Editar curso
+                  Editar clase
                 </Link>
                 <button
                   onClick={() => handleDeleteElement(curso)}
@@ -63,7 +63,7 @@ export default function Turnos() {
                   data-original-title="Delete"
                 >
                   <i className="fa fa-trash-o" aria-hidden="true"></i>
-                  Eliminar curso
+                  Eliminar Clase
                 </button>
               </li>
             );
