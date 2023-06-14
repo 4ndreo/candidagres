@@ -116,8 +116,6 @@ function App() {
             path="perfil/turno/id-:idTurno/inscripcion/id-:idInscripcion"
             element={<PerfilTurnos title={"Turnos"} />}
           />
-
-
         </Routes>
 
         <Footer></Footer>
