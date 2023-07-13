@@ -34,14 +34,6 @@ export function VerTurnos() {
       id: "D5",
       nombre: "Viernes",
     },
-    {
-      id: "D6",
-      nombre: "Sábado",
-    },
-    {
-      id: "D7",
-      nombre: "Domingo",
-    },
   ];
   const params = useParams();
 
@@ -70,8 +62,8 @@ export function VerTurnos() {
           <ul className="cont-listado-dias">
             {diasSemana.map((diaSemana) => {
               return (
-                <li key={diaSemana.id} className="item-dia" >
-                  {diaSemana.nombre}
+                <li key={diaSemana.id} className="item-dia">
+                  <h2> {diaSemana.nombre}</h2>
                   <ul className="cont-TarjetaTurnos">
                     {turnos.map((turno) => {
                       if (turno.dias.some((dia) => dia === diaSemana.id)) {
@@ -81,6 +73,7 @@ export function VerTurnos() {
                             turno={turno}
                             horInicio={turno.horarioInicio}
                             horFin={turno.horarioFin}
+                            color={turno.color}
                           />
                         );
                       }
@@ -90,26 +83,6 @@ export function VerTurnos() {
               );
             })}
           </ul>
-          {/* <ul>
-          {turnos.map((turno) => {
-            if (turno.idCurso === params?.idCurso) {
-              return (
-                <li key={turno._id}>
-                  <p>Dia del turno: {turno.dia}</p>
-                  <p>
-                    Horario: de {turno.horarioInicio}hs a {turno.horarioFin}hs
-                  </p>
-                  <Link
-                    to={"/id-" + turno._id + "/curso/id-" + turno.idCurso}
-                    className="btn btn-primary"
-                  >
-                    Inscribirse en este horario
-                  </Link>
-                </li>
-              );
-            }
-          })}
-        </ul> */}
         </div>
       </main>
     );

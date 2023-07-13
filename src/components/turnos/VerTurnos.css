@@ -1,16 +1,24 @@
 
 .cont-listado-dias {
-  height: 100%;
   display: flex;
   gap: 1rem;
 
 }
+
 .item-dia {
   width: 100%;
+  height: 100vh;
+  padding: 0.5rem;
+}
+.item-dia h2 {
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--main-blue);
 
 }
+
 .cont-TarjetaTurnos {
   position: relative;
-  height: 100%;
   display: block;
 }
