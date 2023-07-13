@@ -1,4 +1,4 @@
-import "../../pages/css/Turnos.css";
+import "./VerTurnos.css";
 
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
@@ -58,26 +58,30 @@ export function VerTurnos() {
           setCurso(curso);
         })
         .catch((err) => setError(err.message));
-        // console.log(params?.idCurso)
-      });
-    }, []);
+      // console.log(params?.idCurso)
+    });
+  }, []);
 
-    if (curso && turnos.length > 0) {
-      return (
-        <main className="container main">
+  if (curso && turnos.length > 0) {
+    return (
+      <main className="container main">
         <div className="cont-turno">
           <h1>Turnos disponibles para la clase "{curso.nombre}"</h1>
-          <ul className="cont-listado-dias d-flex">
+          <ul className="cont-listado-dias">
             {diasSemana.map((diaSemana) => {
               return (
-                <li key={diaSemana.id} className="item-dia w-100">
+                <li key={diaSemana.id} className="item-dia" >
                   {diaSemana.nombre}
-                  <ul>
+                  <ul className="cont-TarjetaTurnos">
                     {turnos.map((turno) => {
-                      
                       if (turno.dias.some((dia) => dia === diaSemana.id)) {
                         return (
-                          <TarjetaTurno key={turno._id} turno={turno} />
+                          <TarjetaTurno
+                            key={turno._id}
+                            turno={turno}
+                            horInicio={turno.horarioInicio}
+                            horFin={turno.horarioFin}
+                          />
                         );
                       }
                     })}
