@@ -1,0 +1,16 @@
+
+.cont-listado-dias {
+  height: 100%;
+  display: flex;
+  gap: 1rem;
+
+}
+.item-dia {
+  width: 100%;
+
+}
+.cont-TarjetaTurnos {
+  position: relative;
+  height: 100%;
+  display: block;
+}
