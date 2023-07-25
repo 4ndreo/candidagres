@@ -13,6 +13,7 @@ export function VerTurnos() {
   const [turnos, setTurnos] = useState([]);
   const [curso, setCurso] = useState();
   const [error, setError] = useState([]);
+  const [selectedTurno, setSelectedTurno] = useState("");
   const diasSemana = [
     {
       id: "D1",
@@ -54,6 +55,11 @@ export function VerTurnos() {
     });
   }, []);
 
+  function handleSelectedTurno(nombreTurno) {
+    setSelectedTurno(nombreTurno);
+    console.log(selectedTurno);
+  }
+
   if (curso && turnos.length > 0) {
     return (
       <main className="container main">
@@ -74,6 +80,8 @@ export function VerTurnos() {
                             horInicio={turno.horarioInicio}
                             horFin={turno.horarioFin}
                             color={turno.color}
+                            selectedTurno={selectedTurno}
+                            handleSelectedTurno={handleSelectedTurno}
                           />
                         );
                       }

@@ -1,11 +1,14 @@
-
 .cont-listado-dias {
   display: flex;
   gap: 1rem;
+  width: 100%;
+}
 
+.dia-not-selected {
 }
 
 .item-dia {
+  /* width: auto; */
   width: 100%;
   height: 100vh;
   padding: 0.5rem;
@@ -15,7 +18,6 @@
   font-size: 1.25rem;
   font-weight: 600;
   color: var(--main-blue);
-
 }
 
 .cont-TarjetaTurnos {
