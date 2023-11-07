@@ -3,6 +3,14 @@
   height: 100%;
   font-size: 0.875rem;
   padding: 0.5rem;
+  border-radius: 6px;
+  transition: 0.15s ease-in-out all;
+}
+.item-turno:hover {
+  cursor: pointer;
+}
+.hoveredTurno {
+  background-color: red;
 }
 
 .item-turno h3 {

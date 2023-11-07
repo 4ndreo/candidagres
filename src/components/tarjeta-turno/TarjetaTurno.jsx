@@ -3,7 +3,7 @@ import "./TarjetaTurno.css";
 import React, { useEffect, useState } from "react";
 import { DateTime, Duration } from "luxon";
 import { useNavigate, useParams, Link } from "react-router-dom";
-
+import TooltipCurso from "../tooltip-curso/TooltipCurso";
 export default function TarjetaTurno({
   turno,
   horInicio,
@@ -11,8 +11,13 @@ export default function TarjetaTurno({
   color,
   selectedTurno,
   handleSelectedTurno,
+  handleMouseOver,
+  handleMouseLeave,
+  hoveredTurno,
+  handleShow
 }) {
   const factor = 50;
+  const [tooltipState, setTooltipState] = useState(false);
 
   function getDistancia(horaInicio, horaFin) {
     let start = DateTime.fromFormat(horaInicio, "HH:mm");
@@ -24,48 +29,55 @@ export default function TarjetaTurno({
 
     return parseInt(horas) + parseFloat(minutos) / 60;
   }
-  if (selectedTurno === turno._id) {
+
+  function handleCloseTooltip(state){
+    console.log('estado:', state)
+    setTooltipState(state);
+  }
+
+  // if (selectedTurno === turno._id) {
+  //   return (
+  //     <div
+  //       className="item-turno w-100"
+  //       style={{
+  //         height: getDistancia(horInicio, horFin) * factor + "px",
+  //         minHeight: getDistancia(horInicio, horFin) * factor + "px",
+  //         top: getDistancia("09:00", horInicio) * factor + "px",
+  //         border: "2px solid " + color,
+  //         backgroundColor: color,
+  //       }}
+  //       onClick={() => {handleSelectedTurno(null); handleCloseTooltip(false);}}
+        
+  //       >
+  //       <h3>{turno.nombre}</h3>
+  //       <p>
+  //         {horInicio}-{horFin}hs
+  //       </p>
+  
+  //       {tooltipState ? <TooltipCurso handleCloseTooltip={handleCloseTooltip} turno={turno} /> : null}
+
+  //     </div>
+  //   );
+  // } else {
     return (
-      <li
-        className="item-turno w-100"
-        style={{
-          height: "auto",
-          minHeight: getDistancia(horInicio, horFin) * factor + "px",
-          top: getDistancia("09:00", horInicio) * factor + "px",
-          border: "2px solid " + color,
-          backgroundColor: color,
-          marginBottom: "2rem"
-        }}
-        onClick={() => handleSelectedTurno(turno._id)}
-      >
-        <h3>{turno.nombre}</h3>
-        <p>
-          {horInicio}-{horFin}hs
-        </p>
-        <Link
-          to={"/id-" + turno._id + "/curso/id-" + turno.idCurso}
-          className="btn btn-primary"
-        >
-          Inscribirse en este horario
-        </Link>
-      </li>
-    );
-  } else {
-    return (
-      <li
-        className="item-turno w-100"
+      <div
+        className={hoveredTurno === turno._id ? "item-turno w-100 hoveredTurno" : "item-turno w-100"}
         style={{
           height: getDistancia(horInicio, horFin) * factor + "px",
           top: getDistancia("09:00", horInicio) * factor + "px",
-          border: "2px solid " + color,
+          border: "2px solid " + hoveredTurno === turno._id ? "hsl(220 50% 70% / 1)" : "#e6e6e6",
+          backgroundColor: hoveredTurno === turno._id ? "hsl(220 50% 70% / 1)" : "#e6e6e6",
         }}
-        onClick={() => handleSelectedTurno(turno._id)}
+        // onClick={() => {handleSelectedTurno(turno); handleCloseTooltip(true);}}
+        onClick={() => {handleShow(); handleSelectedTurno(turno)}}
+        onMouseEnter={() => handleMouseOver(turno._id)}
+        onMouseLeave={() => handleMouseLeave(turno._id)}
       >
         <h3>{turno.nombre}</h3>
         <p>
           {horInicio}-{horFin}hs
         </p>
-      </li>
+      </div>
     );
-  }
+  // }
 }
