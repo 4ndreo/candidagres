@@ -6,6 +6,8 @@ import * as turnosService from "../../services/turnos.service";
 import * as cursosService from "../../services/cursos.service";
 import Loader from "../basics/Loader";
 import TarjetaTurno from "../tarjeta-turno/TarjetaTurno";
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 
 export function VerTurnos() {
   let navigate = useNavigate();
@@ -13,7 +15,16 @@ export function VerTurnos() {
   const [turnos, setTurnos] = useState([]);
   const [curso, setCurso] = useState();
   const [error, setError] = useState([]);
-  const [selectedTurno, setSelectedTurno] = useState("");
+  const [selectedTurno, setSelectedTurno] = useState({});
+  const [hoveredTurno, setHoveredTurno] = useState("");
+
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  let daysCount = 0;
+
   const diasSemana = [
     {
       id: "D1",
@@ -41,23 +52,35 @@ export function VerTurnos() {
   useEffect(() => {
     turnosService.find().then((data) => {
       setTurnos(
-        data.sort(function (a, b) {
+        data?.sort(function (a, b) {
           return a.horarioInicio - b.horarioInicio;
         })
       );
-      cursosService
-        .findById(params?.idCurso)
-        .then((curso) => {
-          setCurso(curso);
-        })
-        .catch((err) => setError(err.message));
-      // console.log(params?.idCurso)
+      getCurso();
     });
   }, []);
 
-  function handleSelectedTurno(nombreTurno) {
-    setSelectedTurno(nombreTurno);
+  function getCurso(curso_id) {
+    cursosService
+    .findById(params?.idCurso || curso_id)
+    .then((curso) => {
+      setCurso(curso);
+    })
+    .catch((err) => setError(err.message));
+  // console.log(params?.idCurso)
+  }
+
+  function handleSelectedTurno(turno) {
+    setSelectedTurno(turno);
     console.log(selectedTurno);
+  }
+
+  function handleMouseOver(id) {
+    setHoveredTurno(id);
+  }
+
+  function handleMouseLeave() {
+    setHoveredTurno('');
   }
 
   if (curso && turnos.length > 0) {
@@ -82,6 +105,10 @@ export function VerTurnos() {
                             color={turno.color}
                             selectedTurno={selectedTurno}
                             handleSelectedTurno={handleSelectedTurno}
+                            handleMouseOver={handleMouseOver}
+                            handleMouseLeave={handleMouseLeave}
+                            hoveredTurno={hoveredTurno}
+                            handleShow={handleShow}
                           />
                         );
                       }
@@ -91,6 +118,40 @@ export function VerTurnos() {
               );
             })}
           </ul>
+          
+          <Modal show={show} onHide={handleClose} size="lg" variant="white">
+        <Modal.Header className="modal-title" closeButton>
+          <Modal.Title className="negritas">Inscribirse al curso de {curso.nombre}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p><span className="negritas">Detalle del curso:</span> {curso.descripcion}</p>
+          <p>
+          <span className="negritas">Dias y horario:</span>
+          {selectedTurno.dias?.map(dia => {
+            
+            daysCount++
+            return (
+              <span>{daysCount > 1 ? ', ' : ''} {diasSemana.find(o => o.id === dia).nombre}</span>
+              
+              )
+          })}
+          <span> de {selectedTurno.horarioInicio}hs a {selectedTurno.horarioFin}hs</span>
+          </p>
+          <p><span className="negritas">Docente:</span> {curso.profesor.charAt(0).toUpperCase() + curso.profesor.slice(1)}</p>
+          <p><span className="negritas">Precio:</span> ${curso.precio}</p>
+          </Modal.Body>
+        <Modal.Footer>
+        <Button className="btn-close-link" variant="link" onClick={handleClose}>
+            Cerrar
+          </Button>
+          <Link
+          to={"/id-" + selectedTurno + "/curso/id-" + curso._id}
+          className="btn btn-primary"
+        >
+          Inscribirse en este horario
+        </Link>
+        </Modal.Footer>
+      </Modal>
         </div>
       </main>
     );
