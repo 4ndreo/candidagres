@@ -41,3 +41,15 @@
   position: relative;
   display: block;
 }
+
+.btn-inscripto::after {
+  content: 'Ya estás inscripto';
+  transition: 0.15s ease-in-out all;
+  background: url(https://api.iconify.design/material-symbols:check-circle.svg?color=%23666666) no-repeat center left;
+  padding-left: 1.25rem;
+}
+.btn-inscripto:hover::after {
+  content: 'Darse de baja';
+  color: #dc3545;
+  background: url(https://api.iconify.design/material-symbols:cancel.svg?color=%23dc3545) no-repeat center left;
+}

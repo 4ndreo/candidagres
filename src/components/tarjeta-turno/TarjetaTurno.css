@@ -9,10 +9,10 @@
 .item-turno:hover {
   cursor: pointer;
 }
-.hoveredTurno {
-  background-color: red;
-}
-
 .item-turno h3 {
   font-size: 1rem;
+}
+
+.inscripto {
+  filter: contrast(30%);
 }
