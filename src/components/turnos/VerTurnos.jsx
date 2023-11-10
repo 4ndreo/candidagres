@@ -22,6 +22,7 @@ export function VerTurnos() {
   const [error, setError] = useState([]);
   const [selectedTurno, setSelectedTurno] = useState({});
   const [hoveredTurno, setHoveredTurno] = useState("");
+  const [selectedInscripcion, setSelectedInscripcion] = useState({});
 
   const [show, setShow] = useState(false);
 
@@ -55,55 +56,99 @@ export function VerTurnos() {
   const params = useParams();
 
   useEffect(() => {
-      getTurnos();
-      getInscripcionesByUser(value.currentUser._id);
+      // getTurnos();
+      // getInscripcionesByUser(value.currentUser._id);
+      getTurnos()
+      .then(() => {
+        getInscripcionesByUser(value.currentUser._id)
+        .then(() => {
+          getCurso();
+        })
+      })
+      ;
+    
   }, []);
   
   function getTurnos(curso_id) {
-    turnosService.find()
-    .then((data) => {
-      setTurnos(
-        data?.sort(function (a, b) {
-          return a.horarioInicio - b.horarioInicio;
-        })
-        )
-        getCurso();
-        
+    return new Promise((resolve, reject) => {
+      turnosService.find()
+      .then((data) => {
+        setTurnos(
+          data?.sort(function (a, b) {
+            return a.horarioInicio - b.horarioInicio;
+          })
+          )
+          resolve(); 
+      })
+      .catch((err) => {
+        setError(err.message);
+        reject(err);
+      });
+      
     })
-    .catch((err) => setError(err.message));
   }
 
   function getCurso(curso_id) {
-    cursosService
-    .findById(params?.idCurso || curso_id)
-    .then((curso) => {
-      setCurso(curso);
+    return new Promise((resolve, reject) => {
+      cursosService
+      .findById(params?.idCurso || curso_id)
+      .then((curso) => {
+        setCurso(curso);
+        resolve(); 
+      })
+      .catch((err) => {
+        setError(err.message);
+        reject(err);
+      });
     })
-    .catch((err) => setError(err.message));
-  // console.log(params?.idCurso)
   }
 
   function getInscripcionesByUser(user_id) {
-    inscripcionesService
-    .findByUser(user_id)
-    .then((inscripciones) => {
-      setInscripciones(inscripciones);
-      // if(inscripciones.length > 0) {
-        console.log(verifyInscripto('63743748932195c12d9856f0'));
-
-      // }
-      // verifyInscripto(inscripciones);
+    return new Promise((resolve, reject) => {
+      inscripcionesService
+      .findByUser(user_id)
+      .then((inscripciones) => {
+        setInscripciones(inscripciones);
+        resolve(); 
+      })
+      .catch((err) => {
+        setError(err.message);
+        reject(err);
+      });
     })
-    .then((res) => {
+  }
+  function handleInscripciones(curso) {
 
-    }
-    )
+    inscripcionesService.findAllByUserAndTurno(value.currentUser._id, curso._id)
+    .then((inscripciones) => {
+      console.log(inscripciones);
+      if(inscripciones[0].deleted){
+        restoreInscripciones(inscripciones[0]._id)
+      }
+    })
     .catch((err) => setError(err.message));
+    // inscripcionesService
+    // .remove(selectedInscripcion._id)
+    // .then((inscripciones) => {
+    //   console.log(inscripciones)
+    //   setInscripciones(inscripciones);
+    // })
+    // .catch((err) => setError(err.message));
+
+
+
+  }
+
+  function restoreInscripciones(inscripcion) {
+    inscripcionesService.update({deleted: false})
   }
 
   function handleSelectedTurno(turno) {
     setSelectedTurno(turno);
-    console.log(selectedTurno);
+  }
+
+  function handleSelectedInscripcion(inscripcion) {
+    setSelectedInscripcion(inscripcion[0]._id);
   }
 
   function handleMouseOver(id) {
@@ -115,7 +160,6 @@ export function VerTurnos() {
   }
 
   function verifyInscripto(turno_id) {
-    console.log(inscripciones)
     return inscripciones.map(inscripcion =>
       // {
       // console.log(inscripcioness)
@@ -141,16 +185,14 @@ export function VerTurnos() {
                           <TarjetaTurno
                             key={turno._id}
                             turno={turno}
-                            horInicio={turno.horarioInicio}
-                            horFin={turno.horarioFin}
-                            color={turno.color}
-                            selectedTurno={selectedTurno}
                             handleSelectedTurno={handleSelectedTurno}
+                            handleSelectedInscripcion={handleSelectedInscripcion}
                             handleMouseOver={handleMouseOver}
                             handleMouseLeave={handleMouseLeave}
                             hoveredTurno={hoveredTurno}
                             handleShow={handleShow}
                             verifyInscripto={verifyInscripto}
+                            inscripcion={inscripciones.filter(inscripcion => inscripcion.idUser === value.currentUser._id && inscripcion.idTurno === turno._id)}
                           />
                         );
                       }
@@ -162,55 +204,44 @@ export function VerTurnos() {
           </ul>
           
           <Modal show={show} onHide={handleClose} size="lg" variant="white">
-        <Modal.Header className="modal-title" closeButton>
-          <Modal.Title className="negritas">Inscribirse al curso de {curso.nombre}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <p><span className="negritas">Detalle del curso:</span> {curso.descripcion}</p>
-          <p>
-          <span className="negritas">Dias y horario:</span>
-          {selectedTurno.dias?.map(dia => {
-            
-            daysCount++
-            return (
-              <span key={dia}>{daysCount > 1 ? ', ' : ''} {diasSemana.find(o => o.id === dia).nombre}</span>
-              
-              )
-          })}
-          <span> de {selectedTurno.horarioInicio}hs a {selectedTurno.horarioFin}hs</span>
-          </p>
-          <p><span className="negritas">Docente:</span> {curso.profesor.charAt(0).toUpperCase() + curso.profesor.slice(1)}</p>
-          <p><span className="negritas">Precio:</span> ${curso.precio}</p>
-          </Modal.Body>
-        <Modal.Footer>
-        <Button className="btn-close-link" variant="link" onClick={handleClose}>
-            Cerrar
-          </Button>
-          {verifyInscripto(selectedTurno._id).some(val => val) ? 
-          //  <div className="btn-group dropup" role="group">
-          //  <button type="button" className="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-          //    Dropdown
-          //  </button>
-          //  <ul className="dropdown-menu">
-          //    <li>
-            <Link
-            to={"/id-" + selectedTurno._id + "/curso/id-" + curso._id}
-            className="btn-close-link btn-inscripto">
-              
-            </Link>
-        //     </li>
-        //      {/* <li><a className="dropdown-item" href="#">Dropdown link</a></li> */}
-        //    </ul>
-        //  </div>
-          : 
-            <Link
-            to={"/id-" + selectedTurno._id + "/curso/id-" + curso._id}
-            className="btn btn-primary"
-            >
-            Inscribirse en este horario
-          </Link>
-        }
-        </Modal.Footer>
+            <Modal.Header className="modal-title" closeButton>
+              <Modal.Title className="negritas">Inscribirse al curso de {curso.nombre}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <p><span className="negritas">Detalle del curso:</span> {curso.descripcion}</p>
+              <p>
+              <span className="negritas">Dias y horario:</span>
+              {selectedTurno.dias?.map(dia => {
+                
+                daysCount++
+                return (
+                  <span key={dia}>{daysCount > 1 ? ', ' : ''} {diasSemana.find(o => o.id === dia).nombre}</span>
+                  
+                  )
+              })}
+              <span> de {selectedTurno.horarioInicio}hs a {selectedTurno.horarioFin}hs</span>
+              </p>
+              <p><span className="negritas">Docente:</span> {curso.profesor.charAt(0).toUpperCase() + curso.profesor.slice(1)}</p>
+              <p><span className="negritas">Precio:</span> ${curso.precio}</p>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button className="btn-close-link" variant="link" onClick={handleClose}>Cerrar</Button>
+              {verifyInscripto(selectedTurno._id).some(val => val) ? 
+                <Button
+                to={"/id-" + selectedTurno._id + "/curso/id-" + curso._id}
+                className="btn-close-link btn-inscripto"
+                onClick={() => handleInscripciones(selectedTurno)}>
+                </Button>
+                : 
+                <Button
+                to={"/id-" + selectedTurno._id + "/curso/id-" + curso._id}
+                className="btn btn-primary"
+                onClick={() => handleInscripciones(selectedTurno)}
+                >
+                Inscribirse en este horario
+              </Button>
+              }
+            </Modal.Footer>
       </Modal>
         </div>
       </main>
