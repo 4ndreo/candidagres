@@ -24,6 +24,22 @@ async function findByUser(idUser) {
   }).then((response) => response.json());
 }
 
+async function findAllByUser(idUser) {
+  return fetch(url + "api/inscripcionesAll/user/" + idUser, {
+    headers: {
+      "auth-token": localStorage.getItem("token"),
+    },
+  }).then((response) => response.json());
+}
+
+async function findAllByUserAndTurno(idUser, idTurno) {
+  return fetch(url + "api/inscripcionesAll/user/" + idUser + "/turno/" + idTurno, {
+    headers: {
+      "auth-token": localStorage.getItem("token"),
+    },
+  }).then((response) => response.json());
+}
+
 async function create(inscripcion) {
   return fetch(url + "api/inscripciones/inscripcion", {
     method: "POST",
@@ -55,4 +71,4 @@ async function update(idInscripciones, inscripcion) {
   }).then((response) => response.json());
 }
 
-export { find, findById, findByUser, create, remove, update };
+export { find, findById, findByUser, findAllByUserAndTurno, findAllByUser, create, remove, update };
