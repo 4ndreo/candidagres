@@ -117,30 +117,58 @@ export function VerTurnos() {
       });
     })
   }
-  function handleInscripciones(curso) {
+  function handleInscripciones(turno) {
 
-    inscripcionesService.findAllByUserAndTurno(value.currentUser._id, curso._id)
+    inscripcionesService.findAllByUserAndTurno(value.currentUser._id, turno._id)
     .then((inscripciones) => {
-      console.log(inscripciones);
+      if(inscripciones.length === 0){
+        return createInscripcion(turno).then(() => {
+          getInscripcionesByUser(value.currentUser._id)
+
+        })
+      }
       if(inscripciones[0].deleted){
-        restoreInscripciones(inscripciones[0]._id)
+        console.log('inscripciones', inscripciones[0])
+        return restoreInscripciones(inscripciones[0]._id).then(() => {
+          getInscripcionesByUser(value.currentUser._id)
+          
+        })
+      } else {
+        return inscripcionesService.remove(inscripciones[0]._id)
+        .then(() => {
+          getInscripcionesByUser(value.currentUser._id)
+          // setInscripciones(inscripciones);
+        })
+        .catch((err) => setError(err.message));
       }
     })
     .catch((err) => setError(err.message));
-    // inscripcionesService
-    // .remove(selectedInscripcion._id)
-    // .then((inscripciones) => {
-    //   console.log(inscripciones)
-    //   setInscripciones(inscripciones);
-    // })
-    // .catch((err) => setError(err.message));
-
-
-
   }
 
-  function restoreInscripciones(inscripcion) {
-    inscripcionesService.update({deleted: false})
+  function createInscripcion(data){
+    return new Promise((resolve, reject) => {
+      inscripcionesService.create({idCurso: data.idCurso, idTurno: data._id, idUser: value.currentUser._id })
+      .then((data) => {
+        resolve();
+      })
+      .catch((err) => {
+        setError(err.message);
+        reject(err);
+      });
+    })
+  }
+
+  function restoreInscripciones(inscripcionId) {
+    return new Promise((resolve, reject) => {
+      inscripcionesService.update(inscripcionId, {deleted: false})
+      .then(() => {
+        resolve();
+      })
+      .catch((err) => {
+        setError(err.message);
+        reject(err);
+      });
+    })
   }
 
   function handleSelectedTurno(turno) {
@@ -148,7 +176,9 @@ export function VerTurnos() {
   }
 
   function handleSelectedInscripcion(inscripcion) {
-    setSelectedInscripcion(inscripcion[0]._id);
+    if(inscripcion.length > 0) {
+      setSelectedInscripcion(inscripcion[0]._id);
+    }
   }
 
   function handleMouseOver(id) {
@@ -161,10 +191,7 @@ export function VerTurnos() {
 
   function verifyInscripto(turno_id) {
     return inscripciones.map(inscripcion =>
-      // {
-      // console.log(inscripcioness)
       Object.values(inscripcion).some((arrVal) => turno_id === arrVal)
-    // }
     )
   }
 
