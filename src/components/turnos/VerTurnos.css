@@ -1,10 +1,14 @@
+.cont-turno {
+  /* overflow: hidden; */
+  max-width: 100%;
+  overflow: auto;
+}
+
 .cont-listado-dias {
   display: flex;
   gap: 1rem;
   width: 100%;
-}
-
-.dia-not-selected {
+  min-width: 1100px;
 }
 
 .modal-title {
@@ -42,6 +46,14 @@
   display: block;
 }
 
+.btn-inscripto {
+  background: none;
+  border: none;
+}
+.btn-inscripto:hover {
+  background: none;
+  border: none;
+}
 .btn-inscripto::after {
   content: 'Ya estás inscripto';
   transition: 0.15s ease-in-out all;
