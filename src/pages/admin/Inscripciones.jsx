@@ -72,7 +72,7 @@ export default function Inscripciones() {
                   <p>Alumno: {inscripcion.nombre}</p>
                   {/* <p>Dia: {handleTurno(inscripcion)}</p> */}
                   {/* <p>Dia: {inscripcion.dia}</p> */}
-                  <p>Metodo de Pago: {inscripcion.formaPago}</p>
+                  <p>Método de Pago: {inscripcion.formaPago}</p>
                   <Link
                     to={"inscripcion/id-" + inscripcion._id}
                     className="btn btn-warning me-2"
