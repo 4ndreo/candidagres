@@ -23,7 +23,7 @@ export function CreateCurso({ title }) {
   function handleSubmit(e) {
     e.preventDefault();
     cursosService
-      .create({ nombre, descripcion, duracion })
+      .create({ nombre, descripcion, duracion, precio })
       .then((data) => {
         navigate("/panel/cursos", { replace: true });
       })
@@ -56,6 +56,7 @@ export function CreateCurso({ title }) {
           <label className="form-label">A que hora comienza el curso</label>
           <input
             type="number"
+            max="24"
             defaultValue={0}
             required
             onChange={(e) => setDuracion(parseInt(e.target.value))}
@@ -68,7 +69,7 @@ export function CreateCurso({ title }) {
             type="number"
             defaultValue={0}
             required
-            onChange={(e) => setDuracion(parseInt(e.target.value))}
+            onChange={(e) => setPrecio(parseInt(e.target.value))}
             className="form-control"
           />
         </div>
