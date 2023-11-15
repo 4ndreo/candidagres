@@ -52,3 +52,7 @@ main {
   /* font-family: 'Satoshi-Bold'; */
   font-weight: initial !important;
 }
+
+.btn-primary {
+  background-color: var(--main-blue);
+}
