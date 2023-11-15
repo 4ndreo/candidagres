@@ -1,17 +1,17 @@
 import React, { useEffect, useState, useContext } from "react";
-import * as cursosService from "../../services/cursos.service";
+import * as productosService from "../../services/productos.service";
 import { useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../../App";
 
-export function CreateCurso({ title }) {
+export function CreateProducto({ title }) {
   const value = useContext(AuthContext);
 
   let navigate = useNavigate();
 
-  const [nombre, setNombre] = useState("");
   const [descripcion, setDescripcion] = useState("");
-  const [duracion, setDuracion] = useState();
+  const [demora_producto, setDemora] = useState();
   const [precio, setPrecio] = useState();
+  const [material, setMaterial] = useState();
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -22,10 +22,10 @@ export function CreateCurso({ title }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    cursosService
-      .create({ nombre, descripcion, duracion, precio })
+    productosService
+      .create({ descripcion, demora_producto, precio, material })
       .then((data) => {
-        navigate("/panel/cursos", { replace: true });
+        navigate("/Productos", { replace: true });
       })
       .catch((err) => setError(err.message));
   }
@@ -34,15 +34,6 @@ export function CreateCurso({ title }) {
     <main className="container edit-cont">
       <h1>Crear - {title}</h1>
       <form onSubmit={handleSubmit}>
-        <div className="mb-3">
-          <label className="form-label">Ingrese el nombre de la clase</label>
-          <input
-            type="text"
-            required
-            onChange={(e) => setNombre(e.target.value)}
-            className="form-control"
-          />
-        </div>
         <div className="mb-3">
           <label className="form-label">Ingrese la descripción de la clase</label>
           <input
@@ -53,23 +44,31 @@ export function CreateCurso({ title }) {
           />
         </div>
         <div className="mb-3">
-          <label className="form-label">A que hora comienza el curso</label>
+          <label className="form-label">¿En cuantos dias estimas la entrega?</label>
           <input
             type="number"
-            max="24"
             defaultValue={0}
             required
-            onChange={(e) => setDuracion(parseInt(e.target.value))}
+            onChange={(e) => setDemora(parseInt(e.target.value))}
             className="form-control"
           />
         </div>
         <div className="mb-3">
-          <label className="form-label">Cuanto cuesta el curso</label>
+          <label className="form-label">¿Cuanto cuesta el producto?</label>
           <input
             type="number"
             defaultValue={0}
             required
             onChange={(e) => setPrecio(parseInt(e.target.value))}
+            className="form-control"
+          />
+        </div>
+        <div className="mb-3">
+          <label className="form-label">¿De que material esta hecho?</label>
+          <input
+            type="text"
+            required
+            onChange={(e) => setMaterial(e.target.value)}
             className="form-control"
           />
         </div>

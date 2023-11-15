@@ -1,32 +1,32 @@
 import "../css/Edit.css";
 import React, { useEffect, useState, useContext } from "react";
-import * as cursosService from "../../services/cursos.service";
+import * as productosService from "../../services/productos.service";
 import * as Constants from "../../Constants";
 import { useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../../App";
 
-export function EditCurso({ title }) {
+export function EditProducto({ title }) {
   const value = useContext(AuthContext);
 
   let navigate = useNavigate();
   const params = useParams();
 
-  const [nombre, setNombre] = useState("");
   const [descripcion, setDescripcion] = useState("");
-  const [duracion, setDuracion] = useState();
+  const [demora_producto, setDemora] = useState();
   const [precio, setPrecio] = useState();
+  const [material, setMaterial] = useState();
   const [icons, setIcons] = useState([]);
   const [error, setError] = useState("");
   const [checked, setChecked] = useState({});
 
   useEffect(() => {
-    cursosService
-      .findById(params?.idCurso)
-      .then((curso) => {
-        setNombre(curso.nombre);
-        setDescripcion(curso.descripcion);
-        setDuracion(curso.duracion);
-        setPrecio(curso.precio);
+    productosService
+      .findById(params?.idProducto)
+      .then((producto) => {
+        setDescripcion(producto.descripcion);
+        setDemora(producto.demora_producto);
+        setPrecio(producto.precio);
+        setMaterial(producto.material);
       })
       .catch((err) => setError(err.message));
 
@@ -37,10 +37,10 @@ export function EditCurso({ title }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    cursosService
-      .update(params?.idCurso, { nombre, descripcion, duracion, precio })
+    productosService
+      .update(params?.idProducto, {  descripcion, demora_producto, precio, material })
       .then((data) => {
-        navigate("/panel/cursos", { replace: true });
+        navigate("/Productos", { replace: true });
       });
   }
 
@@ -49,17 +49,9 @@ export function EditCurso({ title }) {
       <h1>Editar - {title}</h1>
       <form onSubmit={handleSubmit} className="form">
         <div className="mb-3">
-          <label className="form-label">Ingrese el nombre de la clase</label>
-          <input
-            type="text"
-            defaultValue={nombre}
-            required
-            onChange={(e) => setNombre(e.target.value)}
-            className="form-control"
-          />
         </div>
         <div className="mb-3">
-          <label className="form-label">Ingrese la descripción de la clase</label>
+          <label className="form-label">Ingrese la descripción del producto</label>
           <input
             type="text"
             defaultValue={descripcion}
@@ -69,12 +61,12 @@ export function EditCurso({ title }) {
           />
         </div>
         <div className="mb-3">
-          <label className="form-label">Defina la duración de la clase (en horas)</label>
+          <label className="form-label">Defina cuantos dias va a tardar</label>
           <input
             type="number"
-            defaultValue={duracion}
+            defaultValue={demora_producto}
             required
-            onChange={(e) => setDuracion(parseInt(e.target.value))}
+            onChange={(e) => setDemora(parseInt(e.target.value))}
             className="form-control"
           />
         </div>
@@ -85,6 +77,16 @@ export function EditCurso({ title }) {
               defaultValue={precio}
               required
               onChange={(e) => setPrecio(parseInt(e.target.value))}
+              className="form-control"
+          />
+        </div>
+        <div className="mb-3">
+          <label className="form-label">Defina el material del producto</label>
+          <input
+              type="text"
+              defaultValue={material}
+              required
+              onChange={(e) => setMaterial(e.target.value)}
               className="form-control"
           />
         </div>

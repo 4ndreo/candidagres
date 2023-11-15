@@ -25,6 +25,10 @@ import { CreateInscripcion } from "./components/inscripcion/CreateInscripcion";
 import { CreateInscripcionUser } from "./components/inscripcion/CreateInscripcionUser";
 import { EditInscripcion } from "./components/inscripcion/EditInscripcion";
 
+import Productos from "./pages/admin/Productos";
+import { CreateProducto } from "./components/productos/CreateProducto";
+import { EditProducto } from "./components/productos/EditProducto";
+
 import Perfil from "./pages/Perfil";
 import { PerfilTurnos } from "./components/perfil/PerfilTurnos";
 
@@ -108,6 +112,20 @@ function App() {
             path="/id-:idTurnos/curso/id-:idCurso"
             element={<CreateInscripcionUser title={"Inscripción"} />}
           />
+
+          {/* --------------- / ---------------- */}
+
+          {/* Rutas de Productos */}
+          <Route path="/productos" element={<Productos />} />
+          <Route
+            path="/productos/producto"
+            element={<CreateProducto title={"Producto"} />}
+          />
+          <Route
+            path="/productos/producto/id-:idProducto"
+            element={<EditProducto title={"Producto"} />}
+          />
+
 
           {/* Rutas Perfil */}
           <Route path="/perfil" element={<Perfil />} />
