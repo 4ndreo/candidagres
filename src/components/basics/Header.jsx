@@ -61,6 +61,9 @@ export default function Header() {
                       <Link to="/Inscripciones" className="dropdown-item">
                         Inscripciones
                       </Link>
+                      <Link to="/Productos" className="dropdown-item">
+                        Productos
+                      </Link>
                     </NavDropdown>
                     ) : (
                       ''
