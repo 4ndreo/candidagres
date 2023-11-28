@@ -35,7 +35,8 @@ export default function Header() {
                     <p>Descripción: {curso.descripcion}</p>
                     <p>Duración: {curso.duracion} horas</p>
                     <p>Precio: ${curso.precio}</p>
-                    <p><Link to={"/turnos/turno/ver-" + curso._id} className="btn btn-primary">Ver turnos disponibles</Link></p>
+                    <p><Link to={"/turnos/turno/ver-" + curso._id}
+                             className="btn btn-primary">Ver turnos disponibles</Link></p>
                   </li>
               );
             })}
