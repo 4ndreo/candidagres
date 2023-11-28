@@ -10,8 +10,6 @@ import Loader from "../components/basics/Loader";
 
 export default function VerProductoId() {
 
-    const value = useContext(AuthContext);
-    let navigate = useNavigate();
     const params = useParams();
 
     const [nombre, setNombre] = useState("");
@@ -23,12 +21,6 @@ export default function VerProductoId() {
 
 
 
-
-    useEffect(() => {
-        if (value.currentUser.role !== 1) {
-            navigate("/", { replace: true });
-        }
-    }, []);
 
     useEffect(() => {
         productosService.findById(params?.idProducto).then((producto) => {

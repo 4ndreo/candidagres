@@ -11,15 +11,7 @@ import Loader from "../components/basics/Loader";
 export default function Tienda() {
   const [productos, setProductos] = useState([]);
 
-  const value = useContext(AuthContext);
 
-  let navigate = useNavigate();
-
-  useEffect(() => {
-    if (value.currentUser.role !== 1) {
-      navigate("/", { replace: true });
-    }
-  }, []);
 
   useEffect(() => {
     productosService.find().then((data) => {
