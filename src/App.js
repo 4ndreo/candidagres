@@ -29,6 +29,9 @@ import Productos from "./pages/admin/Productos";
 import { CreateProducto } from "./components/productos/CreateProducto";
 import { EditProducto } from "./components/productos/EditProducto";
 
+import Tienda from "./pages/Tienda";
+import VerProductoId from "./pages/VerProductoId"
+
 import Perfil from "./pages/Perfil";
 import { PerfilTurnos } from "./components/perfil/PerfilTurnos";
 
@@ -126,6 +129,10 @@ function App() {
             element={<EditProducto title={"Producto"} />}
           />
 
+          {/* Rutas de Tienda */}
+          <Route path="/tienda" element={<Tienda />} />
+
+          <Route path="/tienda/producto/id-:idProducto" element={<VerProductoId />} />
 
           {/* Rutas Perfil */}
           <Route path="/perfil" element={<Perfil />} />
