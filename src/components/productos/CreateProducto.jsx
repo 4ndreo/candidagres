@@ -8,34 +8,52 @@ export function CreateProducto({ title }) {
 
   let navigate = useNavigate();
 
+  const [nombre, setNombre] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [demora_producto, setDemora] = useState();
   const [precio, setPrecio] = useState();
   const [material, setMaterial] = useState();
+  const [imagen, setImagen] = useState(null);
   const [error, setError] = useState("");
 
   useEffect(() => {
     if (value.currentUser.role !== 1) {
       navigate("/", { replace: true });
     }
+    setMaterial("Gres")
   }, []);
 
   function handleSubmit(e) {
     e.preventDefault();
     productosService
-      .create({ descripcion, demora_producto, precio, material })
+      .create({ nombre, descripcion, demora_producto, precio, material, imagen })
       .then((data) => {
         navigate("/Productos", { replace: true });
       })
       .catch((err) => setError(err.message));
   }
 
+  const handleImagenChange = (event) => {
+    const archivo = event.target.files[0];
+    setImagen(archivo);
+    console.log(archivo)
+  };
+
   return (
     <main className="container edit-cont">
       <h1>Crear - {title}</h1>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
-          <label className="form-label">Ingrese la descripción de la clase</label>
+          <label className="form-label">Nombre del producto</label>
+          <input
+            type="text"
+            required
+            onChange={(e) => setNombre(e.target.value)}
+            className="form-control"
+          />
+        </div>
+        <div className="mb-3">
+          <label className="form-label">Ingrese una breve descripción del producto</label>
           <input
             type="text"
             required
@@ -67,9 +85,19 @@ export function CreateProducto({ title }) {
           <label className="form-label">¿De que material esta hecho?</label>
           <input
             type="text"
+            value={material}
             required
             onChange={(e) => setMaterial(e.target.value)}
             className="form-control"
+          />
+        </div>
+        <div className="mb-3">
+          <label className="form-label">Subir Imagen:</label>
+          <input
+              type="file"
+              // accept="image/*"
+              onChange={handleImagenChange}
+              className="form-control"
           />
         </div>
         <button type="submit" className="btn btn-primary">
