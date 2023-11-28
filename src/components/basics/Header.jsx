@@ -49,6 +49,7 @@ export default function Header() {
                 ) : (
                   <>
                     <Link to="/cursos">Clases</Link>
+                    <Link to="/tienda">Tienda</Link>
                     <Link to="/perfil">Perfil</Link>
                   {value.currentUser.role === 1 ? (
                     <NavDropdown title="Panel" className="panel-ddown">
