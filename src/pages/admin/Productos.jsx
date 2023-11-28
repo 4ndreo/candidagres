@@ -43,6 +43,7 @@ export default function Productos() {
                         // return <p>{curso.horario}</p>
                         return (
                             <li key={producto._id}>
+                                <p>Nombre: {producto.nombre}</p>
                                 <p>Descripción: {producto.descripcion}</p>
                                 <p>Precio: $ {producto.precio} </p>
                                 <p>Demora: {producto.demora_producto} dias </p>

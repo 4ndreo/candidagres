@@ -11,6 +11,7 @@ export function EditProducto({ title }) {
   let navigate = useNavigate();
   const params = useParams();
 
+  const [nombre, setNombre] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [demora_producto, setDemora] = useState();
   const [precio, setPrecio] = useState();
@@ -23,6 +24,7 @@ export function EditProducto({ title }) {
     productosService
       .findById(params?.idProducto)
       .then((producto) => {
+        setNombre(producto.nombre);
         setDescripcion(producto.descripcion);
         setDemora(producto.demora_producto);
         setPrecio(producto.precio);
@@ -38,7 +40,7 @@ export function EditProducto({ title }) {
   function handleSubmit(e) {
     e.preventDefault();
     productosService
-      .update(params?.idProducto, {  descripcion, demora_producto, precio, material })
+      .update(params?.idProducto, {  nombre, descripcion, demora_producto, precio, material })
       .then((data) => {
         navigate("/Productos", { replace: true });
       });
@@ -49,6 +51,16 @@ export function EditProducto({ title }) {
       <h1>Editar - {title}</h1>
       <form onSubmit={handleSubmit} className="form">
         <div className="mb-3">
+        </div>
+        <div className="mb-3">
+          <label className="form-label">Ingrese el nombre del producto</label>
+          <input
+            type="text"
+            defaultValue={nombre}
+            required
+            onChange={(e) => setNombre(e.target.value)}
+            className="form-control"
+          />
         </div>
         <div className="mb-3">
           <label className="form-label">Ingrese la descripción del producto</label>
