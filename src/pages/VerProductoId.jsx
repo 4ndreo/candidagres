@@ -47,9 +47,9 @@ export default function VerProductoId() {
                         <li>Material: {material}</li>
                     </ul>
 
-                    <Link to="/tienda" className="btn btn-primary mt-3">
-                        Volver
-                    </Link>
+                    {/*<Link to="/tienda" className="btn btn-primary mt-3">*/}
+                    {/*    Volver*/}
+                    {/*</Link>*/}
                 </div>
             </main>
         );
