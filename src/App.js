@@ -143,6 +143,10 @@ function App() {
           />
         </Routes>
 
+        {/* Rutas de Carrito de Compras */}
+
+
+
         <Footer></Footer>
         <script src="https://cdn.lordicon.com/qjzruarw.js"></script>
       </AuthContext.Provider>
