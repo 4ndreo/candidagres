@@ -66,12 +66,28 @@ export default function Tienda() {
 
   function crearCarritoParaUsuario(usuarioId){
     carritoService.create({usuarioId, total, productosComprar})
-            .then(() =>{
+            .then((data) =>{
+              console.log(data)
+              console.log(usuarioId)
+              const idNewCarrito = traerIdNewCarrito(data, usuarioId)
+              console.log(idNewCarrito);
+              setCarritoId(idNewCarrito)
+              //todo recibir idCarrito y setearlo para poder mandarlo en el update
             })
             .catch((err) => {
               setError(err.message)
               console.log("estoy en .create carritoService")
             });
+  }
+
+
+  function traerIdNewCarrito(carritos, idUsuario) {
+
+    const objetoEncontrado = carritos.find(carrito => carrito.usuarioId === idUsuario);
+    return objetoEncontrado ? objetoEncontrado._id : null;
+
+
+
   }
 
 
