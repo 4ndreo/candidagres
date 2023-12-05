@@ -59,7 +59,18 @@ async function update(idCarrito, total, productoEnCarrito) {
         body: JSON.stringify({ total, productosComprar: productoEnCarrito }),
     }).then((response) => true);
 }
+async function updateElimiarProducto(idCarrito, total, productoEnCarrito) {
+
+    return fetch(url + "api/carrito/user/" + idCarrito, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+            'auth-token': localStorage.getItem('token')
+        },
+        body: JSON.stringify({ total, productosComprar: productoEnCarrito }),
+    }).then((response) => response.json());
+}
 
 
 
-export { find, findById,findByIdUser, create, remove, update };
+export { find, findById,findByIdUser, create, remove, update,updateElimiarProducto };
