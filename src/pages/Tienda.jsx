@@ -18,9 +18,10 @@ export default function Tienda() {
   const [carritoId, setCarritoId] = useState("");
   const [nombre, setNombre] = useState("");
   const [precio, setPrecio] = useState();
-  const [total, setTotal] = useState();
+  const [total, setTotal] = useState(0);
   const [producto, setProducto] = useState([]);
   const [agregadoCorrectamente, setAgregadoCorrectamente] = useState(false);
+  const [productoAgregado, setProductoAgregado] = useState("");
   const [error, setError] = useState("");
 
 
@@ -28,10 +29,12 @@ export default function Tienda() {
   useEffect(() => {
     productosService.find().then((data) => {
       setProductos(data);
-     // console.log(data)
+
+    }).catch((err) => {
+      setError(err.message)
+      console.log("estoy en el useEffect")
     });
 
-    console.log(agregadoCorrectamente)
   }, []);
 
 
@@ -44,116 +47,89 @@ export default function Tienda() {
     let usuarioId = usuarioObjeto._id
     setUsuarioId(usuarioObjeto._id)
 
-    carritoService.find().then((data) => {
+
+    carritoService.findByIdUser(usuarioId).then((data) => {
       console.log(data)
-      buscarCarritoParaId(data, usuarioObjeto._id)
 
-      if(!buscarCarritoParaId(data, usuarioObjeto._id)){
-
-      //  console.log(buscarCarritoParaId(data, usuarioObjeto._id), usuarioId, total, productosComprar)
-        carritoService.create({usuarioId, total, productosComprar})
-            .then()
-            .catch((err) => setError(err.message));
-        setTotal(0)
+      if(data === null) {
+        crearCarritoParaUsuario(usuarioId)
       } else {
-        let objetoFiltrado = data.find(objeto => objeto.usuarioId === usuarioObjeto._id);
-
-        // Verificar si se encontró el objeto
-        if (objetoFiltrado) {
-          // Obtener el valor del campo 'total' del objeto encontrado
-         setTotal(objetoFiltrado.total);
-
-        }
+        setCarritoId(data._id)
+        setProductosComprar(data.productosComprar)
+        console.log(data.productosComprar)
+        setTotal(data.total)
       }
-      // console.log(data[0].total)
-      // console.log(buscarCarritoParaId(data, usuarioObjeto._id))
+    })
 
-    });
 
   }, []);
 
+  function crearCarritoParaUsuario(usuarioId){
+    carritoService.create({usuarioId, total, productosComprar})
+            .then(() =>{
+            })
+            .catch((err) => {
+              setError(err.message)
+              console.log("estoy en .create carritoService")
+            });
+  }
 
 
 
 
 
   function handleClick (productoId) {
-    console.log(productoId)
+   console.log(productos)
 
-    productosService.findById(productoId).then((data) => {
 
-      // setProducto(data)
-      // console.log(data)
-      guardarProducto(data)
-    });
+    const productoEncontrado = productos.find(producto => producto._id === productoId);
+
+   console.log(productoEncontrado.nombre, productoEncontrado.precio)
+
+    console.log(total + productoEncontrado.precio)
+    let newTotal = total + productoEncontrado.precio
+    setTotal(newTotal)
+    guardarProducto(productoEncontrado.nombre, productoEncontrado.precio, productoEncontrado._id,newTotal)
+
+
+
+  }
+
+  function guardarProducto (nombre, precio,idProducto, newTotal){
+
+    //esto sirve para mostrar el nombre en pantalla del producto agregado con un cartel verde
+    setProductoAgregado(nombre)
+
+    let nuevoProducto = {nombre: nombre, precio: precio, id:idProducto}
+    setProductosComprar(productosComprar => [...productosComprar, nuevoProducto])
+
+    console.log(newTotal)
+
+    actualizarBaseDeDatos(nuevoProducto, newTotal)
 
 
   }
 
-  function guardarProducto (producto){
+  function actualizarBaseDeDatos(nuevoProducto, totalNuevo) {
 
 
-    let detallesProducto = [{nombre: producto.nombre, precio: producto.precio}]
-    let totalNuevo = total + producto.precio
-
-    console.log("Detalles del producto",detallesProducto,
-                "Total",total,
-                "Total nuevo",totalNuevo)
-    // setTotal(totalNuevo)
-
-    carritoService.find().then((data) => {
-      console.log(data)
-      if(buscarCarritoParaId(data, usuarioId)){
-        console.log("Existe un carrito abierto para este usuario")
-        // if (total !== null && total !== undefined) {
-        console.log(carritoId, totalNuevo, detallesProducto)
-          carritoService.update(carritoId, totalNuevo, detallesProducto)
-              .then((msg) => {
-                console.log(msg)
-                if(msg){
-                  setAgregadoCorrectamente(msg)
-                } else {
-                  setAgregadoCorrectamente(false)
-                }
-              })
-              .catch((err) => setError(err.message));
-        // }
-      } else {
-        console.log("No existe un carrito abierto para este usuario")
-
-      }
-    });
-    console.log("Producto recibido:", producto._id)
+    carritoService.update(carritoId, totalNuevo, nuevoProducto)
+        .then((msg) => {
+          //  console.log(msg)
+          if(msg){
+            setAgregadoCorrectamente(msg)
+          } else {
+            setAgregadoCorrectamente(false)
+          }
+        })
+        .catch((err) => {
+          setError(err.message)
+          console.log("estoy en el update")
+        });
 
   }
 
 
-  function buscarCarritoParaId(carritoEnLaBase, userId) {
-    console.log('Datos de entrada:', carritoEnLaBase, userId);
-
-    // Filtra los carritos abiertos en la base y corrobora (si hay) que sean del usuario actual
-    const carritosAbiertos = carritoEnLaBase.filter(producto => !producto.deleted && producto.usuarioId === userId);
-
-    console.log('Carritos abiertos para este usuario:', carritosAbiertos);
-
-    if (carritosAbiertos.length > 0) {
-      console.log('Se encontraron carritos abiertos para este usuario', userId, ':', carritosAbiertos);
-
-      // Recorremos el carrito abierto del usuario
-      carritosAbiertos.forEach(carrito => {
-        console.log('ID del carrito:', carrito._id);
-        setCarritoId(carrito._id)
-        //setTotal(carrito.total)
-
-      });
-
-      return true;
-    } else {
-      console.log('No se encontraron carritos abiertos para este usuario', userId);
-      setTotal(0)
-      return false;
-    }
-  }
 
 
 
@@ -169,7 +145,7 @@ export default function Tienda() {
                 <div className="sidebar-sticky">
                   <Nav className="flex-column">
                     <Nav.Link href="#" className="nav-link active">Tienda</Nav.Link>
-                    <Nav.Link href="#" className="nav-link">Carrito de Compras</Nav.Link>
+                    <Nav.Link href={`/carrito/id-${carritoId}`} className="nav-link">Carrito de Compras</Nav.Link>
                     <Nav.Link href="#" className="nav-link">Historial</Nav.Link>
                   </Nav>
                 </div>
@@ -180,7 +156,7 @@ export default function Tienda() {
                   <h1>Tienda</h1>
                   {agregadoCorrectamente && (
                       <div className="alert alert-success" role="alert">
-                        Agregado exitosamente
+                        <b>{productoAgregado}</b> se agrego exitosamente a tu carrito
                       </div>
                   )}
                   {/*<p>Total: {total}</p>*/}
