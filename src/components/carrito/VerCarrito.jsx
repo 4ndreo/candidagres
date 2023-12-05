@@ -17,6 +17,8 @@ export function VerCarrito() {
     const [productosComprar, setProductosComprar] = useState([]);
     const [total, setTotal] = useState(0);
     const [nombre, setNombre] = useState("");
+    const [eliminadoCorrectamente, setEliminadoCorrectamente] = useState(false);
+    // const [productoEliminado, setProductoEliminado] = useState("");
     const [error, setError] = useState("");
 
 
@@ -31,22 +33,25 @@ export function VerCarrito() {
         console.log(usuarioObjeto.email);
 
 
-        carritoService.findById(params?.idCarrito).then((carrito) => {
+        traerCarritoUsuario(params?.idCarrito)
+
+    }, []);
+
+
+    function traerCarritoUsuario(idCarrito) {
+
+        carritoService.findById(idCarrito).then((carrito) => {
 
             setTotal(carrito.total);
             setProductosComprar(carrito.productosComprar)
 
             console.log(carrito.total, carrito.productosComprar)
         }).catch((err) => setError(err.message));
-
-
-    }, []);
-
+    }
 
     function handleClick (productoId) {
         console.log(productoId)
         console.log(productosComprar)
-        //todo seguir aca
 
 
         let indice = productosComprar.findIndex(objeto => objeto.id === productoId)
@@ -60,14 +65,16 @@ export function VerCarrito() {
         let sumaPrecios = productosComprar.reduce((acumulador, objeto) => acumulador + objeto.precio, 0);
 
 
-        // carritoService.updateElimiarProducto(params?.idCarrito, sumaPrecios, productosComprar)
-        //     .then((msg) => {
-        //         console.log(msg)
-        //     }).catch((err) => setError(err.message))
+        carritoService.updateElimiarProducto(params?.idCarrito, sumaPrecios, productosComprar)
+            .then((carrito) => {
+                console.log(carrito.productosComprar)
+                setProductosComprar(carrito.productosComprar)
+                setTotal(carrito.total)
+            }).catch((err) => setError(err.message))
 
         console.log(productosComprar, sumaPrecios)
 
-
+        setEliminadoCorrectamente(true)
 
     }
 
@@ -92,6 +99,11 @@ export function VerCarrito() {
                 <Col md={10} className="ml-md-auto px-md-4">
                     <div className="cont-admin-cursos">
                         <h1>Productos seleccionados de {nombre}</h1>
+                        {eliminadoCorrectamente && (
+                            <div className="alert alert-danger" role="alert">
+                                Producto eliminado de tu carrito
+                            </div>
+                        )}
                         {/*{agregadoCorrectamente && (*/}
                         {/*    <div className="alert alert-success" role="alert">*/}
                         {/*        Agregado exitosamente*/}
@@ -100,9 +112,11 @@ export function VerCarrito() {
 
                         <p><b>Total:</b> ${total}</p>
 
+
+
                         <ul className="listado-cursos">
                             {productosComprar
-                                .sort((a, b) => a.nombre.localeCompare(b.nombre))
+                                // .sort((a, b) => a.nombre.localeCompare(b.nombre))
                                 .map((producto, index) => (
                                     <li key={`${index}`}>
                                         {/* Resto del código del mapeo */}
