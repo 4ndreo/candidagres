@@ -18,6 +18,16 @@ async function findById(idCarrito) {
     );
 }
 
+async function findByIdUser(idUser) {
+    return fetch(url + "api/carrito/user/" + idUser, {
+        headers: {
+            'auth-token': localStorage.getItem('token')
+        }
+    }).then((response) =>
+        response.json()
+    );
+}
+
 async function create(carrito) {
     return fetch(url + "api/carrito/carrito", {
         method: "POST",
@@ -38,16 +48,18 @@ async function remove(idCarrito) {
     }).then((response) => response.json());
 }
 
-async function update(idCarrito, total, [producto]) {
+async function update(idCarrito, total, productoEnCarrito) {
+    console.log("service.carrito",productoEnCarrito)
     return fetch(url + "api/carrito/" + idCarrito, {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json",
             'auth-token': localStorage.getItem('token')
         },
-        body: JSON.stringify({ total, productosComprar: producto }), // Agrega JSON.stringify para total
+        body: JSON.stringify({ total, productosComprar: productoEnCarrito }),
     }).then((response) => true);
 }
 
 
-export { find, findById, create, remove, update };
+
+export { find, findById,findByIdUser, create, remove, update };

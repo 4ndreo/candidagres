@@ -35,6 +35,8 @@ import VerProductoId from "./pages/VerProductoId"
 import Perfil from "./pages/Perfil";
 import { PerfilTurnos } from "./components/perfil/PerfilTurnos";
 
+import {VerCarrito} from "./components/carrito/VerCarrito"
+
 export const AuthContext = createContext();
 
 function App() {
@@ -141,9 +143,14 @@ function App() {
             path="perfil/turno/id-:idTurno/inscripcion/id-:idInscripcion"
             element={<PerfilTurnos title={"Turnos"} />}
           />
+
+
+          {/* Rutas de Carrito de Compras */}
+
+          <Route path="/carrito/id-:idCarrito" element={<VerCarrito />} title={"Compras"} />
+
         </Routes>
 
-        {/* Rutas de Carrito de Compras */}
 
 
 
