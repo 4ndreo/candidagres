@@ -1,6 +1,6 @@
 import "./css/Turnos.css";
 
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import * as inscripcionesService from "../services/inscripciones.service";
 import * as cursosService from "../services/cursos.service";
@@ -9,16 +9,41 @@ import { AuthContext } from "../App";
 import Loader from "../components/basics/Loader";
 
 export default function Turnos() {
-  let inscripciones = [];
+  // let inscripciones = [];
+  let cursos = [];
+  let turnos = [];
+  const [groupedInscripciones, setGroupedInscripciones] = useState([]);
 
   const [nombre, setNombre] = useState("");
+  const [inscripciones, setInscripciones] = useState([]);
   const [idUser, setIdUser] = useState("");
-  const [cursos, setCursos] = useState([]);
-  const [turnos, setTurnos] = useState([]);
   const [inscripcionesUsuario, setInscripcionesUsuario] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const value = useContext(AuthContext);
+
+  const diasSemana = [
+    {
+      id: "D1",
+      nombre: "Lunes",
+    },
+    {
+      id: "D2",
+      nombre: "Martes",
+    },
+    {
+      id: "D3",
+      nombre: "Miércoles",
+    },
+    {
+      id: "D4",
+      nombre: "Jueves",
+    },
+    {
+      id: "D5",
+      nombre: "Viernes",
+    },
+  ];
 
   let navigate = useNavigate();
 
@@ -27,44 +52,37 @@ export default function Turnos() {
     if (!value.token) {
       navigate("/login", { replace: true });
     }
-    getInscripcionesByUser()
-    .then(() => {
-      inscripciones.forEach((inscripcion, index) => {
-        getCursosById(inscripcion.idCurso)
-        .then(curso => {
-          inscripciones[index] = {...inscripciones[index], ...curso};
-        })
-      });
-      
-    })
-    .then(() => {
-      inscripciones.forEach((inscripcion, index) => {
-        getTurnosById(inscripcion.idTurno)
-        .then(turno => {
-          inscripciones[index] = {...inscripciones[index], ...turno};
-        })
-      })
-    })
-    .finally(() => {
-      setLoading(false);
-      console.log('inscripciones', inscripciones)
-      
-    })
-    ;
-    // turnosService.find()
-    //     .then((turnos) =>{
-    //         setTurnos(turnos)
-    //     })
+    
+    loadData();
+    
   }, []);
+  
+  useEffect(() => {
+    // let groupedInscripciones = inscripciones.reduce((insc, { nombre_curso, ...inscripciones }) => {
+    //   if (!insc[nombre_curso]) insc[nombre_curso] = [];
+    //   insc[nombre_curso].push(inscripciones);
+    //   return insc;
+    // }, {});
+    let groupedInscripciones = Object.groupBy( inscripciones, ({ nombre_curso }) => nombre_curso );
+
+    setGroupedInscripciones(groupedInscripciones);
+    Object.entries(groupedInscripciones).forEach(([key, value]) => {
+      
+      console.log('key', key, value)
+    })
+    
+  }, [inscripciones])
+  
+  useEffect(() => {
+    setLoading(false);
+    
+  }, [groupedInscripciones])
 
   function getInscripcionesByUser() {
     return new Promise((resolve, reject) => {
       inscripcionesService.findByUser(value.currentUser._id)
       .then((data) => {
-        inscripciones = data;
-      })
-      .then(() => {
-        resolve();
+        resolve(data);
       })
       .catch((err) => {
         reject(err);
@@ -73,10 +91,11 @@ export default function Turnos() {
     })
   }
 
-  async function getCursosById(cursoId) {
+  function getCursos() {
     return new Promise((resolve, reject) => {
-      cursosService.findById(cursoId)
+      cursosService.find()
       .then((data) => {
+        cursos = data;
         resolve(data); 
       })
       .catch((err) => {
@@ -87,10 +106,11 @@ export default function Turnos() {
     })
   }
 
-  async function getTurnosById(turnoId) {
+  function getTurnos() {
     return new Promise((resolve, reject) => {
-      turnosService.findById(turnoId)
+      turnosService.find()
       .then((data) => {
+        turnos = data;
         resolve(data); 
       })
       .catch((err) => {
@@ -100,56 +120,35 @@ export default function Turnos() {
       
     })
   }
+const loadData = () => {
+  return new Promise((resolve, reject) => {
+    getCursos().then(() => {
+      getTurnos().then(() => {
+        getInscripcionesByUser()
+        .then((data) => {
+          let inscripcionesArr = data;
+          console.log('inscripcionesArr', inscripcionesArr)
+          inscripcionesArr.forEach( async (inscripcion, index) => {
+            let curso = cursos.find(curso => curso._id === inscripcion.idCurso)
+            inscripcionesArr[index] = {...inscripcionesArr[index], ...curso, _idCurso: curso._id, _id: inscripcion._id};
 
-  const fn = async () => {
-    const delay = (timeout, promise) => {
-      return new Promise((resolve) => {
-        setTimeout(() => resolve(promise()), timeout);
-      });
-    };
-
-    const [cursos, inscripciones] = await Promise.all([
-      delay(200, cursosService.find),
-      inscripcionesService.find(),
-    ]);
-
-    console.log(cursos, inscripciones);
-    const user = JSON.parse(window.localStorage.getItem("user"));
-    setNombre(user.email);
-    setIdUser(user._id);
-
-    let inscripcionesDelUsuario = inscripciones
-      .filter((inscripcion) => inscripcion.idUser === user._id)
-      .map((inscripcion) => ({
-        ...inscripcion,
-        curso: cursos.find((curso) => curso._id === inscripcion.idCurso),
-      }));
-
-      console.log('inscripcionesDelUsuario', inscripcionesDelUsuario);
-    setInscripcionesUsuario(inscripcionesDelUsuario);
-    setLoading(false);
-    // inscripcionesDelUsuario = inscripciones.filter(inscripcion => inscripcion.idUser === user._id)
-    //     .map(inscripcion => ({
-    //         ...inscripcion,
-    //         turno: turnos.find(turno => turno._id === inscripcion.idCurso)
-    //     }))
-    //
-    // setInscripcionesUsuario(inscripcionesDelUsuario)
-
-    //console.log(inscripcionesDelUsuario)
-    //console.log(JSON.stringify(inscripcionesUsuario))
-  };
-
-  useEffect(() => {
-    // fn();
-  }, []);
-
+            let turno = turnos.find(turno => turno._id === inscripcion.idTurno)
+            inscripcionesArr[index] = {...inscripcionesArr[index], ...turno, _idTurno: turno._id, _id: inscripcion._id};
+            
+          })
+          setInscripciones(inscripcionesArr);
+          resolve();
+        })
+      })
+    })
+  })
+}
   function handleDeleteElement(id) {
     window.confirm("¿Estas seguro que queres eliminar tu inscripción?");
     inscripcionesService.remove(id).then((inscripcion) => {
       setLoading(true);
-      fn();
-      navigate("/perfil", { replace: true });
+      loadData();
+      // navigate("/perfil", { replace: true });
     });
     //console.log(id)
   }
@@ -158,48 +157,56 @@ export default function Turnos() {
     return (
       <main className="container main">
         <div className="cont-perfil">
-          <h1>Mi Perfil - {nombre}</h1>
+          <h1>Mi Perfil - {value.currentUser.email}</h1>
           <h2>Clases anotadas</h2>
 
           {loading ? (
             <Loader className="w-50"></Loader>
           ) : (
             <>
-              {inscripcionesUsuario.length === 0 ? (
+              {inscripciones.length === 0 ? (
                 <p>Aún no estás inscripto a ningún curso.</p>
               ) : (
                 <ul className="col-6">
-                  {inscripcionesUsuario.map((inscripcion) => {
+                  {Object.entries(groupedInscripciones).map(([key, value]) => {
                     return (
-                      <li key={inscripcion._id}>
+                      // <p>aaa</p>
+                      <li key={key}>
+                        {/* <p>aaaa</p> */}
                         <div className="card-body">
                           <h5 className="card-title">
-                            {inscripcion.curso.nombre}
+                            {key}
                           </h5>
                           <p className="card-text">
-                            {inscripcion.curso.descripcion}
+                            {value[0].descripcion}
                           </p>
-                          <p className="card-text">
-                            Duración: {inscripcion.curso.duracion}Hrs
-                          </p>
-                          {/* <a
-                            href={`perfil/turno/id-${inscripcion.idTurno}/inscripcion/id-${inscripcion._id}`}
-                            className="btn btn-primary me-2"
-                          >
-                            Ver Turno
-                          </a> */}
-                          <button
-                            onClick={() => handleDeleteElement(inscripcion._id)}
-                            className="btn btn-danger"
-                            type="button"
-                            data-toggle="tooltip"
-                            data-placement="top"
-                            title=""
-                            data-original-title="Delete"
-                          >
-                            <i className="fa fa-trash-o" aria-hidden="true"></i>
-                            Eliminar Inscripción
-                          </button>
+                          {
+                            value.map((element, index) => {
+                              return (
+                                <div key={element._id} className="d-flex gap-4 align-items-center pb-2">
+                                  <span>{
+                                    element.dias?.map(dia => {
+                                      return (
+                                        <span key={dia}>{diasSemana.find(o => o.id === dia).nombre}{element.dias.length > 1 ? ', ' : ''}</span>
+                                        )
+                                    })
+                                  } {element.horarioInicio} - {element.horarioFin}</span>
+                                  <button
+                                    onClick={() => handleDeleteElement(element._id)}
+                                    className="btn btn-danger"
+                                    type="button"
+                                    data-toggle="tooltip"
+                                    data-placement="top"
+                                    title=""
+                                    data-original-title="Delete"
+                                    >
+                                    <i className="fa fa-trash-o" aria-hidden="true"></i>
+                                    Eliminar Inscripción
+                                  </button>
+                                </div>
+                              )
+                            })
+                          }
                         </div>
                       </li>
                     );
