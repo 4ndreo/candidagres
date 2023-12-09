@@ -78,70 +78,107 @@ export function VerCarrito() {
 
     }
 
+    if (productosComprar.length > 0) {
 
-    return (
+        return (
 
 
-    <main>
-        <Container fluid>
-            <Row>
+            <main>
+                <Container fluid>
+                    <Row>
 
-                <Col md={2} className="d-none d-md-block bg-light sidebar">
-                    <div className="sidebar-sticky">
-                        <Nav className="flex-column">
-                            <Nav.Link href="/tienda" className="nav-link active">Tienda</Nav.Link>
-                            <Nav.Link href="#" className="nav-link">Carrito de Compras</Nav.Link>
-                            <Nav.Link href="#" className="nav-link">Historial</Nav.Link>
-                        </Nav>
-                    </div>
-                </Col>
-
-                <Col md={10} className="ml-md-auto px-md-4">
-                    <div className="cont-admin-cursos">
-                        <h1>Productos seleccionados de {nombre}</h1>
-                        {eliminadoCorrectamente && (
-                            <div className="alert alert-danger" role="alert">
-                                Producto eliminado de tu carrito
+                        <Col md={2} className="d-none d-md-block bg-light sidebar">
+                            <div className="sidebar-sticky">
+                                <Nav className="flex-column">
+                                    <Nav.Link href="/tienda" className="nav-link active">Tienda</Nav.Link>
+                                    <Nav.Link href="#" className="nav-link">Carrito de Compras</Nav.Link>
+                                    <Nav.Link href="#" className="nav-link">Historial</Nav.Link>
+                                </Nav>
                             </div>
-                        )}
-                        {/*{agregadoCorrectamente && (*/}
-                        {/*    <div className="alert alert-success" role="alert">*/}
-                        {/*        Agregado exitosamente*/}
-                        {/*    </div>*/}
-                        {/*)}*/}
+                        </Col>
 
-                        <p><b>Total:</b> ${total}</p>
+                        <Col md={10} className="ml-md-auto px-md-4">
+                            <div className="cont-admin-cursos">
+                                <h1>Productos seleccionados de {nombre}</h1>
+                                {eliminadoCorrectamente && (
+                                    <div className="alert alert-danger" role="alert">
+                                        Producto eliminado de tu carrito
+                                    </div>
+                                )}
+                                {/*{agregadoCorrectamente && (*/}
+                                {/*    <div className="alert alert-success" role="alert">*/}
+                                {/*        Agregado exitosamente*/}
+                                {/*    </div>*/}
+                                {/*)}*/}
 
-
-
-                        <ul className="listado-cursos">
-                            {productosComprar
-                                // .sort((a, b) => a.nombre.localeCompare(b.nombre))
-                                .map((producto, index) => (
-                                    <li key={`${index}`}>
-                                        {/* Resto del código del mapeo */}
-                                        <p><b>{producto.nombre}</b></p>
-                                        <p>${producto.precio}</p>
-                                        <button
-                                            className="btn btn-danger mt-3 me-3"
-                                            type="submit"
-                                            onClick={() =>handleClick(producto.id)}
-                                        >
-                                            Quitar
-                                        </button>
-                                    </li>
-                                ))}
-                        </ul>
+                                <p><b>Total:</b> ${total}</p>
 
 
-                    </div>
 
-                </Col>
-            </Row>
-        </Container>
-    </main>
+                                <ul className="listado-cursos">
+                                    {productosComprar
+                                        // .sort((a, b) => a.nombre.localeCompare(b.nombre))
+                                        .map((producto, index) => (
+                                            <li key={`${index}`}>
+                                                {/* Resto del código del mapeo */}
+                                                <p><b>{producto.nombre}</b></p>
+                                                <p>${producto.precio}</p>
+                                                <button
+                                                    className="btn btn-danger mt-3 me-3"
+                                                    type="submit"
+                                                    onClick={() =>handleClick(producto.id)}
+                                                >
+                                                    Quitar
+                                                </button>
+                                            </li>
+                                        ))}
+                                </ul>
+
+
+                            </div>
+
+                        </Col>
+                    </Row>
+                </Container>
+            </main>
 
 
         );
 
+    }   else
+    {
+        return (
+            <main>
+
+                <Container fluid>
+                    <Row>
+
+                        <Col md={2} className="d-none d-md-block bg-light sidebar">
+                            <div className="sidebar-sticky">
+                                <Nav className="flex-column">
+                                    <Nav.Link href="/tienda" className="nav-link active">Tienda</Nav.Link>
+                                    <Nav.Link href="#" className="nav-link">Carrito de Compras</Nav.Link>
+                                    <Nav.Link href="#" className="nav-link">Historial</Nav.Link>
+                                </Nav>
+                            </div>
+                        </Col>
+
+                        <Col md={10} className="ml-md-auto px-md-4">
+                            <div>
+                                <h1>Productos seleccionados de {nombre}</h1>
+                                <p><b>Total:</b> ${total}</p>
+                            </div>
+
+                            <div>
+                                <p>No tenes productos en el carrito. Hace <a href="/tienda">click aqui</a> para ver los
+                                    productos disponibles.</p>
+                            </div>
+
+                        </Col>
+                    </Row>
+                </Container>
+
+            </main>
+        )
+    }
 }
