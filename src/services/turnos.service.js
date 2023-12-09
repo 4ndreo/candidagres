@@ -18,6 +18,16 @@ async function findById(idTurnos) {
     );
 }
 
+async function findByCurso(idCurso) {
+    return fetch(url + "api/turnos/curso/" + idCurso, {
+        headers: {
+            'auth-token': localStorage.getItem('token')
+        }
+    }).then((response) =>
+        response.json()
+    );
+}
+
 async function create(turno) {
     return fetch(url + "api/turnos/turno", {
         method: "POST",
@@ -49,4 +59,4 @@ async function update(idTurnos, turno) {
     }).then((response) => response.json());
 }
 
-export { find, findById, create, remove, update };
+export { find, findById, findByCurso, create, remove, update };

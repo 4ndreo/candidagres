@@ -15,6 +15,7 @@ import { AuthContext } from "../../App";
 export function VerTurnos() {
   let navigate = useNavigate();
   const value = useContext(AuthContext);
+  const params = useParams();
 
   const [turnos, setTurnos] = useState([]);
   const [curso, setCurso] = useState();
@@ -53,17 +54,17 @@ export function VerTurnos() {
       nombre: "Viernes",
     },
   ];
-  const params = useParams();
-
   useEffect(() => {
       // getTurnos();
       // getInscripcionesByUser(value.currentUser._id);
-      getTurnos()
+      getTurnos(params?.idCurso)
       .then(() => {
         getInscripcionesByUser(value.currentUser._id)
         .then(() => {
           getCurso();
         })
+      }).catch((err) => {
+        console.log(err)
       })
       ;
     
@@ -71,16 +72,18 @@ export function VerTurnos() {
   
   function getTurnos(curso_id) {
     return new Promise((resolve, reject) => {
-      turnosService.find()
+      turnosService.findByCurso(curso_id)
       .then((data) => {
+        console.log('aaaaa', data)
         setTurnos(
           data?.sort(function (a, b) {
             return a.horarioInicio - b.horarioInicio;
           })
           )
           resolve(); 
-      })
-      .catch((err) => {
+        })
+        .catch((err) => {
+        console.log(err)
         setError(err.message);
         reject(err);
       });

@@ -9,11 +9,12 @@ import { AuthContext } from "../App";
 import Loader from "../components/basics/Loader";
 
 export default function Turnos() {
+  let inscripciones = [];
+
   const [nombre, setNombre] = useState("");
   const [idUser, setIdUser] = useState("");
   const [cursos, setCursos] = useState([]);
   const [turnos, setTurnos] = useState([]);
-  const [inscripciones, setInscripciones] = useState([]);
   const [inscripcionesUsuario, setInscripcionesUsuario] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -26,12 +27,79 @@ export default function Turnos() {
     if (!value.token) {
       navigate("/login", { replace: true });
     }
-
+    getInscripcionesByUser()
+    .then(() => {
+      inscripciones.forEach((inscripcion, index) => {
+        getCursosById(inscripcion.idCurso)
+        .then(curso => {
+          inscripciones[index] = {...inscripciones[index], ...curso};
+        })
+      });
+      
+    })
+    .then(() => {
+      inscripciones.forEach((inscripcion, index) => {
+        getTurnosById(inscripcion.idTurno)
+        .then(turno => {
+          inscripciones[index] = {...inscripciones[index], ...turno};
+        })
+      })
+    })
+    .finally(() => {
+      setLoading(false);
+      console.log('inscripciones', inscripciones)
+      
+    })
+    ;
     // turnosService.find()
     //     .then((turnos) =>{
     //         setTurnos(turnos)
     //     })
   }, []);
+
+  function getInscripcionesByUser() {
+    return new Promise((resolve, reject) => {
+      inscripcionesService.findByUser(value.currentUser._id)
+      .then((data) => {
+        inscripciones = data;
+      })
+      .then(() => {
+        resolve();
+      })
+      .catch((err) => {
+        reject(err);
+      });
+      
+    })
+  }
+
+  async function getCursosById(cursoId) {
+    return new Promise((resolve, reject) => {
+      cursosService.findById(cursoId)
+      .then((data) => {
+        resolve(data); 
+      })
+      .catch((err) => {
+        console.log(err)
+        reject(err);
+      });
+      
+    })
+  }
+
+  async function getTurnosById(turnoId) {
+    return new Promise((resolve, reject) => {
+      turnosService.findById(turnoId)
+      .then((data) => {
+        resolve(data); 
+      })
+      .catch((err) => {
+        console.log(err)
+        reject(err);
+      });
+      
+    })
+  }
 
   const fn = async () => {
     const delay = (timeout, promise) => {
@@ -57,6 +125,7 @@ export default function Turnos() {
         curso: cursos.find((curso) => curso._id === inscripcion.idCurso),
       }));
 
+      console.log('inscripcionesDelUsuario', inscripcionesDelUsuario);
     setInscripcionesUsuario(inscripcionesDelUsuario);
     setLoading(false);
     // inscripcionesDelUsuario = inscripciones.filter(inscripcion => inscripcion.idUser === user._id)
@@ -72,7 +141,7 @@ export default function Turnos() {
   };
 
   useEffect(() => {
-    fn();
+    // fn();
   }, []);
 
   function handleDeleteElement(id) {
@@ -85,7 +154,7 @@ export default function Turnos() {
     //console.log(id)
   }
 
-  if ((nombre.length === 0 && loading) || nombre.length > 0) {
+  if ((value.currentUser.email.length === 0 && loading) || value.currentUser.email.length > 0) {
     return (
       <main className="container main">
         <div className="cont-perfil">
