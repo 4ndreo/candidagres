@@ -28,6 +28,16 @@ async function findByIdUser(idUser) {
     );
 }
 
+async function findByIdUserFinalizado(idUser) {
+    return fetch(url + "api/carrito/user/finalizado/" + idUser, {
+        headers: {
+            'auth-token': localStorage.getItem('token')
+        }
+    }).then((response) =>
+        response.json()
+    );
+}
+
 async function create(carrito) {
     return fetch(url + "api/carrito/carrito", {
         method: "POST",
@@ -73,4 +83,11 @@ async function updateElimiarProducto(idCarrito, total, productoEnCarrito) {
 
 
 
-export { find, findById,findByIdUser, create, remove, update,updateElimiarProducto };
+export { find,
+    findById,
+    findByIdUser,
+    findByIdUserFinalizado,
+    create,
+    remove,
+    update,
+    updateElimiarProducto };
