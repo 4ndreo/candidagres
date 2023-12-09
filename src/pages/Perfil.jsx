@@ -130,10 +130,10 @@ const loadData = () => {
           console.log('inscripcionesArr', inscripcionesArr)
           inscripcionesArr.forEach( async (inscripcion, index) => {
             let curso = cursos.find(curso => curso._id === inscripcion.idCurso)
-            inscripcionesArr[index] = {...inscripcionesArr[index], ...curso, _idCurso: curso._id, _id: inscripcion._id};
+            inscripcionesArr[index] = {...inscripcionesArr[index], ...curso, _idCurso: curso._id, _id: inscripcion._id, nombre_curso: curso.nombre};
 
             let turno = turnos.find(turno => turno._id === inscripcion.idTurno)
-            inscripcionesArr[index] = {...inscripcionesArr[index], ...turno, _idTurno: turno._id, _id: inscripcion._id};
+            inscripcionesArr[index] = {...inscripcionesArr[index], ...turno, _idTurno: turno._id, _id: inscripcion._id, nombre_turno: turno.nombre};
             
           })
           setInscripciones(inscripcionesArr);
@@ -174,16 +174,25 @@ const loadData = () => {
                       <li key={key}>
                         {/* <p>aaaa</p> */}
                         <div className="card-body">
-                          <h5 className="card-title">
+                          <h3 className="card-title h5">
                             {key}
-                          </h5>
+                          </h3>
                           <p className="card-text">
                             {value[0].descripcion}
+                          </p>
+                          <p className="card-text">
+                            <span className="negritas">Precio:</span> ${value[0].precio}
+                          </p>
+                          <p className="card-text">
+                            <span className="negritas">Docente:</span> {value[0].profesor}
+                          </p>
+                          <p className="card-text">
+                            <span className="negritas">Edad:</span> {value[0].edad}
                           </p>
                           {
                             value.map((element, index) => {
                               return (
-                                <div key={element._id} className="d-flex gap-4 align-items-center pb-2">
+                                <div key={element._id} className="days d-flex gap-4 align-items-center mb-2">
                                   <span>{
                                     element.dias?.map(dia => {
                                       return (

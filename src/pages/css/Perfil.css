@@ -9,3 +9,8 @@
     border-radius: 0.5rem;
     list-style-type: none;
 }
+.days {
+    background: url('https://api.iconify.design/material-symbols/calendar-month-rounded.svg?color=%23284277') no-repeat left center;
+    background-size: 1.5rem;
+    padding-left: 2rem;
+}
