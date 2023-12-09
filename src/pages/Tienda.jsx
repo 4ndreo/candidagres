@@ -162,7 +162,7 @@ export default function Tienda() {
                   <Nav className="flex-column">
                     <Nav.Link href="#" className="nav-link active">Tienda</Nav.Link>
                     <Nav.Link href={`/carrito/id-${carritoId}`} className="nav-link">Carrito de Compras</Nav.Link>
-                    <Nav.Link href="#" className="nav-link">Historial</Nav.Link>
+                    <Nav.Link href={`/carrito/historial/id-${usuarioId}`} className="nav-link">Historial</Nav.Link>
                   </Nav>
                 </div>
               </Col>
