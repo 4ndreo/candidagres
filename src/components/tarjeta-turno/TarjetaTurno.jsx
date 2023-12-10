@@ -13,6 +13,7 @@ export default function TarjetaTurno({
   handleShow,
   verifyInscripto,
   inscripcion,
+  cupos,
 }) {
   const factor = 50;
 
@@ -50,9 +51,10 @@ export default function TarjetaTurno({
           <span>Inscripto</span>
         </span>: null }
           </div>
-        <p>
-          {turno.horarioInicio}-{turno.horarioFin}hs
-        </p>
+        <div className="d-flex justify-content-between">
+          <span>{turno.horarioInicio}-{turno.horarioFin}hs</span>
+          <span className="cupos">{cupos.map(cupo => cupo._id === turno._id ? cupo.totalQuantity : null)}/{turno.max_cupos}</span>
+        </div>
         
       </div>
     );

@@ -24,6 +24,7 @@ export function VerTurnos() {
   const [selectedTurno, setSelectedTurno] = useState({});
   const [hoveredTurno, setHoveredTurno] = useState("");
   const [selectedInscripcion, setSelectedInscripcion] = useState({});
+  const [cupos, setCupos] = useState([]);
 
   const [show, setShow] = useState(false);
 
@@ -55,13 +56,16 @@ export function VerTurnos() {
     },
   ];
   useEffect(() => {
-      // getTurnos();
-      // getInscripcionesByUser(value.currentUser._id);
       getTurnos(params?.idCurso)
       .then(() => {
         getInscripcionesByUser(value.currentUser._id)
         .then(() => {
-          getCurso();
+          getCurso().then(() => {
+            inscripcionesService.countInscripcionesByCurso(params?.idCurso).then((data) => {
+              setCupos(data);
+              console.log(data)
+            })
+          });
         })
       }).catch((err) => {
         console.log(err)
@@ -126,20 +130,35 @@ export function VerTurnos() {
     .then((inscripciones) => {
       if(inscripciones.length === 0){
         return createInscripcion(turno).then(() => {
-          getInscripcionesByUser(value.currentUser._id)
+          getInscripcionesByUser(value.currentUser._id).then(() => {
+            inscripcionesService.countInscripcionesByCurso(params?.idCurso).then((data) => {
+              setCupos(data);
+              console.log(data)
+            })
+          });
 
         })
       }
       if(inscripciones[0].deleted){
         console.log('inscripciones', inscripciones[0])
         return restoreInscripciones(inscripciones[0]._id).then(() => {
-          getInscripcionesByUser(value.currentUser._id)
+          getInscripcionesByUser(value.currentUser._id).then(() => {
+            inscripcionesService.countInscripcionesByCurso(params?.idCurso).then((data) => {
+              setCupos(data);
+              console.log(data)
+            })
+          });
           
         })
       } else {
         return inscripcionesService.remove(inscripciones[0]._id)
         .then(() => {
-          getInscripcionesByUser(value.currentUser._id)
+          getInscripcionesByUser(value.currentUser._id).then(() => {
+            inscripcionesService.countInscripcionesByCurso(params?.idCurso).then((data) => {
+              setCupos(data);
+              console.log(data)
+            })
+          });
           // setInscripciones(inscripciones);
         })
         .catch((err) => setError(err.message));
@@ -223,6 +242,7 @@ export function VerTurnos() {
                             handleShow={handleShow}
                             verifyInscripto={verifyInscripto}
                             inscripcion={inscripciones.filter(inscripcion => inscripcion.idUser === value.currentUser._id && inscripcion.idTurno === turno._id)}
+                            cupos={cupos}
                           />
                         );
                       }
