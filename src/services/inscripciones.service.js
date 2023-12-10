@@ -16,6 +16,14 @@ async function findById(idInscripciones) {
   }).then((response) => response.json());
 }
 
+async function countInscripcionesByCurso(idCurso) {
+  return fetch(url + "api/inscripcionesByCurso/" + idCurso, {
+    headers: {
+      "auth-token": localStorage.getItem("token"),
+    },
+  }).then((response) => response.json());
+}
+
 async function findByUser(idUser) {
   return fetch(url + "api/inscripciones/user/" + idUser, {
     headers: {
@@ -71,4 +79,4 @@ async function update(idInscripciones, inscripcion) {
   }).then((response) => response.json());
 }
 
-export { find, findById, findByUser, findAllByUserAndTurno, findAllByUser, create, remove, update };
+export { find, findById, countInscripcionesByCurso, findByUser, findAllByUserAndTurno, findAllByUser, create, remove, update };
