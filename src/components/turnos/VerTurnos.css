@@ -46,6 +46,22 @@
   display: block;
 }
 
+.btn-full {
+  background: none;
+  border: none;
+}
+.btn-full[disabled] {
+  background: none;
+  color: var(--main-grey);
+  opacity: 100;
+}
+
+.btn-full::after {
+  content: 'No hay cupos disponibles';
+  transition: 0.15s ease-in-out all;
+  background: none;
+}
+
 .btn-inscripto {
   background: none;
   border: none;
