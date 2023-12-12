@@ -10,8 +10,6 @@ import Loader from "../../components/basics/Loader";
 export default function Turnos() {
   const [turnos, setTurnos] = useState([]);
   const [cursos, setCursos] = useState([]);
-  const [cursoNombre, setCursoNombre] = useState([]);
-  const [cursoDescripcion, setCursoDescripcion] = useState([]);
   const [error, setError] = useState("");
 
   const value = useContext(AuthContext);
@@ -44,6 +42,26 @@ export default function Turnos() {
     });
   }
 
+  function handleDia(dias){
+
+    const diasMapping = {
+      D1: 'Lunes',
+      D2: 'Martes',
+      D3: 'Miércoles',
+      D4: 'Jueves',
+      D5: 'Viernes',
+      // Puedes agregar más abreviaturas y nombres según sea necesario
+    };
+
+    const nombresDias = dias.map(abreviatura => diasMapping[abreviatura]);
+
+    return nombresDias
+    console.log(nombresDias);
+    //console.log(dias)
+
+
+  }
+
   if (turnos.length > 0) {
     return (
       <main className="container main">
@@ -63,7 +81,8 @@ export default function Turnos() {
                       .map((turno) => {
                         return (
                           <li key={turno._id}>
-                            <p>Dia: {turno.dia}</p>
+                            <p>Nombre del turno: {turno.nombre}</p>
+                            <p>Dias: {handleDia(turno.dias).join(', ')}</p>
                             <p>Horario: De {turno.horarioInicio}hs a {turno.horarioFin}hs</p>
                             <Link
                               to={"turno/id-" + turno._id}
