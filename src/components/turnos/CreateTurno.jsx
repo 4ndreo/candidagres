@@ -14,8 +14,8 @@ export function CreateTurno({ title }) {
   const [minutosFinalizar, setMinutosFinalizar] = useState("");
   const [cursos, setCursos] = useState([]);
   const [idCurso, setIdCurso] = useState("");
+  const [max_turnos, setMax_turnos] = useState(0);
   const [mensajeError, setMensajeError] = useState('');
-  const [modificar, setModificar] = useState(false);
   const [error, setError] = useState("");
 
   const value = useContext(AuthContext);
@@ -40,16 +40,20 @@ export function CreateTurno({ title }) {
     const horarioFin = horaFinalizar + ':' + minutosFinalizar
 
     console.log(horarioInicio, horarioFin)
+    console.log(hora, horaFinalizar)
 
-    if (modificar){
-    turnosService
-      .create({ nombre, dias, horarioInicio, horarioFin, idCurso })
-      .then((data) => {
-        navigate("/panel/turnos", { replace: true });
-      })
-      .catch((err) => setError(err.message));
+    if (hora >= horaFinalizar){
+      // window.alert("El horario de comienzo no puede ser menor al de finalizar")
+      setMensajeError("La hora de finalización no puede ser menor o igual a la de inicio");
     } else {
-      window.alert("El horario de comienzo no puede ser menor al de finalizar")
+      setMensajeError("");
+      turnosService
+          .create({ nombre, dias, horarioInicio, horarioFin, idCurso,max_turnos })
+          .then((data) => {
+            navigate("/panel/turnos", { replace: true });
+          })
+          .catch((err) => setError(err.message));
+      console.log("entre")
     }
   }
 
@@ -81,18 +85,10 @@ export function CreateTurno({ title }) {
   }
   function handleHoraFinalizarChange(horaFinalizar){
 
-    if (hora >= horaFinalizar){
-      console.log(hora, horaFinalizar)
-      // window.alert("el horario de finalizacion no puede ser menor al de inicio")
-      setMensajeError("La hora de finalización no puede ser menor o igual a la de inicio");
-      setModificar(false)
-    } else {
       console.log(horaFinalizar.toString())
       const newHora = horaFinalizar.toString()
       setMensajeError('');
       setHoraFinalizar(newHora)
-      setModificar(true)
-    }
 
   }
   function handleMinutosFinalizarChange(minutos){
@@ -142,11 +138,20 @@ export function CreateTurno({ title }) {
           </select>
         </div>
         <div className="mb-3">
-          <label className="form-label">Ingrese el nombre de la clase</label>
+          <label className="form-label">Ingrese el nombre del turno</label>
           <input
               type="text"
               required
               onChange={(e) => setNombre(e.target.value)}
+              className="form-control"
+          />
+        </div>
+        <div className="mb-3">
+          <label className="form-label">Ingrese la cantidad de alumnos</label>
+          <input
+              type="number"
+              required
+              onChange={(e) => setMax_turnos(parseInt(e.target.value))}
               className="form-control"
           />
         </div>
