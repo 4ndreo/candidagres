@@ -18,6 +18,7 @@ export function EditTurno({ title }) {
   const [horarioInicio, setHorarioInicio] = useState("");
   const [horarioFin, setHorarioFin] = useState("");
   const [nombre, setNombre] = useState();
+  const [max_turnos, setMax_turnos] = useState();
   const [mensajeError, setMensajeError] = useState('');
   const [icons, setIcons] = useState([]);
   const [error, setError] = useState("");
@@ -34,6 +35,9 @@ export function EditTurno({ title }) {
         setHorarioInicio(turno.horarioInicio);
         setHorarioFin(turno.horarioFin);
         setNombre(turno.nombre);
+        setMax_turnos(turno.max_turnos);
+       // console.log(turno.nombre)
+       console.log(turno.max_turnos)
       })
       .catch((err) => setError(err.message));
 
@@ -46,18 +50,27 @@ export function EditTurno({ title }) {
     e.preventDefault();
 
 
+    if (editandoHorario){
+      const horarioInicio = hora + ':' + minutos
+      const horarioFin = horaFinalizar + ':' + minutosFinalizar
 
-    const horarioInicio = hora + ':' + minutos
-    const horarioFin = horaFinalizar + ':' + minutosFinalizar
-
-    console.log(nombre, dias, horarioInicio, horarioFin)
-
-    if (modificar){
-      turnosService.update(params?.idTurno, { dias, horarioInicio, horarioFin }).then((data) => {
+      if (hora >= horaFinalizar){
+        // window.alert("El horario de comienzo no puede ser menor al de finalizar")
+        setMensajeError("La hora de finalización no puede ser menor o igual a la de inicio");
+      } else {
+        setMensajeError("");
+        turnosService.update(params?.idTurno, { dias, horarioInicio, horarioFin, max_turnos }).then((data) => {
+          navigate("/panel/turnos", { replace: true });
+        });
+        console.log("entre")
+        console.log(nombre, dias, horarioInicio, horarioFin)
+      }
+    } else {
+      setMensajeError("");
+      turnosService.update(params?.idTurno, { dias, horarioInicio, horarioFin, max_turnos }).then((data) => {
         navigate("/panel/turnos", { replace: true });
       });
-    } else {
-      window.alert("El horario de comienzo no puede ser menor al de finalizar")
+      console.log(nombre, dias, horarioInicio, horarioFin)
     }
 
   }
@@ -66,7 +79,10 @@ export function EditTurno({ title }) {
     setEditandoHorario(true);
   }
   function handleCancelarEdicion (){
-    setEditandoHorario(false);
+    if(window.confirm("¿Esta seguro que desea cancelar la edición del horario?")){
+      setEditandoHorario(false);
+    }
+
   }
 
   function handleDia(dias){
@@ -158,6 +174,17 @@ export function EditTurno({ title }) {
           />
         </div>
 
+        <div className="mb-3">
+          <label className="form-label">Ingrese la cantidad de alumnos</label>
+          <input
+              type="number"
+              required
+              defaultValue={max_turnos}
+              onChange={(e) => setMax_turnos(parseInt(e.target.value))}
+              className="form-control"
+          />
+        </div>
+
 
         <div>
           <p>Dias del turno: {handleDia(dias).join(', ')}</p>
@@ -230,7 +257,7 @@ export function EditTurno({ title }) {
           hs.
           {mensajeError && <p style={{ color: 'red' }}>{mensajeError}</p>}
           <div>
-            <button className="mt-2 btn btn-danger" onClick={handleCancelarEdicion}>Cerrar Edición</button>
+            <button className="mt-2 btn btn-danger" onClick={handleCancelarEdicion}>Cancelar Edición</button>
           </div>
         </div>
           ) : (
