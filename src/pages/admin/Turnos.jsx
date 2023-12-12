@@ -84,6 +84,7 @@ export default function Turnos() {
                             <p>Nombre del turno: {turno.nombre}</p>
                             <p>Dias: {handleDia(turno.dias).join(', ')}</p>
                             <p>Horario: De {turno.horarioInicio}hs a {turno.horarioFin}hs</p>
+                            <p>Cupo maximo: {turno.max_turnos} personas</p>
                             <Link
                               to={"turno/id-" + turno._id}
                               className="btn btn-warning me-2"
