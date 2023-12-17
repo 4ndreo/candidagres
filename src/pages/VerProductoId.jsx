@@ -41,15 +41,15 @@ export default function VerProductoId() {
                 <div className="mb-3 cont-admin-cursos">
                  <h1>{nombre}</h1>
                     <ul>
-                        <li>Descripción: {descripcion}</li>
-                        <li>Demora: {demora_producto} días</li>
-                        <li>$ {precio}</li>
+                        <li>{descripcion}</li>
+                        <li>Demora aproximada: {demora_producto} días</li>
+                        <li>Precio: $ {precio}</li>
                         <li>Material: {material}</li>
                     </ul>
 
-                    {/*<Link to="/tienda" className="btn btn-primary mt-3">*/}
-                    {/*    Volver*/}
-                    {/*</Link>*/}
+                    <Link to="/tienda" className="btn btn-primary mt-3">
+                        Volver
+                    </Link>
                 </div>
             </main>
         );

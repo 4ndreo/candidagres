@@ -65,6 +65,9 @@ export default function Header() {
                       <Link to="/Productos" className="dropdown-item">
                         Productos
                       </Link>
+                      <Link to="/Dashboard" className="dropdown-item">
+                        Dashboard
+                      </Link>
                     </NavDropdown>
                     ) : (
                       ''

@@ -1,0 +1,297 @@
+import "../css/Edit.css";
+
+import React, { useEffect, useState } from "react";
+import {Link, useNavigate, useParams} from "react-router-dom";
+import * as carritoService from "../../services/carrito.service";
+
+import Loader from "../basics/Loader";
+import {Col, Container, Nav, Row, Button, Modal, ListGroup } from "react-bootstrap";
+import * as cursosService from "../../services/cursos.service";
+import * as userService from "../../services/users.service";
+import * as turnosService from "../../services/turnos.service";
+import * as inscripcionesService from "../../services/inscripciones.service";
+
+
+
+export function Dashboard({ title }) {
+    let navigate = useNavigate();
+    const params = useParams();
+
+
+    let inscripciones = [];
+    let cursos = [];
+    let turnos = [];
+    let users = [];
+
+    // const [cursos, setCursos] = useState([]);
+    // const [users, setUsers] = useState([]);
+    // const [turnos, setTurnos] = useState([]);
+    // const [inscripciones, setInscripciones] = useState([]);
+     const [informacion, setInformacion] = useState({});
+    const [showModal, setShowModal] = useState(false);
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
+    const [error, setError] = useState("");
+
+
+    const [resultados, setResultados] = useState([]);
+
+
+    useEffect(() => {
+
+        loadData()
+
+    }, []);
+
+
+    useEffect(() => {
+
+        console.log(informacion)
+
+    }, []);
+
+
+
+    function getCursos(){
+
+        return new Promise((resolve, reject) => {
+            cursosService.find()
+                .then((data) => {
+                    cursos = data;
+                    resolve(data);
+                })
+                .catch((err) => {
+                    console.log(err)
+                    reject(err);
+                });
+
+        })
+
+    }
+
+    function getTurnos() {
+        return new Promise((resolve, reject) => {
+            turnosService.find()
+                .then((data) => {
+                    turnos = data;
+                    resolve(data);
+                })
+                .catch((err) => {
+                    console.log(err)
+                    reject(err);
+                });
+
+        })
+    }
+
+    function getUsers() {
+        return new Promise((resolve, reject) => {
+            userService.find()
+                .then((data) => {
+                    users = data;
+                    resolve(data);
+                })
+                .catch((err) => {
+                    console.log(err)
+                    reject(err);
+                });
+
+        })
+    }
+
+    function getInscripcionesByUser() {
+        return new Promise((resolve, reject) => {
+            inscripcionesService.find()
+                .then((data) => {
+                    inscripciones = data;
+                    resolve(data);
+                })
+                .catch((err) => {
+                    console.log(err)
+                    reject(err);
+                });
+
+        })
+    }
+
+
+    function loadData(){
+        return new Promise((resolve, reject) => {
+            getCursos().then(() => {
+                getTurnos().then(() => {
+                    getUsers().then(() => {
+                        getInscripcionesByUser()
+                            .then(() => {
+                               // console.log(turnos, cursos, users, inscripciones)
+                                agruparInformacion(cursos, inscripciones, turnos, users)
+                               // agruparInformacionTurnos(turnos, inscripciones)
+                                resolve();
+                            })
+                    })
+                })
+            })
+        })
+    }
+
+
+    function agruparInformacion(cursos, inscripciones, turnos, users){
+
+        const informacionAgrupadaCursos = {};
+
+        cursos.forEach((curso) => {
+            const inscripcionesCurso = inscripciones.filter((inscripcion) => inscripcion.idCurso === curso._id);
+
+            informacionAgrupadaCursos[curso.nombre] = {
+                curso: curso,
+                inscripciones: inscripcionesCurso,
+            };
+        });
+
+        agruparInformacionTurnos(informacionAgrupadaCursos, turnos, users)
+
+        // console.log(informacionAgrupadaCursos)
+        // return informacionAgrupada;
+
+    }
+
+    function agruparInformacionTurnos(informacionAgrupadaCursos, turnos, users) {
+
+        // console.log(informacionAgrupadaCursos, turnos)
+        const informacionCursosConTurnos = {};
+
+        for (const cursoId in informacionAgrupadaCursos) {
+            if (informacionAgrupadaCursos.hasOwnProperty(cursoId)) {
+                const cursoConInscripciones = informacionAgrupadaCursos[cursoId];
+                const curso = cursoConInscripciones.curso;
+
+                // Buscar el turno correspondiente en la lista de turnos
+                const turnoAsignado = turnos.find((turno) => turno.idCurso === curso._id);
+
+                informacionCursosConTurnos[cursoId] = {
+                    curso: curso,
+                    inscripciones: cursoConInscripciones.inscripciones,
+                    turno: turnoAsignado, // Puede ser undefined si no se encuentra un turno
+                };
+            }
+        }
+
+        agregarUsuariosAInformacionCursos(informacionCursosConTurnos, users)
+
+        console.log(informacionCursosConTurnos)
+        //return informacionCursosConTurnos;
+    }
+
+
+    function agregarUsuariosAInformacionCursos(informacionCursosConTurnos, users){
+
+        const informacionCursosConUsuarios = {};
+
+        for (const cursoId in informacionCursosConTurnos) {
+            if (informacionCursosConTurnos.hasOwnProperty(cursoId)) {
+                const cursoConTurnos = informacionCursosConTurnos[cursoId];
+                const inscripcionesConUsuarios = cursoConTurnos.inscripciones.map((inscripcion) => {
+                    // Buscar el usuario correspondiente en la lista de usuarios
+                    const usuarioAsociado = users.find((usuario) => usuario._id === inscripcion.idUser);
+                    return {
+                        ...inscripcion,
+                        usuario: usuarioAsociado, // Puede ser undefined si no se encuentra un usuario
+                    };
+                });
+
+                informacionCursosConUsuarios[cursoId] = {
+                    curso: cursoConTurnos.curso,
+                    inscripciones: inscripcionesConUsuarios,
+                    turno: cursoConTurnos.turno,
+                };
+            }
+        }
+
+        setInformacion(informacionCursosConUsuarios);
+
+       // console.log(informacionCursosConUsuarios)
+
+    }
+
+
+    // if (productosComprar.length > 0) {
+
+        return (
+
+
+            <main className="container main">
+                <div className="cont-admin-cursos">
+                    <h1>Dashboard</h1>
+
+                    {/*{console.log(informacion)}*/}
+
+                    <h2>Información de Alumnos inscriptos a clases</h2>
+                    {Object.keys(informacion).map((cursoId) => {
+                        const cursoConUsuarios = informacion[cursoId];
+
+                        return (
+                            <div key={cursoId}>
+                                <h3 className="mt-4">{cursoConUsuarios.curso.nombre}</h3>
+                                <p><b>Turno: {cursoConUsuarios.turno.nombre}</b></p>
+
+                                <ul>
+                                    {cursoConUsuarios.inscripciones.map((inscripcion) => (
+                                        <li key={`${inscripcion.idCurso}`}>
+                                            {inscripcion.usuario ? (
+                                                <>
+                                                    <p>Estudiante: {inscripcion.usuario.email}</p>
+                                                    {/* Agrega más detalles del usuario según tu modelo de datos */}
+                                                </>
+                                            ) : (
+                                                <p>Estudiante no encontrado</p>
+                                            )}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        );
+                    })}
+
+
+
+                </div>
+            </main>
+
+
+        );
+
+    // }   else
+    // {
+    //     return (
+    //         <main>
+    //
+    //             <Container fluid>
+    //                 <Row>
+    //
+    //                     <Col md={2} className="d-none d-md-block bg-light sidebar">
+    //                         <div className="sidebar-sticky">
+    //                             <Nav className="flex-column">
+    //                                 <Nav.Link href="/tienda" className="nav-link active">Tienda</Nav.Link>
+    //                                 <Nav.Link href={`/carrito/id-${usuarioId}`} className="nav-link">Carrito de Compras</Nav.Link>
+    //                                 <Nav.Link href={`/carrito/historial/id-${usuarioId}`} className="nav-link">Historial</Nav.Link>
+    //                             </Nav>
+    //                         </div>
+    //                     </Col>
+    //
+    //                     <Col md={10} className="ml-md-auto px-md-4">
+    //                         <div>
+    //                             <h1>Productos seleccionados de {nombre}</h1>
+    //                             <p><b>Total:</b> ${total}</p>
+    //                         </div>
+    //
+    //                         <div>
+    //                             <p>No tenes productos en el carrito. Hace <a href="/tienda">click aqui</a> para ver los
+    //                                 productos disponibles.</p>
+    //                         </div>
+    //
+    //                     </Col>
+    //                 </Row>
+    //             </Container>
+    //
+    //         </main>
+    //     )
+    // }
+}
