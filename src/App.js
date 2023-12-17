@@ -38,6 +38,8 @@ import { PerfilTurnos } from "./components/perfil/PerfilTurnos";
 import {VerCarrito} from "./components/carrito/VerCarrito"
 import {HistorialCompras} from "./components/carrito/HistorialCompras"
 
+import {Dashboard} from "./components/dashboard/Dashboard"
+
 export const AuthContext = createContext();
 
 function App() {
@@ -151,6 +153,10 @@ function App() {
           <Route path="/carrito/id-:idCarrito" element={<VerCarrito />} title={"Compras"} />
 
           <Route path="/carrito/historial/id-:idUsuario" element={<HistorialCompras />} title={"Historial"} />
+
+          {/* Rutas Dashboard */}
+
+          <Route path="/Dashboard" element={<Dashboard />} title={"Dashboard"} />
 
         </Routes>
 

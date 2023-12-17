@@ -13,7 +13,7 @@ export function CreateProducto({ title }) {
   const [demora_producto, setDemora] = useState();
   const [precio, setPrecio] = useState();
   const [material, setMaterial] = useState();
-  const [imagen, setImagen] = useState(null);
+  // const [imagen, setImagen] = useState("");
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -26,18 +26,18 @@ export function CreateProducto({ title }) {
   function handleSubmit(e) {
     e.preventDefault();
     productosService
-      .create({ nombre, descripcion, demora_producto, precio, material, imagen })
+      .create({ nombre, descripcion, demora_producto, precio, material })
       .then((data) => {
         navigate("/Productos", { replace: true });
       })
       .catch((err) => setError(err.message));
   }
 
-  const handleImagenChange = (event) => {
-    const archivo = event.target.files[0];
-    setImagen(archivo);
-    console.log(archivo)
-  };
+  // const handleImagenChange = (event) => {
+  //   const archivo = event.target.files[0];
+  //   setImagen(archivo);
+  //   console.log(archivo)
+  // };
 
   return (
     <main className="container edit-cont">
@@ -91,15 +91,15 @@ export function CreateProducto({ title }) {
             className="form-control"
           />
         </div>
-        <div className="mb-3">
-          <label className="form-label">Subir Imagen:</label>
-          <input
-              type="file"
-              // accept="image/*"
-              onChange={handleImagenChange}
-              className="form-control"
-          />
-        </div>
+        {/*<div className="mb-3">*/}
+        {/*  <label className="form-label">Subir Imagen:</label>*/}
+        {/*  <input*/}
+        {/*      type="file"*/}
+        {/*      // accept="image/*"*/}
+        {/*      onChange={handleImagenChange}*/}
+        {/*      className="form-control"*/}
+        {/*  />*/}
+        {/*</div>*/}
         <button type="submit" className="btn btn-primary">
           Crear
         </button>
