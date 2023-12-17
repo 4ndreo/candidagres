@@ -10,6 +10,7 @@ import { Navbar, Nav, Container, Row, Col } from 'react-bootstrap'; // Importa l
 
 import Loader from "../components/basics/Loader";
 import {findById} from "../services/carrito.service";
+import * as turnosService from "../services/turnos.service";
 
 export default function Tienda() {
   const [productos, setProductos] = useState([]);
@@ -27,15 +28,32 @@ export default function Tienda() {
 
 
   useEffect(() => {
-    productosService.find().then((data) => {
-      setProductos(data);
 
-    }).catch((err) => {
-      setError(err.message)
-      console.log("estoy en el useEffect")
-    });
+      loadProductos()
+    // productosService.find().then((data) => {
+    //   setProductos(data);
+    //
+    // }).catch((err) => {
+    //   setError(err.message)
+    //   console.log("estoy en el useEffect")
+    // });
 
   }, []);
+
+  function loadProductos(){
+      return new Promise((resolve, reject) => {
+          productosService.find()
+              .then((data) => {
+                  setProductos(data);
+                  resolve(data);
+              })
+              .catch((err) => {
+                  console.log(err)
+                  reject(err);
+              });
+
+      })
+  }
 
 
   useEffect(() => {
