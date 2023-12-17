@@ -44,7 +44,7 @@ export default function Tienda() {
       return new Promise((resolve, reject) => {
           productosService.find()
               .then((data) => {
-                  setProductos(data);
+                  aplicarProductos(data);
                   resolve(data);
               })
               .catch((err) => {
@@ -53,6 +53,10 @@ export default function Tienda() {
               });
 
       })
+  }
+
+  function aplicarProductos(productos){
+      setProductos(productos)
   }
 
 
