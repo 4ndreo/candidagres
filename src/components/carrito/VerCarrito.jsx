@@ -189,8 +189,8 @@ export function VerCarrito() {
                                         <p>¿Estás seguro de que quieres finalizar la compra?</p>
                                         <p>Productos a comprar: <b>Total: {total}</b></p>
                                         <ListGroup>
-                                            {productosComprar.map((producto) => (
-                                                <ListGroup.Item key={producto.id}>
+                                            {productosComprar.map((producto, index) => (
+                                                <ListGroup.Item key={`${producto.id}-${index}`}>
                                                     {producto.nombre} x ${producto.precio}
                                                 </ListGroup.Item>
                                             ))}
