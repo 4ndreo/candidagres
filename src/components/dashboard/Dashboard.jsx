@@ -197,7 +197,7 @@ export function Dashboard({ title }) {
             <div className="cont-admin-cursos">
                 <h1>Dashboard</h1>
 
-                <h2>Información de Cursos con Usuarios</h2>
+                <h2>Información de Usuarios anotados a las Clases</h2>
                 {Object.keys(informacion).map((idCurso) => {
                     const { curso, turnos, users } = informacion[idCurso];
 
