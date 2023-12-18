@@ -258,7 +258,7 @@ export function VerTurnos() {
               <Modal.Title className="negritas">Inscribirse al curso de {curso.nombre}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <p><span className="negritas">Detalle del curso:</span> {curso.descripcion}</p>
+              <p><span className="negritas">Detalle de la clase:</span> {curso.descripcion}</p>
               <p>
               <span className="negritas">Dias y horario:</span>
               {selectedTurno.dias?.map(dia => {
