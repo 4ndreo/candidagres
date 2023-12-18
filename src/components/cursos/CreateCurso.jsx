@@ -53,7 +53,7 @@ export function CreateCurso({ title }) {
           />
         </div>
         <div className="mb-3">
-          <label className="form-label">A que hora comienza el curso</label>
+          <label className="form-label">A que hora comienza la clase</label>
           <input
             type="number"
             max="24"
@@ -64,7 +64,7 @@ export function CreateCurso({ title }) {
           />
         </div>
         <div className="mb-3">
-          <label className="form-label">Cuanto cuesta el curso</label>
+          <label className="form-label">Cuanto cuesta la clase</label>
           <input
             type="number"
             defaultValue={0}
