@@ -144,12 +144,14 @@ const loadData = () => {
   })
 }
   function handleDeleteElement(id) {
-    window.confirm("¿Estas seguro que queres eliminar tu inscripción?");
-    inscripcionesService.remove(id).then((inscripcion) => {
-      setLoading(true);
-      loadData();
-      // navigate("/perfil", { replace: true });
-    });
+    if (window.confirm("¿Estas seguro que queres eliminar tu inscripción?")){
+      inscripcionesService.remove(id).then((inscripcion) => {
+        setLoading(true);
+        loadData();
+        // navigate("/perfil", { replace: true });
+      });
+    }
+    
     //console.log(id)
   }
 
