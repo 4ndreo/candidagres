@@ -83,7 +83,7 @@ export function EditProducto({ title }) {
           />
         </div>
         <div className="mb-3">
-          <label className="form-label">Cuanto cuesta el curso</label>
+          <label className="form-label">Cuanto cuesta la clase</label>
           <input
               type="number"
               defaultValue={precio}

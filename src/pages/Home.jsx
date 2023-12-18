@@ -96,7 +96,7 @@ export default function Header() {
                 acompañado a todas las culturas humanas desde sus inicios.
               </p>
               <p>
-                El curso está dirigido a adultos con o sin experiencia previa.
+                la clase está dirigido a adultos con o sin experiencia previa.
                 La modalidad de trabajo es una guía personalizada en la
                 concepción y desarrollo de proyectos personales, incluyendo a
                 quienes –a pesar de contar con conocimientos anteriores- deseen
