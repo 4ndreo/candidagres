@@ -13,6 +13,9 @@ import {findById} from "../services/carrito.service";
 import * as turnosService from "../services/turnos.service";
 
 export default function Tienda() {
+
+
+
   const [productos, setProductos] = useState([]);
   const [productosComprar, setProductosComprar] = useState([]);
   const [usuarioId, setUsuarioId] = useState("");
@@ -40,12 +43,27 @@ export default function Tienda() {
 
   }, []);
 
+
+
   function loadProductos(){
+      return new Promise((resolve, reject) => {
+          getProductos()
+              .then(() => {
+                  resolve();
+              })
+              .catch((err) => {
+                  console.log(err)
+                  reject(err);
+              });
+      })
+  }
+
+  function getProductos(){
       return new Promise((resolve, reject) => {
           productosService.find()
               .then((data) => {
-                  aplicarProductos(data);
-                  resolve(data);
+                  setProductos(data);
+                  resolve();
               })
               .catch((err) => {
                   console.log(err)
@@ -54,10 +72,10 @@ export default function Tienda() {
 
       })
   }
-
-  function aplicarProductos(productos){
-      setProductos(productos)
-  }
+  //
+  // function aplicarProductos(productos){
+  //     setProductos(productos)
+  // }
 
 
   useEffect(() => {
