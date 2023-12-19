@@ -283,7 +283,7 @@ export function VerTurnos() {
                 onClick={() => handleInscripciones(selectedTurno)}>
                 </Button>
                 : 
-                ((cupos.filter(cupo => cupo._id === selectedTurno._id )[0]?.totalQuantity ?? 0) === selectedTurno.max_cupos) ?
+                ((cupos.filter(cupo => cupo._id === selectedTurno._id )[0]?.totalQuantity ?? 0) === selectedTurno.max_turnos) ?
                 <Button
                 to={"/id-" + selectedTurno._id + "/curso/id-" + curso._id}
                 className="btn-close-link btn-full"
