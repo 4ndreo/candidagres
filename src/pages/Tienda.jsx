@@ -11,6 +11,7 @@ import { Navbar, Nav, Container, Row, Col } from 'react-bootstrap'; // Importa l
 import Loader from "../components/basics/Loader";
 import {findById} from "../services/carrito.service";
 import * as turnosService from "../services/turnos.service";
+import * as inscripcionesService from "../services/inscripciones.service";
 
 export default function Tienda() {
 
@@ -32,7 +33,7 @@ export default function Tienda() {
 
   useEffect(() => {
 
-      loadProductos()
+
     // productosService.find().then((data) => {
     //   setProductos(data);
     //
@@ -45,33 +46,7 @@ export default function Tienda() {
 
 
 
-  function loadProductos(){
-      return new Promise((resolve, reject) => {
-          getProductos()
-              .then(() => {
-                  resolve();
-              })
-              .catch((err) => {
-                  console.log(err)
-                  reject(err);
-              });
-      })
-  }
 
-  function getProductos(){
-      return new Promise((resolve, reject) => {
-          productosService.find()
-              .then((data) => {
-                  setProductos(data);
-                  resolve();
-              })
-              .catch((err) => {
-                  console.log(err)
-                  reject(err);
-              });
-
-      })
-  }
   //
   // function aplicarProductos(productos){
   //     setProductos(productos)
@@ -87,22 +62,68 @@ export default function Tienda() {
     let usuarioId = usuarioObjeto._id
     setUsuarioId(usuarioObjeto._id)
 
+      loadProductos(usuarioId)
 
-    carritoService.findByIdUser(usuarioId).then((data) => {
-      console.log(data)
 
-      if(data === null) {
-        crearCarritoParaUsuario(usuarioId)
-      } else {
-        setCarritoId(data._id)
-        setProductosComprar(data.productosComprar)
-        console.log(data.productosComprar)
-        setTotal(data.total)
-      }
-    })
+
 
 
   }, []);
+
+  function getUserById(usuarioId){
+
+
+      return new Promise((resolve, reject) => {
+          carritoService.findByIdUser(usuarioId)
+              .then((data) => {
+                  resolve(data);
+              })
+              .catch((err) => {
+                  reject(err);
+              });
+
+      })
+
+  }
+
+
+    function loadProductos(usuarioId){
+        return new Promise((resolve, reject) => {
+            getProductos().then(() => {
+                getUserById(usuarioId).then((data) => {
+                    console.log(data)
+                    if(data === null) {
+                        crearCarritoParaUsuario(usuarioId)
+                    } else {
+                        setCarritoId(data._id)
+                        setProductosComprar(data.productosComprar)
+                        console.log(data.productosComprar)
+                        setTotal(data.total)
+                    }
+                })
+            })
+                .catch((err) => {
+                    console.log(err)
+                    reject(err);
+                });
+        })
+    }
+
+    function getProductos(){
+        return new Promise((resolve, reject) => {
+            productosService.find()
+                .then((data) => {
+                    setProductos(data);
+                    resolve();
+                })
+                .catch((err) => {
+                    console.log(err)
+                    reject(err);
+                });
+
+        })
+    }
+
 
   function crearCarritoParaUsuario(usuarioId){
     carritoService.create({usuarioId, total, productosComprar})
