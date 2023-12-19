@@ -31,7 +31,7 @@ export default function Header() {
               // return <p>{curso.horario}</p>
               return (
                   <li key={curso._id}>
-                    <h2>Clase: {curso.nombre}</h2>
+                    <h2>{curso.nombre}</h2>
                     <p>Descripción: {curso.descripcion}</p>
                     <p>Duración: {curso.duracion} horas</p>
                     <p>Precio: ${curso.precio}</p>
