@@ -1,9 +1,11 @@
 import "../css/Edit.css";
 import React, { useEffect, useState, useContext } from "react";
 import * as turnosService from "../../services/turnos.service";
+import * as inscripcionesService from "../../services/inscripciones.service";
 import * as Constants from "../../Constants";
 import { useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../../App";
+import * as productosService from "../../services/productos.service";
 
 export function EditTurno({ title }) {
   let navigate = useNavigate();
@@ -15,36 +17,80 @@ export function EditTurno({ title }) {
   const [editandoHorario, setEditandoHorario] = useState(false);
   const [modificar, setModificar] = useState(false);
   const [dias, setDias] = useState([]);
+  const [inscripciones, setInscripciones] = useState([]);
   const [horarioInicio, setHorarioInicio] = useState("");
   const [horarioFin, setHorarioFin] = useState("");
   const [nombre, setNombre] = useState();
   const [max_turnos, setMax_turnos] = useState();
+  const [idTurno, setIdTurno] = useState("");
   const [mensajeError, setMensajeError] = useState('');
   const [icons, setIcons] = useState([]);
   const [error, setError] = useState("");
   const [checked, setChecked] = useState({});
+  const [mostrarError, setMostrarError] = useState(false);
   const params = useParams();
+
 
   const value = useContext(AuthContext);
 
   useEffect(() => {
-    turnosService
-      .findById(params?.idTurno)
-      .then((turno) => {
-        setDias(turno.dias);
-        setHorarioInicio(turno.horarioInicio);
-        setHorarioFin(turno.horarioFin);
-        setNombre(turno.nombre);
-        setMax_turnos(turno.max_turnos);
-       // console.log(turno.nombre)
-       console.log(turno.max_turnos)
-      })
-      .catch((err) => setError(err.message));
+
+    loadProductos()
 
       if (value.currentUser.role !== 1) {
         navigate("/", { replace: true });
       }
   }, []);
+
+  function loadProductos(){
+    return new Promise((resolve, reject) => {
+      findTurnosById().then(() => {
+        getInscripciones().then().catch((err) => {
+          console.log(err)
+          reject(err);
+        });
+      })
+    })
+  }
+
+  function findTurnosById(){
+
+    return new Promise((resolve, reject) => {
+      turnosService
+          .findById(params?.idTurno)
+          .then((turno) => {
+            setDias(turno.dias);
+            setHorarioInicio(turno.horarioInicio);
+            setHorarioFin(turno.horarioFin);
+            setNombre(turno.nombre);
+            setMax_turnos(turno.max_turnos);
+            setIdTurno(params?.idTurno);
+            resolve();
+            console.log(turno.max_turnos)
+          }).catch((err) => {
+        console.log(err)
+        reject(err);
+      });
+    })
+
+  }
+
+  function getInscripciones(){
+
+    return new Promise((resolve, reject) => {
+      inscripcionesService.find().then((data) => {
+        setInscripciones(data)
+        // console.log(inscripciones)
+        resolve();
+      }).catch((err) => {
+        console.log(err)
+        reject(err);
+      });
+    })
+
+
+  }
+
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -157,6 +203,33 @@ export function EditTurno({ title }) {
     }
   }
 
+  function handleMaxTurnosChange(nuevo_max_turnos){
+    console.log(nuevo_max_turnos, max_turnos)
+
+    const repeticiones = inscripciones.filter(
+        (inscripcion) => inscripcion.idTurno === idTurno && inscripcion.deleted === false
+    ).length;
+
+    // const repeticiones = inscripciones.filter((inscripcion) => {
+    //   console.log(`Comparando: ${inscripcion.idTurno} === ${idTurno}`);
+    //   return inscripcion.idTurno === idTurno;
+    // }).length;
+
+    // console.log(inscripciones)
+
+    if(nuevo_max_turnos < repeticiones){
+      setMostrarError(true);
+      // window.alert("No pueden haber menos cupos comparado a la cantidad de alumnos anotados")
+    } else {
+      setMostrarError(false);
+      setMax_turnos(nuevo_max_turnos)
+    }
+
+  console.log(`El idTurno ${idTurno} se repite ${repeticiones} veces.`);
+
+
+  }
+
   return (
     <main className="container edit-cont">
       <h1>Editar - {title}</h1>
@@ -180,9 +253,14 @@ export function EditTurno({ title }) {
               type="number"
               required
               defaultValue={max_turnos}
-              onChange={(e) => setMax_turnos(parseInt(e.target.value))}
+              onChange={(e) =>handleMaxTurnosChange(e.target.value)}
               className="form-control"
           />
+          {mostrarError && (
+              <div className="alert alert-danger mt-2" role="alert">
+                No pueden haber menos cupos comparado a la cantidad de alumnos anotados
+              </div>
+          )}
         </div>
 
 
