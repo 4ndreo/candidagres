@@ -4,6 +4,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import * as productosService from "../../services/productos.service";
 import { AuthContext } from "../../App";
+import * as turnosService from "../../services/turnos.service";
 
 export default function Productos() {
     const [productos, setProductos] = useState([]);
@@ -25,10 +26,13 @@ export default function Productos() {
     }, []);
 
     function handleDeleteElement(item) {
-        productosService.remove(item._id).then((productos) => {
-            console.log(productos);
-            setProductos(productos);
-        });
+
+        if(window.confirm("¿Esta seguro que quiere eliminar el producto?")){
+            productosService.remove(item._id).then((productos) => {
+                console.log(productos);
+                setProductos(productos);
+            });
+        }
     }
 
     return (

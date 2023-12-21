@@ -18,6 +18,7 @@ export function HistorialCompras() {
     const [productosComprados, setProductosComprados] = useState([]);
     const [total, setTotal] = useState(0);
     const [nombre, setNombre] = useState("");
+    const [usuarioId, setUsuarioId] = useState("");
     const [eliminadoCorrectamente, setEliminadoCorrectamente] = useState(false);
     // const [productoEliminado, setProductoEliminado] = useState("");
     const [error, setError] = useState("");
@@ -31,6 +32,7 @@ export function HistorialCompras() {
         const usuarioObjeto = JSON.parse(usuarioGuardado);
 
         setNombre(usuarioObjeto.email);
+        setUsuarioId(usuarioObjeto._id);
         console.log(params?.idUsuario);
 
 
@@ -73,9 +75,9 @@ export function HistorialCompras() {
                         <Col md={2} className="d-none d-md-block bg-light sidebar">
                             <div className="sidebar-sticky">
                                 <Nav className="flex-column">
-                                    <Nav.Link href="/tienda" className="nav-link active">Tienda</Nav.Link>
-                                    {/*<Nav.Link href="#" className="nav-link">Carrito de Compras</Nav.Link>*/}
-                                    <Nav.Link href="#" className="nav-link">Historial</Nav.Link>
+                                    <Nav.Link href="/tienda" className="nav-link">Tienda</Nav.Link>
+                                    {/*<Nav.Link href={`/carrito/id-${usuarioId}`} className="nav-link">Carrito de Compras</Nav.Link>*/}
+                                    <Nav.Link href="#" className="nav-link active">Historial</Nav.Link>
                                 </Nav>
                             </div>
                         </Col>
@@ -125,9 +127,9 @@ export function HistorialCompras() {
                         <Col md={2} className="d-none d-md-block bg-light sidebar">
                             <div className="sidebar-sticky">
                                 <Nav className="flex-column">
-                                    <Nav.Link href="/tienda" className="nav-link active">Tienda</Nav.Link>
+                                    <Nav.Link href="/tienda" className="nav-link">Tienda</Nav.Link>
                                     {/*<Nav.Link href="#" className="nav-link">Carrito de Compras</Nav.Link>*/}
-                                    <Nav.Link href="#" className="nav-link">Historial</Nav.Link>
+                                    <Nav.Link href="#" className="nav-link active">Historial</Nav.Link>
                                 </Nav>
                             </div>
                         </Col>

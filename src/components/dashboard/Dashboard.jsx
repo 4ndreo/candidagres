@@ -1,6 +1,6 @@
 import "../css/Edit.css";
 
-import React, { useEffect, useState } from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {Link, useNavigate, useParams} from "react-router-dom";
 import * as carritoService from "../../services/carrito.service";
 
@@ -10,6 +10,7 @@ import * as cursosService from "../../services/cursos.service";
 import * as userService from "../../services/users.service";
 import * as turnosService from "../../services/turnos.service";
 import * as inscripcionesService from "../../services/inscripciones.service";
+import {AuthContext} from "../../App";
 
 
 
@@ -33,6 +34,7 @@ export function Dashboard({ title }) {
     const [showSuccessModal, setShowSuccessModal] = useState(false);
     const [error, setError] = useState("");
 
+    const value = useContext(AuthContext);
 
     const [resultados, setResultados] = useState([]);
 
@@ -40,6 +42,10 @@ export function Dashboard({ title }) {
     useEffect(() => {
 
         loadData()
+
+        if (value.currentUser.role !== 1) {
+            navigate("/", { replace: true });
+        }
 
     }, []);
 
