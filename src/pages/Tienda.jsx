@@ -218,15 +218,21 @@ export default function Tienda() {
           <Container fluid>
             <Row>
 
-              <Col md={2} className="d-none d-md-block bg-light sidebar">
-                <div className="sidebar-sticky">
-                  <Nav className="flex-column">
-                    <Nav.Link href="#" className="nav-link active">Tienda</Nav.Link>
-                    <Nav.Link href={`/carrito/id-${carritoId}`} className="nav-link">Carrito de Compras</Nav.Link>
-                    <Nav.Link href={`/carrito/historial/id-${usuarioId}`} className="nav-link">Historial</Nav.Link>
-                  </Nav>
-                </div>
-              </Col>
+                <Col md={2} className="d-none d-md-block bg-light sidebar">
+                    <div className="sidebar-sticky">
+                        <Nav className="flex-column">
+                            <Nav.Link href="#" className="nav-link active">
+                                Tienda
+                            </Nav.Link>
+                            <Nav.Link href={`/carrito/id-${carritoId}`} className="nav-link">
+                                Carrito de Compras
+                            </Nav.Link>
+                            <Nav.Link href={`/carrito/historial/id-${usuarioId}`} className="nav-link">
+                                Historial
+                            </Nav.Link>
+                        </Nav>
+                    </div>
+                </Col>
 
               <Col md={10} className="ml-md-auto px-md-4">
                 <div className="cont-admin-cursos">

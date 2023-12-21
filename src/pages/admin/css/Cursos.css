@@ -14,3 +14,22 @@
     grid-template-columns: 1fr 1fr 1fr;
     column-gap: 1.5rem;
 }
+
+.sidebar {
+    background-color: #f8f9fa; /* Color de fondo */
+}
+
+.sidebar a {
+    color: #495057; /* Color del texto */
+}
+
+/* Estilo para el enlace activo */
+.sidebar a.active {
+    font-weight: bold;
+    color: #007bff; /* Color del enlace activo */
+}
+
+.imagen-info {
+    background-color: #f2f2f2; /* Gris claro */
+    color: gray;
+}

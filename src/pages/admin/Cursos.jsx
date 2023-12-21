@@ -4,6 +4,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import * as cursosService from "../../services/cursos.service";
 import { AuthContext } from "../../App";
+import * as inscripcionesService from "../../services/inscripciones.service";
 
 export default function Turnos() {
   const [cursos, setCursos] = useState([]);
@@ -25,10 +26,16 @@ export default function Turnos() {
   }, []);
 
   function handleDeleteElement(item) {
-    cursosService.remove(item._id).then((cursos) => {
-      console.log(cursos);
-      setCursos(cursos);
-    });
+
+    if(window.confirm("¿Esta seguro que quiere eliminar la clase?")){
+      cursosService.remove(item._id).then((cursos) => {
+        console.log(cursos);
+        setCursos(cursos);
+      });
+
+    }
+
+
   }
 
   return (
@@ -45,7 +52,7 @@ export default function Turnos() {
               <li key={curso._id}>
                 <p>Clase: {curso.nombre}</p>
                 <p>Descripción: {curso.descripcion}</p>
-                <p>Duración: {curso.duracion} horas</p>
+                <p>Profesor: {curso.profesor}</p>
                 <p>Precio: ${curso.precio} </p>
                 <Link
                   to={"curso/id-" + curso._id}

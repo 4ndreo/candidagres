@@ -10,8 +10,9 @@ export function CreateCurso({ title }) {
 
   const [nombre, setNombre] = useState("");
   const [descripcion, setDescripcion] = useState("");
-  const [duracion, setDuracion] = useState();
+
   const [precio, setPrecio] = useState();
+  const [profesor, setProfesor] = useState("");
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -23,7 +24,7 @@ export function CreateCurso({ title }) {
   function handleSubmit(e) {
     e.preventDefault();
     cursosService
-      .create({ nombre, descripcion, duracion, precio })
+      .create({ nombre, descripcion, precio, profesor })
       .then((data) => {
         navigate("/panel/cursos", { replace: true });
       })
@@ -53,18 +54,16 @@ export function CreateCurso({ title }) {
           />
         </div>
         <div className="mb-3">
-          <label className="form-label">A que hora comienza la clase</label>
+          <label className="form-label">Quien es el profesor asignado</label>
           <input
-            type="number"
-            max="24"
-            defaultValue={0}
-            required
-            onChange={(e) => setDuracion(parseInt(e.target.value))}
-            className="form-control"
+              type="text"
+              required
+              onChange={(e) => setProfesor(e.target.value)}
+              className="form-control"
           />
         </div>
         <div className="mb-3">
-          <label className="form-label">Cuanto cuesta la clase</label>
+          <label className="form-label">Cuanto cuesta la clase mensual</label>
           <input
             type="number"
             defaultValue={0}

@@ -13,7 +13,7 @@ export function EditCurso({ title }) {
 
   const [nombre, setNombre] = useState("");
   const [descripcion, setDescripcion] = useState("");
-  const [duracion, setDuracion] = useState();
+  const [profesor, setProfesor] = useState("");
   const [precio, setPrecio] = useState();
   const [icons, setIcons] = useState([]);
   const [error, setError] = useState("");
@@ -25,8 +25,8 @@ export function EditCurso({ title }) {
       .then((curso) => {
         setNombre(curso.nombre);
         setDescripcion(curso.descripcion);
-        setDuracion(curso.duracion);
         setPrecio(curso.precio);
+        setProfesor(curso.profesor);
       })
       .catch((err) => setError(err.message));
 
@@ -38,7 +38,7 @@ export function EditCurso({ title }) {
   function handleSubmit(e) {
     e.preventDefault();
     cursosService
-      .update(params?.idCurso, { nombre, descripcion, duracion, precio })
+      .update(params?.idCurso, { nombre, descripcion, precio, profesor })
       .then((data) => {
         navigate("/panel/cursos", { replace: true });
       });
@@ -69,12 +69,12 @@ export function EditCurso({ title }) {
           />
         </div>
         <div className="mb-3">
-          <label className="form-label">Defina la duración de la clase (en horas)</label>
+          <label className="form-label">Quien es el profesor asignado</label>
           <input
-            type="number"
-            defaultValue={duracion}
+            type="text"
+            defaultValue={profesor}
             required
-            onChange={(e) => setDuracion(parseInt(e.target.value))}
+            onChange={(e) => setProfesor(e.target.value)}
             className="form-control"
           />
         </div>
