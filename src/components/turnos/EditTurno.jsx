@@ -227,7 +227,7 @@ export function EditTurno({ title }) {
       // window.alert("No pueden haber menos cupos comparado a la cantidad de alumnos anotados")
     } else {
       setMostrarError(false);
-      setMax_turnos(nuevo_max_turnos)
+      setMax_turnos(parseInt(nuevo_max_turnos))
     }
 
   console.log(`El idTurno ${idTurno} se repite ${repeticiones} veces.`);
