@@ -127,12 +127,19 @@ export function VerCarrito() {
                 <Container fluid>
                     <Row>
 
+
                         <Col md={2} className="d-none d-md-block bg-light sidebar">
                             <div className="sidebar-sticky">
                                 <Nav className="flex-column">
-                                    <Nav.Link href="/tienda" className="nav-link active">Tienda</Nav.Link>
-                                    <Nav.Link href="#" className="nav-link">Carrito de Compras</Nav.Link>
-                                    <Nav.Link href={`/carrito/historial/id-${usuarioId}`} className="nav-link">Historial</Nav.Link>
+                                    <Nav.Link href="/tienda" className="nav-link">
+                                        Tienda
+                                    </Nav.Link>
+                                    <Nav.Link href={`/carrito/id-${carritoId}`} className="nav-link active">
+                                        Carrito de Compras
+                                    </Nav.Link>
+                                    <Nav.Link href={`/carrito/historial/id-${usuarioId}`} className="nav-link">
+                                        Historial
+                                    </Nav.Link>
                                 </Nav>
                             </div>
                         </Col>
@@ -145,15 +152,8 @@ export function VerCarrito() {
                                         Producto eliminado de tu carrito
                                     </div>
                                 )}
-                                {/*{agregadoCorrectamente && (*/}
-                                {/*    <div className="alert alert-success" role="alert">*/}
-                                {/*        Agregado exitosamente*/}
-                                {/*    </div>*/}
-                                {/*)}*/}
 
                                 <p><b>Total:</b> ${total}</p>
-
-
 
                                 <ul className="listado-cursos">
                                     {productosComprar
@@ -239,8 +239,8 @@ export function VerCarrito() {
                         <Col md={2} className="d-none d-md-block bg-light sidebar">
                             <div className="sidebar-sticky">
                                 <Nav className="flex-column">
-                                    <Nav.Link href="/tienda" className="nav-link active">Tienda</Nav.Link>
-                                    <Nav.Link href={`/carrito/id-${usuarioId}`} className="nav-link">Carrito de Compras</Nav.Link>
+                                    <Nav.Link href="/tienda" className="nav-link">Tienda</Nav.Link>
+                                    <Nav.Link href={`/carrito/id-${usuarioId}`} className="nav-link active">Carrito de Compras</Nav.Link>
                                     <Nav.Link href={`/carrito/historial/id-${usuarioId}`} className="nav-link">Historial</Nav.Link>
                                 </Nav>
                             </div>

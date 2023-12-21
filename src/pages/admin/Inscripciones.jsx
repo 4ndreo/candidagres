@@ -7,6 +7,7 @@ import * as turnosService from "../../services/turnos.service";
 import * as cursosService from "../../services/cursos.service";
 import Loader from "../../components/basics/Loader";
 import { AuthContext } from "../../App";
+import * as productosService from "../../services/productos.service";
 
 export default function Inscripciones() {
   const [inscripciones, setInscripciones] = useState([]);
@@ -37,10 +38,14 @@ export default function Inscripciones() {
   useEffect(() => {}, []);
 
   function handleDeleteElement(item) {
-    inscripcionesService.remove(item._id).then((inscripciones) => {
-      console.log(inscripciones);
-      setInscripciones(inscripciones);
-    });
+
+    if(window.confirm("¿Esta seguro que quiere eliminar la inscripcion?")){
+      inscripcionesService.remove(item._id).then((inscripciones) => {
+        console.log(inscripciones);
+        setInscripciones(inscripciones);
+      });
+    }
+
   }
 
   // function handleTurno(data) {
@@ -67,7 +72,9 @@ export default function Inscripciones() {
           <ul>
             {inscripciones.map((inscripcion) => {
               // return <p>{turno.horario}</p>
+              console.log(inscripcion)
               return (
+
                 <li key={inscripcion._id}>
                   <p>Alumno: {inscripcion.nombre}</p>
                   {/* <p>Dia: {handleTurno(inscripcion)}</p> */}

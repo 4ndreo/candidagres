@@ -106,20 +106,20 @@ function App() {
           />
 
           {/* Rutas de Inscripciones */}
-          <Route path="/inscripciones" element={<Inscripciones />} />
-          <Route
-            path="/inscripciones/inscripcion"
-            element={<CreateInscripcion title={"Inscripción"} />}
-          />
-          <Route
-            path="/inscripciones/inscripcion/id-:idInscripcion"
-            element={<EditInscripcion title={"Inscripción"} />}
-          />
+          {/*<Route path="/inscripciones" element={<Inscripciones />} />*/}
+          {/*<Route*/}
+          {/*  path="/inscripciones/inscripcion"*/}
+          {/*  element={<CreateInscripcion title={"Inscripción"} />}*/}
+          {/*/>*/}
+          {/*<Route*/}
+          {/*  path="/inscripciones/inscripcion/id-:idInscripcion"*/}
+          {/*  element={<EditInscripcion title={"Inscripción"} />}*/}
+          {/*/>*/}
 
-          <Route
-            path="/id-:idTurnos/curso/id-:idCurso"
-            element={<CreateInscripcionUser title={"Inscripción"} />}
-          />
+          {/*<Route*/}
+          {/*  path="/id-:idTurnos/curso/id-:idCurso"*/}
+          {/*  element={<CreateInscripcionUser title={"Inscripción"} />}*/}
+          {/*/>*/}
 
           {/* --------------- / ---------------- */}
 

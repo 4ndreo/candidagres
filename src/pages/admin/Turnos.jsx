@@ -29,6 +29,7 @@ export default function Turnos() {
       cursosService
         .find()
         .then((cursos) => {
+          console.log(cursos)
           setCursos(cursos);
         })
         .catch((err) => setError(err.message));
@@ -36,10 +37,14 @@ export default function Turnos() {
   }, []);
 
   function handleDeleteElement(item) {
-    turnosService.remove(item._id).then((turnos) => {
-      console.log(turnos);
-      setTurnos(turnos);
-    });
+
+    if(window.confirm("¿Esta seguro que quiere eliminar el turno?")){
+      turnosService.remove(item._id).then((turnos) => {
+        console.log(turnos);
+        setTurnos(turnos);
+      });
+    }
+
   }
 
   function handleDia(dias){
@@ -77,38 +82,36 @@ export default function Turnos() {
                   <h2>{curso.nombre}</h2>
                   <ul>
                     {turnos
-                      .filter((turno) => turno.idCurso === curso._id)
-                      .map((turno) => {
-                        return (
-                          <li key={turno._id}>
-                            <p>Nombre del turno: {turno.nombre}</p>
-                            <p>Dias: {handleDia(turno.dias).join(', ')}</p>
-                            <p>Horario: De {turno.horarioInicio}hs a {turno.horarioFin}hs</p>
-                            <p>Cupo maximo: {turno.max_turnos} personas</p>
-                            <Link
-                              to={"turno/id-" + turno._id}
-                              className="btn btn-warning me-2"
-                            >
-                              Editar turno
-                            </Link>
-                            <button
-                              onClick={() => handleDeleteElement(turno)}
-                              className="btn btn-danger"
-                              type="button"
-                              data-toggle="tooltip"
-                              data-placement="top"
-                              title=""
-                              data-original-title="Delete"
-                            >
-                              <i
-                                className="fa fa-trash-o"
-                                aria-hidden="true"
-                              ></i>
-                              Eliminar turno
-                            </button>
-                          </li>
-                        );
-                      })}
+                        .filter((turno) => turno.idCurso === curso._id)
+                        .map((turno) => (
+                            <li key={turno._id}>
+                              <p>Nombre del turno: {turno.nombre}</p>
+                              <p>Dias: {handleDia(turno.dias).join(', ')}</p>
+                              <p>Horario: De {turno.horarioInicio}hs a {turno.horarioFin}hs</p>
+                              <p>Cupo maximo: {turno.max_turnos} personas</p>
+                              <Link
+                                  to={"turno/id-" + turno._id}
+                                  className="btn btn-warning me-2"
+                              >
+                                Editar turno
+                              </Link>
+                              <button
+                                  onClick={() => handleDeleteElement(turno)}
+                                  className="btn btn-danger"
+                                  type="button"
+                                  data-toggle="tooltip"
+                                  data-placement="top"
+                                  title=""
+                                  data-original-title="Delete"
+                              >
+                                <i className="fa fa-trash-o" aria-hidden="true"></i>
+                                Eliminar turno
+                              </button>
+                            </li>
+                        ))}
+                    {turnos.filter((turno) => turno.idCurso === curso._id).length === 0 && (
+                        <li>No tiene un turno asignado.</li>
+                    )}
                   </ul>
                 </div>
               );

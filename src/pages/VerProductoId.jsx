@@ -45,6 +45,7 @@ export default function VerProductoId() {
                         <li>Demora aproximada: {demora_producto} días</li>
                         <li>Precio: $ {precio}</li>
                         <li>Material: {material}</li>
+                        <li className="imagen-info">Imagen: Próximamente</li>
                     </ul>
 
                     <Link to="/tienda" className="btn btn-primary mt-3">

@@ -59,9 +59,9 @@ export default function Header() {
                       <Link to="panel/turnos" className="dropdown-item">
                         Turnos
                       </Link>
-                      <Link to="/Inscripciones" className="dropdown-item">
-                        Inscripciones
-                      </Link>
+                      {/*<Link to="/Inscripciones" className="dropdown-item">*/}
+                      {/*  Inscripciones*/}
+                      {/*</Link>*/}
                       <Link to="/Productos" className="dropdown-item">
                         Productos
                       </Link>

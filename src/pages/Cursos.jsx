@@ -33,7 +33,6 @@ export default function Header() {
                   <li key={curso._id}>
                     <h2>{curso.nombre}</h2>
                     <p>Descripción: {curso.descripcion}</p>
-                    <p>Duración: {curso.duracion} horas</p>
                     <p>Precio: ${curso.precio}</p>
                     <p><Link to={"/turnos/turno/ver-" + curso._id}
                              className="btn btn-primary">Ver turnos disponibles</Link></p>
