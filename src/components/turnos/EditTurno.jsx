@@ -95,29 +95,34 @@ export function EditTurno({ title }) {
   function handleSubmit(e) {
     e.preventDefault();
 
+    if (mostrarError === true){
+      window.alert("No se pudo modificar porque hay un error")
+    } else {
+      if (editandoHorario){
+        const horarioInicio = hora + ':' + minutos
+        const horarioFin = horaFinalizar + ':' + minutosFinalizar
 
-    if (editandoHorario){
-      const horarioInicio = hora + ':' + minutos
-      const horarioFin = horaFinalizar + ':' + minutosFinalizar
-
-      if (hora >= horaFinalizar){
-        // window.alert("El horario de comienzo no puede ser menor al de finalizar")
-        setMensajeError("La hora de finalización no puede ser menor o igual a la de inicio");
+        if (hora >= horaFinalizar){
+          // window.alert("El horario de comienzo no puede ser menor al de finalizar")
+          setMensajeError("La hora de finalización no puede ser menor o igual a la de inicio");
+        } else {
+          setMensajeError("");
+          turnosService.update(params?.idTurno, { dias, horarioInicio, horarioFin, max_turnos }).then((data) => {
+            navigate("/panel/turnos", { replace: true });
+          });
+          console.log("entre")
+          console.log(nombre, dias, horarioInicio, horarioFin)
+        }
       } else {
         setMensajeError("");
         turnosService.update(params?.idTurno, { dias, horarioInicio, horarioFin, max_turnos }).then((data) => {
           navigate("/panel/turnos", { replace: true });
         });
-        console.log("entre")
         console.log(nombre, dias, horarioInicio, horarioFin)
       }
-    } else {
-      setMensajeError("");
-      turnosService.update(params?.idTurno, { dias, horarioInicio, horarioFin, max_turnos }).then((data) => {
-        navigate("/panel/turnos", { replace: true });
-      });
-      console.log(nombre, dias, horarioInicio, horarioFin)
     }
+
+
 
   }
 
