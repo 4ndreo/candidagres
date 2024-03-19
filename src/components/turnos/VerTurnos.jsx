@@ -11,6 +11,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useContext } from "react";
 import { AuthContext } from "../../App";
+import LoaderMini from "../basics/LoaderMini";
 
 export function VerTurnos() {
   let navigate = useNavigate();
@@ -25,6 +26,7 @@ export function VerTurnos() {
   const [hoveredTurno, setHoveredTurno] = useState("");
   const [selectedInscripcion, setSelectedInscripcion] = useState({});
   const [cupos, setCupos] = useState([]);
+  const [loadingInscripciones, setLoadingInscripciones] = useState([]);
 
   const [show, setShow] = useState(false);
 
@@ -63,7 +65,7 @@ export function VerTurnos() {
           getCurso().then(() => {
             inscripcionesService.countInscripcionesByCurso(params?.idCurso).then((data) => {
               setCupos(data);
-              console.log(data)
+              setLoadingInscripciones(false);
             })
           });
         })
@@ -78,7 +80,6 @@ export function VerTurnos() {
     return new Promise((resolve, reject) => {
       turnosService.findByCurso(curso_id)
       .then((data) => {
-        console.log('aaaaa', data)
         setTurnos(
           data?.sort(function (a, b) {
             return a.horarioInicio - b.horarioInicio;
@@ -125,7 +126,7 @@ export function VerTurnos() {
     })
   }
   function handleInscripciones(turno) {
-
+    setLoadingInscripciones(true);
     inscripcionesService.findAllByUserAndTurno(value.currentUser._id, turno._id)
     .then((inscripciones) => {
       if(inscripciones.length === 0){
@@ -133,19 +134,18 @@ export function VerTurnos() {
           getInscripcionesByUser(value.currentUser._id).then(() => {
             inscripcionesService.countInscripcionesByCurso(params?.idCurso).then((data) => {
               setCupos(data);
-              console.log(data)
+              setLoadingInscripciones(false);
             })
           });
 
         })
       }
       if(inscripciones[0].deleted){
-        console.log('inscripciones', inscripciones[0])
         return restoreInscripciones(inscripciones[0]._id).then(() => {
           getInscripcionesByUser(value.currentUser._id).then(() => {
             inscripcionesService.countInscripcionesByCurso(params?.idCurso).then((data) => {
               setCupos(data);
-              console.log(data)
+              setLoadingInscripciones(false);
             })
           });
           
@@ -156,7 +156,7 @@ export function VerTurnos() {
           getInscripcionesByUser(value.currentUser._id).then(() => {
             inscripcionesService.countInscripcionesByCurso(params?.idCurso).then((data) => {
               setCupos(data);
-              console.log(data)
+              setLoadingInscripciones(false);
             })
           });
           // setInscripciones(inscripciones);
@@ -256,6 +256,7 @@ export function VerTurnos() {
           <Modal show={show} onHide={handleClose} size="lg" variant="white">
             <Modal.Header className="modal-title" closeButton>
               <Modal.Title className="negritas">Inscribirse al curso de {curso.nombre}</Modal.Title>
+              <Button className="btn-close-link" variant="link" onClick={handleClose}>X</Button>
             </Modal.Header>
             <Modal.Body>
               <p><span className="negritas">Detalle de la clase:</span> {curso.descripcion}</p>
@@ -275,12 +276,14 @@ export function VerTurnos() {
               <p><span className="negritas">Precio:</span> ${curso.precio}</p>
             </Modal.Body>
             <Modal.Footer>
-              <Button className="btn-close-link" variant="link" onClick={handleClose}>Cerrar</Button>
+              
               {verifyInscripto(selectedTurno._id).some(val => val) ? 
                 <Button
+                disabled={loadingInscripciones}
                 to={"/id-" + selectedTurno._id + "/curso/id-" + curso._id}
-                className="btn-close-link btn-inscripto"
+                className={loadingInscripciones ? "btn-close-link btn-loading" : "btn-close-link btn-inscripto"}
                 onClick={() => handleInscripciones(selectedTurno)}>
+                  {loadingInscripciones ? <LoaderMini></LoaderMini> : ""}
                 </Button>
                 : 
                 ((cupos.filter(cupo => cupo._id === selectedTurno._id )[0]?.totalQuantity ?? 0) === selectedTurno.max_turnos) ?
@@ -292,11 +295,12 @@ export function VerTurnos() {
                 </Button>
                 :
                 <Button
+                disabled={loadingInscripciones}
                 to={"/id-" + selectedTurno._id + "/curso/id-" + curso._id}
-                className="btn btn-primary"
+                className={loadingInscripciones ? "btn-loading" : "btn btn-primary"}
                 onClick={() => handleInscripciones(selectedTurno)}
                 >
-                Inscribirse en este horario
+                {loadingInscripciones ? <LoaderMini></LoaderMini> : "Inscribirse en este horario"}
               </Button>
               }
             </Modal.Footer>
