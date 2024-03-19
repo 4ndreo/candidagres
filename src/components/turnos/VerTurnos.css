@@ -61,7 +61,15 @@
   transition: 0.15s ease-in-out all;
   background: none;
 }
-
+.btn-loading, .btn-loading:hover, .btn-loading:disabled {
+  height: 1.5rem;
+  width: 1.5rem;
+  padding: 0;
+  background: none ;
+  border: none;
+  cursor: not-allowed;
+  opacity: 100;
+}
 .btn-inscripto {
   background: none;
   border: none;
@@ -74,6 +82,11 @@
   content: 'Ya estás inscripto';
   transition: 0.15s ease-in-out all;
   background: url(https://api.iconify.design/material-symbols:check-circle.svg?color=%23666666) no-repeat center left;
+  padding-left: 1.25rem;
+}
+.btn-inscripto-loading::after {
+  content: '';
+  transition: 0.15s ease-in-out all;
   padding-left: 1.25rem;
 }
 .btn-inscripto:hover::after {
