@@ -15,7 +15,7 @@ export default function TarjetaTurno({
   inscripcion,
   cupos,
 }) {
-  const factor = 50;
+  const factor = 70;
 
   function getDistancia(horaInicio, horaFin) {
     let start = DateTime.fromFormat(horaInicio, "HH:mm");
@@ -32,7 +32,7 @@ export default function TarjetaTurno({
       <div
         className={ verifyInscripto(turno._id).some(val => val) || ((cupos.filter(cupo => cupo._id === turno._id )[0]?.totalQuantity ?? 0) === turno.max_turnos) ? "item-turno w-100 inscripto" : "item-turno w-100" }
         style={{
-          height: getDistancia(turno.horarioInicio, turno.horarioFin) * factor + "px",
+          height: (getDistancia(turno.horarioInicio, turno.horarioFin) * factor > factor ? getDistancia(turno.horarioInicio, turno.horarioFin) * factor : factor) + "px",
           top: getDistancia("09:00", turno.horarioInicio) * factor + "px",
           border: "2px solid " + hoveredTurno === turno._id ? "hsl(220 50% 70% / 1)" : "#e6e6e6",
           backgroundColor: hoveredTurno === turno._id ? "hsl(220 50% 70% / 1)" : "#e6e6e6",
