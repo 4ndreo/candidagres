@@ -74,14 +74,14 @@ export default function Turnos() {
   }, [inscripciones])
   
   useEffect(() => {
-    setLoading(false);
     
   }, [groupedInscripciones])
-
+  
   function getInscripcionesByUser() {
     return new Promise((resolve, reject) => {
       inscripcionesService.findByUser(value.currentUser._id)
       .then((data) => {
+        setLoading(false);
         resolve(data);
       })
       .catch((err) => {
