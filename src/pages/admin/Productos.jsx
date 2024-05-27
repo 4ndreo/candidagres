@@ -7,6 +7,7 @@ import { AuthContext } from "../../App";
 import * as turnosService from "../../services/turnos.service";
 import Loader from "../../components/basics/Loader";
 import { Button, Modal } from "react-bootstrap";
+import { PreviewProducto } from "../../components/productos/PreviewProducto";
 
 export default function Productos() {
     const [productos, setProductos] = useState([]);
@@ -59,7 +60,8 @@ export default function Productos() {
                         {productos.map((producto) => {
                             return (
                                 <li className="card mb-3" key={producto._id}>
-                                    <div className="row g-0">
+                                    <PreviewProducto producto={producto} handleShow={handleShow} handleSelectedDelete={handleSelectedDelete}></PreviewProducto>
+                                    {/* <div className="row g-0">
                                         <div className="col-md-3">
                                             <img src="..." className="img-fluid rounded-start" alt="..." />
                                         </div>
@@ -87,7 +89,7 @@ export default function Productos() {
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> */}
                                 </li>
                             );
                         })}
