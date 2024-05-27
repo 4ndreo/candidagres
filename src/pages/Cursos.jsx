@@ -22,30 +22,30 @@ export default function Header() {
     });
   }, []);
   if (cursos.length > 0) {
-  return (
+    return (
       <main className="container main">
         <div className="cont-cursos">
           <h1>Clases disponibles</h1>
           <ul className="listado-cursos">
             {cursos.map((curso) => {
-              // return <p>{curso.horario}</p>
               return (
-                  <li key={curso._id}>
-                    <h2>{curso.nombre}</h2>
-                    <p>Descripción: {curso.descripcion}</p>
-                    <p>Precio: ${curso.precio}</p>
-                    <p><Link to={"/turnos/turno/ver-" + curso._id}
-                             className="btn btn-primary">Ver turnos disponibles</Link></p>
-                  </li>
+                <li class="card" key={curso._id}>
+                  <div class="card-body">
+                    <h2 class="card-title">{curso.nombre}</h2>
+                    <p class="card-subtitle mb-2 text-body-secondary negritas">Precio: ${curso.precio}</p>
+                    <p class="card-text">{curso.descripcion}</p>
+                    <Link to={"/turnos/turno/ver-" + curso._id}
+                      className="btn btn-primary btn-ver"> <span>Ver turnos disponibles</span></Link>
+                  </div>
+                </li>
               );
             })}
           </ul>
         </div>
       </main>
-  );
+    );
   }
-  else 
-  {
+  else {
     return (
       <main className="container main">
         <Loader></Loader>

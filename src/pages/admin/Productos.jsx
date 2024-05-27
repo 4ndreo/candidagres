@@ -49,8 +49,8 @@ export default function Productos() {
         <main className="container main">
             <div className="cont-admin-cursos">
                 <h1>Administrar Productos</h1>
-                <Link to="producto" className="btn btn-primary mt-3">
-                    Crear un Producto
+                <Link to="producto" className="btn btn-primary btn-agregar mt-3">
+                    <span>Crear un Producto</span>
                 </Link>
                 {loading ? (
                     <Loader className="w-50"></Loader>
@@ -66,25 +66,23 @@ export default function Productos() {
                                         <div className="col-md-9">
                                             <div className="row g-0">
                                                 <div className="card-body col-md-8">
+                                                    <small className="text-body-secondary">Demora: {producto.demora_producto} dias</small>
                                                     <h5 className="card-title">Nombre: {producto.nombre}</h5>
                                                     <p className="card-text">Descripción: {producto.descripcion}</p>
-                                                    <p className="card-text"><small className="text-body-secondary">Demora: {producto.demora_producto} dias</small></p>
                                                     <p>Material: <span className="badge text-bg-primary">{producto.material}</span></p>
                                                     ${producto.precio}
                                                 </div>
                                                 <div className="col-md-4 d-flex align-items-end justify-content-end">
-                                                    <Link to={"producto/id-" + producto._id} className="btn btn-warning me-2">
-                                                        Editar
+                                                    <Link to={"producto/id-" + producto._id} className="btn btn-warning btn-editar me-2">
+                                                        <span>Editar</span>
                                                     </Link>
                                                     <button
                                                         onClick={() => { handleShow(); handleSelectedDelete(producto); }}
-                                                        className="btn btn-danger"
+                                                        className="btn btn-danger btn-eliminar"
                                                         type="button"
                                                         data-toggle="tooltip"
-                                                        data-placement="top"
-                                                    >
-                                                        <i className="fa fa-trash" aria-hidden="true"></i>
-                                                        Eliminar
+                                                        data-placement="top">
+                                                        <span>Eliminar</span>
                                                     </button>
                                                 </div>
                                             </div>
@@ -108,20 +106,16 @@ export default function Productos() {
                             className="btn btn-link btn-close-link"
                             type="button"
                             data-toggle="tooltip"
-                            data-placement="top"
-                        >
-                            <i className="fa-solid fa-trash" aria-hidden="true"></i>
-                            Cerrar
+                            data-placement="top">
+                            <span>Cerrar</span>
                         </button>
                         <button
                             onClick={() => { handleConfirmDelete(productoEliminar); handleClose(); }}
-                            className="btn btn-danger"
+                            className="btn btn-danger btn-eliminar"
                             type="button"
                             data-toggle="tooltip"
-                            data-placement="top"
-                        >
-                            <i className="fa fa-trash-o" aria-hidden="true"></i>
-                            Eliminar definitivamente
+                            data-placement="top">
+                            <span>Eliminar definitivamente</span>
                         </button>
                     </Modal.Footer>
                 </Modal>

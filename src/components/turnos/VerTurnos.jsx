@@ -58,138 +58,138 @@ export function VerTurnos() {
     },
   ];
   useEffect(() => {
-      getTurnos(params?.idCurso)
+    getTurnos(params?.idCurso)
       .then(() => {
         getInscripcionesByUser(value.currentUser._id)
-        .then(() => {
-          getCurso().then(() => {
-            inscripcionesService.countInscripcionesByCurso(params?.idCurso).then((data) => {
-              setCupos(data);
-              setLoadingInscripciones(false);
-            })
-          });
-        })
+          .then(() => {
+            getCurso().then(() => {
+              inscripcionesService.countInscripcionesByCurso(params?.idCurso).then((data) => {
+                setCupos(data);
+                setLoadingInscripciones(false);
+              })
+            });
+          })
       }).catch((err) => {
         console.log(err)
       })
       ;
-    
+
   }, []);
-  
+
   function getTurnos(curso_id) {
     return new Promise((resolve, reject) => {
       turnosService.findByCurso(curso_id)
-      .then((data) => {
-        setTurnos(
-          data?.sort(function (a, b) {
-            return a.horarioInicio - b.horarioInicio;
-          })
+        .then((data) => {
+          setTurnos(
+            data?.sort(function (a, b) {
+              return a.horarioInicio - b.horarioInicio;
+            })
           )
-          resolve(); 
+          resolve();
         })
         .catch((err) => {
-        console.log(err)
-        setError(err.message);
-        reject(err);
-      });
-      
+          console.log(err)
+          setError(err.message);
+          reject(err);
+        });
+
     })
   }
 
   function getCurso(curso_id) {
     return new Promise((resolve, reject) => {
       cursosService
-      .findById(params?.idCurso || curso_id)
-      .then((curso) => {
-        setCurso(curso);
-        resolve(); 
-      })
-      .catch((err) => {
-        setError(err.message);
-        reject(err);
-      });
+        .findById(params?.idCurso || curso_id)
+        .then((curso) => {
+          setCurso(curso);
+          resolve();
+        })
+        .catch((err) => {
+          setError(err.message);
+          reject(err);
+        });
     })
   }
 
   function getInscripcionesByUser(user_id) {
     return new Promise((resolve, reject) => {
       inscripcionesService
-      .findByUser(user_id)
-      .then((inscripciones) => {
-        setInscripciones(inscripciones);
-        resolve(); 
-      })
-      .catch((err) => {
-        setError(err.message);
-        reject(err);
-      });
+        .findByUser(user_id)
+        .then((inscripciones) => {
+          setInscripciones(inscripciones);
+          resolve();
+        })
+        .catch((err) => {
+          setError(err.message);
+          reject(err);
+        });
     })
   }
   function handleInscripciones(turno) {
     setLoadingInscripciones(true);
     inscripcionesService.findAllByUserAndTurno(value.currentUser._id, turno._id)
-    .then((inscripciones) => {
-      if(inscripciones.length === 0){
-        return createInscripcion(turno).then(() => {
-          getInscripcionesByUser(value.currentUser._id).then(() => {
-            inscripcionesService.countInscripcionesByCurso(params?.idCurso).then((data) => {
-              setCupos(data);
-              setLoadingInscripciones(false);
-            })
-          });
+      .then((inscripciones) => {
+        if (inscripciones.length === 0) {
+          return createInscripcion(turno).then(() => {
+            getInscripcionesByUser(value.currentUser._id).then(() => {
+              inscripcionesService.countInscripcionesByCurso(params?.idCurso).then((data) => {
+                setCupos(data);
+                setLoadingInscripciones(false);
+              })
+            });
 
-        })
-      }
-      if(inscripciones[0].deleted){
-        return restoreInscripciones(inscripciones[0]._id).then(() => {
-          getInscripcionesByUser(value.currentUser._id).then(() => {
-            inscripcionesService.countInscripcionesByCurso(params?.idCurso).then((data) => {
-              setCupos(data);
-              setLoadingInscripciones(false);
+          })
+        }
+        if (inscripciones[0].deleted) {
+          return restoreInscripciones(inscripciones[0]._id).then(() => {
+            getInscripcionesByUser(value.currentUser._id).then(() => {
+              inscripcionesService.countInscripcionesByCurso(params?.idCurso).then((data) => {
+                setCupos(data);
+                setLoadingInscripciones(false);
+              })
+            });
+
+          })
+        } else {
+          return inscripcionesService.remove(inscripciones[0]._id)
+            .then(() => {
+              getInscripcionesByUser(value.currentUser._id).then(() => {
+                inscripcionesService.countInscripcionesByCurso(params?.idCurso).then((data) => {
+                  setCupos(data);
+                  setLoadingInscripciones(false);
+                })
+              });
+              // setInscripciones(inscripciones);
             })
-          });
-          
-        })
-      } else {
-        return inscripcionesService.remove(inscripciones[0]._id)
-        .then(() => {
-          getInscripcionesByUser(value.currentUser._id).then(() => {
-            inscripcionesService.countInscripcionesByCurso(params?.idCurso).then((data) => {
-              setCupos(data);
-              setLoadingInscripciones(false);
-            })
-          });
-          // setInscripciones(inscripciones);
-        })
-        .catch((err) => setError(err.message));
-      }
-    })
-    .catch((err) => setError(err.message));
+            .catch((err) => setError(err.message));
+        }
+      })
+      .catch((err) => setError(err.message));
   }
 
-  function createInscripcion(data){
+  function createInscripcion(data) {
     return new Promise((resolve, reject) => {
-      inscripcionesService.create({idCurso: data.idCurso, idTurno: data._id, idUser: value.currentUser._id })
-      .then((data) => {
-        resolve();
-      })
-      .catch((err) => {
-        setError(err.message);
-        reject(err);
-      });
+      inscripcionesService.create({ idCurso: data.idCurso, idTurno: data._id, idUser: value.currentUser._id })
+        .then((data) => {
+          resolve();
+        })
+        .catch((err) => {
+          setError(err.message);
+          reject(err);
+        });
     })
   }
 
   function restoreInscripciones(inscripcionId) {
     return new Promise((resolve, reject) => {
-      inscripcionesService.update(inscripcionId, {deleted: false})
-      .then(() => {
-        resolve();
-      })
-      .catch((err) => {
-        setError(err.message);
-        reject(err);
-      });
+      inscripcionesService.update(inscripcionId, { deleted: false })
+        .then(() => {
+          resolve();
+        })
+        .catch((err) => {
+          setError(err.message);
+          reject(err);
+        });
     })
   }
 
@@ -198,7 +198,7 @@ export function VerTurnos() {
   }
 
   function handleSelectedInscripcion(inscripcion) {
-    if(inscripcion.length > 0) {
+    if (inscripcion.length > 0) {
       setSelectedInscripcion(inscripcion[0]._id);
     }
   }
@@ -252,59 +252,59 @@ export function VerTurnos() {
               );
             })}
           </ul>
-          
+
           <Modal show={show} onHide={handleClose} size="lg" variant="white">
             <Modal.Header className="modal-title" closeButton>
               <Modal.Title className="negritas">Inscribirse al curso de {curso.nombre}</Modal.Title>
-              <Button className="btn-close-link" variant="link" onClick={handleClose}>X</Button>
+              <button type="button" className="btn btn-link btn-close-link" variant="link" onClick={handleClose}></button>
             </Modal.Header>
             <Modal.Body>
               <p><span className="negritas">Detalle de la clase:</span> {curso.descripcion}</p>
               <p>
-              <span className="negritas">Dias y horario:</span>
-              {selectedTurno.dias?.map(dia => {
-                
-                daysCount++
-                return (
-                  <span key={dia}>{daysCount > 1 ? ', ' : ''} {diasSemana.find(o => o.id === dia).nombre}</span>
-                  
+                <span className="negritas">Dias y horario:</span>
+                {selectedTurno.dias?.map(dia => {
+
+                  daysCount++
+                  return (
+                    <span key={dia}>{daysCount > 1 ? ', ' : ''} {diasSemana.find(o => o.id === dia).nombre}</span>
+
                   )
-              })}
-              <span> de {selectedTurno.horarioInicio}hs a {selectedTurno.horarioFin}hs</span>
+                })}
+                <span> de {selectedTurno.horarioInicio}hs a {selectedTurno.horarioFin}hs</span>
               </p>
               <p><span className="negritas">Docente:</span> {curso.profesor.charAt(0).toUpperCase() + curso.profesor.slice(1)}</p>
               <p><span className="negritas">Precio:</span> ${curso.precio}</p>
             </Modal.Body>
             <Modal.Footer>
-              
-              {verifyInscripto(selectedTurno._id).some(val => val) ? 
-                <Button
-                disabled={loadingInscripciones}
-                to={"/id-" + selectedTurno._id + "/curso/id-" + curso._id}
-                className={loadingInscripciones ? "btn-close-link btn-loading" : "btn-close-link btn-inscripto"}
-                onClick={() => handleInscripciones(selectedTurno)}>
+
+              {verifyInscripto(selectedTurno._id).some(val => val) ?
+                <button
+                  type="button"
+                  disabled={loadingInscripciones}
+                  className={loadingInscripciones ? "btn-close-link btn-loading" : "btn-close-link btn-inscripto"}
+                  onClick={() => handleInscripciones(selectedTurno)}>
                   {loadingInscripciones ? <LoaderMini></LoaderMini> : ""}
-                </Button>
-                : 
-                ((cupos.filter(cupo => cupo._id === selectedTurno._id )[0]?.totalQuantity ?? 0) === selectedTurno.max_turnos) ?
-                <Button
-                to={"/id-" + selectedTurno._id + "/curso/id-" + curso._id}
-                className="btn-close-link btn-full"
-                disabled
-                >
-                </Button>
+                </button>
                 :
-                <Button
-                disabled={loadingInscripciones}
-                to={"/id-" + selectedTurno._id + "/curso/id-" + curso._id}
-                className={loadingInscripciones ? "btn-loading" : "btn btn-primary"}
-                onClick={() => handleInscripciones(selectedTurno)}
-                >
-                {loadingInscripciones ? <LoaderMini></LoaderMini> : "Inscribirse en este horario"}
-              </Button>
+                ((cupos.filter(cupo => cupo._id === selectedTurno._id)[0]?.totalQuantity ?? 0) === selectedTurno.max_turnos) ?
+                  <button
+                    type="button"
+                    className="btn btn-link btn-close-link btn-full"
+                    disabled>
+                  </button>
+                  :
+                  <button
+                    type="button"
+                    disabled={loadingInscripciones}
+                    className={loadingInscripciones ? "btn-loading" : "btn btn-primary btn-agregar"}
+                    onClick={() => handleInscripciones(selectedTurno)}>
+                    <span>
+                      {loadingInscripciones ? <LoaderMini></LoaderMini> : "Inscribirse en este horario"}
+                    </span>
+                  </button>
               }
             </Modal.Footer>
-      </Modal>
+          </Modal>
         </div>
       </main>
     );
