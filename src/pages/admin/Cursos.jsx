@@ -27,7 +27,7 @@ export default function Turnos() {
 
   function handleDeleteElement(item) {
 
-    if(window.confirm("¿Esta seguro que quiere eliminar la clase?")){
+    if (window.confirm("¿Esta seguro que quiere eliminar la clase?")) {
       cursosService.remove(item._id).then((cursos) => {
         console.log(cursos);
         setCursos(cursos);
@@ -42,37 +42,61 @@ export default function Turnos() {
     <main className="container main">
       <div className="cont-admin-cursos">
         <h1>Administrar Clases</h1>
-        <Link to="curso" className="btn btn-primary mt-3">
-          Crear una Clase
+        <Link to="curso" className="btn btn-primary btn-agregar mt-3">
+          <span>Crear una Clase</span>
         </Link>
         <ul>
           {cursos.map((curso) => {
             // return <p>{curso.horario}</p>
             return (
-              <li key={curso._id}>
-                <p>Clase: {curso.nombre}</p>
-                <p>Descripción: {curso.descripcion}</p>
-                <p>Profesor: {curso.profesor}</p>
-                <p>Precio: ${curso.precio} </p>
-                <Link
-                  to={"curso/id-" + curso._id}
-                  className="btn btn-warning me-2"
-                >
-                  Editar clase
-                </Link>
-                <button
-                  onClick={() => handleDeleteElement(curso)}
-                  className="btn btn-danger"
-                  type="button"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title=""
-                  data-original-title="Delete"
-                >
-                  <i className="fa fa-trash-o" aria-hidden="true"></i>
-                  Eliminar Clase
-                </button>
+              <li className="card mb-3" key={curso._id}>
+                <div className="row g-0">
+                  <div className="card-body col-md-8">
+                    <small className="text-body-secondary">Profesor: {curso.profesor}</small>
+                    <h5 className="card-title">{curso.nombre}</h5>
+                    <p className="card-text">{curso.descripcion}</p>
+                    <p> ${curso.precio}</p>
+                  </div>
+                  <div className="col-md-4 d-flex align-items-end justify-content-end">
+                    <Link
+                      to={"curso/id-" + curso._id}
+                      className="btn btn-warning btn-editar me-2">
+                      <span>Editar clase</span>
+                    </Link>
+                    <button
+                      onClick={() => handleDeleteElement(curso)}
+                      className="btn btn-danger btn-eliminar"
+                      type="button"
+                      data-toggle="tooltip"
+                      data-placement="top"
+                      title=""
+                      data-original-title="Delete">
+                      <span>Eliminar Clase</span>
+                    </button>
+                  </div>
+                </div>
               </li>
+              // <li key={curso._id}>
+              //   <p>Clase: {curso.nombre}</p>
+              //   <p>Descripción: {curso.descripcion}</p>
+              //   <p>Profesor: {curso.profesor}</p>
+              //   <p>Precio: ${curso.precio} </p>
+              //   <Link
+              //     to={"curso/id-" + curso._id}
+              //     className="btn btn-warning btn-editar me-2">
+              //     <span>Editar clase</span>
+              //   </Link>
+              //   <button
+              //     onClick={() => handleDeleteElement(curso)}
+              //     className="btn btn-danger btn-eliminar"
+              //     type="button"
+              //     data-toggle="tooltip"
+              //     data-placement="top"
+              //     title=""
+              //     data-original-title="Delete">
+              //     <span>Eliminar Clase</span>
+              //   </button>
+              // </li>
             );
           })}
         </ul>

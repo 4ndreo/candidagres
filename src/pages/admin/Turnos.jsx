@@ -38,7 +38,7 @@ export default function Turnos() {
 
   function handleDeleteElement(item) {
 
-    if(window.confirm("¿Esta seguro que quiere eliminar el turno?")){
+    if (window.confirm("¿Esta seguro que quiere eliminar el turno?")) {
       turnosService.remove(item._id).then((turnos) => {
         console.log(turnos);
         setTurnos(turnos);
@@ -47,7 +47,7 @@ export default function Turnos() {
 
   }
 
-  function handleDia(dias){
+  function handleDia(dias) {
 
     const diasMapping = {
       D1: 'Lunes',
@@ -72,8 +72,8 @@ export default function Turnos() {
       <main className="container main">
         <div className="cont-admin-turnos">
           <h1>Administrar Turnos</h1>
-          <Link to="turno" className="btn btn-primary mt-3">
-            Crear un turno
+          <Link to="turno" className="btn btn-primary btn-agregar mt-3">
+            <span>Crear un turno</span>
           </Link>
           <ul>
             {cursos.map((curso) => {
@@ -82,35 +82,63 @@ export default function Turnos() {
                   <h2>{curso.nombre}</h2>
                   <ul>
                     {turnos
-                        .filter((turno) => turno.idCurso === curso._id)
-                        .map((turno) => (
-                            <li key={turno._id}>
-                              <p>Nombre del turno: {turno.nombre}</p>
-                              <p>Dias: {handleDia(turno.dias).join(', ')}</p>
-                              <p>Horario: De {turno.horarioInicio}hs a {turno.horarioFin}hs</p>
-                              <p>Cupo maximo: {turno.max_turnos} personas</p>
+                      .filter((turno) => turno.idCurso === curso._id)
+                      .map((turno) => (
+                        <li className="card mb-3" key={turno._id}>
+                          <div className="row g-0">
+                            <div className="card-body col-md-8">
+                              <small className="text-body-secondary">Cupo maximo: {turno.max_turnos} personas</small>
+                              <h5 className="card-title">{turno.nombre}</h5>
+                              <p className="card-text">Dias: {handleDia(turno.dias).join(', ')}</p>
+                              <p className="card-text">Horario: De {turno.horarioInicio}hs a {turno.horarioFin}hs</p>
+                            </div>
+                            <div className="col-md-4 d-flex align-items-end justify-content-end">
                               <Link
-                                  to={"turno/id-" + turno._id}
-                                  className="btn btn-warning me-2"
+                                to={"turno/id-" + turno._id}
+                                className="btn btn-warning btn-editar me-2"
                               >
-                                Editar turno
+                                <span>Editar turno</span>
                               </Link>
                               <button
-                                  onClick={() => handleDeleteElement(turno)}
-                                  className="btn btn-danger"
-                                  type="button"
-                                  data-toggle="tooltip"
-                                  data-placement="top"
-                                  title=""
-                                  data-original-title="Delete"
+                                onClick={() => handleDeleteElement(turno)}
+                                className="btn btn-danger btn-eliminar"
+                                type="button"
+                                data-toggle="tooltip"
+                                data-placement="top"
+                                title=""
+                                data-original-title="Delete"
                               >
-                                <i className="fa fa-trash-o" aria-hidden="true"></i>
-                                Eliminar turno
+                                <span>Eliminar turno</span>
                               </button>
-                            </li>
-                        ))}
+                            </div>
+                          </div>
+                        </li>
+                        // <li key={turno._id}>
+                        //   <p>Nombre del turno: {turno.nombre}</p>
+                        //   <p>Dias: {handleDia(turno.dias).join(', ')}</p>
+                        //   <p>Horario: De {turno.horarioInicio}hs a {turno.horarioFin}hs</p>
+                        //   <p>Cupo maximo: {turno.max_turnos} personas</p>
+                        //   <Link
+                        //       to={"turno/id-" + turno._id}
+                        //       className="btn btn-warning btn-editar me-2"
+                        //   >
+                        //     <span>Editar turno</span>
+                        //   </Link>
+                        //   <button
+                        //       onClick={() => handleDeleteElement(turno)}
+                        //       className="btn btn-danger btn-eliminar"
+                        //       type="button"
+                        //       data-toggle="tooltip"
+                        //       data-placement="top"
+                        //       title=""
+                        //       data-original-title="Delete"
+                        //   >
+                        //     <span>Eliminar turno</span>
+                        //   </button>
+                        // </li>
+                      ))}
                     {turnos.filter((turno) => turno.idCurso === curso._id).length === 0 && (
-                        <li>No tiene un turno asignado.</li>
+                      <li>No tiene un turno asignado.</li>
                     )}
                   </ul>
                 </div>

@@ -204,7 +204,7 @@ const loadData = () => {
                                   } {element.horarioInicio} - {element.horarioFin}</span>
                                   <button
                                     onClick={() => handleDeleteElement(element._id)}
-                                    className="btn btn-danger"
+                                    className="btn btn-danger btn-eliminar"
                                     type="button"
                                     data-toggle="tooltip"
                                     data-placement="top"
@@ -212,7 +212,7 @@ const loadData = () => {
                                     data-original-title="Delete"
                                     >
                                     <i className="fa fa-trash-o" aria-hidden="true"></i>
-                                    Eliminar Inscripción
+                                    <span>Eliminar Inscripción</span>
                                   </button>
                                 </div>
                               )

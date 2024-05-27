@@ -69,6 +69,12 @@ export default function Inscripciones() {
           >
             Crear una inscripción
           </a>
+          <Link
+            to={"inscripcion"}
+            className="btn btn-primary mt-3"
+          >
+            Crear una inscripción
+          </Link>
           <ul>
             {inscripciones.map((inscripcion) => {
               // return <p>{turno.horario}</p>
