@@ -30,7 +30,7 @@ import { CreateProducto } from "./components/productos/CreateProducto";
 import { EditProducto } from "./components/productos/EditProducto";
 
 import Tienda from "./pages/Tienda";
-import VerProductoId from "./pages/VerProductoId"
+import VerProductoId from "./pages/VerProducto"
 
 import Perfil from "./pages/Perfil";
 import { PerfilTurnos } from "./components/perfil/PerfilTurnos";
