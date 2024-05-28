@@ -1,0 +1,10 @@
+.cont-view-product .product-image {
+  aspect-ratio: 1;
+  object-fit: cover;
+  object-position: center;
+}
+
+.cont-view-product .card-price {
+  font-size: 2rem;
+margin-top: 2rem;
+}

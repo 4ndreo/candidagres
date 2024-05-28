@@ -1,0 +1,18 @@
+.breadcrumbs {
+    margin-bottom: 2rem;
+}
+
+.breadcrumbs small {
+    margin-right: 0.5rem;
+}
+.breadcrumbs small:last-child{
+    color: var(--main-blue);
+}
+.breadcrumbs small a{
+    color: grey;
+    text-decoration: none;
+    transition: all ease 0.15s;
+}
+.breadcrumbs small a:hover{
+    color: var(--main-blue);
+}
