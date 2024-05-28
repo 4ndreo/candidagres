@@ -1,7 +1,7 @@
 import "./css/Cursos.css";
 
 import React, { useEffect, useState, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Outlet, Route, Routes, useNavigate } from "react-router-dom";
 import * as productosService from "../services/productos.service";
 import * as userService from "../services/users.service";
 import * as carritoService from "../services/carrito.service";
@@ -12,6 +12,9 @@ import Loader from "../components/basics/Loader";
 import { findById } from "../services/carrito.service";
 import * as turnosService from "../services/turnos.service";
 import * as inscripcionesService from "../services/inscripciones.service";
+import { VerCarrito } from "../components/carrito/VerCarrito";
+import { HistorialCompras } from "../components/carrito/HistorialCompras";
+import { VerTienda } from "../components/carrito/VerTienda";
 
 export default function Tienda() {
 
@@ -207,80 +210,35 @@ export default function Tienda() {
   }
 
 
+  return (
+
+    <main>
+      <Container fluid>
+        <Row>
+
+          <Col md={2} className="d-none d-md-block bg-light sidebar">
+            <div className="sidebar-sticky">
+              <Nav className="flex-column">
+                <Link to="/tienda" className="nav-link active">
+                  Tienda
+                </Link>
+                <Link to={`/tienda/carrito/id-${carritoId}`} className="nav-link">
+                  Carrito de Compras
+                </Link>
+                <Link to={`/tienda/carrito/historial/id-${usuarioId}`} className="nav-link">
+                  Historial
+                </Link>
+              </Nav>
+            </div>
+          </Col>
+
+          <Col md={10} className="ml-md-auto px-md-4">
+          <Outlet />
+          </Col>
 
 
-
-  if (productos.length > 0) {
-
-    return (
-
-      <main>
-        <Container fluid>
-          <Row>
-
-            <Col md={2} className="d-none d-md-block bg-light sidebar">
-              <div className="sidebar-sticky">
-                <Nav className="flex-column">
-                  <Nav.Link href="#" className="nav-link active">
-                    Tienda
-                  </Nav.Link>
-                  <Nav.Link href={`/carrito/id-${carritoId}`} className="nav-link">
-                    Carrito de Compras
-                  </Nav.Link>
-                  <Nav.Link href={`/carrito/historial/id-${usuarioId}`} className="nav-link">
-                    Historial
-                  </Nav.Link>
-                </Nav>
-              </div>
-            </Col>
-
-            <Col md={10} className="ml-md-auto px-md-4">
-              <div className="cont-admin-cursos">
-                <h1>Tienda</h1>
-                {agregadoCorrectamente && (
-                  <div className="alert alert-success" role="alert">
-                    <b>{productoAgregado}</b> se agrego exitosamente a tu carrito
-                  </div>
-                )}
-                {/* <p>Total: {total}</p> */}
-                <ul className="listado-cursos">
-                  {productos.map((producto) => {
-                    return (
-                      <li key={producto._id}>
-                        {/*<img*/}
-                        {/*    src={producto.imagen}*/}
-                        {/*    alt={producto.descripcion}*/}
-                        {/*    style={{ maxWidth: '100px', maxHeight: '100px' }}*/}
-                        {/*/>*/}
-                        <p><b>{producto.nombre}</b></p>
-                        <p>Precio: ${producto.precio}</p>
-                        <p>Demora aproximada: {producto.demora_producto} días</p>
-                        <button
-                          className="btn btn-primary btn-agregar mt-3 me-3"
-                          type="submit"
-                          onClick={() => handleClick(producto._id)}>
-                          <span>Agregar al carrito</span>
-                        </button>
-                        <Link
-                          to={"producto/id-" + producto._id}
-                          className="btn btn-success btn-ver mt-3">
-                          <span>Ver</span>
-                        </Link>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-            </Col>
-          </Row>
-        </Container>
-      </main>
-    );
-  } else {
-    return (
-      <main>
-        <Loader></Loader>
-      </main>
-    )
-  }
+        </Row>
+      </Container>
+    </main>
+  );
 }
