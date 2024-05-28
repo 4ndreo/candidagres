@@ -34,9 +34,9 @@ export function VerCarrito() {
         const usuarioObjeto = JSON.parse(usuarioGuardado);
 
         setNombre(usuarioObjeto.email);
-        setUsuarioId(usuarioObjeto._id);
+        setUsuarioId(params.idUsuario);
         setCarritoId(params?.idCarrito);
-        console.log(usuarioObjeto.email);
+        console.log(params.idUsuario);
 
 
         traerCarritoUsuario(params?.idCarrito)
@@ -44,15 +44,63 @@ export function VerCarrito() {
     }, []);
 
 
+    function getUserById(usuarioId) {
+
+
+        return new Promise((resolve, reject) => {
+          carritoService.findByIdUser(params.idUsuario)
+            .then((data) => {
+              resolve(data);
+            })
+            .catch((err) => {
+              reject(err);
+            });
+    
+        })
+    
+      }
+      function crearCarritoParaUsuario(usuarioId) {
+        carritoService.create({ usuarioId, total, productosComprar })
+          .then((data) => {
+            const idNewCarrito = traerIdNewCarrito(data, usuarioId)
+            setCarritoId(idNewCarrito)
+            //todo recibir idCarrito y setearlo para poder mandarlo en el update
+          })
+          .catch((err) => {
+            setError(err.message)
+          });
+      }
+    
+    
+      function traerIdNewCarrito(carritos, idUsuario) {
+    
+        const objetoEncontrado = carritos.find(carrito => carrito.usuarioId === params.idUsuario);
+        return objetoEncontrado ? objetoEncontrado._id : null;
+    
+    
+    
+      }
     function traerCarritoUsuario(idCarrito) {
 
-        carritoService.findById(idCarrito).then((carrito) => {
 
-            setTotal(carrito.total);
-            setProductosComprar(carrito.productosComprar)
+        getUserById(usuarioId).then((data) => {
+            console.log('data', data)
+            if (data === null) {
+              crearCarritoParaUsuario(params.idUsuario)
+            } else {
+              setCarritoId(data._id)
+              setProductosComprar(data.productosComprar)
+              console.log(data.productosComprar)
+              setTotal(data.total)
+            }
+          })
+        // carritoService.findById(idCarrito).then((carrito) => {
 
-            console.log(carrito.total, carrito.productosComprar)
-        }).catch((err) => setError(err.message));
+        //     setTotal(carrito.total);
+        //     setProductosComprar(carrito.productosComprar)
+
+        //     console.log(carrito.total, carrito.productosComprar)
+        // }).catch((err) => setError(err.message));
     }
 
     function handleClick(productoId) {
