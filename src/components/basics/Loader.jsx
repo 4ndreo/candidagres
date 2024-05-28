@@ -6,9 +6,7 @@ import LOADER from "../../lotties/loader.json";
 
 export default function Loader() {
   return (
-    <>
     <Lottie animationData={LOADER} />
-    </>
   );
 }
 

@@ -142,9 +142,9 @@ function App() {
             <Route path="producto/id-:idProducto" element={<VerProductoId />} />
             {/* Rutas de Carrito de Compras */}
 
-            <Route path="carrito/id-:idCarrito" element={<VerCarrito />} title={"Compras"} />
+            <Route path="carrito/id-:idUsuario" element={<VerCarrito />} title={"Compras"} />
 
-            <Route path="carrito/historial/id-:idUsuario" element={<HistorialCompras />} title={"Historial"} />
+            <Route path="historial/id-:idUsuario" element={<HistorialCompras />} title={"Historial"} />
           </Route>
 
           {/* Rutas Perfil */}
@@ -167,7 +167,6 @@ function App() {
 
 
         <Footer></Footer>
-        <script src="https://cdn.lordicon.com/qjzruarw.js"></script>
       </AuthContext.Provider>
     </>
   );

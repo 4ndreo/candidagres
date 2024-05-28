@@ -21,11 +21,7 @@ export default function VerProductoId() {
     if (producto) {
         return (
             <main className="container">
-                <div className="breadcrumbs">
-                    <small><Link to="/tienda">Tienda</Link></small>
-                    <small>{'>'}</small>
-                    <small className="negritas">{producto.nombre}</small>
-                </div>
+                
                 <ViewProducto producto={producto}></ViewProducto>
             </main>
         );

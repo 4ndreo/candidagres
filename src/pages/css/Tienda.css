@@ -1,0 +1,23 @@
+.tienda-navbar  {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: space-between;
+    align-items: baseline;
+    height: fit-content;
+    margin-top: -2rem;
+}
+.tienda-nav  {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: end;
+    height: fit-content;
+}
+
+.tienda-navbar a {
+    padding: 0.5rem 0;
+    color: var(--main-blue);
+}
+
+.tienda-navbar a.active {
+    font-weight: bold;
+}

@@ -138,7 +138,7 @@ export function VerTienda() {
 
         return (
             <div className="cont-admin-cursos">
-                <h1>Tienda</h1>
+                <h1>Productos</h1>
                 {agregadoCorrectamente && (
                     <div className="alert alert-success" role="alert">
                         <b>{productoAgregado}</b> se agrego exitosamente a tu carrito
