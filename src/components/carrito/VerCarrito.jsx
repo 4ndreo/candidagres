@@ -1,11 +1,11 @@
 import "../css/Edit.css";
 
 import React, { useEffect, useState } from "react";
-import {Link, useNavigate, useParams} from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import * as carritoService from "../../services/carrito.service";
 
 import Loader from "../basics/Loader";
-import {Col, Container, Nav, Row, Button, Modal, ListGroup } from "react-bootstrap";
+import { Col, Container, Nav, Row, Button, Modal, ListGroup } from "react-bootstrap";
 import * as productosService from "../../services/productos.service";
 
 
@@ -55,13 +55,13 @@ export function VerCarrito() {
         }).catch((err) => setError(err.message));
     }
 
-    function handleClick (productoId) {
+    function handleClick(productoId) {
 
         const confirmarQuitar = window.confirm('¿Estás seguro de que quieres quitar este producto?');
         console.log(productoId)
         console.log(productosComprar)
 
-        if (confirmarQuitar){
+        if (confirmarQuitar) {
             let indice = productosComprar.findIndex(objeto => objeto.id === productoId)
 
             // Verificar si se encontró el objeto con el ID
@@ -90,14 +90,14 @@ export function VerCarrito() {
     }
 
 
-    function handleClickFinalizar(){
+    function handleClickFinalizar() {
         console.log("finalizar compra")
         setShowModal(true);
 
     }
 
-    function handleConfirmar(){
-        carritoService.remove(carritoId).then((carrito)=>{
+    function handleConfirmar() {
+        carritoService.remove(carritoId).then((carrito) => {
 
             setProductosComprar([])
             setTotal(0)
@@ -108,12 +108,12 @@ export function VerCarrito() {
     }
 
 
-    function handleCancelar(){
+    function handleCancelar() {
         setShowModal(false);
         setShowModal(false);
     }
 
-    function handleAceptarSuccess(){
+    function handleAceptarSuccess() {
         setShowSuccessModal(false);
     }
 
@@ -122,146 +122,126 @@ export function VerCarrito() {
 
         return (
 
+            <div className="cont-admin-cursos">
+                <h1>Productos seleccionados de {nombre}</h1>
+                {eliminadoCorrectamente && (
+                    <div className="alert alert-danger" role="alert">
+                        Producto eliminado de tu carrito
+                    </div>
+                )}
 
-            <main>
-                <Container fluid>
-                    <Row>
+                <p><b>Total:</b> ${total}</p>
 
-
-                        <Col md={2} className="d-none d-md-block bg-light sidebar">
-                            <div className="sidebar-sticky">
-                                <Nav className="flex-column">
-                                    <Nav.Link href="/tienda" className="nav-link">
-                                        Tienda
-                                    </Nav.Link>
-                                    <Nav.Link href={`/carrito/id-${carritoId}`} className="nav-link active">
-                                        Carrito de Compras
-                                    </Nav.Link>
-                                    <Nav.Link href={`/carrito/historial/id-${usuarioId}`} className="nav-link">
-                                        Historial
-                                    </Nav.Link>
-                                </Nav>
-                            </div>
-                        </Col>
-
-                        <Col md={10} className="ml-md-auto px-md-4">
-                            <div className="cont-admin-cursos">
-                                <h1>Productos seleccionados de {nombre}</h1>
-                                {eliminadoCorrectamente && (
-                                    <div className="alert alert-danger" role="alert">
-                                        Producto eliminado de tu carrito
-                                    </div>
-                                )}
-
-                                <p><b>Total:</b> ${total}</p>
-
-                                <ul className="listado-cursos">
-                                    {productosComprar
-                                        // .sort((a, b) => a.nombre.localeCompare(b.nombre))
-                                        .map((producto, index) => (
-                                            <li key={`${index}`}>
-                                                {/* Resto del código del mapeo */}
-                                                <p><b>{producto.nombre}</b></p>
-                                                <p>${producto.precio}</p>
-                                                <button
-                                                    className="btn btn-danger mt-3 me-3"
-                                                    type="submit"
-                                                    onClick={() =>handleClick(producto.id)}
-                                                >
-                                                    Quitar
-                                                </button>
-                                            </li>
-                                        ))}
-                                </ul>
-
-
+                <ul className="listado-cursos">
+                    {productosComprar
+                        // .sort((a, b) => a.nombre.localeCompare(b.nombre))
+                        .map((producto, index) => (
+                            <li key={`${index}`}>
+                                {/* Resto del código del mapeo */}
+                                <p><b>{producto.nombre}</b></p>
+                                <p>${producto.precio}</p>
                                 <button
-                                    className="btn btn-success mt-3 me-3"
+                                    className="btn btn-danger mt-3 me-3"
                                     type="submit"
-                                    onClick={() =>handleClickFinalizar()}
-                                >Finalizar Compra
+                                    onClick={() => handleClick(producto.id)}
+                                >
+                                    Quitar
                                 </button>
-                                <Modal show={showModal} onHide={handleCancelar}>
-                                    <Modal.Header closeButton>
-                                        <Modal.Title className="p-2">Finalizar Compra</Modal.Title>
-                                    </Modal.Header>
-                                    <Modal.Body>
-                                        <p>¿Estás seguro de que quieres finalizar la compra?</p>
-                                        <p>Productos a comprar: <b>Total: {total}</b></p>
-                                        <ListGroup>
-                                            {productosComprar.map((producto, index) => (
-                                                <ListGroup.Item key={`${producto.id}-${index}`}>
-                                                    {producto.nombre} x ${producto.precio}
-                                                </ListGroup.Item>
-                                            ))}
-                                        </ListGroup>
-                                    </Modal.Body>
-                                    <Modal.Footer>
-                                        <Button variant="secondary" onClick={handleCancelar}>
-                                            Cancelar
-                                        </Button>
-                                        <Button variant="primary" onClick={handleConfirmar}>
-                                            Confirmar
-                                        </Button>
-                                    </Modal.Footer>
-                                </Modal>
+                            </li>
+                        ))}
+                </ul>
 
-                                <Modal show={showSuccessModal} onHide={handleAceptarSuccess}>
-                                    <Modal.Header closeButton>
-                                        <Modal.Title className="p-2">Operación Realizada con Éxito</Modal.Title>
-                                    </Modal.Header>
-                                    <Modal.Body>La compra se ha finalizado con éxito.</Modal.Body>
-                                    <Modal.Footer>
-                                        <Button variant="primary" onClick={handleAceptarSuccess}>
-                                            Aceptar
-                                        </Button>
-                                    </Modal.Footer>
-                                </Modal>
 
-                            </div>
+                <button
+                    className="btn btn-success mt-3 me-3"
+                    type="submit"
+                    onClick={() => handleClickFinalizar()}
+                >Finalizar Compra
+                </button>
+                <Modal show={showModal} onHide={handleCancelar}>
+                    <Modal.Header closeButton>
+                        <Modal.Title className="p-2">Finalizar Compra</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <p>¿Estás seguro de que quieres finalizar la compra?</p>
+                        <p>Productos a comprar: <b>Total: {total}</b></p>
+                        <ListGroup>
+                            {productosComprar.map((producto, index) => (
+                                <ListGroup.Item key={`${producto.id}-${index}`}>
+                                    {producto.nombre} x ${producto.precio}
+                                </ListGroup.Item>
+                            ))}
+                        </ListGroup>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleCancelar}>
+                            Cancelar
+                        </Button>
+                        <Button variant="primary" onClick={handleConfirmar}>
+                            Confirmar
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
 
-                        </Col>
-                    </Row>
-                </Container>
-            </main>
+                <Modal show={showSuccessModal} onHide={handleAceptarSuccess}>
+                    <Modal.Header closeButton>
+                        <Modal.Title className="p-2">Operación Realizada con Éxito</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>La compra se ha finalizado con éxito.</Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="primary" onClick={handleAceptarSuccess}>
+                            Aceptar
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+
+            </div>
+            //         </Row>
+            //     </Container>
+            // </main>
 
 
         );
 
-    }   else
-    {
+    } else {
         return (
-            <main>
-
-                <Container fluid>
-                    <Row>
-
-                        <Col md={2} className="d-none d-md-block bg-light sidebar">
-                            <div className="sidebar-sticky">
-                                <Nav className="flex-column">
-                                    <Nav.Link href="/tienda" className="nav-link">Tienda</Nav.Link>
-                                    <Nav.Link href={`/carrito/id-${usuarioId}`} className="nav-link active">Carrito de Compras</Nav.Link>
-                                    <Nav.Link href={`/carrito/historial/id-${usuarioId}`} className="nav-link">Historial</Nav.Link>
-                                </Nav>
-                            </div>
-                        </Col>
-
-                        <Col md={10} className="ml-md-auto px-md-4">
-                            <div>
-                                <h1>Productos seleccionados de {nombre}</h1>
-                                <p><b>Total:</b> ${total}</p>
-                            </div>
-
-                            <div>
-                                <p>No tenes productos en el carrito. Hace <a href="/tienda">click aqui</a> para ver los
-                                    productos disponibles.</p>
-                            </div>
-
-                        </Col>
-                    </Row>
-                </Container>
-
-            </main>
+            <Loader></Loader>
         )
     }
+    // else
+    // {
+    //     return (
+    //         <main>
+
+    //             <Container fluid>
+    //                 <Row>
+
+    //                     <Col md={2} className="d-none d-md-block bg-light sidebar">
+    //                         <div className="sidebar-sticky">
+    //                             <Nav className="flex-column">
+    //                                 <Nav.Link href="/tienda" className="nav-link">Tienda</Nav.Link>
+    //                                 <Nav.Link href={`/carrito/id-${usuarioId}`} className="nav-link active">Carrito de Compras</Nav.Link>
+    //                                 <Nav.Link href={`/carrito/historial/id-${usuarioId}`} className="nav-link">Historial</Nav.Link>
+    //                             </Nav>
+    //                         </div>
+    //                     </Col>
+
+    //                     <Col md={10} className="ml-md-auto px-md-4">
+    //                         <div>
+    //                             <h1>Productos seleccionados de {nombre}</h1>
+    //                             <p><b>Total:</b> ${total}</p>
+    //                         </div>
+
+    //                         <div>
+    //                             <p>No tenes productos en el carrito. Hace <a href="/tienda">click aqui</a> para ver los
+    //                                 productos disponibles.</p>
+    //                         </div>
+
+    //                     </Col>
+    //                 </Row>
+    //             </Container>
+
+    //         </main>
+    //     )
+    // }
 }
