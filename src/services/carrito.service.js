@@ -38,14 +38,14 @@ async function findByIdUserFinalizado(idUser) {
     );
 }
 
-async function create(carrito) {
+async function create(usuarioId) {
     return fetch(url + "api/carrito/carrito", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
             'auth-token': localStorage.getItem('token')
         },
-        body: JSON.stringify(carrito),
+        body: JSON.stringify({usuarioId: usuarioId}),
     }).then((response) => response.json());
 }
 
@@ -58,15 +58,15 @@ async function remove(idCarrito) {
     }).then((response) => response.json());
 }
 
-async function update(idCarrito, total, productoEnCarrito) {
-    console.log("service.carrito",productoEnCarrito)
-    return fetch(url + "api/carrito/" + idCarrito, {
+async function update(carrito) {
+    console.log("service.carrito",carrito)
+    return fetch(url + "api/carrito/" + carrito._id, {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json",
             'auth-token': localStorage.getItem('token')
         },
-        body: JSON.stringify({ total, productosComprar: productoEnCarrito }),
+        body: JSON.stringify({ productos: carrito.productos }),
     }).then((response) => true);
 }
 async function updateElimiarProducto(idCarrito, total, productoEnCarrito) {

@@ -1,20 +1,22 @@
-import "../css/Edit.css";
+import "./VerTienda.css";
 
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import * as carritoService from "../../services/carrito.service";
 
 import Loader from "../basics/Loader";
-import { Col, Container, Nav, Row, Button, Modal, ListGroup } from "react-bootstrap";
+import { Col, Container, Nav, Row, Button, Modal, ListGroup, Card, Form } from "react-bootstrap";
 import * as productosService from "../../services/productos.service";
 
+import ImagePlaceholder from "../../img/placeholder-image.jpg";
 
 
 export function VerTienda() {
 
-
+    let navigate = useNavigate();
 
     const [productos, setProductos] = useState([]);
+    const [carrito, setCarrito] = useState([]);
     const [productosComprar, setProductosComprar] = useState([]);
     const [usuarioId, setUsuarioId] = useState("");
     const [carritoId, setCarritoId] = useState("");
@@ -28,17 +30,11 @@ export function VerTienda() {
 
 
     useEffect(() => {
-        const usuarioGuardado = localStorage.getItem('user');
-        const usuarioObjeto = JSON.parse(usuarioGuardado);
-        let usuarioId = usuarioObjeto._id
-
-        setUsuarioId(usuarioObjeto._id)
-        loadProductos(usuarioId)
+        setUsuarioId((JSON.parse(localStorage.getItem('user')))._id)
+        loadProductos((JSON.parse(localStorage.getItem('user')))._id)
     }, []);
 
-    function getUserById(usuarioId) {
-
-
+    function getCarritobyIdUser(usuarioId) {
         return new Promise((resolve, reject) => {
             carritoService.findByIdUser(usuarioId)
                 .then((data) => {
@@ -48,19 +44,18 @@ export function VerTienda() {
                     reject(err);
                 });
         })
-
     }
 
     function loadProductos(usuarioId) {
         return new Promise((resolve, reject) => {
             getProductos().then(() => {
-                getUserById(usuarioId).then((data) => {
+                getCarritobyIdUser(usuarioId).then((data) => {
                     if (data === null) {
                         crearCarritoParaUsuario(usuarioId)
                     } else {
-                        setCarritoId(data._id)
-                        setProductosComprar(data.productosComprar)
-                        setTotal(data.total)
+                        setCarrito(data)
+                        console.log(data.productos.map(producto => Object.values(producto).includes('6584c7cf0c53363774ea4e5b')))
+                        localStorage.setItem("carrito", JSON.stringify(data))
                     }
                 })
             })
@@ -86,10 +81,11 @@ export function VerTienda() {
     }
 
     function crearCarritoParaUsuario(usuarioId) {
-        carritoService.create({ usuarioId, total, productosComprar })
+        carritoService.create(usuarioId)
             .then((data) => {
-                const idNewCarrito = traerIdNewCarrito(data, usuarioId)
-                setCarritoId(idNewCarrito)
+                // const idNewCarrito = traerIdNewCarrito(data, usuarioId)
+                setCarrito(data)
+                localStorage.setItem("carrito", JSON.stringify(data))
                 //todo recibir idCarrito y setearlo para poder mandarlo en el update
             })
             .catch((err) => {
@@ -97,33 +93,52 @@ export function VerTienda() {
             });
     }
 
-    function traerIdNewCarrito(carritos, idUsuario) {
-        const objetoEncontrado = carritos.find(carrito => carrito.usuarioId === idUsuario);
-        return objetoEncontrado ? objetoEncontrado._id : null;
+    // function traerIdNewCarrito(carritos, idUsuario) {
+    //     const objetoEncontrado = carritos.find(carrito => carrito.usuarioId === idUsuario);
+    //     return objetoEncontrado ? objetoEncontrado._id : null;
+    // }
+
+    function handleAddItemToCart(productoId) {
+        guardarProducto(productoId, 'add')
+        actualizarCarrito(carrito)
     }
 
-    function handleClick(productoId) {
-        const productoEncontrado = productos.find(producto => producto._id === productoId);
-
-        let newTotal = total + productoEncontrado.precio
-        setTotal(newTotal)
-        guardarProducto(productoEncontrado.nombre, productoEncontrado.precio, productoEncontrado._id, newTotal)
-
+    function handleSubstractItemToCart(productoId) {
+        guardarProducto(productoId, 'substract')
+        actualizarCarrito(carrito)
     }
 
-    function guardarProducto(nombre, precio, idProducto, newTotal) {
-        //esto sirve para mostrar el nombre en pantalla del producto agregado con un cartel verde
-        setProductoAgregado(nombre)
-        let nuevoProducto = { nombre: nombre, precio: precio, id: idProducto }
-        setProductosComprar(productosComprar => [...productosComprar, nuevoProducto])
-        actualizarBaseDeDatos(nuevoProducto, newTotal)
+    function checkQuantity(productoId) {
+        // console.log(productoId)
+        return carrito.productos.find(producto => producto.id === productoId)?.cantidad
     }
 
-    function actualizarBaseDeDatos(nuevoProducto, totalNuevo) {
-        carritoService.update(carritoId, totalNuevo, nuevoProducto)
+    function guardarProducto(productoId, operacion) {
+        let nuevoProducto = true;
+
+        carrito.productos.forEach((producto, index) => {
+            if (producto.id === productoId) {
+                nuevoProducto = false;
+                operacion === 'add' ? carrito.productos[index].cantidad++ : carrito.productos[index].cantidad--;
+                if (carrito.productos[index].cantidad <= 0) {
+                    carrito.productos.splice(index, 1);
+                }
+            }
+        })
+        if (nuevoProducto && operacion === 'add') {
+            carrito.productos.push({ id: productoId, cantidad: 1 })
+        }
+    }
+
+    function actualizarCarrito(carrito) {
+        localStorage.setItem("carrito", JSON.stringify(carrito))
+        carritoService.update(carrito)
             .then((msg) => {
                 if (msg) {
-                    setAgregadoCorrectamente(msg)
+                    // setAgregadoCorrectamente(msg)
+                    // setTimeout(() => {
+                    //     setAgregadoCorrectamente(false)
+                    // }, 3000)
                 } else {
                     setAgregadoCorrectamente(false)
                 }
@@ -134,40 +149,50 @@ export function VerTienda() {
 
     }
 
-    if (productos.length > 0) {
+    if (productos.length > 0 && carrito.productos) {
 
         return (
-            <div className="cont-admin-cursos">
+            <div className="cont-admin-cursos cont-list-productos">
                 <h1>Productos</h1>
-                {agregadoCorrectamente && (
+                {/* {agregadoCorrectamente && (
                     <div className="alert alert-success" role="alert">
                         <b>{productoAgregado}</b> se agrego exitosamente a tu carrito
                     </div>
-                )}
-                {/* <p>Total: {total}</p> */}
-                <ul className="listado-cursos">
+                )} */}
+                <ul className="listado-productos">
                     {productos.map((producto) => {
                         return (
                             <li key={producto._id}>
-                                {/*<img*/}
-                                {/*    src={producto.imagen}*/}
-                                {/*    alt={producto.descripcion}*/}
-                                {/*    style={{ maxWidth: '100px', maxHeight: '100px' }}*/}
-                                {/*/>*/}
-                                <p><b>{producto.nombre}</b></p>
-                                <p>Precio: ${producto.precio}</p>
-                                <p>Demora aproximada: {producto.demora_producto} días</p>
-                                <button
-                                    className="btn btn-primary btn-agregar mt-3 me-3"
-                                    type="submit"
-                                    onClick={() => handleClick(producto._id)}>
-                                    <span>Agregar al carrito</span>
-                                </button>
-                                <Link
-                                    to={"producto/id-" + producto._id}
-                                    className="btn btn-success btn-ver mt-3">
-                                    <span>Ver</span>
-                                </Link>
+                                <Card key={producto._id}>
+                                    {/* <div className="card-img"> */}
+                                    <Card.Img className="card-img" variant="top" src={ImagePlaceholder} />
+
+                                    {/* </div> */}
+                                    <Card.Body>
+                                        <h2 className="title">{producto.nombre}</h2>
+                                        <Link className="card_link" to={`/tienda/producto/id-${producto._id}`}></Link>
+                                        <Card.Text className="precio">
+                                            ${producto.precio}
+                                        </Card.Text>
+                                        <Card.Text>
+                                            {producto.descripcion}
+                                        </Card.Text>
+                                    </Card.Body>
+                                    <Card.Footer>
+                                        {/* <small className="text-muted">Last updated 3 mins ago</small> */}
+                                        <div className="counter-cantidad btn-carrito">
+                                            <span className="icon-carrito">
+                                            </span>
+                                            <div>
+                                                <Button variant="danger" onClick={() => handleSubstractItemToCart(producto._id)}>-</Button>
+
+                                                {checkQuantity(producto._id) || 0}
+
+                                                <Button variant="success" onClick={() => handleAddItemToCart(producto._id)}>+</Button>
+                                            </div>
+                                        </div>
+                                    </Card.Footer>
+                                </Card>
                             </li>
                         );
                     })}
