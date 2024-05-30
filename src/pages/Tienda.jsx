@@ -58,22 +58,12 @@ export default function Tienda() {
 
 
   useEffect(() => {
-    console.log(location);
     setUsuarioId(JSON.parse(localStorage.getItem('user'))._id)
-
-
-    console.log(location.pathname.includes('/tienda/producto'))
     if (location.pathname.includes('/tienda/producto')) {
       setShowProductBreadcrumb(true);
     } else {
-
       setShowProductBreadcrumb(false);
     }
-
-
-
-
-
   }, [location]);
 
   // function getUserById(usuarioId) {

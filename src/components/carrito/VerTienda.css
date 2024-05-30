@@ -1,0 +1,90 @@
+.cont-list-productos .listado-productos {
+    width: 100%;
+
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+
+}
+
+.cont-list-productos .listado-productos li {
+    padding: 0rem;
+    margin-bottom: 0rem;
+    border: none;
+    /* border-radius: 0rem; */
+    list-style-type: none;
+    transition: 0.2s ease-in-out all;
+    max-width: 300px;
+}
+
+.cont-list-productos .listado-productos li .card {
+    height: 100%;
+}
+
+.cont-list-productos .listado-productos li:hover {
+    transform: scale(1.01);
+    box-shadow:
+        0px 0.6px 0.8px rgba(0, 0, 0, 0.008),
+        0px 1.5px 1.9px rgba(0, 0, 0, 0.012),
+        0px 2.8px 3.6px rgba(0, 0, 0, 0.015),
+        0px 4.9px 6.5px rgba(0, 0, 0, 0.018),
+        0px 9.2px 12.1px rgba(0, 0, 0, 0.022),
+        0px 22px 29px rgba(0, 0, 0, 0.03);
+}
+
+.cont-list-productos .listado-productos li .title {
+    font-size: 1.5rem;
+}
+
+.cont-list-productos .listado-productos li .precio {
+    font-size: 2rem;
+}
+
+.counter-cantidad {
+
+    display: flex;
+    justify-content: space-between;
+}
+
+.counter-cantidad div {
+
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+/* .counter-cantidad span {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+} */
+
+.counter-cantidad button {
+    position: relative;
+}
+
+.card_link {
+    color: inherit;
+    text-decoration: none;
+
+    &::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+    }
+}
+
+.counter-cantidad .icon-carrito {
+    background-size: 2rem;
+    /* margin: auto; */
+    padding-left: 3rem;
+}
+
+.card-img {
+    height: 200px;
+    object-fit: cover;
+    /* width: 100%; */
+}
