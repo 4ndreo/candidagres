@@ -24,7 +24,7 @@ export function VerTienda() {
     const [precio, setPrecio] = useState();
     const [total, setTotal] = useState(0);
     const [producto, setProducto] = useState([]);
-    const [agregadoCorrectamente, setAgregadoCorrectamente] = useState(false);
+    const [agregadoError, setAgregadoError] = useState(false);
     const [productoAgregado, setProductoAgregado] = useState("");
     const [error, setError] = useState("");
 
@@ -54,7 +54,6 @@ export function VerTienda() {
                         crearCarritoParaUsuario(usuarioId)
                     } else {
                         setCarrito(data)
-                        console.log(data.productos.map(producto => Object.values(producto).includes('6584c7cf0c53363774ea4e5b')))
                         localStorage.setItem("carrito", JSON.stringify(data))
                     }
                 })
@@ -133,14 +132,14 @@ export function VerTienda() {
     function actualizarCarrito(carrito) {
         localStorage.setItem("carrito", JSON.stringify(carrito))
         carritoService.update(carrito)
-            .then((msg) => {
-                if (msg) {
-                    // setAgregadoCorrectamente(msg)
-                    // setTimeout(() => {
-                    //     setAgregadoCorrectamente(false)
-                    // }, 3000)
+            .then((response) => {
+                if (response) {
+                    setCarrito({...carrito})
                 } else {
-                    setAgregadoCorrectamente(false)
+                    setAgregadoError(true)
+                    setTimeout(() => {
+                        setAgregadoError(false)
+                    }, 3000)
                 }
             })
             .catch((err) => {
@@ -149,16 +148,16 @@ export function VerTienda() {
 
     }
 
-    if (productos.length > 0 && carrito.productos) {
+    if (productos.length > 0 && carrito.productos && carrito) {
 
         return (
             <div className="cont-admin-cursos cont-list-productos">
                 <h1>Productos</h1>
-                {/* {agregadoCorrectamente && (
-                    <div className="alert alert-success" role="alert">
-                        <b>{productoAgregado}</b> se agrego exitosamente a tu carrito
+                {agregadoError && (
+                    <div className="alert alert-danger" role="alert">
+                        Error al agregar el producto a tu carrito. Inténtalo de nuevo.
                     </div>
-                )} */}
+                )}
                 <ul className="listado-productos">
                     {productos.map((producto) => {
                         return (

@@ -33,7 +33,6 @@ export function HistorialCompras() {
 
         setNombre(usuarioObjeto.email);
         setUsuarioId(usuarioObjeto._id);
-        console.log(params?.idUsuario);
 
 
 
