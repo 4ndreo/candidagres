@@ -1,5 +1,9 @@
 import "./VerTienda.css";
 
+import "swiper/css";
+import "swiper/css/free-mode";
+import "swiper/css/pagination";
+
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import * as carritoService from "../../services/carrito.service";
@@ -9,6 +13,11 @@ import { Col, Container, Nav, Row, Button, Modal, ListGroup, Card } from "react-
 import * as productosService from "../../services/productos.service";
 
 import ImagePlaceholder from "../../img/placeholder-image.jpg";
+import LoaderMini from "../basics/LoaderMini";
+import { Swiper, SwiperSlide } from "swiper/react";
+
+// import required modules
+import { FreeMode, Pagination } from "swiper";
 
 
 
@@ -19,10 +28,13 @@ export function VerCarrito() {
 
     const [productosComprar, setProductosComprar] = useState([]);
     const [carrito, setCarrito] = useState([]);
-    const [total, setTotal] = useState(0);
+    const [importeCarrito, setImporteCarrito] = useState(0);
+    const [cantidadCarrito, setCantidadCarrito] = useState(0);
+    const [demoraCarrito, setDemoraCarrito] = useState(0);
     const [nombre, setNombre] = useState("");
     const [usuarioId, setUsuarioId] = useState("");
     const [carritoId, setCarritoId] = useState("");
+    const [loadingQuantities, setLoadingQuantities] = useState(false);
     const [eliminadoCorrectamente, setEliminadoCorrectamente] = useState(false);
 
     const [agregadoError, setAgregadoError] = useState(false);
@@ -57,8 +69,13 @@ export function VerCarrito() {
             getCarritobyIdUser(usuarioId).then((data) => {
                 if (data === null) {
                     crearCarritoParaUsuario(usuarioId)
+                    setLoadingQuantities(false)
                 } else {
                     setCarrito(data)
+                    calcularImporteCarrito(data.productos)
+                    calcularCantidadCarrito(data.productos)
+                    calcularDemora(data.productos)
+                    setLoadingQuantities(false)
                     localStorage.setItem("carrito", JSON.stringify(data))
                 }
             })
@@ -68,6 +85,55 @@ export function VerCarrito() {
                 });
         })
     }
+
+    /**
+     * Calcula el monto total del carrito. El cálculo se hace sumando el producto del precio y cantidad de cada producto.
+     *
+     * @param {Array} carrito - El arreglo de productos en el carrito.
+     * @return {void} La función no retorna ningún valor.
+     */
+    function calcularImporteCarrito(carrito) {
+        let total = 0
+        console.log(carrito)
+        carrito.forEach(producto => {
+            total += producto.precio * producto.cantidad
+        })
+
+        setImporteCarrito(total)
+    }
+
+    /**
+     * Calcula el monto total del carrito. El cálculo se hace sumando el producto del precio y cantidad de cada producto.
+     *
+     * @param {Array} carrito - El arreglo de productos en el carrito.
+     * @return {void} La función no retorna ningún valor.
+     */
+    function calcularCantidadCarrito(carrito) {
+        let total = 0
+        console.log(carrito)
+        carrito.forEach(producto => {
+            total += producto.cantidad
+        })
+
+        setCantidadCarrito(total)
+    }
+
+    /**
+     * Calcula la demora de la entrega de los productos. El cálculo se hace tomando la mayor de las demoras de todos los productos, y se le suma la cantidad total de items del carrito.
+     *
+     * @param {Array} carrito - El arreglo de productos en el carrito.
+     * @return {void} La función no retorna ningún valor.
+     */
+    function calcularDemora(carrito) {
+        let total = carrito.map((x) => x.demora_producto).reduce((a, b) => a > b ? a : b)
+
+        carrito.forEach(producto => {
+            total += producto.cantidad
+        })
+
+        setDemoraCarrito(total)
+    }
+
     function crearCarritoParaUsuario(usuarioId) {
         carritoService.create(usuarioId)
             .then((data) => {
@@ -81,41 +147,6 @@ export function VerCarrito() {
             });
     }
 
-    function handleClick(productoId) {
-
-        const confirmarQuitar = window.confirm('¿Estás seguro de que quieres quitar este producto?');
-        console.log(productoId)
-        console.log(productosComprar)
-
-        if (confirmarQuitar) {
-            let indice = productosComprar.findIndex(objeto => objeto.id === productoId)
-
-            // Verificar si se encontró el objeto con el ID
-            if (indice !== -1) {
-                // Eliminar el objeto del array usando splice
-                productosComprar.splice(indice, 1);
-            }
-
-            let sumaPrecios = productosComprar.reduce((acumulador, objeto) => acumulador + objeto.precio, 0);
-
-
-            carritoService.updateElimiarProducto(params?.idCarrito, sumaPrecios, productosComprar)
-                .then((carrito) => {
-                    console.log(carrito.productosComprar)
-                    setProductosComprar(carrito.productosComprar)
-                    setTotal(carrito.total)
-                }).catch((err) => setError(err.message))
-
-            console.log(productosComprar, sumaPrecios)
-
-            setEliminadoCorrectamente(true)
-        }
-
-
-
-    }
-
-
     function handleClickFinalizar() {
         console.log("finalizar compra")
         setShowModal(true);
@@ -126,7 +157,7 @@ export function VerCarrito() {
         carritoService.remove(carritoId).then((carrito) => {
 
             setProductosComprar([])
-            setTotal(0)
+            setImporteCarrito(0)
             console.log(carrito)
         }).catch((err) => setError(err.message));
         setShowModal(false);
@@ -178,10 +209,11 @@ export function VerCarrito() {
 
     function actualizarCarrito(carrito) {
         localStorage.setItem("carrito", JSON.stringify(carrito))
+        setLoadingQuantities(true)
         carritoService.update(carrito)
             .then((response) => {
                 if (response) {
-                    setCarrito({ ...carrito })
+                    loadCarrito((JSON.parse(localStorage.getItem('user')))._id)
                 } else {
                     setAgregadoError(true)
                     setTimeout(() => {
@@ -199,54 +231,182 @@ export function VerCarrito() {
 
         return (
 
-            <div className="cont-admin-cursos  cont-list-productos">
-                <h1>Carrito</h1>
-                {agregadoError && (
-                    <div className="alert alert-danger" role="alert">
-                        Error al agregar el producto a tu carrito. Inténtalo de nuevo.
-                    </div>
-                )}
+            <div className="cont-admin-cursos cont-list-carrito d-flex justify-content-between">
+                {/* <Swiper
+              slidesPerView={3.5}
+              spaceBetween={30}
+              freeMode={true}
+            //   pagination={{
+            //     clickable: true,
+            //   }}
+              modules={[FreeMode, Pagination]}
+              className="mySwiper"
+            >
+              <SwiperSlide>
+                <img
+                  className="img-bnida-swiper"
+                  src={ImagePlaceholder}
+                  alt="Taller donde se imparten las clases en Cándida Gres."
+                />
+              </SwiperSlide>
+              <SwiperSlide>
+                <img
+                  className="img-bnida-swiper"
+                  src={ImagePlaceholder}
+                  alt="Taller donde se imparten las clases en Cándida Gres."
+                />
+              </SwiperSlide>
+              <SwiperSlide>
+                <img
+                  className="img-bnida-swiper"
+                  src={ImagePlaceholder}
+                  alt="Taller donde se imparten las clases en Cándida Gres."
+                />
+              </SwiperSlide>
+              <SwiperSlide>
+                <img
+                  className="img-bnida-swiper"
+                  src={ImagePlaceholder}
+                  alt="Taller donde se imparten las clases en Cándida Gres."
+                />
+              </SwiperSlide>
+              <SwiperSlide>
+                <img
+                  className="img-bnida-swiper"
+                  src={ImagePlaceholder}
+                  alt="Taller donde se imparten las clases en Cándida Gres."
+                />
+              </SwiperSlide>
+              <SwiperSlide>
+                <img
+                  className="img-bnida-swiper"
+                  src={ImagePlaceholder}
+                  alt="Taller donde se imparten las clases en Cándida Gres."
+                />
+              </SwiperSlide>
+            </Swiper> */}
+                <div className="detalle">
+                    <h1>Carrito</h1>
 
-                <p><b>Total:</b> ${total}</p>
 
-                <ul className="listado-productos">
-                    {carrito.productos.map((producto) => {
-                        return (
-                            <li key={producto._id}>
-                                <Card key={producto._id}>
-                                    {/* <div className="card-img"> */}
-                                    <Card.Img className="card-img" variant="top" src={ImagePlaceholder} />
+                    {agregadoError && (
+                        <div className="alert alert-danger" role="alert">
+                            Error al agregar el producto a tu carrito. Inténtalo de nuevo.
+                        </div>
+                    )}
 
-                                    {/* </div> */}
-                                    <Card.Body>
-                                        <h2 className="title">{producto.nombre}</h2>
-                                        <Link className="card_link" to={`/tienda/producto/id-${producto._id}`}></Link>
-                                        <Card.Text className="precio">
-                                            ${producto.precio}
-                                        </Card.Text>
-                                        <Card.Text>
-                                            {producto.descripcion}
-                                        </Card.Text>
-                                    </Card.Body>
-                                    <Card.Footer>
-                                        {/* <small className="text-muted">Last updated 3 mins ago</small> */}
-                                        <div className="counter-cantidad btn-carrito">
-                                            <span className="icon-carrito">
-                                            </span>
-                                            <div>
-                                                <Button variant="danger" onClick={() => handleSubstractItemToCart(producto._id)}>-</Button>
 
-                                                {checkQuantity(producto._id) || 0}
+                    <Swiper
+                        slidesPerView={3.5}
+                        spaceBetween={30}
+                        freeMode={false}
+                        // pagination={{
+                        //   clickable: true,
+                        // }}
+                        modules={[FreeMode, Pagination]}
+                        className="mySwiper"
+                    >
+                        {carrito.productos.map((producto) => {
+                            return (
+                                <SwiperSlide key={producto._id}>
+                                    <Card key={producto._id}>
+                                        <Card.Img className="card-img" variant="top" src={ImagePlaceholder} />
+                                        <Card.Body>
+                                            <h2 className="title">{producto.nombre}</h2>
+                                            <Link className="card_link" to={`/tienda/producto/id-${producto._id}`}></Link>
+                                            <Card.Text className="precio">
+                                                ${producto.precio}
+                                            </Card.Text>
+                                            <Card.Text>
+                                                {producto.descripcion}
+                                            </Card.Text>
+                                        </Card.Body>
+                                        <Card.Footer>
+                                            <div className="counter-cantidad btn-carrito">
+                                                <span className="icon-carrito">
+                                                </span>
+                                                <div>
+                                                    {loadingQuantities ? <LoaderMini className="loader-mini" /> :
+                                                        <>
+                                                            <Button variant="danger" onClick={() => handleSubstractItemToCart(producto._id)} disabled={loadingQuantities}>-</Button>
 
-                                                <Button variant="success" onClick={() => handleAddItemToCart(producto._id)}>+</Button>
+                                                            {checkQuantity(producto._id) || 0}
+
+                                                            <Button variant="success" onClick={() => handleAddItemToCart(producto._id)} disabled={loadingQuantities}>+</Button>
+                                                        </>
+                                                    }
+                                                </div>
                                             </div>
-                                        </div>
-                                    </Card.Footer>
-                                </Card>
-                            </li>
-                        );
-                    })}
-                </ul>
+                                        </Card.Footer>
+                                    </Card>
+                                </SwiperSlide>
+                            );
+                        })}
+                    </Swiper>
+                    {/* <ul className="listado-productos">
+                        {carrito.productos.map((producto) => {
+                            return (
+                                <li key={producto._id}>
+                                    <Card key={producto._id}>
+                                        <Card.Img className="card-img" variant="top" src={ImagePlaceholder} />
+                                        <Card.Body>
+                                            <h2 className="title">{producto.nombre}</h2>
+                                            <Link className="card_link" to={`/tienda/producto/id-${producto._id}`}></Link>
+                                            <Card.Text className="precio">
+                                                ${producto.precio}
+                                            </Card.Text>
+                                            <Card.Text>
+                                                {producto.descripcion}
+                                            </Card.Text>
+                                        </Card.Body>
+                                        <Card.Footer>
+                                            <div className="counter-cantidad btn-carrito">
+                                                <span className="icon-carrito">
+                                                </span>
+                                                <div>
+                                                    {loadingQuantities ? <LoaderMini className="loader-mini" /> :
+                                                        <>
+                                                            <Button variant="danger" onClick={() => handleSubstractItemToCart(producto._id)} disabled={loadingQuantities}>-</Button>
+
+                                                            {checkQuantity(producto._id) || 0}
+
+                                                            <Button variant="success" onClick={() => handleAddItemToCart(producto._id)} disabled={loadingQuantities}>+</Button>
+                                                        </>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </Card.Footer>
+                                    </Card>
+                                </li>
+                            );
+                        })}
+                    </ul> */}
+                </div>
+                <Card className="resumen">
+                    <Card.Body>
+                        <h2 className="title">Resumen de compra</h2>
+                        <Card.Text className="precio">
+                            Importe: ${importeCarrito}
+                        </Card.Text>
+                        <Card.Text>
+                            Cantidad: {cantidadCarrito} items
+                        </Card.Text>
+                        <Card.Text>
+                            Demora: {demoraCarrito} días
+                        </Card.Text>
+                    </Card.Body>
+                    <Card.Footer className="d-grid gap-2">
+                        {/* {loadingQuantities ? <LoaderMini className="loader-mini" /> : */}
+                        <Button
+                            variant="primary"
+                            type="submit"
+                            disabled={loadingQuantities}
+                            onClick={() => handleClickFinalizar()}
+                        >Finalizar Compra
+                        </Button>
+                        {/* } */}
+                    </Card.Footer>
+                </Card>
                 {/* <ul className="listado-cursos">
                     {carrito.productos
                         .map((producto, index) => (
@@ -254,30 +414,24 @@ export function VerCarrito() {
                                 <p><b>{producto.nombre}</b></p>
                                 <p>${producto.precio}</p>
                                 <button
-                                    className="btn btn-danger mt-3 me-3"
+                                className="btn btn-danger mt-3 me-3"
                                     type="submit"
                                     onClick={() => handleClick(producto.id)}
-                                >
+                                    >
                                     Quitar
-                                </button>
+                                    </button>
                             </li>
-                        ))}
+                            ))}
                 </ul> */}
 
 
-                <button
-                    className="btn btn-success mt-3 me-3"
-                    type="submit"
-                    onClick={() => handleClickFinalizar()}
-                >Finalizar Compra
-                </button>
                 <Modal show={showModal} onHide={handleCancelar}>
                     <Modal.Header closeButton>
                         <Modal.Title className="p-2">Finalizar Compra</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <p>¿Estás seguro de que quieres finalizar la compra?</p>
-                        <p>Productos a comprar: <b>Total: {total}</b></p>
+                        <p>Productos a comprar: <b>Total: {importeCarrito}</b></p>
                         <ListGroup>
                             {productosComprar.map((producto, index) => (
                                 <ListGroup.Item key={`${producto.id}-${index}`}>
