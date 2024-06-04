@@ -9,6 +9,7 @@ import { Col, Container, Nav, Row, Button, Modal, ListGroup, Card, Form } from "
 import * as productosService from "../../services/productos.service";
 
 import ImagePlaceholder from "../../img/placeholder-image.jpg";
+import LoaderMini from "../basics/LoaderMini";
 
 
 export function VerTienda() {
@@ -17,6 +18,7 @@ export function VerTienda() {
 
     const [productos, setProductos] = useState([]);
     const [carrito, setCarrito] = useState([]);
+    const [loadingQuantities, setLoadingQuantities] = useState(false);
     const [productosComprar, setProductosComprar] = useState([]);
     const [usuarioId, setUsuarioId] = useState("");
     const [carritoId, setCarritoId] = useState("");
@@ -52,8 +54,10 @@ export function VerTienda() {
                 getCarritobyIdUser(usuarioId).then((data) => {
                     if (data === null) {
                         crearCarritoParaUsuario(usuarioId)
+                        setLoadingQuantities(false)
                     } else {
                         setCarrito(data)
+                        setLoadingQuantities(false)
                         localStorage.setItem("carrito", JSON.stringify(data))
                     }
                 })
@@ -130,11 +134,12 @@ export function VerTienda() {
     }
 
     function actualizarCarrito(carrito) {
+        setLoadingQuantities(true)
         localStorage.setItem("carrito", JSON.stringify(carrito))
         carritoService.update(carrito)
             .then((response) => {
                 if (response) {
-                    setCarrito({...carrito})
+                    loadProductos((JSON.parse(localStorage.getItem('user')))._id)
                 } else {
                     setAgregadoError(true)
                     setTimeout(() => {
@@ -163,10 +168,7 @@ export function VerTienda() {
                         return (
                             <li key={producto._id}>
                                 <Card key={producto._id}>
-                                    {/* <div className="card-img"> */}
                                     <Card.Img className="card-img" variant="top" src={ImagePlaceholder} />
-
-                                    {/* </div> */}
                                     <Card.Body>
                                         <h2 className="title">{producto.nombre}</h2>
                                         <Link className="card_link" to={`/tienda/producto/id-${producto._id}`}></Link>
@@ -178,16 +180,19 @@ export function VerTienda() {
                                         </Card.Text>
                                     </Card.Body>
                                     <Card.Footer>
-                                        {/* <small className="text-muted">Last updated 3 mins ago</small> */}
                                         <div className="counter-cantidad btn-carrito">
                                             <span className="icon-carrito">
                                             </span>
                                             <div>
-                                                <Button variant="danger" onClick={() => handleSubstractItemToCart(producto._id)}>-</Button>
+                                                {loadingQuantities ? <LoaderMini className="loader-mini" /> :
+                                                    <>
+                                                        <Button variant="danger" onClick={() => handleSubstractItemToCart(producto._id)} disabled={loadingQuantities}>-</Button>
 
-                                                {checkQuantity(producto._id) || 0}
+                                                        {checkQuantity(producto._id) || 0}
 
-                                                <Button variant="success" onClick={() => handleAddItemToCart(producto._id)}>+</Button>
+                                                        <Button variant="success" onClick={() => handleAddItemToCart(producto._id)} disabled={loadingQuantities}>+</Button>
+                                                    </>
+                                                }
                                             </div>
                                         </div>
                                     </Card.Footer>
