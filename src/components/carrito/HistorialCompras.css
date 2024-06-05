@@ -3,12 +3,12 @@
 }
 
 .cont-historial .cont-compra-fecha {
-    
+
     background-color: #ebebeb;
     border-radius: 0.5rem;
 }
 
-.cont-historial .cont-compra-fecha>p{
+.cont-historial .cont-compra-fecha>p {
     padding: 0.5rem 2.5rem;
     border-bottom: 1px solid lightgray;
     margin: 0;
@@ -41,17 +41,37 @@
 .cont-historial .cont-compra .item-compra .cont-articulos {
     flex-grow: 1;
     max-width: 70%;
+}
+
+.cont-historial .cont-compra .item-compra .cont-articulos ul {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    padding: 0;
 }
 
-.cont-historial .cont-compra .item-compra .cont-articulos li{
+.cont-historial .cont-compra .item-compra .cont-articulos li {
     border-radius: 0.5rem;
     padding: 0.5rem 1rem;
     background-color: white;
 }
 
-.cont-historial .cont-compra .item-compra .cont-articulos li h3{
+.cont-historial .cont-compra .item-compra .cont-articulos li h3 {
     font-size: 1rem;
+}
+
+@media screen and (max-width: 768px) {
+    .cont-historial .cont-compra .item-compra {
+        /* display: flex; */
+        flex-direction: column;
+    }
+    .cont-historial .cont-compra .item-compra .cont-resumen {
+        max-width: 100%;
+        margin-bottom: 1rem;
+    }
+
+    .cont-historial .cont-compra .item-compra .cont-articulos {
+        max-width: 100%;
+        padding: 0 2rem;
+    }
 }

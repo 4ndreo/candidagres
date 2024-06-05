@@ -243,7 +243,7 @@ export function VerCarrito() {
 
             <div className="cont-admin-cursos cont-list-carrito d-flex justify-content-between">
                 <div className="detalle">
-                    <h1>Carrito</h1>
+                    <h1 className="mb-4">Carrito</h1>
 
 
                     {agregadoError && (

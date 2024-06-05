@@ -159,7 +159,7 @@ export function VerTienda() {
 
         return (
             <div className="cont-admin-cursos cont-list-productos">
-                <h1>Productos</h1>
+                <h1 className="mb-4">Productos</h1>
                 {agregadoError && (
                     <div className="alert alert-danger" role="alert">
                         Error al agregar el producto a tu carrito. Inténtalo de nuevo.
