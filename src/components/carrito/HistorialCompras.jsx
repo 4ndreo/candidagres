@@ -10,6 +10,8 @@ import { Col, Container, Nav, Row } from "react-bootstrap";
 import * as productosService from "../../services/productos.service";
 import { findByIdUser } from "../../services/carrito.service";
 
+import { DateTime } from "luxon";
+
 
 
 export function HistorialCompras() {
@@ -117,7 +119,7 @@ export function HistorialCompras() {
                 <div className="cont-historial">
                     {compras.map((compra, index) => (
                         <div key={index} className="cont-compra-fecha">
-                            <p className="fecha">{new Date(compra.created_at).toLocaleDateString()}</p>
+                            <p className="fecha">{DateTime.fromISO(compra.created_at).toLocaleString(DateTime.DATE_FULL)}</p>
                             <ul className="cont-compra">
                                 <li className="item-compra">
                                     <div className="cont-resumen">
@@ -130,10 +132,10 @@ export function HistorialCompras() {
 
                                     <ul className="cont-articulos">
                                         {compra.productos.map((producto, subIndex) => (
-                                            <li key={`${index}-${subIndex}`}>
-                                                <h3>{producto.nombre}</h3>
-                                                <p>${producto.precio}</p>
-                                                <p>{producto.cantidad}</p>
+                                            <li key={`${index}-${subIndex}`} className="d-flex justify-content-between align-items-center">
+                                                <h3 className="mb-0">{producto.nombre}</h3>
+                                                <div><span>{producto.cantidad} x </span><span>${producto.precio}</span></div>
+
                                             </li>
                                         ))}
                                     </ul>
