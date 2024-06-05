@@ -40,9 +40,11 @@ export function VerTienda() {
         return new Promise((resolve, reject) => {
             carritoService.findByIdUser(usuarioId)
                 .then((data) => {
+                    console.log('funcioné')
                     resolve(data);
                 })
                 .catch((err) => {
+                    console.log('fallé')
                     reject(err);
                 });
         })
@@ -52,20 +54,20 @@ export function VerTienda() {
         return new Promise((resolve, reject) => {
             getProductos().then(() => {
                 getCarritobyIdUser(usuarioId).then((data) => {
-                    if (data === null) {
-                        crearCarritoParaUsuario(usuarioId)
-                        setLoadingQuantities(false)
-                    } else {
+                    console.log(data.err)
+                    if (!data.err) {
                         setCarrito(data)
                         setLoadingQuantities(false)
                         localStorage.setItem("carrito", JSON.stringify(data))
+                    } else {
+                        crearCarritoParaUsuario(usuarioId)
+                        setLoadingQuantities(false)
                     }
                 })
-            })
-                .catch((err) => {
-                    console.error(err)
-                    reject(err);
-                });
+            }).catch((err) => {
+                console.error(err)
+                reject(err);
+            });
         })
     }
 
