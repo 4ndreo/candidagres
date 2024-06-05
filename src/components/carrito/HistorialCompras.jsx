@@ -115,7 +115,7 @@ export function HistorialCompras() {
     if (compras.length > 0) {
         return (
             <>
-                <h1>Historial de compras - {nombre}</h1>
+                <h1 className="mb-4">Historial de compras</h1>
                 <div className="cont-historial">
                     {compras.map((compra, index) => (
                         <div key={index} className="cont-compra-fecha">
@@ -130,15 +130,18 @@ export function HistorialCompras() {
                                         <p><span className="negritas">Demora:</span> {compra.demoraTotal} días</p>
                                     </div>
 
-                                    <ul className="cont-articulos">
-                                        {compra.productos.map((producto, subIndex) => (
-                                            <li key={`${index}-${subIndex}`} className="d-flex justify-content-between align-items-center">
-                                                <h3 className="mb-0">{producto.nombre}</h3>
-                                                <div><span>{producto.cantidad} x </span><span>${producto.precio}</span></div>
+                                    <div className="cont-articulos">
+                                        <h2>Artículos</h2>
+                                        <ul>
+                                            {compra.productos.map((producto, subIndex) => (
+                                                <li key={`${index}-${subIndex}`} className="d-flex justify-content-between align-items-center">
+                                                    <h3 className="mb-0">{producto.nombre}</h3>
+                                                    <div><span>{producto.cantidad} x </span><span>${producto.precio}</span></div>
 
-                                            </li>
-                                        ))}
-                                    </ul>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
                                 </li>
                             </ul>
                         </div>

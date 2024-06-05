@@ -37,25 +37,6 @@ export default function Tienda() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const routes = [
-
-    {
-      label: "Productos",
-      path: "/tienda",
-      icon: "productos",
-    },
-    {
-      label: "Carrito",
-      path: `/tienda/carrito/id-${usuarioId}`,
-      icon: "carrito",
-    },
-    {
-      label: "Historial",
-      path: `/tienda/historial/id-${usuarioId}`,
-      icon: "historial",
-    },
-  ]
-
 
   useEffect(() => {
     setUsuarioId(JSON.parse(localStorage.getItem('user'))._id)
@@ -149,32 +130,6 @@ export default function Tienda() {
 
   return (
     <main className="container main tienda-cont">
-      <div className="tienda-navbar">
-        <div className="breadcrumbs d-flex">
-          <small><Link to="/tienda">Tienda</Link></small>
-          <div className={showProductBreadcrumb ? "d-none" : "d-flex"}>
-            <small>{routes.map((route) => route.path === location.pathname ? '>' : null)}</small>
-            <small className="negritas">{routes.map((route) => route.path === location.pathname ? route.label : null)}</small>
-          </div>
-          <div className={!showProductBreadcrumb ? "d-none" : "d-flex"}>
-            <small>{'>'}</small>
-            <small><Link to="/tienda">Productos</Link></small>
-            <small>{'>'}</small>
-            <small className="negritas">Ver Producto</small>
-          </div>
-        </div>
-        <Nav className="tienda-nav">
-          {routes.map((route, index) => (
-            <Link
-              key={index}
-              to={route.path}
-              className={`nav-link btn-${route.icon}` + (location.pathname === route.path ? " active" : "")}
-            >
-              <span>{route.label}</span>
-            </Link>
-          ))}
-        </Nav>
-      </div>
       <Outlet />
     </main>
   );
