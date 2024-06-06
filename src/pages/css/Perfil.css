@@ -1,16 +1,41 @@
-.cont-perfil ul {
-    padding: 0;
-    margin: 1rem 0;
-}
-.cont-perfil ul li {
-    padding: 1rem;
-    margin-bottom: 1rem;
-    border: 1px solid lightgray;
-    border-radius: 0.5rem;
-    list-style-type: none;
-}
-.days {
-    background: url('https://api.iconify.design/material-symbols/calendar-month-rounded.svg?color=%23284277') no-repeat left center;
-    background-size: 1.5rem;
-    padding-left: 2rem;
+.card {
+    position: relative;
+
+    .user-card {
+        gap: 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+
+        p-image {
+            border-radius: 50%;
+            overflow: hidden;
+
+            img {
+                height: 100%;
+                object-fit: cover;
+                display: block;
+            }
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+    }
+
+    .edit-btn {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        overflow: visible;
+
+        .p-button-icon {
+            font-size: 1.5rem;
+        }
+    }
+
 }

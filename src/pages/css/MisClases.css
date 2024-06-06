@@ -1,0 +1,16 @@
+.cont-perfil ul {
+    padding: 0;
+    margin: 1rem 0;
+}
+.cont-perfil ul li {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid lightgray;
+    border-radius: 0.5rem;
+    list-style-type: none;
+}
+.days {
+    background: url('https://api.iconify.design/material-symbols/calendar-month-rounded.svg?color=%23284277') no-repeat left center;
+    background-size: 1.5rem;
+    padding-left: 2rem;
+}
