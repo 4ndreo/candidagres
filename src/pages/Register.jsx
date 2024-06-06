@@ -11,14 +11,21 @@ function PageRegister({ onLogin }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    UsersService.create({ email, password, role:2 }).then((user) => {
-      authService
+    UsersService.create({ email, password}).then((user) => {
+      console.log('user', user);
+      if(user.err) {
+        console.log('err', user.err);
+        authService
         .login(email, password)
         .then(({ userData, token }) => {
           value.setToken(token);
+          value.setCurrentUser(userData);
           onLogin(userData, token);
         })
         .catch((err) => setError(err.message));
+      } else {
+        setError('El usuario ya existe.');
+      }
     });
   }
 
