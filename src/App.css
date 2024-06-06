@@ -109,3 +109,9 @@ button {
   background-size: 1.25rem;
   padding-left: 1.5rem;
 }
+
+.btn-profile > span  {
+  background: url("./img/user.svg") no-repeat left center;
+  background-size: 100%;
+  padding: 1.25rem;
+}

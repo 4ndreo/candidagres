@@ -1,17 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Header.css";
 
-import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
+import { Navbar, Container, Nav, NavDropdown, Button } from "react-bootstrap";
 import { useEffect, useContext } from "react";
 import { AuthContext } from "../../App";
+
+import UserImg from "../../img/user.svg";
 
 export default function Header() {
   const value = useContext(AuthContext);
 
+  const [showProfile, setShowProfile] = useState(false);
+
   let navigate = useNavigate();
   useEffect(() => {
-    console.log(value);
+    console.log(JSON.stringify(value));
     value.setCurrentUser(JSON.parse(localStorage.getItem("user")));
     if (!value.token) {
       navigate("/login", { replace: true });
@@ -23,7 +27,13 @@ export default function Header() {
     value.setToken(null);
     value.setCurrentUser(null);
 
+    console.log('cerrar sesion')
     navigate("/login", { replace: true });
+  }
+
+  function handleShowProfile() {
+    setShowProfile(!showProfile);
+    console.log(showProfile);
   }
 
   if ((!value.token && !value.currentUser) || value.currentUser) {
@@ -37,10 +47,6 @@ export default function Header() {
             <Navbar.Toggle aria-controls="menu-nav" />
             <Navbar.Collapse id="menu-nav">
               <Nav className="nav-menu">
-                {/* {{
-
-
-              }} */}
                 <Link to="/">Home</Link>
                 {!value.token ? (
                   <>
@@ -55,15 +61,11 @@ export default function Header() {
                       <Link to={'/tienda/carrito/id-' + value.currentUser._id} className="dropdown-item btn-carrito">
                         <span>Carrito</span>
                       </Link>
-                      {/*<Link to="/Inscripciones" className="dropdown-item">*/}
-                      {/*  Inscripciones*/}
-                      {/*</Link>*/}
                       <Link to={'/tienda/historial/id-' + value.currentUser._id} className="dropdown-item btn-historial">
                         <span>Historial</span>
                       </Link>
                     </NavDropdown>
-                    <Link to="/perfil">Perfil</Link>
-                    {value.currentUser.role === 1 ? (
+                    {value.currentUser.role === 1 && (
                       <NavDropdown title="Panel" className="panel-ddown">
                         <Link to="panel/cursos" className="dropdown-item">
                           Clases
@@ -71,9 +73,6 @@ export default function Header() {
                         <Link to="panel/turnos" className="dropdown-item">
                           Turnos
                         </Link>
-                        {/*<Link to="/Inscripciones" className="dropdown-item">*/}
-                        {/*  Inscripciones*/}
-                        {/*</Link>*/}
                         <Link to="/Productos" className="dropdown-item">
                           Productos
                         </Link>
@@ -81,12 +80,17 @@ export default function Header() {
                           Dashboard
                         </Link>
                       </NavDropdown>
-                    ) : (
-                      ''
                     )}
-                    <button className="logout" onClick={logOut}>
-                      Logout
-                    </button>
+                    <span className="btn-profile" onClick={() => handleShowProfile()}>
+                      <span>
+                        <div className={!showProfile ? "d-none" : "profile-links panel-ddown"} onMouseLeave={() => handleShowProfile()}>
+                          <Link to="/perfil" className="dropdown-item">Perfil</Link>
+                          <Button variant="link" className="logout dropdown-item" onClick={logOut}>
+                            Cerrar sesión
+                          </Button>
+                        </div>
+                      </span>
+                    </span>
                   </>
                 )}
               </Nav>
