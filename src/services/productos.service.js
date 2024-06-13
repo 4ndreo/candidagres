@@ -48,5 +48,17 @@ async function update(idProductos, producto) {
         body: JSON.stringify(producto),
     }).then((response) => response.json());
 }
+async function uploadImagen(imagen) {
+    const formData = new FormData();
+    formData.append('imagenProducto', imagen);
 
-export { find, findById, create, remove, update };
+    return fetch(url + "api/productos/imagenes", {
+        method: "POST",
+        headers: {
+            'auth-token': localStorage.getItem('token')
+        },
+        body: formData,
+    }).then((response) => response.json());
+}
+
+export { find, findById, create, remove, update, uploadImagen };
