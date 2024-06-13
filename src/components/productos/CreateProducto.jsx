@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import * as productosService from "../../services/productos.service";
 import { useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../../App";
+import {uploadImagen} from "../../services/productos.service";
 
 export function CreateProducto({ title }) {
   const value = useContext(AuthContext);
@@ -10,10 +11,10 @@ export function CreateProducto({ title }) {
 
   const [nombre, setNombre] = useState("");
   const [descripcion, setDescripcion] = useState("");
-  const [demora_producto, setDemora] = useState();
-  const [precio, setPrecio] = useState();
-  const [material, setMaterial] = useState();
-  // const [imagen, setImagen] = useState("");
+  const [demora_producto, setDemora] = useState(0);
+  const [precio, setPrecio] = useState(0);
+  const [material, setMaterial] = useState('');
+  const [imagen, setImagen] = useState(null);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -26,18 +27,23 @@ export function CreateProducto({ title }) {
   function handleSubmit(e) {
     e.preventDefault();
     productosService
-      .create({ nombre, descripcion, demora_producto, precio, material })
-      .then((data) => {
-        navigate("/Productos", { replace: true });
-      })
-      .catch((err) => setError(err.message));
+        .create({ nombre, descripcion, demora_producto, precio, material })
+        .then((data) => {
+          if (imagen) {
+            return productosService.uploadImagen(imagen);
+          }
+        })
+        .then(() => {
+          navigate("/Productos", { replace: true });
+        })
+        .catch((err) => setError(err.message));
   }
 
-  // const handleImagenChange = (event) => {
-  //   const archivo = event.target.files[0];
-  //   setImagen(archivo);
-  //   console.log(archivo)
-  // };
+  const handleImagenChange = (event) => {
+    const archivo = event.target.files[0];
+    setImagen(archivo);
+    console.log(archivo)
+  };
 
   return (
     <main className="container edit-cont">
@@ -91,15 +97,16 @@ export function CreateProducto({ title }) {
             className="form-control"
           />
         </div>
-        {/*<div className="mb-3">*/}
-        {/*  <label className="form-label">Subir Imagen:</label>*/}
-        {/*  <input*/}
-        {/*      type="file"*/}
-        {/*      // accept="image/*"*/}
-        {/*      onChange={handleImagenChange}*/}
-        {/*      className="form-control"*/}
-        {/*  />*/}
-        {/*</div>*/}
+        <div className="mb-3">
+          <label className="form-label">Subir Imagen:</label>
+          <input
+              type="file"
+              onChange={handleImagenChange}
+              className="form-control"
+              name="imagenProducto"
+              id="imagenProducto"
+          />
+        </div>
         <button type="submit" className="btn btn-primary">
           Crear
         </button>
