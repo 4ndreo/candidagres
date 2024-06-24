@@ -21,9 +21,9 @@ export function ViewProducto(params) {
   }, []);
 
   return (
-    <div className="row g-0 cont-view-product">
+    <div className="row g-5 cont-view-product">
       <div className="col-md-6">
-        <img src={SERVER_URL + "uploads/" + producto.img} className="product-image img-fluid rounded-start" alt={producto.descripcion} />
+        <img src={SERVER_URL + "uploads/" + producto.img} className="product-image img-fluid rounded-3" alt={producto.descripcion} />
       </div>
       <div className="col-md-6">
         <div className="row g-0">

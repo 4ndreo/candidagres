@@ -1,3 +1,4 @@
+import "./PreviewProducto.css";
 import React, { useEffect, useState, useContext } from "react";
 import * as productosService from "../../services/productos.service";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -18,12 +19,12 @@ export function PreviewProducto(params) {
   }, []);
 
   return (
-    <div className="row g-0">
-      <div className="col-md-3">
+    <div className="preview-productos-cont row g-0">
+      <div className="img-cont col-md-3">
         <img src={SERVER_URL + "uploads/" + producto.img} className="img-fluid rounded" alt={producto.descripcion} />
       </div>
       <div className="col-md-9">
-        <div className="row g-0">
+        <div className="row g-0 h-100">
           <div className="card-body col-md-8">
             <small className="text-body-secondary">Demora: {producto.demora_producto} días</small>
             <h5 className="card-title">Nombre: {producto.nombre}</h5>
