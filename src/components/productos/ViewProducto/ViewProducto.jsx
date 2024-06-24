@@ -1,12 +1,13 @@
 import "./ViewProducto.css";
-
-
 import React, { useEffect, useState, useContext } from "react";
 import * as productosService from "../../../services/productos.service";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../../../App";
 
+
+
 export function ViewProducto(params) {
+  const SERVER_URL = process.env.REACT_APP_SERVER_URL;
   const value = useContext(AuthContext);
 
   let navigate = useNavigate();
@@ -22,7 +23,7 @@ export function ViewProducto(params) {
   return (
     <div className="row g-0 cont-view-product">
       <div className="col-md-6">
-        <img src="..." className="product-image img-fluid rounded-start" alt={producto.descripcion} />
+        <img src={SERVER_URL + "uploads/" + producto.img} className="product-image img-fluid rounded-start" alt={producto.descripcion} />
       </div>
       <div className="col-md-6">
         <div className="row g-0">

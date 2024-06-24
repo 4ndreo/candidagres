@@ -13,7 +13,7 @@ import LoaderMini from "../basics/LoaderMini";
 
 
 export function VerTienda() {
-
+    const SERVER_URL = process.env.REACT_APP_SERVER_URL;
     let navigate = useNavigate();
 
     const [productos, setProductos] = useState([]);
@@ -170,7 +170,7 @@ export function VerTienda() {
                         return (
                             <li key={producto._id}>
                                 <Card key={producto._id}>
-                                    <Card.Img className="card-img" variant="top" src={ImagePlaceholder} />
+                                    <Card.Img className="card-img" variant="top" src={SERVER_URL + "uploads/" + producto.img} />
                                     <Card.Body>
                                         <h2 className="title">{producto.nombre}</h2>
                                         <Link className="card_link" to={`/tienda/producto/id-${producto._id}`}></Link>

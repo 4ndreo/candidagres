@@ -24,6 +24,7 @@ import { FreeMode, Pagination } from "swiper";
 
 
 export function VerCarrito() {
+    const SERVER_URL = process.env.REACT_APP_SERVER_URL;
     let navigate = useNavigate();
     const params = useParams();
 
@@ -164,6 +165,9 @@ export function VerCarrito() {
 
         comprasService.create(compra).then((data) => {
             carritoService.remove(carrito._id).then((carrito) => {
+                setImporteCarrito(0);
+                setCantidadCarrito(0);
+                setDemoraCarrito(0);
                 console.log(data)
                 setShowModal(false);
                 setShowSuccessModal(true);
@@ -239,6 +243,7 @@ export function VerCarrito() {
 
     if (carrito.productos) {
 
+
         return (
 
             <div className="cont-admin-cursos cont-list-carrito d-flex justify-content-between">
@@ -252,55 +257,59 @@ export function VerCarrito() {
                         </div>
                     )}
 
+                    {carrito.productos.length === 0 ?
 
-                    <Swiper
-                        slidesPerView={3.5}
-                        spaceBetween={30}
-                        freeMode={false}
-                        // pagination={{
-                        //   clickable: true,
-                        // }}
-                        modules={[FreeMode, Pagination]}
-                        className="mySwiper"
-                    >
-                        {carrito.productos.map((producto) => {
-                            return (
-                                <SwiperSlide key={producto._id}>
-                                    <Card key={producto._id}>
-                                        <Card.Img className="card-img" variant="top" src={ImagePlaceholder} />
-                                        <Card.Body>
-                                            <h2 className="title">{producto.nombre}</h2>
-                                            <Link className="card_link" to={`/tienda/producto/id-${producto._id}`}></Link>
-                                            <Card.Text className="precio">
-                                                ${producto.precio}
-                                            </Card.Text>
-                                            <Card.Text>
-                                                {producto.descripcion}
-                                            </Card.Text>
-                                        </Card.Body>
-                                        <Card.Footer>
-                                            <div className="counter-cantidad btn-carrito">
-                                                <span className="icon-carrito">
-                                                </span>
-                                                <div>
-                                                    {loadingQuantities ? <LoaderMini className="loader-mini" /> :
-                                                        <>
-                                                            <Button variant="danger" onClick={() => handleSubstractItemToCart(producto._id)} disabled={loadingQuantities}>-</Button>
+                        <p>Tu carrito se encuentra vacío.</p>
+                        :
 
-                                                            {checkQuantity(producto._id) || 0}
+                        <Swiper
+                            slidesPerView={3.5}
+                            spaceBetween={30}
+                            freeMode={false}
+                            // pagination={{
+                            //   clickable: true,
+                            // }}
+                            modules={[FreeMode, Pagination]}
+                            className="mySwiper"
+                        >
+                            {carrito.productos.map((producto) => {
+                                return (
+                                    <SwiperSlide key={producto._id}>
+                                        <Card key={producto._id}>
+                                            <Card.Img className="card-img" variant="top" src={SERVER_URL + "uploads/" + producto.img} />
+                                            <Card.Body>
+                                                <h2 className="title">{producto.nombre}</h2>
+                                                <Link className="card_link" to={`/tienda/producto/id-${producto._id}`}></Link>
+                                                <Card.Text className="precio">
+                                                    ${producto.precio}
+                                                </Card.Text>
+                                                <Card.Text>
+                                                    {producto.descripcion}
+                                                </Card.Text>
+                                            </Card.Body>
+                                            <Card.Footer>
+                                                <div className="counter-cantidad btn-carrito">
+                                                    <span className="icon-carrito">
+                                                    </span>
+                                                    <div>
+                                                        {loadingQuantities ? <LoaderMini className="loader-mini" /> :
+                                                            <>
+                                                                <Button variant="danger" onClick={() => handleSubstractItemToCart(producto._id)} disabled={loadingQuantities}>-</Button>
 
-                                                            <Button variant="success" onClick={() => handleAddItemToCart(producto._id)} disabled={loadingQuantities}>+</Button>
-                                                        </>
-                                                    }
+                                                                {checkQuantity(producto._id) || 0}
+
+                                                                <Button variant="success" onClick={() => handleAddItemToCart(producto._id)} disabled={loadingQuantities}>+</Button>
+                                                            </>
+                                                        }
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </Card.Footer>
-                                    </Card>
-                                </SwiperSlide>
-                            );
-                        })}
-                    </Swiper>
-
+                                            </Card.Footer>
+                                        </Card>
+                                    </SwiperSlide>
+                                );
+                            })}
+                        </Swiper>
+                    }
                 </div>
                 <Card className="resumen">
                     <Card.Body>

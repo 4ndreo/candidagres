@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import * as productosService from "../../services/productos.service";
 import { useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../../App";
-import {uploadImagen} from "../../services/productos.service";
+import { uploadImagen } from "../../services/productos.service";
 
 export function CreateProducto({ title }) {
   const value = useContext(AuthContext);
@@ -27,16 +27,19 @@ export function CreateProducto({ title }) {
   function handleSubmit(e) {
     e.preventDefault();
     productosService
-        .create({ nombre, descripcion, demora_producto, precio, material })
-        .then((data) => {
-          if (imagen) {
-            return productosService.uploadImagen(imagen);
-          }
-        })
-        .then(() => {
-          navigate("/Productos", { replace: true });
-        })
-        .catch((err) => setError(err.message));
+      .create({ nombre, descripcion, demora_producto, precio, material })
+      .then((producto) => {
+        console.log('produicto', producto)
+        if (imagen) {
+          return productosService.uploadImagen(imagen).then((nombreImg) => {
+            productosService.update(producto._id, { img: nombreImg });
+          });
+        }
+      })
+      .then(() => {
+        navigate("/Productos", { replace: true });
+      })
+      .catch((err) => setError(err.message));
   }
 
   const handleImagenChange = (event) => {
@@ -100,11 +103,11 @@ export function CreateProducto({ title }) {
         <div className="mb-3">
           <label className="form-label">Subir Imagen:</label>
           <input
-              type="file"
-              onChange={handleImagenChange}
-              className="form-control"
-              name="imagenProducto"
-              id="imagenProducto"
+            type="file"
+            onChange={handleImagenChange}
+            className="form-control"
+            name="imagenProducto"
+            id="imagenProducto"
           />
         </div>
         <button type="submit" className="btn btn-primary">
