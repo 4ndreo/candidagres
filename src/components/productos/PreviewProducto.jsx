@@ -4,6 +4,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../../App";
 
 export function PreviewProducto(params) {
+  const SERVER_URL = process.env.REACT_APP_SERVER_URL;
   const value = useContext(AuthContext);
 
   let navigate = useNavigate();
@@ -19,7 +20,7 @@ export function PreviewProducto(params) {
   return (
     <div className="row g-0">
       <div className="col-md-3">
-        <img src="..." className="img-fluid rounded-start" alt="..." />
+        <img src={SERVER_URL + "uploads/" + producto.img} className="img-fluid rounded" alt={producto.descripcion} />
       </div>
       <div className="col-md-9">
         <div className="row g-0">

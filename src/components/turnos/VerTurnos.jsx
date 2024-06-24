@@ -217,6 +217,7 @@ export function VerTurnos() {
     )
   }
 
+  // TODO: cambiar por Swiper para mostrar dias de la semana. Esto va a hacer que la funcionalidad sea responsive
   if (curso && turnos.length > 0) {
     return (
       <main className="container main">

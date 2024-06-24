@@ -1,7 +1,7 @@
-const url = "http://localhost:2025/";
+const url = process.env.REACT_APP_API_URL
 
 async function find() {
-    return fetch(url + "api/productos", {
+    return fetch(url + "productos", {
         headers: {
             'auth-token': localStorage.getItem('token')
         }
@@ -9,7 +9,7 @@ async function find() {
 }
 
 async function findById(idProductos) {
-    return fetch(url + "api/productos/" + idProductos, {
+    return fetch(url + "productos/" + idProductos, {
         headers: {
             'auth-token': localStorage.getItem('token')
         }
@@ -19,7 +19,7 @@ async function findById(idProductos) {
 }
 
 async function create(producto) {
-    return fetch(url + "api/productos/producto", {
+    return fetch(url + "productos/producto", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -30,7 +30,7 @@ async function create(producto) {
 }
 
 async function remove(idProductos) {
-    return fetch(url + "api/productos/" + idProductos, {
+    return fetch(url + "productos/" + idProductos, {
         method: "DELETE",
         headers: {
             'auth-token': localStorage.getItem('token')
@@ -39,7 +39,7 @@ async function remove(idProductos) {
 }
 
 async function update(idProductos, producto) {
-    return fetch(url + "api/productos/" + idProductos, {
+    return fetch(url + "productos/" + idProductos, {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json",
@@ -52,7 +52,7 @@ async function uploadImagen(imagen) {
     const formData = new FormData();
     formData.append('imagenProducto', imagen);
 
-    return fetch(url + "api/productos/imagenes", {
+    return fetch(url + "productos/imagenes", {
         method: "POST",
         headers: {
             'auth-token': localStorage.getItem('token')
