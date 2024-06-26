@@ -18,6 +18,7 @@ export function EditProducto({ title }) {
   const [material, setMaterial] = useState();
   const [icons, setIcons] = useState([]);
   const [error, setError] = useState("");
+  const [imagen, setImagen] = useState(null);
   const [checked, setChecked] = useState({});
 
   useEffect(() => {
@@ -40,11 +41,25 @@ export function EditProducto({ title }) {
   function handleSubmit(e) {
     e.preventDefault();
     productosService
-      .update(params?.idProducto, {  nombre, descripcion, demora_producto, precio, material })
+      .update(params?.idProducto, { nombre, descripcion, demora_producto, precio, material })
       .then((data) => {
-        navigate("/Productos", { replace: true });
+        if (imagen) {
+          return productosService.uploadImagen(imagen).then((nombreImg) => {
+            productosService.update(params?.idProducto, { img: nombreImg }).then((data) => {
+
+            });
+          }).then(() => {
+            navigate("/Productos", { replace: true });
+          });
+        }
       });
   }
+
+  const handleImagenChange = (event) => {
+    const archivo = event.target.files[0];
+    setImagen(archivo);
+    console.log(archivo)
+  };
 
   return (
     <main className="container edit-cont">
@@ -85,21 +100,31 @@ export function EditProducto({ title }) {
         <div className="mb-3">
           <label className="form-label">Cuanto cuesta la clase</label>
           <input
-              type="number"
-              defaultValue={precio}
-              required
-              onChange={(e) => setPrecio(parseInt(e.target.value))}
-              className="form-control"
+            type="number"
+            defaultValue={precio}
+            required
+            onChange={(e) => setPrecio(parseInt(e.target.value))}
+            className="form-control"
           />
         </div>
         <div className="mb-3">
           <label className="form-label">Defina el material del producto</label>
           <input
-              type="text"
-              defaultValue={material}
-              required
-              onChange={(e) => setMaterial(e.target.value)}
-              className="form-control"
+            type="text"
+            defaultValue={material}
+            required
+            onChange={(e) => setMaterial(e.target.value)}
+            className="form-control"
+          />
+        </div>
+        <div className="mb-3">
+          <label className="form-label">Subir Imagen:</label>
+          <input
+            type="file"
+            onChange={handleImagenChange}
+            className="form-control"
+            name="imagenProducto"
+            id="imagenProducto"
           />
         </div>
         <button type="submit" className="btn btn-primary">
