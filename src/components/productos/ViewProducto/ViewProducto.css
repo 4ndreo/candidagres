@@ -2,6 +2,7 @@
   aspect-ratio: 1;
   object-fit: cover;
   object-position: center;
+  width: 100%;
 }
 
 .cont-view-product .card-price {

@@ -100,7 +100,6 @@ export function CreateProducto({ title }) {
 
   return (
     <main className="container edit-cont">
-      {JSON.stringify(producto)}
       <h1>Crear - {title}</h1>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
