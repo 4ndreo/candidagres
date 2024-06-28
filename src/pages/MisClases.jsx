@@ -8,7 +8,7 @@ import * as turnosService from "../services/turnos.service";
 import { AuthContext } from "../App";
 import Loader from "../components/basics/Loader";
 
-export default function Turnos() {
+export default function MisClases() {
   // let inscripciones = [];
   let cursos = [];
   let turnos = [];
@@ -52,106 +52,106 @@ export default function Turnos() {
     if (!value.token) {
       navigate("/login", { replace: true });
     }
-    
+
     loadData();
-    
+
   }, []);
-  
+
   useEffect(() => {
     // let groupedInscripciones = inscripciones.reduce((insc, { nombre_curso, ...inscripciones }) => {
     //   if (!insc[nombre_curso]) insc[nombre_curso] = [];
     //   insc[nombre_curso].push(inscripciones);
     //   return insc;
     // }, {});
-    let groupedInscripciones = Object.groupBy( inscripciones, ({ nombre_curso }) => nombre_curso );
+    let groupedInscripciones = Object.groupBy(inscripciones, ({ nombre_curso }) => nombre_curso);
 
     setGroupedInscripciones(groupedInscripciones);
     Object.entries(groupedInscripciones).forEach(([key, value]) => {
-      
+
       console.log('key', key, value)
     })
-    
+
   }, [inscripciones])
-  
+
   useEffect(() => {
-    
+
   }, [groupedInscripciones])
-  
+
   function getInscripcionesByUser() {
     return new Promise((resolve, reject) => {
       inscripcionesService.findByUser(value.currentUser._id)
-      .then((data) => {
-        setLoading(false);
-        resolve(data);
-      })
-      .catch((err) => {
-        reject(err);
-      });
-      
+        .then((data) => {
+          setLoading(false);
+          resolve(data);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+
     })
   }
 
   function getCursos() {
     return new Promise((resolve, reject) => {
       cursosService.find()
-      .then((data) => {
-        cursos = data;
-        resolve(data); 
-      })
-      .catch((err) => {
-        console.log(err)
-        reject(err);
-      });
-      
+        .then((data) => {
+          cursos = data;
+          resolve(data);
+        })
+        .catch((err) => {
+          console.log(err)
+          reject(err);
+        });
+
     })
   }
 
   function getTurnos() {
     return new Promise((resolve, reject) => {
       turnosService.find()
-      .then((data) => {
-        turnos = data;
-        resolve(data); 
-      })
-      .catch((err) => {
-        console.log(err)
-        reject(err);
-      });
-      
+        .then((data) => {
+          turnos = data;
+          resolve(data);
+        })
+        .catch((err) => {
+          console.log(err)
+          reject(err);
+        });
+
     })
   }
-const loadData = () => {
-  return new Promise((resolve, reject) => {
-    getCursos().then(() => {
-      getTurnos().then(() => {
-        getInscripcionesByUser()
-        .then((data) => {
-          let inscripcionesArr = data;
-          console.log('inscripcionesArr', inscripcionesArr)
-          inscripcionesArr.forEach( async (inscripcion, index) => {
-            let curso = cursos.find(curso => curso._id === inscripcion.idCurso)
-            inscripcionesArr[index] = {...inscripcionesArr[index], ...curso, _idCurso: curso._id, _id: inscripcion._id, nombre_curso: curso.nombre};
+  const loadData = () => {
+    return new Promise((resolve, reject) => {
+      getCursos().then(() => {
+        getTurnos().then(() => {
+          getInscripcionesByUser()
+            .then((data) => {
+              let inscripcionesArr = data;
+              console.log('inscripcionesArr', inscripcionesArr)
+              inscripcionesArr.forEach(async (inscripcion, index) => {
+                let curso = cursos.find(curso => curso._id === inscripcion.idCurso)
+                inscripcionesArr[index] = { ...inscripcionesArr[index], ...curso, _idCurso: curso._id, _id: inscripcion._id, nombre_curso: curso.nombre };
 
-            let turno = turnos.find(turno => turno._id === inscripcion.idTurno)
-            inscripcionesArr[index] = {...inscripcionesArr[index], ...turno, _idTurno: turno._id, _id: inscripcion._id, nombre_turno: turno.nombre};
-            
-          })
-          setInscripciones(inscripcionesArr);
-          resolve();
+                let turno = turnos.find(turno => turno._id === inscripcion.idTurno)
+                inscripcionesArr[index] = { ...inscripcionesArr[index], ...turno, _idTurno: turno._id, _id: inscripcion._id, nombre_turno: turno.nombre };
+
+              })
+              setInscripciones(inscripcionesArr);
+              resolve();
+            })
         })
       })
     })
-  })
-}
+  }
   function handleDeleteElement(id) {
-    if (window.confirm("¿Estas seguro que queres eliminar tu inscripción?")){
+    if (window.confirm("¿Estas seguro que queres eliminar tu inscripción?")) {
       inscripcionesService.remove(id).then((inscripcion) => {
         setLoading(true);
         loadData();
         // navigate("/perfil", { replace: true });
       });
     }
-    
+
     //console.log(id)
   }
 
@@ -199,20 +199,18 @@ const loadData = () => {
                                     element.dias?.map(dia => {
                                       return (
                                         <span key={dia}>{diasSemana.find(o => o.id === dia).nombre}{element.dias.length > 1 ? ', ' : ''}</span>
-                                        )
+                                      )
                                     })
                                   } {element.horarioInicio} - {element.horarioFin}</span>
                                   <button
                                     onClick={() => handleDeleteElement(element._id)}
-                                    className="btn btn-danger btn-eliminar"
+                                    className="btn btn-danger btn-icon"
                                     type="button"
                                     data-toggle="tooltip"
                                     data-placement="top"
                                     title=""
                                     data-original-title="Delete"
-                                    >
-                                    <i className="fa fa-trash-o" aria-hidden="true"></i>
-                                    <span>Eliminar Inscripción</span>
+                                  ><span className="pi pi-trash"></span>Desinscribirse
                                   </button>
                                 </div>
                               )

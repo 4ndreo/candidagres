@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import * as productosService from "../../services/productos.service";
+import * as mediaService from "../../services/media.service";
 import { useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../../App";
 import { uploadImagen } from "../../services/productos.service";
@@ -65,17 +66,17 @@ export function CreateProducto({ title }) {
     productosService
       .create(producto)
       .then((producto) => {
-        console.log('produicto', producto)
+        console.log(producto)
         if (file) {
-          return productosService.uploadImagen(file).then((nombreImg) => {
-            productosService.update(producto._id, { img: nombreImg });
-          });
+          return mediaService.uploadImagen(file).then((nombreImg) => {
+            productosService.update(producto._id, { img: nombreImg }).then((data) => {
+              navigate("/productos", { replace: true });
+            });
+          })
+        } else {
+          navigate("/productos", { replace: true });
         }
-      })
-      .then(() => {
-        navigate("/Productos", { replace: true });
-      })
-      .catch((err) => setError(err.message));
+      });
   }
 
   function handleChange(e) {

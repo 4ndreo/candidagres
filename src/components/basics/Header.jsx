@@ -15,7 +15,6 @@ export default function Header() {
 
   let navigate = useNavigate();
   useEffect(() => {
-    console.log(JSON.stringify(value));
     value.setCurrentUser(JSON.parse(localStorage.getItem("user")));
     if (!value.token) {
       navigate("/login", { replace: true });
@@ -26,14 +25,11 @@ export default function Header() {
     localStorage.clear();
     value.setToken(null);
     value.setCurrentUser(null);
-
-    console.log('cerrar sesion')
     navigate("/login", { replace: true });
   }
 
   function handleShowProfile() {
     setShowProfile(!showProfile);
-    console.log(showProfile);
   }
 
   if ((!value.token && !value.currentUser) || value.currentUser) {
@@ -57,12 +53,12 @@ export default function Header() {
                   <>
                     <Link to="/cursos">Clases</Link>
                     <NavDropdown title="Tienda" className="panel-ddown">
-                      <Link to="/tienda" className="dropdown-item btn-productos"><span>Productos</span></Link>
-                      <Link to={'/tienda/carrito/id-' + value.currentUser._id} className="dropdown-item btn-carrito">
-                        <span>Carrito</span>
+                      <Link to="/tienda" className="dropdown-item"><span className="pi pi-box"></span>Productos</Link>
+                      <Link to={'/tienda/carrito/id-' + value.currentUser._id} className="dropdown-item">
+                      <span className="pi pi-shopping-cart"></span>Carrito
                       </Link>
-                      <Link to={'/tienda/historial/id-' + value.currentUser._id} className="dropdown-item btn-historial">
-                        <span>Historial</span>
+                      <Link to={'/tienda/historial/id-' + value.currentUser._id} className="dropdown-item">
+                      <span className="pi pi-history"></span>Historial
                       </Link>
                     </NavDropdown>
                     {value.currentUser.role === 1 && (
@@ -85,6 +81,7 @@ export default function Header() {
                       <span>
                         <div className={!showProfile ? "d-none" : "profile-links panel-ddown"} onMouseLeave={() => handleShowProfile()}>
                           <Link to="/perfil" className="dropdown-item">Perfil</Link>
+                          <Link to="/perfil/clases" className="dropdown-item">Mis clases</Link>
                           <Button variant="link" className="logout dropdown-item" onClick={logOut}>
                             Cerrar sesión
                           </Button>

@@ -23,6 +23,8 @@
   src: url('/public/fonts/Satoshi-Black.otf');
 }
 
+@import "primeicons/primeicons.css";
+
 :root {
   --main-blue: #284277;
   --main-grey: #9B9FA3;
@@ -68,12 +70,6 @@ button {
   background-color: var(--main-blue);
 }
 
-.btn-agregar span {
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M11 13H5v-2h6V5h2v6h6v2h-6v6h-2z'/%3E%3C/svg%3E") no-repeat left center;
-  background-size: 1.25rem;
-  padding-left: 1.5rem;
-}
-
 .btn-eliminar span {
   background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z'/%3E%3C/svg%3E") no-repeat left center;
   background-size: 1.25rem;
@@ -86,32 +82,15 @@ button {
   padding-left: 1.5rem;
 }
 
-.btn-ver span {
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 32 32'%3E%3Cpath fill='white' d='M30.94 15.66A16.69 16.69 0 0 0 16 5A16.69 16.69 0 0 0 1.06 15.66a1 1 0 0 0 0 .68A16.69 16.69 0 0 0 16 27a16.69 16.69 0 0 0 14.94-10.66a1 1 0 0 0 0-.68M16 25c-5.3 0-10.9-3.93-12.93-9C5.1 10.93 10.7 7 16 7s10.9 3.93 12.93 9C26.9 21.07 21.3 25 16 25'/%3E%3Cpath fill='white' d='M16 10a6 6 0 1 0 6 6a6 6 0 0 0-6-6m0 10a4 4 0 1 1 4-4a4 4 0 0 1-4 4'/%3E%3C/svg%3E") no-repeat left center;
-  background-size: 1.25rem;
-  padding-left: 1.5rem;
-}
-
-.btn-carrito >  span {
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23284277' d='M17 18a2 2 0 0 1 2 2a2 2 0 0 1-2 2a2 2 0 0 1-2-2c0-1.11.89-2 2-2M1 2h3.27l.94 2H20a1 1 0 0 1 1 1c0 .17-.05.34-.12.5l-3.58 6.47c-.34.61-1 1.03-1.75 1.03H8.1l-.9 1.63l-.03.12a.25.25 0 0 0 .25.25H19v2H7a2 2 0 0 1-2-2c0-.35.09-.68.24-.96l1.36-2.45L3 4H1zm6 16a2 2 0 0 1 2 2a2 2 0 0 1-2 2a2 2 0 0 1-2-2c0-1.11.89-2 2-2m9-7l2.78-5H6.14l2.36 5z'/%3E%3C/svg%3E") no-repeat left center;
-  background-size: 1.25rem;
-  padding-left: 1.5rem;
-}
-
-.btn-historial span  {
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'%3E%3Cpath fill='%23284277' d='M18 9.83a1 1 0 0 0-1 1v8.72l5.9 4a1 1 0 0 0 1.1-1.67l-5-3.39v-7.66a1 1 0 0 0-1-1' class='clr-i-outline clr-i-outline-path-1'/%3E%3Cpath fill='%23284277' d='M18 2a16.09 16.09 0 0 0-14 8.26V5.2a1 1 0 0 0-2 0V14h8.8a1 1 0 0 0 0-2H5.35a14 14 0 1 1 3.23 16.35a1 1 0 0 0-1.35 1.48A16 16 0 1 0 18 2' class='clr-i-outline clr-i-outline-path-2'/%3E%3Cpath fill='none' d='M0 0h36v36H0z'/%3E%3C/svg%3E") no-repeat left center;
-  background-size: 1.25rem;
-  padding-left: 1.5rem;
-}
-
-.btn-productos > span  {
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1024 1024'%3E%3Cpath fill='%23284277' fill-rule='evenodd' d='M464 144c8.837 0 16 7.163 16 16v304c0 8.836-7.163 16-16 16H160c-8.837 0-16-7.164-16-16V160c0-8.837 7.163-16 16-16zm-52 68H212v200h200zm493.333 87.686c6.248 6.248 6.248 16.379 0 22.627l-181.02 181.02c-6.248 6.248-16.378 6.248-22.627 0l-181.019-181.02c-6.248-6.248-6.248-16.379 0-22.627l181.02-181.02c6.248-6.248 16.378-6.248 22.627 0zm-84.853 11.313L713 203.52L605.52 311L713 418.48zM464 544c8.837 0 16 7.164 16 16v304c0 8.837-7.163 16-16 16H160c-8.837 0-16-7.163-16-16V560c0-8.836 7.163-16 16-16zm-52 68H212v200h200zm452-68c8.837 0 16 7.164 16 16v304c0 8.837-7.163 16-16 16H560c-8.837 0-16-7.163-16-16V560c0-8.836 7.163-16 16-16zm-52 68H612v200h200z'/%3E%3C/svg%3E") no-repeat left center;
-  background-size: 1.25rem;
-  padding-left: 1.5rem;
-}
-
 .btn-profile > span  {
   background: url("./img/user.svg") no-repeat left center;
   background-size: 100%;
   padding: 1.25rem;
+}
+
+.btn-icon {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  gap: 0.5rem;
 }

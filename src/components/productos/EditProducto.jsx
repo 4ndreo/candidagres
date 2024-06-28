@@ -2,6 +2,7 @@ import "../css/Edit.css";
 import "./EditProducto.css";
 import React, { useEffect, useState, useContext } from "react";
 import * as productosService from "../../services/productos.service";
+import * as mediaService from "../../services/media.service";
 import * as Constants from "../../Constants";
 import { useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../../App";
@@ -68,6 +69,7 @@ export function EditProducto({ title }) {
         fileReader.abort();
       }
     }
+    console.log('imagen nueva')
 
   }, [file]);
 
@@ -77,13 +79,13 @@ export function EditProducto({ title }) {
       .update(params?.idProducto, producto)
       .then((data) => {
         if (file) {
-          return productosService.uploadImagen(file).then((nombreImg) => {
+          return mediaService.uploadImagen(file).then((nombreImg) => {
             productosService.update(params?.idProducto, { img: nombreImg }).then((data) => {
-
+              navigate("/productos", { replace: true });
             });
-          }).then(() => {
-            navigate("/Productos", { replace: true });
-          });
+          })
+        } else {
+          navigate("/productos", { replace: true });
         }
       });
   }

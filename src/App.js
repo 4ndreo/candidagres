@@ -40,6 +40,9 @@ import { HistorialCompras } from "./components/carrito/HistorialCompras"
 
 import { Dashboard } from "./components/dashboard/Dashboard"
 import { VerTienda } from "./components/carrito/VerTienda";
+import MisClases from "./pages/MisClases";
+import { VerPerfil } from "./components/perfil/ver/VerPerfil";
+import { EditarPerfil } from "./components/perfil/editar/EditarPerfil";
 
 export const AuthContext = createContext();
 
@@ -138,7 +141,7 @@ function App() {
           {/* Rutas de Tienda */}
           <Route path="/tienda" element={<Tienda />}>
 
-            <Route path="" element={<VerTienda />}  title={"Tienda"} />
+            <Route path="" element={<VerTienda />} title={"Tienda"} />
             <Route path="producto/id-:idProducto" element={<VerProductoId />} />
             {/* Rutas de Carrito de Compras */}
 
@@ -148,7 +151,11 @@ function App() {
           </Route>
 
           {/* Rutas Perfil */}
-          <Route path="/perfil" element={<Perfil />} />
+          <Route path="perfil" element={<Perfil />} >
+            <Route path="" element={<VerPerfil data={currentUser} />} title={"Tienda"} />
+            <Route path="editar/:id" element={<EditarPerfil data={currentUser} />} title={"Tienda"} />
+          </Route>
+          <Route path="/perfil/clases" element={<MisClases />} />
 
           <Route
             path="perfil/turno/id-:idTurno/inscripcion/id-:idInscripcion"
