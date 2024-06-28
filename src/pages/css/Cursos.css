@@ -2,6 +2,7 @@
     padding: 0;
     margin: 1rem 0;
 }
+
 .cont-cursos ul li {
     padding: 1rem;
     margin-bottom: 1rem;
@@ -9,13 +10,9 @@
     border-radius: 0.5rem;
     list-style-type: none;
 }
+
 .listado-cursos {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     column-gap: 1.5rem;
 }
-
-.cont-cursos .card-title {
-    font-size: 1.25rem;
-}
-

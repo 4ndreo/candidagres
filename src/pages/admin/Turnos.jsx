@@ -72,8 +72,8 @@ export default function Turnos() {
       <main className="container main">
         <div className="cont-admin-turnos">
           <h1>Administrar Turnos</h1>
-          <Link to="turno" className="btn btn-primary btn-agregar mt-3">
-            <span>Crear un turno</span>
+          <Link to="turno" className="btn btn-primary mt-3 btn-icon">
+            <span className="pi pi-plus"></span>Crear un turno
           </Link>
           <ul>
             {cursos.map((curso) => {
@@ -92,23 +92,22 @@ export default function Turnos() {
                               <p className="card-text">Dias: {handleDia(turno.dias).join(', ')}</p>
                               <p className="card-text">Horario: De {turno.horarioInicio}hs a {turno.horarioFin}hs</p>
                             </div>
-                            <div className="col-md-4 d-flex align-items-end justify-content-end">
+                            <div className="col-md-4 d-flex gap-2 align-items-end justify-content-end">
                               <Link
                                 to={"turno/id-" + turno._id}
-                                className="btn btn-warning btn-editar me-2"
-                              >
-                                <span>Editar turno</span>
+                                className="btn btn-warning btn-icon">
+                                <span className="pi pi-pen-to-square"></span>Editar
                               </Link>
                               <button
                                 onClick={() => handleDeleteElement(turno)}
-                                className="btn btn-danger btn-eliminar"
+                                className="btn btn-danger btn-icon"
                                 type="button"
                                 data-toggle="tooltip"
                                 data-placement="top"
                                 title=""
                                 data-original-title="Delete"
                               >
-                                <span>Eliminar turno</span>
+                                <span className="pi pi-trash"></span>Eliminar
                               </button>
                             </div>
                           </div>

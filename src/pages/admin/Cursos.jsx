@@ -42,8 +42,8 @@ export default function Turnos() {
     <main className="container main">
       <div className="cont-admin-cursos">
         <h1>Administrar Clases</h1>
-        <Link to="curso" className="btn btn-primary btn-agregar mt-3">
-          <span>Crear una Clase</span>
+        <Link to="curso" className="btn btn-primary mt-3 btn-icon">
+          <span className="pi pi-plus"></span>Crear una Clase
         </Link>
         <ul>
           {cursos.map((curso) => {
@@ -57,21 +57,21 @@ export default function Turnos() {
                     <p className="card-text">{curso.descripcion}</p>
                     <p> ${curso.precio}</p>
                   </div>
-                  <div className="col-md-4 d-flex align-items-end justify-content-end">
+                  <div className="col-md-4 d-flex gap-2 align-items-end justify-content-end">
                     <Link
                       to={"curso/id-" + curso._id}
-                      className="btn btn-warning btn-editar me-2">
-                      <span>Editar clase</span>
+                      className="btn btn-warning btn-icon">
+                      <span className="pi pi-pen-to-square"></span>Editar
                     </Link>
                     <button
                       onClick={() => handleDeleteElement(curso)}
-                      className="btn btn-danger btn-eliminar"
+                      className="btn btn-danger btn-icon"
                       type="button"
                       data-toggle="tooltip"
                       data-placement="top"
                       title=""
                       data-original-title="Delete">
-                      <span>Eliminar Clase</span>
+                      <span className="pi pi-trash"></span>Eliminar
                     </button>
                   </div>
                 </div>

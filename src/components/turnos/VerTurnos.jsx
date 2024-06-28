@@ -297,11 +297,10 @@ export function VerTurnos() {
                   <button
                     type="button"
                     disabled={loadingInscripciones}
-                    className={loadingInscripciones ? "btn-loading" : "btn btn-primary btn-agregar"}
+                    className={loadingInscripciones ? "btn-loading" : "btn btn-primary btn-icon"}
                     onClick={() => handleInscripciones(selectedTurno)}>
-                    <span>
-                      {loadingInscripciones ? <LoaderMini></LoaderMini> : "Inscribirse en este horario"}
-                    </span>
+                    <span className="pi pi-plus"></span>
+                    {loadingInscripciones ? <LoaderMini></LoaderMini> : "Inscribirse en este horario"}
                   </button>
               }
             </Modal.Footer>

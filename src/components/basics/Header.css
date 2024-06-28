@@ -61,6 +61,11 @@
 .panel-ddown>.dropdown-toggle {
   padding: 0 !important;
 }
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
 
 .btn-profile {
   cursor: pointer;

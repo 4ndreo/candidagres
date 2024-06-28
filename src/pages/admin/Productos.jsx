@@ -50,8 +50,8 @@ export default function Productos() {
         <main className="container main">
             <div className="cont-admin-cursos">
                 <h1>Administrar Productos</h1>
-                <Link to="producto" className="btn btn-primary btn-agregar mt-3">
-                    <span>Crear un Producto</span>
+                <Link to="producto" className="btn btn-primary mt-3 btn-icon">
+                    <span className="pi pi-plus"></span>Crear un Producto
                 </Link>
                 {loading ? (
                     <Loader className="w-50"></Loader>

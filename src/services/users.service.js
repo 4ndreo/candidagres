@@ -39,6 +39,7 @@ async function remove(idUser) {
 }
 
 async function update(idUser, user) {
+  console.log(user)
   return fetch(url + "api/users/" + idUser, {
     method: "PATCH",
     headers: {

@@ -32,17 +32,17 @@ export function PreviewProducto(params) {
             <p>Material: <span className="badge text-bg-primary">{producto.material}</span></p>
             ${producto.precio}
           </div>
-          <div className="col-md-4 d-flex align-items-end justify-content-end">
-            <Link to={"producto/id-" + producto._id} className="btn btn-warning btn-editar me-2">
-              <span>Editar</span>
+          <div className="col-md-4 d-flex gap-2 align-items-end justify-content-end">
+            <Link to={"producto/id-" + producto._id} className="btn btn-warning btn-icon">
+              <span className="pi pi-pen-to-square"></span>Editar
             </Link>
             <button
               onClick={() => { params.handleShow(); params.handleSelectedDelete(producto); }}
-              className="btn btn-danger btn-eliminar"
+              className="btn btn-danger btn-icon"
               type="button"
               data-toggle="tooltip"
               data-placement="top">
-              <span>Eliminar</span>
+              <span className="pi pi-trash"></span>Eliminar
             </button>
           </div>
         </div>
