@@ -72,6 +72,9 @@ export default function Header() {
                         <Link to="/Productos" className="dropdown-item">
                           Productos
                         </Link>
+                        <Link to="/Inscripciones" className="dropdown-item">
+                          Inscripciones
+                        </Link>
                         <Link to="/Dashboard" className="dropdown-item">
                           Dashboard
                         </Link>

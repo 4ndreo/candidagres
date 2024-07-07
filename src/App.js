@@ -110,7 +110,7 @@ function App() {
           />
 
           {/* Rutas de Inscripciones */}
-          {/*<Route path="/inscripciones" element={<Inscripciones />} />*/}
+          <Route path="/inscripciones" element={<Inscripciones />} />
           {/*<Route*/}
           {/*  path="/inscripciones/inscripcion"*/}
           {/*  element={<CreateInscripcion title={"Inscripción"} />}*/}
