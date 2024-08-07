@@ -1,0 +1,8 @@
+.modal-title {
+    background-color: var(--main-blue);
+    color: white;
+}
+
+.modal-title .btn-close {
+    display: none;
+}
