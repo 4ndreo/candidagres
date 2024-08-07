@@ -5,7 +5,8 @@ async function find() {
         headers: {
             'auth-token': localStorage.getItem('token')
         }
-    }).then((response) => response.json());
+    }).then((response) => response.json())
+    .catch((err) => {return err});
 }
 
 async function findById(idTurnos) {

@@ -23,10 +23,10 @@ export default function Inscripciones() {
   // let users = [];
 
 
-  const [inscripciones, setInscripciones] = useState([]);
-  const [cursos, setCursos] = useState([]);
-  const [turnos, setTurnos] = useState([]);
-  const [users, setUsers] = useState([]);
+  const [inscripciones, setInscripciones] = useState(null);
+  const [cursos, setCursos] = useState(null);
+  const [turnos, setTurnos] = useState(null);
+  const [users, setUsers] = useState(null);
   const [refresh, setRefresh] = useState(false);
 
 
@@ -34,7 +34,7 @@ export default function Inscripciones() {
   // const [listadoInscripciones, setListadoInscripciones] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [error, setError] = useState('');
+  const [message, setMessage] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const [selectedUser, setSelectedUser] = useState(null);
@@ -55,8 +55,11 @@ export default function Inscripciones() {
 
   useEffect(() => {
     agruparInformacion(cursos, inscripciones, turnos, users);
-    console.log(informacion);
   }, [refresh]);
+
+  useEffect(() => {
+    setMessage(null);
+  }, [message]);
 
 
   async function getCursos() {
@@ -68,12 +71,10 @@ export default function Inscripciones() {
           resolve(data);
         })
         .catch((err) => {
-          console.log(err);
           reject(err);
         });
     });
   }
-
 
   async function getInscripcionesByUser() {
     return new Promise((resolve, reject) => {
@@ -84,7 +85,6 @@ export default function Inscripciones() {
           resolve(data);
         })
         .catch((err) => {
-          console.log(err);
           reject(err);
         });
     });
@@ -99,7 +99,6 @@ export default function Inscripciones() {
           resolve(data);
         })
         .catch((err) => {
-          console.log(err);
           reject(err);
         });
     });
@@ -110,83 +109,96 @@ export default function Inscripciones() {
       turnosService
         .find()
         .then((data) => {
-          console.log('turnos', data)
           setTurnos(data);
           resolve(data);
         })
         .catch((err) => {
-          console.log(err);
           reject(err);
         });
     });
   }
 
-  function loadData() {
-    return new Promise(async (resolve, reject) => {
-      setLoading(true);
-      await getCursos()
-      await getTurnos()
-      await getUsers()
-      await getInscripcionesByUser()
-      console.log(turnos, cursos, users, inscripciones)
-      // agruparInformacionTurnos(turnos, inscripciones)
-      resolve(setRefresh(!refresh));
+  async function loadData() {
+    // return new Promise(async (resolve, reject) => {
+      try {
+        
+        setLoading(true);
+        await getCursos()
+        await getTurnos()
+        await getUsers()
+        await getInscripcionesByUser()
+        setRefresh(!refresh)
+      } catch (error) {
+        console.log('error catch', error)
+      }
+      // console.log(turnos, cursos, users, inscripciones)
+      // // agruparInformacionTurnos(turnos, inscripciones)
+      // resolve(
+      //   setRefresh(!refresh)
+      // );
       setLoading(false);
-    });
+    // });
   }
 
 
   function agruparInformacion(cursos, inscripciones, turnos, users) {
-    const informacionAgrupada = {};
+    try {
 
-    inscripciones.forEach((inscripcion) => {
-      const idCurso = inscripcion.idCurso;
-      const idUser = inscripcion.idUser;
-      const idTurno = inscripcion.idTurno;
 
-      // Verifica si ya hay información agrupada para este curso
-      if (!informacionAgrupada[idCurso]) {
-        informacionAgrupada[idCurso] = {
-          turnos: {}, // Usamos un objeto para agrupar por idTurno
-          curso: null,
-          users: [],
-        };
-      }
+      const informacionAgrupada = {};
 
-      // Agrega el turno si no está presente
-      if (!informacionAgrupada[idCurso].turnos[idTurno]) {
-        const turnoInscripto = turnos.find((turno) => turno._id === idTurno);
-        informacionAgrupada[idCurso].turnos[idTurno] = {
-          turno: turnoInscripto,
-          users: [],
-        };
-      }
+      inscripciones?.forEach((inscripcion) => {
+        const idCurso = inscripcion.idCurso;
+        const idUser = inscripcion.idUser;
+        const idTurno = inscripcion.idTurno;
 
-      // Asigna el curso si no está asignado
-      if (!informacionAgrupada[idCurso].curso) {
-        const cursoInscripto = cursos.find((curso) => curso._id === idCurso);
-        informacionAgrupada[idCurso].curso = cursoInscripto;
-      }
+        // Verifica si ya hay información agrupada para este curso
+        if (!informacionAgrupada[idCurso]) {
+          informacionAgrupada[idCurso] = {
+            turnos: {}, // Usamos un objeto para agrupar por idTurno
+            curso: null,
+            users: [],
+          };
+        }
 
-      // Agrega el usuario si no está presente en el turno específico
-      if (
-        !informacionAgrupada[idCurso].turnos[idTurno].users.find(
-          (user) => user._id === idUser
-        )
-      ) {
-        const userInscripto = users.find((user) => user._id === idUser);
-        informacionAgrupada[idCurso].turnos[idTurno].users.push(userInscripto);
-      }
+        // Agrega el turno si no está presente
+        if (!informacionAgrupada[idCurso].turnos[idTurno]) {
+          const turnoInscripto = turnos?.find((turno) => turno._id === idTurno);
+          informacionAgrupada[idCurso].turnos[idTurno] = {
+            turno: turnoInscripto,
+            users: [],
+          };
+        }
 
-      // Agrega el usuario a la lista general si no está presente
-      if (
-        !informacionAgrupada[idCurso].users.find((user) => user._id === idUser)
-      ) {
-        const userInscripto = users.find((user) => user._id === idUser);
-        informacionAgrupada[idCurso].users.push(userInscripto);
-      }
-    });
-    setInformacion(informacionAgrupada);
+        // Asigna el curso si no está asignado
+        if (!informacionAgrupada[idCurso].curso) {
+          const cursoInscripto = cursos?.find((curso) => curso._id === idCurso);
+          informacionAgrupada[idCurso].curso = cursoInscripto;
+        }
+
+        // Agrega el usuario si no está presente en el turno específico
+        if (
+          !informacionAgrupada[idCurso].turnos[idTurno].users.find(
+            (user) => user._id === idUser
+          )
+        ) {
+          const userInscripto = users?.find((user) => user._id === idUser);
+          informacionAgrupada[idCurso].turnos[idTurno].users.push(userInscripto);
+        }
+
+        // Agrega el usuario a la lista general si no está presente
+        if (
+          !informacionAgrupada[idCurso].users.find((user) => user._id === idUser)
+        ) {
+          const userInscripto = users?.find((user) => user._id === idUser);
+          informacionAgrupada[idCurso].users.push(userInscripto);
+        }
+      });
+      setInformacion(informacionAgrupada);
+    } catch (error) {
+      console.log('error', error);
+      setMessage({ ...message, status: 'danger', message: 'Error al traer la información.' });
+    }
   }
 
   function handleDelete(userId, turnoID) {
@@ -206,6 +218,7 @@ export default function Inscripciones() {
     if (inscripcion) {
       // Realiza la acción deseada, por ejemplo, eliminar la inscripción
       inscripcionesService.remove(inscripcion._id).then(() => {
+        setMessage({ status: 'success', message: 'Inscripción eliminada correctamente.' });
         setShowModal(false);
         loadData();
       });
@@ -225,6 +238,11 @@ export default function Inscripciones() {
   if (!loading) {
     return (
       <main className='container main'>
+        {message && (
+          <div className={"alert alert-" + message.status} role="alert">
+            {message.message}
+          </div>
+        )}
         <div className='cont-admin-cursos'>
           <h1>Inscripciones</h1>
 
