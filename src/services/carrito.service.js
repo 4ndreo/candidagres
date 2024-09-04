@@ -45,7 +45,7 @@ async function create(usuarioId) {
             "Content-Type": "application/json",
             'auth-token': localStorage.getItem('token')
         },
-        body: JSON.stringify({usuarioId: usuarioId}),
+        body: JSON.stringify({ usuarioId: usuarioId }),
     }).then((response) => response.json());
 }
 
@@ -59,7 +59,7 @@ async function remove(idCarrito) {
 }
 
 async function update(carrito) {
-    console.log("service.carrito",carrito)
+    console.log("service.carrito", carrito)
     return fetch(url + "api/carrito/" + carrito._id, {
         method: "PATCH",
         headers: {
@@ -81,13 +81,27 @@ async function updateElimiarProducto(idCarrito, total, productoEnCarrito) {
     }).then((response) => response.json());
 }
 
+async function createPreference(preference) {
+    return fetch(url + "api/create_preference", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            'auth-token': localStorage.getItem('token')
+        },
+        body: JSON.stringify(preference.items),
+    }).then((response) => response.json());
+}
 
 
-export { find,
+
+export {
+    find,
     findById,
     findByIdUser,
     findByIdUserFinalizado,
     create,
     remove,
     update,
-    updateElimiarProducto };
+    updateElimiarProducto,
+    createPreference
+};
