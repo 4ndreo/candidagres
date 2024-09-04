@@ -21,6 +21,9 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode, Pagination } from "swiper";
 
 
+import { initMercadoPago, Wallet } from '@mercadopago/sdk-react'
+
+
 
 
 export function VerCarrito() {
@@ -43,26 +46,60 @@ export function VerCarrito() {
     const [showModal, setShowModal] = useState(false);
     const [showSuccessModal, setShowSuccessModal] = useState(false);
     const [error, setError] = useState("");
+    const [preferenceId, setPreferenceId] = useState(null);
 
 
 
+    initMercadoPago(process.env.REACT_APP_MP_PUBLIC_KEY, { locale: 'es-AR' });
     useEffect(() => {
-
 
         setUsuarioId((JSON.parse(localStorage.getItem('user')))._id)
         loadCarrito((JSON.parse(localStorage.getItem('user')))._id)
     }, []);
 
+    async function createPreference(products) {
+        try {
+            const preferences = {
+                items: products.map((product) => ({
+                    title: product.nombre,
+                    unit_price: product.precio,
+                    quantity: product.cantidad,
+                }))
+            }
+            console.log(preferences)
+            await carritoService.createPreference(preferences)
+                .then((response) => {
+                    // console.log('respuiesta', response.id)
+                    // const { id } = response.id;
+                    console.log('id resp', response.id)
+                    setPreferenceId(response.id)
+                    return response.id;
+                })
+                .catch((err) => {
+                    console.log('error')
+                    return err
+                });
+        } catch (error) {
+            console.log('error catch')
+            return error
+        }
+    }
+
+    const handleBuy = async () => {
+        console.log('handleBuy', await createPreference(carrito.productos))
+        let id = '';
+        console.log('id', id)
+        if (id) {
+        }
+    }
 
     function getCarritobyIdUser(usuarioId) {
         return new Promise((resolve, reject) => {
             carritoService.findByIdUser(usuarioId)
                 .then((data) => {
-                    console.log('funcioné')
                     resolve(data);
                 })
                 .catch((err) => {
-                    console.log('fallé')
                     reject(err);
                 });
         })
@@ -330,10 +367,13 @@ export function VerCarrito() {
                             variant="primary"
                             type="submit"
                             disabled={loadingQuantities}
-                            onClick={() => handleClickFinalizar()}
+                            // onClick={() => handleClickFinalizar()}
+                            onClick={() => handleBuy()}
                         >Finalizar Compra
                         </Button>
-                        {/* } */}
+                        {preferenceId &&
+                            <Wallet initialization={{ preferenceId: preferenceId }} />
+                        }
                     </Card.Footer>
                 </Card>
 
