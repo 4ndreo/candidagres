@@ -1,7 +1,7 @@
 import "./VerTienda.css";
 
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import * as carritoService from "../../services/carrito.service";
 
 import Loader from "../basics/Loader";
@@ -15,26 +15,30 @@ import LoaderMini from "../basics/LoaderMini";
 export function VerTienda() {
     const SERVER_URL = process.env.REACT_APP_SERVER_URL;
     let navigate = useNavigate();
+    const location = useLocation();
 
+    const [searchParams, setSearchParams] = useSearchParams()
+    const [mpParams, setMpParams] = useState({});
     const [productos, setProductos] = useState([]);
     const [carrito, setCarrito] = useState([]);
     const [loadingQuantities, setLoadingQuantities] = useState(false);
-    const [productosComprar, setProductosComprar] = useState([]);
     const [usuarioId, setUsuarioId] = useState("");
-    const [carritoId, setCarritoId] = useState("");
-    const [nombre, setNombre] = useState("");
-    const [precio, setPrecio] = useState();
-    const [total, setTotal] = useState(0);
-    const [producto, setProducto] = useState([]);
     const [agregadoError, setAgregadoError] = useState(false);
-    const [productoAgregado, setProductoAgregado] = useState("");
     const [error, setError] = useState("");
 
 
     useEffect(() => {
+        setMpParams({payment_id: searchParams.get('payment_id'), status: searchParams.get('status'), external_reference: searchParams.get('external_reference'), merchant_order_id: searchParams.get('merchant_order_id')})
+        // mpParams = searchParams.get('payment_id', 'status', 'external_reference', 'merchant_order_id');
         setUsuarioId((JSON.parse(localStorage.getItem('user')))._id)
         loadProductos((JSON.parse(localStorage.getItem('user')))._id)
     }, []);
+
+
+    useEffect(() => {
+        console.log(mpParams)
+        // savePurchase
+    }, [mpParams]);
 
     function getCarritobyIdUser(usuarioId) {
         return new Promise((resolve, reject) => {

@@ -88,7 +88,7 @@ async function createPreference(preference) {
             "Content-Type": "application/json",
             'auth-token': localStorage.getItem('token')
         },
-        body: JSON.stringify(preference.items),
+        body: JSON.stringify(preference),
     }).then((response) => response.json());
 }
 
