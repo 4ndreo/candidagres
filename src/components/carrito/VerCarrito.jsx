@@ -51,22 +51,34 @@ export function VerCarrito() {
 
 
     initMercadoPago(process.env.REACT_APP_MP_PUBLIC_KEY, { locale: 'es-AR' });
+
     useEffect(() => {
 
         setUsuarioId((JSON.parse(localStorage.getItem('user')))._id)
         loadCarrito((JSON.parse(localStorage.getItem('user')))._id)
     }, []);
 
-    async function createPreference(products) {
+    useEffect(() => {
+        async function onInit() {
+
+            await handleCreatePreference(carrito)
+        }
+        onInit();
+    }, [carrito]);
+
+    async function handleCreatePreference(cart) {
         try {
             const preferences = {
-                items: products.map((product) => ({
+                usuarioId: cart.usuarioId,
+                carritoId: cart._id,
+                state: "pending",
+                items: cart.productos.map((product) => ({
                     title: product.nombre,
                     unit_price: product.precio,
                     quantity: product.cantidad,
                 }))
             }
-            console.log(preferences)
+            console.log('preferences')
             await carritoService.createPreference(preferences)
                 .then((response) => {
                     // console.log('respuiesta', response.id)
@@ -86,7 +98,7 @@ export function VerCarrito() {
     }
 
     const handleBuy = async () => {
-        console.log('handleBuy', await createPreference(carrito.productos))
+        console.log('handleBuy', await handleCreatePreference(carrito))
         let id = '';
         console.log('id', id)
         if (id) {
@@ -188,7 +200,17 @@ export function VerCarrito() {
     function handleClickFinalizar() {
         console.log("finalizar compra")
         setShowModal(true);
+    }
 
+    function handleSavePendingPurchase(cart) {
+        let compra = {
+            usuarioId: cart.usuarioId,
+            carritoId: cart._id,
+            productos: cart.productos.map((producto) => ({ id: producto.id, cantidad: producto.cantidad })),
+            state: "pending",
+        }
+
+        comprasService.create(compra).then((data) => console.log('data', data)).catch((err) => setError(err.message));
     }
 
     async function handleConfirmar() {
@@ -224,7 +246,6 @@ export function VerCarrito() {
     function handleAceptarSuccess() {
         setShowSuccessModal(false);
     }
-
 
     function handleAddItemToCart(productoId) {
         guardarProducto(productoId, 'add')
@@ -363,22 +384,24 @@ export function VerCarrito() {
                     </Card.Body>
                     <Card.Footer className="d-grid gap-2">
                         {/* {loadingQuantities ? <LoaderMini className="loader-mini" /> : */}
-                        <Button
+                        {/* <Button
                             variant="primary"
                             type="submit"
                             disabled={loadingQuantities}
                             // onClick={() => handleClickFinalizar()}
                             onClick={() => handleBuy()}
                         >Finalizar Compra
-                        </Button>
+                        </Button> */}
                         {preferenceId &&
-                            <Wallet initialization={{ preferenceId: preferenceId }} />
+                            <Wallet initialization={{ preferenceId: preferenceId }} customization={{ texts:{ valueProp: 'smart_option'}}}
+                            // onSubmit={() => handleSavePendingPurchase(carrito)}
+                            />
                         }
                     </Card.Footer>
                 </Card>
 
 
-                <Modal show={showModal} onHide={handleCancelar}>
+                {/* <Modal show={showModal} onHide={handleCancelar}>
                     <Modal.Header closeButton>
                         <Modal.Title className="p-2">Finalizar Compra</Modal.Title>
                     </Modal.Header>
@@ -412,7 +435,7 @@ export function VerCarrito() {
                             Aceptar
                         </Button>
                     </Modal.Footer>
-                </Modal>
+                </Modal> */}
 
             </div>
             //         </Row>

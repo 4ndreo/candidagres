@@ -49,7 +49,18 @@ async function remove(idCompra) {
 }
 
 async function update(compra) {
-    console.log("service.compra",compra)
+    console.log("service.compra", compra)
+    return fetch(url + "api/compras/" + compra._id, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+            'auth-token': localStorage.getItem('token')
+        },
+        body: JSON.stringify({ productos: compra.productos }),
+    }).then((response) => true);
+}
+
+async function savePurchase(data) {
     return fetch(url + "api/compras/" + compra._id, {
         method: "PATCH",
         headers: {
@@ -61,9 +72,12 @@ async function update(compra) {
 }
 
 
-export { find,
+export {
+    find,
     findById,
     findByIdUser,
     create,
     remove,
-    update,};
+    update,
+    savePurchase,
+};
