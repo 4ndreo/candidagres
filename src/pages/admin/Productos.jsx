@@ -60,7 +60,7 @@ export default function Productos() {
                         {productos.map((producto) => {
                             return (
                                 <li className="card mb-3" key={producto._id}>
-                                    <PreviewProducto producto={producto} handleShow={handleShow} handleSelectedDelete={handleSelectedDelete}></PreviewProducto>
+                                    <PreviewProducto producto={producto} editBtn={true} handleShow={handleShow} handleSelectedDelete={handleSelectedDelete}></PreviewProducto>
                                     {/* <div className="row g-0">
                                         <div className="col-md-3">
                                             <img src="..." className="img-fluid rounded-start" alt="..." />
