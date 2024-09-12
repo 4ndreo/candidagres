@@ -23,8 +23,9 @@ import { FreeMode, Pagination } from "swiper";
 
 import { initMercadoPago, Wallet } from '@mercadopago/sdk-react'
 import { CartProduct } from "../productos/CartProduct/CartProduct";
+import { useQuery } from "react-query";
 
-
+const user = JSON.parse(localStorage.getItem('user'));
 
 
 export function VerCarrito() {
@@ -34,11 +35,11 @@ export function VerCarrito() {
 
     const [productosComprar, setProductosComprar] = useState([]);
     const [carrito, setCarrito] = useState([]);
-    const [importeCarrito, setImporteCarrito] = useState(0);
-    const [cantidadCarrito, setCantidadCarrito] = useState(0);
-    const [demoraCarrito, setDemoraCarrito] = useState(0);
+    const [totalCost, setTotalCost] = useState(0);
+    const [totalQuantity, setTotalQuantity] = useState(0);
+    const [totalDelay, setTotalDelay] = useState(0);
     const [nombre, setNombre] = useState("");
-    const [usuarioId, setUsuarioId] = useState("");
+    // const [usuarioId, setUsuarioId] = useState("");
     const [carritoId, setCarritoId] = useState("");
     const [loadingQuantities, setLoadingQuantities] = useState(false);
     const [eliminadoCorrectamente, setEliminadoCorrectamente] = useState(false);
@@ -48,24 +49,48 @@ export function VerCarrito() {
     const [showSuccessModal, setShowSuccessModal] = useState(false);
     const [error, setError] = useState("");
     const [preferenceId, setPreferenceId] = useState(null);
-
-
-
     initMercadoPago(process.env.REACT_APP_MP_PUBLIC_KEY, { locale: 'es-AR' });
 
-    useEffect(() => {
+    const fetchCart = async () => {
+        let result;
+        const cart = await carritoService.findByIdUser(params?.idUsuario);
+       
+            result = { ...cart, totalCost: calcularImporteCarrito(cart?.productos), totalQuantity: calcularCantidadCarrito(cart?.productos), totalDelay: calcularDemora(cart?.productos) }
+            localStorage.setItem("carrito", JSON.stringify(result))
+            
+        
+        return JSON.parse(JSON.stringify(result));
 
-        setUsuarioId((JSON.parse(localStorage.getItem('user')))._id)
-        loadCarrito((JSON.parse(localStorage.getItem('user')))._id)
-    }, []);
+    }
+
+    const { data: cart, isLoading, isError, refetch } = useQuery(
+        'cart',
+        fetchCart,
+        {
+            staleTime: 10000,
+            retry: 2,
+        }
+    );
+
+    // function getCarritobyIdUser(usuarioId) {
+    //     return new Promise((resolve, reject) => {
+    //         carritoService.findByIdUser(usuarioId)
+    //             .then((data) => {
+    //                 resolve(data);
+    //             })
+    //             .catch((err) => {
+    //                 reject(err);
+    //             });
+    //     })
+    // }
 
     useEffect(() => {
         async function onInit() {
 
-            await handleCreatePreference(carrito)
+            await handleCreatePreference(cart)
         }
         onInit();
-    }, [carrito]);
+    }, [cart]);
 
     async function handleCreatePreference(cart) {
         try {
@@ -75,9 +100,14 @@ export function VerCarrito() {
                 state: "pending",
                 items: cart.productos.map((product) => ({
                     title: product.nombre,
+                    description: product.descripcion,
                     unit_price: product.precio,
                     quantity: product.cantidad,
-                }))
+                    material: product.material
+                })),
+                totalCost: cart.totalCost,
+                totalQuantity: cart.totalQuantity,
+                totalDelay: cart.totalDelay,
             }
             console.log('preferences')
             await carritoService.createPreference(preferences)
@@ -98,46 +128,34 @@ export function VerCarrito() {
         }
     }
 
-    const handleBuy = async () => {
-        console.log('handleBuy', await handleCreatePreference(carrito))
-        let id = '';
-        console.log('id', id)
-        if (id) {
-        }
-    }
+    // const handleBuy = async () => {
+    //     console.log('handleBuy', await handleCreatePreference(carrito))
+    //     let id = '';
+    //     console.log('id', id)
+    //     if (id) {
+    //     }
+    // }
 
-    function getCarritobyIdUser(usuarioId) {
-        return new Promise((resolve, reject) => {
-            carritoService.findByIdUser(usuarioId)
-                .then((data) => {
-                    resolve(data);
-                })
-                .catch((err) => {
-                    reject(err);
-                });
-        })
-    }
+    // function loadCarrito(usuarioId) {
+    //     return new Promise((resolve, reject) => {
+    //         getCarritobyIdUser(usuarioId).then((data) => {
+    //             if (!data.err) {
+    //                 setCarrito(data)
+    //                 calcularImporteCarrito(data.productos)
+    //                 calcularCantidadCarrito(data.productos)
+    //                 calcularDemora(data.productos)
+    //                 setLoadingQuantities(false)
+    //                 localStorage.setItem("carrito", JSON.stringify(data))
+    //             } else {
+    //                 crearCarritoParaUsuario(usuarioId)
+    //                 setLoadingQuantities(false)
 
-    function loadCarrito(usuarioId) {
-        return new Promise((resolve, reject) => {
-            getCarritobyIdUser(usuarioId).then((data) => {
-                if (!data.err) {
-                    setCarrito(data)
-                    calcularImporteCarrito(data.productos)
-                    calcularCantidadCarrito(data.productos)
-                    calcularDemora(data.productos)
-                    setLoadingQuantities(false)
-                    localStorage.setItem("carrito", JSON.stringify(data))
-                } else {
-                    crearCarritoParaUsuario(usuarioId)
-                    setLoadingQuantities(false)
-
-                }
-            }).catch((err) => {
-                console.error(err)
-            });
-        })
-    }
+    //             }
+    //         }).catch((err) => {
+    //             console.error(err)
+    //         });
+    //     })
+    // }
 
     /**
      * Calcula el monto total del carrito. El cálculo se hace sumando el producto del precio y cantidad de cada producto.
@@ -147,12 +165,10 @@ export function VerCarrito() {
      */
     function calcularImporteCarrito(carrito) {
         let total = 0
-        console.log(carrito)
         carrito.forEach(producto => {
             total += producto.precio * producto.cantidad
         })
-
-        setImporteCarrito(total)
+        return total;
     }
 
     /**
@@ -167,8 +183,7 @@ export function VerCarrito() {
         carrito.forEach(producto => {
             total += producto.cantidad
         })
-
-        setCantidadCarrito(total)
+        return total;
     }
 
     /**
@@ -178,106 +193,61 @@ export function VerCarrito() {
      * @return {void} La función no retorna ningún valor.
      */
     function calcularDemora(carrito) {
-        let total = carrito.map((x) => x.demora_producto).reduce((a, b) => a > b ? a : b)
-        carrito.forEach(producto => {
-            total += producto.cantidad
-        })
-        setDemoraCarrito(total)
-    }
-
-    function crearCarritoParaUsuario(usuarioId) {
-        carritoService.create(usuarioId)
-            .then((data) => {
-                // const idNewCarrito = traerIdNewCarrito(data, usuarioId)
-                setCarrito(data)
-                localStorage.setItem("carrito", JSON.stringify(data))
-                //todo recibir idCarrito y setearlo para poder mandarlo en el update
+        let total = 0;
+        if (carrito.length > 0) {
+            total = carrito.map((x) => x.demora_producto).reduce((a, b) => a > b ? a : b)
+            carrito.forEach(producto => {
+                total += producto.cantidad
             })
-            .catch((err) => {
-                setError(err.message)
-            });
-    }
-
-    function handleClickFinalizar() {
-        console.log("finalizar compra")
-        setShowModal(true);
-    }
-
-    function handleSavePendingPurchase(cart) {
-        let compra = {
-            usuarioId: cart.usuarioId,
-            carritoId: cart._id,
-            productos: cart.productos.map((producto) => ({ id: producto.id, cantidad: producto.cantidad })),
-            state: "pending",
         }
-
-        comprasService.create(compra).then((data) => console.log('data', data)).catch((err) => setError(err.message));
+        return total;
     }
 
-    async function handleConfirmar() {
-        console.log(carrito.productos.map((producto) => ({ id: producto.id, cantidad: producto.cantidad })))
-
-        let compra = {
-            usuarioId: carrito.usuarioId,
-            carritoId: carrito._id,
-            productos: carrito.productos.map((producto) => ({ id: producto.id, cantidad: producto.cantidad })),
-        }
-
-        comprasService.create(compra).then((data) => {
-            carritoService.remove(carrito._id).then((carrito) => {
-                setImporteCarrito(0);
-                setCantidadCarrito(0);
-                setDemoraCarrito(0);
-                console.log(data)
-                setShowModal(false);
-                setShowSuccessModal(true);
-
-                loadCarrito((JSON.parse(localStorage.getItem('user')))._id)
-            }).catch((err) => setError(err.message));
-        }).catch((err) => setError(err.message));
-
-    }
-
-
-    function handleCancelar() {
-        setShowModal(false);
-        setShowModal(false);
-    }
-
-    function handleAceptarSuccess() {
-        setShowSuccessModal(false);
-    }
+    // function crearCarritoParaUsuario(usuarioId) {
+    //     carritoService.create(usuarioId)
+    //         .then((data) => {
+    //             // const idNewCarrito = traerIdNewCarrito(data, usuarioId)
+    //             setCarrito(data)
+    //             localStorage.setItem("carrito", JSON.stringify(data))
+    //             //todo recibir idCarrito y setearlo para poder mandarlo en el update
+    //         })
+    //         .catch((err) => {
+    //             setError(err.message)
+    //         });
+    // }
 
     function handleAddItemToCart(productoId) {
         guardarProducto(productoId, 'add')
-        actualizarCarrito(carrito)
+        actualizarCarrito(cart)
     }
 
     function handleSubstractItemToCart(productoId) {
         guardarProducto(productoId, 'substract')
-        actualizarCarrito(carrito)
+        actualizarCarrito(cart)
     }
 
     function guardarProducto(productoId, operacion) {
         let nuevoProducto = true;
 
-        carrito.productos.forEach((producto, index) => {
+        cart.productos.forEach((producto, index) => {
             if (producto.id === productoId) {
+                console.log('antes de restar', JSON.stringify(cart.productos))
                 nuevoProducto = false;
-                operacion === 'add' ? carrito.productos[index].cantidad++ : carrito.productos[index].cantidad--;
-                if (carrito.productos[index].cantidad <= 0) {
-                    carrito.productos.splice(index, 1);
+                operacion === 'add' ? cart.productos[index].cantidad++ : cart.productos[index].cantidad--;
+                if (cart.productos[index].cantidad <= 0) {
+                    cart.productos.splice(index, 1);
                 }
+                console.log('despues de restar', JSON.stringify(cart.productos))
             }
         })
         if (nuevoProducto && operacion === 'add') {
-            carrito.productos.push({ id: productoId, cantidad: 1 })
+            cart.productos.push({ id: productoId, cantidad: 1 })
         }
     }
 
     function checkQuantity(productoId) {
         // console.log(productoId)
-        return carrito.productos.find(producto => producto.id === productoId)?.cantidad
+        return cart.productos.find(producto => producto.id === productoId)?.cantidad
     }
 
     function actualizarCarrito(carrito) {
@@ -286,7 +256,8 @@ export function VerCarrito() {
         carritoService.update(carrito)
             .then((response) => {
                 if (response) {
-                    loadCarrito((JSON.parse(localStorage.getItem('user')))._id)
+                    // loadCarrito(user._id)
+                    refetch()
                 } else {
                     setAgregadoError(true)
                     setTimeout(() => {
@@ -300,104 +271,60 @@ export function VerCarrito() {
 
     }
 
-
-    if (carrito.productos) {
-
-
-        return (
-
-            <div className="cont-admin-cursos cont-list-carrito d-flex justify-content-between gap-3">
-                <div className="detalle">
-                    <h1 className="mb-4">Carrito</h1>
+    if (isLoading) {
+        return <Loader></Loader>
+    }
 
 
-                    {agregadoError && (
-                        <div className="alert alert-danger" role="alert">
-                            Error al agregar el producto a tu carrito. Inténtalo de nuevo.
-                        </div>
-                    )}
+    const renderItems = (cart) => {
+        if (cart.productos.length === 0) {
+            return <p>Tu carrito se encuentra vacío.</p>
+        }
+        return cart.productos.map((producto) => {
+            return (
 
-                    {carrito.productos.length === 0 ?
+                <CartProduct key={producto._id} producto={producto}
+                    loadingQuantities={loadingQuantities}
+                    handleSubstractItemToCart={handleSubstractItemToCart}
+                    checkQuantity={checkQuantity}
+                    handleAddItemToCart={handleAddItemToCart}></CartProduct>
+            )
+        })
+    }
 
-                        <p>Tu carrito se encuentra vacío.</p>
-                        :
-                        
-                            carrito.productos.map((producto) => {
-                                return (
 
-                                    <CartProduct key={producto._id} producto={producto} 
-                                    loadingQuantities={loadingQuantities}
-                                    handleSubstractItemToCart={handleSubstractItemToCart}
-                                    checkQuantity={checkQuantity}
-                                    handleAddItemToCart={handleAddItemToCart}></CartProduct>
-                                )
-                            })
+    return (
 
-                        // <Swiper
-                        //     slidesPerView={3.5}
-                        //     spaceBetween={30}
-                        //     freeMode={false}
-                        //     // pagination={{
-                        //     //   clickable: true,
-                        //     // }}
-                        //     modules={[FreeMode, Pagination]}
-                        //     className="mySwiper"
-                        // >
-                        //     {carrito.productos.map((producto) => {
-                        //         return (
-                        //             <SwiperSlide key={producto._id}>
-                        //                 <Card key={producto._id}>
-                        //                     <Card.Img className="card-img" variant="top" src={SERVER_URL + "uploads/" + producto.img} />
-                        //                     <Card.Body>
-                        //                         <h2 className="title">{producto.nombre}</h2>
-                        //                         <Link className="card_link" to={`/tienda/producto/id-${producto._id}`}></Link>
-                        //                         <Card.Text className="precio">
-                        //                             ${producto.precio}
-                        //                         </Card.Text>
-                        //                         <Card.Text>
-                        //                             {producto.descripcion}
-                        //                         </Card.Text>
-                        //                     </Card.Body>
-                        //                     <Card.Footer>
-                        //                         <div className="counter-cantidad btn-carrito">
-                        //                             <span className="icon-carrito">
-                        //                             </span>
-                        //                             <div>
-                        //                                 {loadingQuantities ? <LoaderMini className="loader-mini" /> :
-                        //                                     <>
-                        //                                         <Button variant="danger" onClick={() => handleSubstractItemToCart(producto._id)} disabled={loadingQuantities}>-</Button>
+        <div className="cont-admin-cursos cont-list-carrito d-flex justify-content-between gap-3">
+            <div className="detalle">
+                <h1 className="mb-4">Carrito</h1>
 
-                        //                                         {checkQuantity(producto._id) || 0}
 
-                        //                                         <Button variant="success" onClick={() => handleAddItemToCart(producto._id)} disabled={loadingQuantities}>+</Button>
-                        //                                     </>
-                        //                                 }
-                        //                             </div>
-                        //                         </div>
-                        //                     </Card.Footer>
-                        //                 </Card>
-                        //             </SwiperSlide>
-                        //         );
-                        //     })}
-                        // </Swiper>
-                    }
-                </div>
-                <Card className="resumen">
-                    <Card.Body>
-                        <h2 className="title">Resumen de compra</h2>
-                        <Card.Text className="precio">
-                            Importe: ${importeCarrito}
-                        </Card.Text>
-                        <Card.Text>
-                            Cantidad: {cantidadCarrito} items
-                        </Card.Text>
-                        <Card.Text>
-                            Demora: {demoraCarrito} días
-                        </Card.Text>
-                    </Card.Body>
-                    <Card.Footer className="d-grid gap-2">
-                        {/* {loadingQuantities ? <LoaderMini className="loader-mini" /> : */}
-                        {/* <Button
+                {isError ?
+                    <div className="alert alert-danger" role="alert">
+                        Ha habido un error. Inténtalo de nuevo más tarde.
+                    </div>
+                    :
+                    renderItems(cart)
+                }
+
+            </div>
+            <Card className="resumen">
+                <Card.Body>
+                    <h2 className="title">Resumen de compra</h2>
+                    <Card.Text className="precio">
+                        Importe: ${cart?.totalCost || 0}
+                    </Card.Text>
+                    <Card.Text>
+                        Cantidad: {(cart?.totalQuantity || 0) === 1 ? (cart?.totalQuantity || 0) + ' artículo' : (cart?.totalQuantity || 0) + ' artículos'}
+                    </Card.Text>
+                    <Card.Text>
+                        Demora: {cart?.totalDelay || 0} días
+                    </Card.Text>
+                </Card.Body>
+                <Card.Footer className="d-grid gap-2">
+                    {/* {loadingQuantities ? <LoaderMini className="loader-mini" /> : */}
+                    {/* <Button
                             variant="primary"
                             type="submit"
                             disabled={loadingQuantities}
@@ -405,105 +332,20 @@ export function VerCarrito() {
                             onClick={() => handleBuy()}
                         >Finalizar Compra
                         </Button> */}
-                        {preferenceId && carrito.productos.length > 0 ?
-                            <Wallet initialization={{ preferenceId: preferenceId }} customization={{ texts: { valueProp: 'smart_option' } }}
-                            // onSubmit={() => handleSavePendingPurchase(carrito)}
-                            />
-                            :
-                            <Button
-                                variant="secondary"
-                                type="submit"
-                                disabled
-                            > Pagar
-                            </Button>
-                        }
-                    </Card.Footer>
-                </Card>
-
-
-                {/* <Modal show={showModal} onHide={handleCancelar}>
-                    <Modal.Header closeButton>
-                        <Modal.Title className="p-2">Finalizar Compra</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <p>¿Estás seguro de que quieres finalizar la compra?</p>
-                        <ListGroup>
-                            {productosComprar.map((producto, index) => (
-                                <ListGroup.Item key={`${producto.id}-${index}`}>
-                                    {producto.nombre} x ${producto.precio}
-                                </ListGroup.Item>
-                            ))}
-                        </ListGroup>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={handleCancelar}>
-                            Cancelar
+                    {preferenceId && cart.productos.length > 0 ?
+                        <Wallet initialization={{ preferenceId: preferenceId }} customization={{ texts: { valueProp: 'smart_option' } }}
+                        // onSubmit={() => handleSavePendingPurchase(carrito)}
+                        />
+                        :
+                        <Button
+                            variant="secondary"
+                            type="submit"
+                            disabled
+                        > Pagar
                         </Button>
-                        <Button variant="primary" onClick={handleConfirmar}>
-                            Confirmar
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
-
-                <Modal show={showSuccessModal} onHide={handleAceptarSuccess}>
-                    <Modal.Header closeButton>
-                        <Modal.Title className="p-2">Operación Realizada con Éxito</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>La compra se ha finalizado con éxito.</Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="primary" onClick={handleAceptarSuccess}>
-                            Aceptar
-                        </Button>
-                    </Modal.Footer>
-                </Modal> */}
-
-            </div>
-            //         </Row>
-            //     </Container>
-            // </main>
-
-
-        );
-
-    } else {
-        return (
-            <Loader></Loader>
-        )
-    }
-    // else
-    // {
-    //     return (
-    //         <main>
-
-    //             <Container fluid>
-    //                 <Row>
-
-    //                     <Col md={2} className="d-none d-md-block bg-light sidebar">
-    //                         <div className="sidebar-sticky">
-    //                             <Nav className="flex-column">
-    //                                 <Nav.Link href="/tienda" className="nav-link">Tienda</Nav.Link>
-    //                                 <Nav.Link href={`/carrito/id-${usuarioId}`} className="nav-link active">Carrito de Compras</Nav.Link>
-    //                                 <Nav.Link href={`/carrito/historial/id-${usuarioId}`} className="nav-link">Historial</Nav.Link>
-    //                             </Nav>
-    //                         </div>
-    //                     </Col>
-
-    //                     <Col md={10} className="ml-md-auto px-md-4">
-    //                         <div>
-    //                             <h1>Productos seleccionados de {nombre}</h1>
-    //                             <p><b>Total:</b> ${total}</p>
-    //                         </div>
-
-    //                         <div>
-    //                             <p>No tenes productos en el carrito. Hace <a href="/tienda">click aqui</a> para ver los
-    //                                 productos disponibles.</p>
-    //                         </div>
-
-    //                     </Col>
-    //                 </Row>
-    //             </Container>
-
-    //         </main>
-    //     )
-    // }
+                    }
+                </Card.Footer>
+            </Card>
+        </div>
+    );
 }
