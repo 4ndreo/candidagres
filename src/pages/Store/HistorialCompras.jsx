@@ -2,9 +2,10 @@ import "./HistorialCompras.css";
 import * as comprasService from "../../services/compras.service";
 
 import { useParams } from "react-router-dom";
-import Loader from "../basics/Loader";
+
 import { DateTime } from "luxon";
 import { useQuery } from "react-query";
+import Loader from "../../components/basics/Loader";
 
 
 

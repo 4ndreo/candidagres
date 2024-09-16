@@ -16,9 +16,9 @@ import { EditTurno } from "./components/turnos/EditTurno";
 import { VerTurnos } from "./components/turnos/VerTurnos";
 
 import Cursos from "./pages/Cursos";
-import AdminCursos from "./pages/admin/Cursos";
-import { CreateCurso } from "./components/cursos/CreateCurso";
-import { EditCurso } from "./components/cursos/EditCurso";
+import AdminClasses from "./pages/admin/AdminClasses/AdminClasses";
+import { CreateClass } from "./pages/admin/CreateClass/CreateClass";
+import { EditClass } from "./pages/admin/EditClass/EditClass";
 
 import Inscripciones from "./pages/admin/Inscripciones";
 import { CreateInscripcion } from "./components/inscripcion/CreateInscripcion";
@@ -26,23 +26,24 @@ import { CreateInscripcionUser } from "./components/inscripcion/CreateInscripcio
 import { EditInscripcion } from "./components/inscripcion/EditInscripcion";
 
 import Productos from "./pages/admin/Productos";
-import { CreateProducto } from "./components/productos/CreateProducto";
+import { CreateProducto } from "./components/productos/CreateProduct/CreateProducto";
 import { EditProducto } from "./components/productos/EditProducto";
 
-import Tienda from "./pages/Tienda";
+import Store from "./pages/Store";
 import VerProductoId from "./pages/VerProducto"
 
 import Perfil from "./pages/Perfil";
 import { PerfilTurnos } from "./components/perfil/PerfilTurnos";
 
-import { VerCarrito } from "./components/carrito/VerCarrito"
-import { HistorialCompras } from "./components/carrito/HistorialCompras"
+import { Cart } from "./pages/Store/Cart"
+import { HistorialCompras } from "./pages/Store/HistorialCompras"
 
 import { Dashboard } from "./components/dashboard/Dashboard"
-import { VerTienda } from "./components/carrito/VerTienda";
+import { VerTienda } from "./pages/Store/VerTienda";
 import MisClases from "./pages/MisClases";
 import { VerPerfil } from "./components/perfil/ver/VerPerfil";
 import { EditarPerfil } from "./components/perfil/editar/EditarPerfil";
+import Admin from "./pages/admin/Admin";
 
 export const AuthContext = createContext();
 
@@ -97,17 +98,7 @@ function App() {
             element={<VerTurnos title={"Turnos"} />}
           />
 
-          {/* Rutas de cursos */}
-          <Route path="/cursos" element={<Cursos />} />
-          <Route path="/panel/cursos" element={<AdminCursos />} />
-          <Route
-            path="/panel/cursos/curso"
-            element={<CreateCurso title={"Clase"} />}
-          />
-          <Route
-            path="/panel/cursos/curso/id-:idCurso"
-            element={<EditCurso title={"Clase"} />}
-          />
+
 
           {/* Rutas de Inscripciones */}
           <Route path="/inscripciones" element={<Inscripciones />} />
@@ -126,26 +117,42 @@ function App() {
           {/*/>*/}
 
           {/* --------------- / ---------------- */}
+            <Route path="cursos" element={<Cursos />} />
 
-          {/* Rutas de Productos */}
-          <Route path="/productos" element={<Productos />} />
-          <Route
-            path="/productos/producto"
-            element={<CreateProducto title={"Producto"} />}
-          />
-          <Route
-            path="/productos/producto/id-:idProducto"
-            element={<EditProducto title={"Producto"} />}
-          />
+
+          <Route path="/admin" element={<Admin />}>
+
+            {/* Rutas de Productos */}
+            <Route path="products" element={<Productos />} />
+            <Route
+              path="productos/producto"
+              element={<CreateProducto title={"Producto"} />}
+            />
+            <Route
+              path="productos/producto/id-:idProducto"
+              element={<EditProducto title={"Producto"} />}
+            />
+
+            {/* Rutas de cursos */}
+            <Route path="classes" element={<AdminClasses />} />
+            <Route
+              path="classes/create"
+              element={<CreateClass title={"Clase"} />}
+            />
+            <Route
+              path="classes/edit/id-:idCurso"
+              element={<EditClass title={"Clase"} />}
+            />
+          </Route>
 
           {/* Rutas de Tienda */}
-          <Route path="/tienda" element={<Tienda />}>
+          <Route path="/store" element={<Store />}>
 
             <Route path="" element={<VerTienda />} title={"Tienda"} />
             <Route path="producto/id-:idProducto" element={<VerProductoId />} />
             {/* Rutas de Carrito de Compras */}
 
-            <Route path="carrito/id-:idUsuario" element={<VerCarrito />} title={"Compras"} />
+            <Route path="carrito/id-:idUsuario" element={<Cart />} title={"Compras"} />
 
             <Route path="historial/id-:idUsuario" element={<HistorialCompras />} title={"Historial"} />
           </Route>

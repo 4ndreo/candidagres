@@ -5,7 +5,9 @@ async function find() {
         headers: {
             'auth-token': localStorage.getItem('token')
         }
-    }).then((response) => response.json());
+    }).then((response) => response.json()
+    ).catch(() => { throw new Error('Error: no se pudieron obtener los carritos. Inténtelo de nuevo más tarde') });
+    
 }
 
 async function findById(idCarrito) {
@@ -15,7 +17,7 @@ async function findById(idCarrito) {
         }
     }).then((response) =>
         response.json()
-    );
+    ).catch(() => { throw new Error('Error: no se pudo obtener el carrito. Inténtelo de nuevo más tarde') });
 }
 
 async function findByIdUser(idUser) {
@@ -25,7 +27,7 @@ async function findByIdUser(idUser) {
         }
     }).then((response) =>
         response.json()
-    );
+    ).catch(() => { throw new Error('Error: no se pudo obtener el carrito. Inténtelo de nuevo más tarde') });
 }
 
 async function findByIdUserFinalizado(idUser) {
@@ -35,7 +37,7 @@ async function findByIdUserFinalizado(idUser) {
         }
     }).then((response) =>
         response.json()
-    );
+    ).catch(() => { throw new Error('Error: no se pudo obtener el carrito. Inténtelo de nuevo más tarde') });
 }
 
 async function create(usuarioId) {
@@ -46,7 +48,8 @@ async function create(usuarioId) {
             'auth-token': localStorage.getItem('token')
         },
         body: JSON.stringify({ usuarioId: usuarioId }),
-    }).then((response) => response.json());
+    }).then((response) => response.json()
+    ).catch(() => { throw new Error('Error: no se pudo crear el carrito. Inténtelo de nuevo más tarde') });
 }
 
 async function remove(idCarrito) {
@@ -55,7 +58,8 @@ async function remove(idCarrito) {
         headers: {
             'auth-token': localStorage.getItem('token')
         }
-    }).then((response) => response.json());
+    }).then((response) => response.json()
+    ).catch(() => { throw new Error('Error: no se pudo eliminar el carrito. Inténtelo de nuevo más tarde') });
 }
 
 async function update(carrito) {
@@ -67,7 +71,8 @@ async function update(carrito) {
             'auth-token': localStorage.getItem('token')
         },
         body: JSON.stringify({ productos: carrito.productos }),
-    }).then((response) => true);
+    }).then((response) => true
+    ).catch(() => { throw new Error('Error: no se pudo modificar el carrito. Inténtelo de nuevo más tarde') });
 }
 async function updateElimiarProducto(idCarrito, total, productoEnCarrito) {
 
@@ -89,9 +94,33 @@ async function createPreference(preference) {
             'auth-token': localStorage.getItem('token')
         },
         body: JSON.stringify(preference),
-    }).then((response) => response.json());
+    }).then((response) => response.json()
+    ).catch(() => { throw new Error('Error: no se pudo crear la preferencia. Inténtelo de nuevo más tarde') });
 }
 
+async function addToCart(idUser, data) {
+    return fetch(url + "api/carrito/" + idUser + "/addToCart", {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+            'auth-token': localStorage.getItem('token')
+        },
+        body: JSON.stringify({ item: data }),
+    }).then((response) => response.json()
+    ).catch(() => { throw new Error('Error: no se pudo agregar el producto al carrito. Inténtelo de nuevo más tarde') });
+}
+
+async function substractToCart(idUser, data) {
+    return fetch(url + "api/carrito/" + idUser + "/substractToCart", {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+            'auth-token': localStorage.getItem('token')
+        },
+        body: JSON.stringify({ item: data }),
+    }).then((response) => response.json()
+    ).catch(() => { throw new Error('Error: no se pudo eliminar el producto del carrito. Inténtelo de nuevo más tarde') });
+}
 
 
 export {
@@ -103,5 +132,7 @@ export {
     remove,
     update,
     updateElimiarProducto,
-    createPreference
+    createPreference,
+    addToCart,
+    substractToCart,
 };

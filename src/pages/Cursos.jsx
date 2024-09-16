@@ -24,7 +24,7 @@ export default function Header() {
           <ul className="listado-cursos">
             {cursos.map((curso) => {
               return (
-                <li class="card">
+                <li className="card">
                   <ClaseDisponible data={curso}></ClaseDisponible>
                 </li>
               );

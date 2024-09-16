@@ -1,4 +1,4 @@
-import "./css/Cursos.css";
+import "./AdminClasses/AdminClasses.css";
 
 import React, { useEffect, useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -47,21 +47,20 @@ export default function Productos() {
     }
 
     return (
-        <main className="container main">
-            <div className="cont-admin-cursos">
-                <h1>Administrar Productos</h1>
-                <Link to="producto" className="btn btn-primary mt-3 btn-icon">
-                    <span className="pi pi-plus"></span>Crear un Producto
-                </Link>
-                {loading ? (
-                    <Loader className="w-50"></Loader>
-                ) : (
-                    <ul>
-                        {productos.map((producto) => {
-                            return (
-                                <li className="card mb-3" key={producto._id}>
-                                    <PreviewProducto producto={producto} editBtn={true} handleShow={handleShow} handleSelectedDelete={handleSelectedDelete}></PreviewProducto>
-                                    {/* <div className="row g-0">
+        <div className="cont-admin-cursos">
+            <h1>Administrar Productos</h1>
+            <Link to="producto" className="btn btn-primary mt-3 btn-icon">
+                <span className="pi pi-plus"></span>Crear un Producto
+            </Link>
+            {loading ? (
+                <Loader className="w-50"></Loader>
+            ) : (
+                <ul>
+                    {productos.map((producto) => {
+                        return (
+                            <li className="card mb-3" key={producto._id}>
+                                <PreviewProducto producto={producto} editBtn={true} handleShow={handleShow} handleSelectedDelete={handleSelectedDelete}></PreviewProducto>
+                                {/* <div className="row g-0">
                                         <div className="col-md-3">
                                             <img src="..." className="img-fluid rounded-start" alt="..." />
                                         </div>
@@ -90,38 +89,37 @@ export default function Productos() {
                                             </div>
                                         </div>
                                     </div> */}
-                                </li>
-                            );
-                        })}
-                    </ul>
-                )}
-                <Modal show={show} onHide={handleClose} size="lg" variant="white" className="modal-delete">
-                    <Modal.Header className="modal-title" closeButton>
-                        <Modal.Title className="negritas">¿Seguro querés eliminar el producto "{productoEliminar?.nombre}"?</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <p><span className="negritas">Esta acción es irreversible</span></p>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <button
-                            onClick={() => { handleClose(); }}
-                            className="btn btn-link btn-close-link"
-                            type="button"
-                            data-toggle="tooltip"
-                            data-placement="top">
-                            <span>Cerrar</span>
-                        </button>
-                        <button
-                            onClick={() => { handleConfirmDelete(productoEliminar); handleClose(); }}
-                            className="btn btn-danger btn-eliminar"
-                            type="button"
-                            data-toggle="tooltip"
-                            data-placement="top">
-                            <span>Eliminar definitivamente</span>
-                        </button>
-                    </Modal.Footer>
-                </Modal>
-            </div>
-        </main>
+                            </li>
+                        );
+                    })}
+                </ul>
+            )}
+            <Modal show={show} onHide={handleClose} size="lg" variant="white" className="modal-delete">
+                <Modal.Header className="modal-title" closeButton>
+                    <Modal.Title className="negritas">¿Seguro querés eliminar el producto "{productoEliminar?.nombre}"?</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <p><span className="negritas">Esta acción es irreversible</span></p>
+                </Modal.Body>
+                <Modal.Footer>
+                    <button
+                        onClick={() => { handleClose(); }}
+                        className="btn btn-link btn-close-link"
+                        type="button"
+                        data-toggle="tooltip"
+                        data-placement="top">
+                        <span>Cerrar</span>
+                    </button>
+                    <button
+                        onClick={() => { handleConfirmDelete(productoEliminar); handleClose(); }}
+                        className="btn btn-danger btn-eliminar"
+                        type="button"
+                        data-toggle="tooltip"
+                        data-placement="top">
+                        <span>Eliminar definitivamente</span>
+                    </button>
+                </Modal.Footer>
+            </Modal>
+        </div>
     );
 }
