@@ -53,23 +53,23 @@ export default function Header() {
                   <>
                     <Link to="/cursos">Clases</Link>
                     <NavDropdown title="Tienda" className="panel-ddown">
-                      <Link to="/tienda" className="dropdown-item"><span className="pi pi-box"></span>Productos</Link>
-                      <Link to={'/tienda/carrito/id-' + value.currentUser._id} className="dropdown-item">
+                      <Link to="/store" className="dropdown-item"><span className="pi pi-box"></span>Productos</Link>
+                      <Link to={'/store/carrito/id-' + value.currentUser._id} className="dropdown-item">
                       <span className="pi pi-shopping-cart"></span>Carrito
                       </Link>
-                      <Link to={'/tienda/historial/id-' + value.currentUser._id} className="dropdown-item">
+                      <Link to={'/store/historial/id-' + value.currentUser._id} className="dropdown-item">
                       <span className="pi pi-history"></span>Historial
                       </Link>
                     </NavDropdown>
                     {value.currentUser.role === 1 && (
                       <NavDropdown title="Panel" className="panel-ddown">
-                        <Link to="panel/cursos" className="dropdown-item">
+                        <Link to="admin/classes" className="dropdown-item">
                           Clases
                         </Link>
                         <Link to="panel/turnos" className="dropdown-item">
                           Turnos
                         </Link>
-                        <Link to="/Productos" className="dropdown-item">
+                        <Link to="admin/products" className="dropdown-item">
                           Productos
                         </Link>
                         <Link to="/Inscripciones" className="dropdown-item">

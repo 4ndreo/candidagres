@@ -61,16 +61,15 @@ async function update(compra) {
 }
 
 async function savePurchase(data) {
-    return fetch(url + "api/compras/" + compra._id, {
+    return fetch(url + "api/compras/" + data._id, {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json",
             'auth-token': localStorage.getItem('token')
         },
-        body: JSON.stringify({ productos: compra.productos }),
+        body: JSON.stringify({ productos: data.productos }),
     }).then((response) => true);
 }
-
 
 export {
     find,
