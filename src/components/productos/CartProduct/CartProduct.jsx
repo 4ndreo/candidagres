@@ -13,7 +13,6 @@ export function CartProduct({ props }) {
     setLoadingQuantities(true);
     try {
       props.item.quantity++
-      props.setInitPoint(null);
       await carritoService.addToCart(props.idUser, { id: item._id, quantity: props.item.quantity });
       props.refetch();
     } catch (err) {
@@ -26,7 +25,6 @@ export function CartProduct({ props }) {
     setLoadingQuantities(true);
     try {
       props.item.quantity--
-      props.setInitPoint(null);
       await carritoService.substractToCart(props.idUser, { id: item._id, quantity: props.item.quantity });
       props.refetch();
     } catch (err) {
