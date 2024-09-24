@@ -11,6 +11,7 @@ import { useQuery } from "react-query";
 import Loader from "../../components/basics/Loader";
 import { CartProduct } from "../../components/productos/CartProduct/CartProduct";
 import LoaderMini from "../../components/basics/LoaderMini";
+import { calculateDelay, calculateTotalCost, calculateTotalQuantity } from "../../utils/utils";
 
 export function Cart() {
     const params = useParams();
@@ -24,8 +25,9 @@ export function Cart() {
     }, [])
 
     const fetchCart = async () => {
+        setInitPoint(null)
         const res = await carritoService.findByIdUser(params?.idUsuario);
-        const result = { ...res, totalCost: calcularImporteCarrito(res?.items), totalQuantity: calcularCantidadCarrito(res?.items), totalDelay: calcularDemora(res?.items) }
+        const result = { ...res, totalCost: calculateTotalCost(res?.items), totalQuantity: calculateTotalQuantity(res?.items), totalDelay: calculateDelay(res?.items) }
         await handleCreatePreference(res)
         return JSON.parse(JSON.stringify(result));
     }
@@ -65,51 +67,6 @@ export function Cart() {
         }
     }
 
-    /**
-     * Calcula el monto total del carrito. El cálculo se hace sumando el producto del precio y cantidad de cada producto.
-     *
-     * @param {Array} items - El arreglo de productos en el carrito.
-     * @return {void} La función no retorna ningún valor.
-     */
-    function calcularImporteCarrito(items) {
-        let total = 0
-        items.forEach(producto => {
-            total += producto.precio * producto.quantity
-        })
-        return total;
-    }
-
-    /**
-     * Calcula el monto total del carrito. El cálculo se hace sumando el producto del precio y cantidad de cada producto.
-     *
-     * @param {Array} items - El arreglo de productos en el carrito.
-     * @return {void} La función no retorna ningún valor.
-     */
-    function calcularCantidadCarrito(items) {
-        let total = 0
-        items.forEach(producto => {
-            total += producto.quantity
-        })
-        return total;
-    }
-
-    /**
-     * Calcula la demora de la entrega de los productos. El cálculo se hace tomando la mayor de las demoras de todos los productos, y se le suma la cantidad total de items del carrito.
-     *
-     * @param {Array} items - El arreglo de productos en el carrito.
-     * @return {void} La función no retorna ningún valor.
-     */
-    function calcularDemora(items) {
-        let total = 0;
-        if (items.length > 0) {
-            total = items.map((x) => x.demora_producto).reduce((a, b) => a > b ? a : b)
-            items.forEach(producto => {
-                total += producto.quantity
-            })
-        }
-        return total;
-    }
-
     const renderItems = (cart) => {
         if (cart.items.length === 0) {
             return <p>Tu carrito se encuentra vacío.</p>
@@ -143,9 +100,6 @@ export function Cart() {
                 </Button>
             </a>
         )
-        // return (
-        //     <Wallet initialization={{ preferenceId }} customization={{ texts: { valueProp: 'smart_option' } }} />
-        // )
     }
 
     if (isLoading) {
