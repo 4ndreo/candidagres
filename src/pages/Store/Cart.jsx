@@ -1,6 +1,6 @@
 import "./Cart.css";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import * as carritoService from "../../services/carrito.service";
 
@@ -10,18 +10,23 @@ import { initMercadoPago, Wallet } from '@mercadopago/sdk-react'
 import { useQuery } from "react-query";
 import Loader from "../../components/basics/Loader";
 import { CartProduct } from "../../components/productos/CartProduct/CartProduct";
+import LoaderMini from "../../components/basics/LoaderMini";
 
 export function Cart() {
     const params = useParams();
 
-    const [preferenceId, setPreferenceId] = useState(null);
+    const [initPoint, setInitPoint] = useState(null);
     const [error, setError] = useState(null);
-    initMercadoPago(process.env.REACT_APP_MP_PUBLIC_KEY, { locale: 'es-AR' });
+
+    useEffect(() => {
+        initMercadoPago(process.env.REACT_APP_MP_PUBLIC_KEY, { locale: 'es-AR' });
+
+    }, [])
 
     const fetchCart = async () => {
         const res = await carritoService.findByIdUser(params?.idUsuario);
         const result = { ...res, totalCost: calcularImporteCarrito(res?.items), totalQuantity: calcularCantidadCarrito(res?.items), totalDelay: calcularDemora(res?.items) }
-        // await handleCreatePreference(res)
+        await handleCreatePreference(res)
         return JSON.parse(JSON.stringify(result));
     }
 
@@ -54,7 +59,7 @@ export function Cart() {
         try {
             const preference = await carritoService.createPreference(preferences)
             console.log('preference', preference)
-            setPreferenceId(preference.id)
+            setInitPoint(preference.init_point)
         } catch (error) {
             return error
         }
@@ -105,20 +110,18 @@ export function Cart() {
         return total;
     }
 
-
     const renderItems = (cart) => {
         if (cart.items.length === 0) {
             return <p>Tu carrito se encuentra vacío.</p>
         }
-        return cart.items.map((producto) => {
+        return cart.items.map((item) => {
             return (
-                <CartProduct key={producto._id} idUser={params?.idUsuario} producto={producto} editing={preferenceId}
-                ></CartProduct>
+                <CartProduct key={item._id} props={{ idUser: params?.idUsuario, item: item, refetch: refetch, setInitPoint: setInitPoint }} ></CartProduct>
             )
         })
     }
 
-    const renderError = (cart) => {
+    const renderError = () => {
         return (
             <div className="alert alert-danger" role="alert">
                 {error.message}
@@ -126,51 +129,60 @@ export function Cart() {
         )
     }
 
+    const renderMPButton = () => {
+        if (!initPoint) {
+            return <LoaderMini></LoaderMini>
+        }
+        return (
+            <a className="d-block" href={initPoint}>
+                <Button
+                    className="w-100"
+                    variant="primary"
+                    type="submit"
+                > Ir a pagar
+                </Button>
+            </a>
+        )
+        // return (
+        //     <Wallet initialization={{ preferenceId }} customization={{ texts: { valueProp: 'smart_option' } }} />
+        // )
+    }
+
     if (isLoading) {
         return <Loader></Loader>
     }
 
     return (
-
-        <div className="cont-cart d-flex justify-content-between gap-3">
-            <div className="detalle">
-                <h1 className="mb-4">Carrito</h1>
-                {isError ?
-                    renderError()
-                    :
-                    renderItems(cart)
-                }
-            </div>
-            <Card className="resumen">
-                <Card.Body>
-                    <h2 className="title">Resumen de compra</h2>
-                    <Card.Text className="precio">
-                        Importe: ${cart?.totalCost || 0}
-                    </Card.Text>
-                    <Card.Text>
-                        Cantidad: {(cart?.totalQuantity || 0) === 1 ? (cart?.totalQuantity || 0) + ' artículo' : (cart?.totalQuantity || 0) + ' artículos'}
-                    </Card.Text>
-                    <Card.Text>
-                        Demora: {cart?.totalDelay || 0} días
-                    </Card.Text>
-                </Card.Body>
-                <Card.Footer className="d-grid gap-2">
-                    {preferenceId ?
-                        <>
-                            <Button className="btn-back-to-cart text-decoration-none" variant="link" onClick={() => setPreferenceId(null)}><span className="pi pi-arrow-left"></span> Volver al carrito</Button>
-
-                            <Wallet initialization={{ preferenceId: preferenceId }} customization={{ texts: { valueProp: 'smart_option' } }} />
-                        </>
+        <div>
+            <h1 className="mb-4">Carrito</h1>
+            <div className="cont-cart d-flex justify-content-between gap-3">
+                <div className="detalle">
+                    {isError ?
+                        renderError()
                         :
-                        <Button
-                            variant="primary"
-                            disabled={cart.items.length < 1}
-                            onClick={() => setPreferenceId(handleCreatePreference(cart))}
-                        >Ir a pagar
-                        </Button>
+                        renderItems(cart)
                     }
-                </Card.Footer>
-            </Card>
+                </div>
+                <Card className="resumen">
+                    <Card.Body>
+                        <h2 className="title">Resumen de compra</h2>
+                        <Card.Text className="precio">
+                            Importe: ${cart?.totalCost || 0}
+                        </Card.Text>
+                        <Card.Text>
+                            Cantidad: {(cart?.totalQuantity || 0) === 1 ? (cart?.totalQuantity || 0) + ' artículo' : (cart?.totalQuantity || 0) + ' artículos'}
+                        </Card.Text>
+                        <Card.Text>
+                            Demora: {cart?.totalDelay || 0} días
+                        </Card.Text>
+                    </Card.Body>
+                    <Card.Footer className="d-grid gap-2">
+                        {
+                            renderMPButton()
+                        }
+                    </Card.Footer>
+                </Card>
+            </div>
         </div>
     );
 }

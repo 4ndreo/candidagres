@@ -1,10 +1,9 @@
 import "./VerTienda.css";
 
-import React, { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate, useParams, useSearchParams } from "react-router-dom";
-import * as carritoService from "../../services/carrito.service";
+import React, { useState } from "react";
+import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 
-import { Col, Container, Nav, Row, Button, Modal, ListGroup, Card, Form } from "react-bootstrap";
+import {  Card } from "react-bootstrap";
 import * as productosService from "../../services/productos.service";
 
 import ImagePlaceholder from "../../img/placeholder-image.jpg";
@@ -14,17 +13,6 @@ import Loader from "../../components/basics/Loader";
 
 export function VerTienda() {
     const SERVER_URL = process.env.REACT_APP_SERVER_URL;
-    let navigate = useNavigate();
-    const location = useLocation();
-
-    const [searchParams, setSearchParams] = useSearchParams()
-    const [mpParams, setMpParams] = useState({});
-    const [productos, setProductos] = useState([]);
-    const [carrito, setCarrito] = useState([]);
-    const [loadingQuantities, setLoadingQuantities] = useState(false);
-    const [usuarioId, setUsuarioId] = useState("");
-    const [agregadoError, setAgregadoError] = useState(false);
-    const [error, setError] = useState("");
 
     const fetchProducts = async () => {
         const result = await productosService.find();
@@ -66,7 +54,7 @@ export function VerTienda() {
                                     <Card.Img className="card-img" variant="top" src={SERVER_URL + "uploads/" + producto.img} />
                                     <Card.Body>
                                         <h2 className="title">{producto.nombre}</h2>
-                                        <Link className="card_link" to={`/store/producto/id-${producto._id}`}></Link>
+                                        <Link className="card_link" to={`/store/producto/${producto._id}`}></Link>
                                         <Card.Text className="precio">
                                             ${producto.precio}
                                         </Card.Text>

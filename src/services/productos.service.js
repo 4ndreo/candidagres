@@ -5,7 +5,8 @@ async function find() {
         headers: {
             'auth-token': localStorage.getItem('token')
         }
-    }).then((response) => response.json());
+    }).then((response) => response.json()
+    ).catch(() => { throw new Error('Error: no se pudieron obtener los registros. Inténtelo de nuevo más tarde') });
 }
 
 async function findById(idProductos) {
@@ -15,7 +16,7 @@ async function findById(idProductos) {
         }
     }).then((response) =>
         response.json()
-    );
+    ).catch(() => { throw new Error('Error: no se pudo obtener el producto. Inténtelo de nuevo más tarde') });
 }
 
 async function create(producto) {
@@ -26,7 +27,8 @@ async function create(producto) {
             'auth-token': localStorage.getItem('token')
         },
         body: JSON.stringify(producto),
-    }).then((response) => response.json());
+    }).then((response) => response.json()
+    ).catch(() => { throw new Error('Error: no se pudo crear. Inténtelo de nuevo más tarde') });
 }
 
 async function remove(idProductos) {
@@ -35,7 +37,8 @@ async function remove(idProductos) {
         headers: {
             'auth-token': localStorage.getItem('token')
         }
-    }).then((response) => response.json());
+    }).then((response) => response.json()
+    ).catch(() => { throw new Error('Error: no se pudo eliminar. Inténtelo de nuevo más tarde') });
 }
 
 async function update(idProductos, producto) {
@@ -46,8 +49,10 @@ async function update(idProductos, producto) {
             'auth-token': localStorage.getItem('token')
         },
         body: JSON.stringify(producto),
-    }).then((response) => response.json());
+    }).then((response) => response.json()
+    ).catch(() => { throw new Error('Error: no se pudo modificar. Inténtelo de nuevo más tarde') });
 }
+
 async function uploadImagen(imagen) {
     const formData = new FormData();
     formData.append('imagenProducto', imagen);

@@ -5,7 +5,7 @@ import { Link, useParams } from "react-router-dom";
 import * as productosService from "../services/productos.service";
 
 import Loader from "../components/basics/Loader";
-import { ViewProducto } from "../components/productos/ViewProducto/ViewProducto";
+// import { ViewProducto } from "../components/productos/ViewProducto/ViewProducto";
 
 export default function VerProductoId() {
 
@@ -22,7 +22,7 @@ export default function VerProductoId() {
         return (
             <main className="container">
                 
-                <ViewProducto producto={producto}></ViewProducto>
+                {/* <ViewProducto producto={producto}></ViewProducto> */}
             </main>
         );
     } else {
