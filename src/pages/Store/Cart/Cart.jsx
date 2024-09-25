@@ -1,46 +1,62 @@
+// Styles 
 import "./Cart.css";
 
+// React
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import * as carritoService from "../../services/carrito.service";
-
-import { Button, Card } from "react-bootstrap";
-
-import { initMercadoPago, Wallet } from '@mercadopago/sdk-react'
 import { useQuery } from "react-query";
-import Loader from "../../components/basics/Loader";
-import { CartProduct } from "../../components/productos/CartProduct/CartProduct";
-import LoaderMini from "../../components/basics/LoaderMini";
-import { calculateDelay, calculateTotalCost, calculateTotalQuantity } from "../../utils/utils";
+
+// Services
+import * as carritoService from "../../../services/carrito.service";
+
+// Components
+import Loader from "../../../components/basics/Loader";
+import { CartProduct } from "../../../components/productos/CartProduct/CartProduct";
+import LoaderMini from "../../../components/basics/LoaderMini";
+import { calculateDelay, calculateTotalCost, calculateTotalQuantity } from "../../../utils/utils";
+
+
+// External Libraries
+import { Button, Card } from "react-bootstrap";
+import { initMercadoPago } from '@mercadopago/sdk-react'
+
 
 export function Cart() {
     const params = useParams();
 
     const [initPoint, setInitPoint] = useState(null);
     const [error, setError] = useState(null);
+    initMercadoPago(process.env.REACT_APP_MP_PUBLIC_KEY, { locale: 'es-AR' });
 
-    useEffect(() => {
-        initMercadoPago(process.env.REACT_APP_MP_PUBLIC_KEY, { locale: 'es-AR' });
-
-    }, [])
+    
 
     const fetchCart = async () => {
         setInitPoint(null)
         const res = await carritoService.findByIdUser(params?.idUsuario);
-        const result = { ...res, totalCost: calculateTotalCost(res?.items), totalQuantity: calculateTotalQuantity(res?.items), totalDelay: calculateDelay(res?.items) }
-        await handleCreatePreference(res)
-        return JSON.parse(JSON.stringify(result));
+        const result = {
+            ...res,
+            totalCost: calculateTotalCost(res?.items),
+            totalQuantity: calculateTotalQuantity(res?.items),
+            totalDelay: calculateDelay(res?.items)
+        }
+        return result;
     }
 
     const { data: cart, isLoading, isError, refetch } = useQuery(
         'cart',
         fetchCart,
         {
-            staleTime: 1000,
+            staleTime: 0,
             retry: 2,
             onError: (err) => setError(err || 'Ha habido un error. Inténtalo de nuevo más tarde.'),
         }
     );
+
+    useEffect(() => {
+        if(cart) {
+            handleCreatePreference(cart)
+        }
+    }, [cart])
 
     async function handleCreatePreference(cart) {
         const preferences = {
@@ -60,7 +76,6 @@ export function Cart() {
         }
         try {
             const preference = await carritoService.createPreference(preferences)
-            console.log('preference', preference)
             setInitPoint(preference.init_point)
         } catch (error) {
             return error
@@ -87,9 +102,8 @@ export function Cart() {
     }
 
     const renderMPButton = () => {
-        if (!initPoint) {
-            return <LoaderMini></LoaderMini>
-        }
+        if (!initPoint) return <LoaderMini></LoaderMini>
+
         return (
             <a className="d-block" href={initPoint}>
                 <Button
@@ -102,9 +116,7 @@ export function Cart() {
         )
     }
 
-    if (isLoading) {
-        return <Loader></Loader>
-    }
+    if (isLoading) return <Loader></Loader>
 
     return (
         <div>

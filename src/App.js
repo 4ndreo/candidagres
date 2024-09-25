@@ -35,7 +35,6 @@ import VerProductoId from "./pages/VerProducto"
 import Perfil from "./pages/Perfil";
 import { PerfilTurnos } from "./components/perfil/PerfilTurnos";
 
-import { Cart } from "./pages/Store/Cart"
 import { HistorialCompras } from "./pages/Store/HistorialCompras"
 
 import { Dashboard } from "./components/dashboard/Dashboard"
@@ -45,6 +44,7 @@ import { VerPerfil } from "./components/perfil/ver/VerPerfil";
 import { EditarPerfil } from "./components/perfil/editar/EditarPerfil";
 import Admin from "./pages/admin/Admin";
 import { ViewProduct } from "./pages/Store/ViewProducto/ViewProduct";
+import { Cart } from "./pages/Store/Cart/Cart";
 
 export const AuthContext = createContext();
 
@@ -150,7 +150,7 @@ function App() {
           <Route path="/store" element={<Store />}>
 
             <Route path="" element={<VerTienda />} title={"Tienda"} />
-            <Route path="producto/:id" element={<ViewProduct />} />
+            <Route path="item/:id" element={<ViewProduct />} />
             {/* Rutas de Carrito de Compras */}
 
             <Route path="carrito/id-:idUsuario" element={<Cart />} title={"Compras"} />

@@ -40,6 +40,9 @@
 
 .cart-product-cont .counter-cantidad {
   z-index: 3;
+  gap: 1rem;
+  display: flex;
+  align-items: center;
 }
 
 @media screen and (max-width: 1100px) {
