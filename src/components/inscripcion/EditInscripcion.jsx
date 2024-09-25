@@ -3,7 +3,6 @@ import React, { useEffect, useState, useContext } from "react";
 import * as inscripcionesService from "../../services/inscripciones.service";
 import * as turnosService from "../../services/turnos.service";
 import * as cursosService from "../../services/cursos.service";
-import * as Constants from "../../Constants";
 import { useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../../App";
 import Loader from "../basics/Loader";

@@ -7,7 +7,6 @@ import "swiper/css/pagination";
 import React, { Component } from "react";
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import * as Constants from "../Constants";
 import { AuthContext } from "../App";
 import Taller_Img from "../img/taller.jpeg";
 import Clases_Img from "../img/clases.jpeg";

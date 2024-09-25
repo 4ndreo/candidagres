@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
 import * as cursosService from "../../../services/cursos.service";
-import * as Constants from "../../../Constants";
 import { useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../../../App";
 
