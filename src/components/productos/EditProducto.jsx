@@ -3,7 +3,6 @@ import "./EditProducto.css";
 import React, { useEffect, useState, useContext } from "react";
 import * as productosService from "../../services/productos.service";
 import * as mediaService from "../../services/media.service";
-import * as Constants from "../../Constants";
 import { useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../../App";
 
