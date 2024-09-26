@@ -21,6 +21,11 @@
     top: 0;
 }
 
+.cont-cart .loader {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
 @media screen and (max-width: 1100px) {
     .cont-cart {
         flex-direction: column;
