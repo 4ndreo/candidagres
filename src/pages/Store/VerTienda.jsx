@@ -11,7 +11,7 @@ import { StoreProduct } from "../../components/productos/StoreProduct/StoreProdu
 export function VerTienda() {
     const fetchProducts = async () => {
         const result = await productosService.find();
-        return JSON.parse(JSON.stringify(result));
+        return result;
     }
 
     useEffect(() => {
@@ -42,7 +42,7 @@ export function VerTienda() {
     }
 
     return (
-        <div className="cont-list-productos">
+        <div className="cont-list-products">
             <h1 className="mb-4">Productos</h1>
             {isError ?
                 renderError() :
