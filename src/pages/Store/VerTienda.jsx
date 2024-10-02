@@ -5,7 +5,7 @@ import * as productosService from "../../services/productos.service";
 
 import { useQuery } from "react-query";
 import Loader from "../../components/basics/Loader";
-import { StoreProduct } from "../../components/productos/StoreProduct/StoreProduct";
+import { StoreProduct } from "../../components/StoreProduct/StoreProduct";
 
 
 export function VerTienda() {

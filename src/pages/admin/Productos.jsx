@@ -7,7 +7,7 @@ import { AuthContext } from "../../App";
 import * as turnosService from "../../services/turnos.service";
 import Loader from "../../components/basics/Loader";
 import { Button, Modal } from "react-bootstrap";
-import { PreviewProducto } from "../../components/productos/PreviewProducto";
+import { PreviewProduct } from "../../components/basics/PreviewProduct/PreviewProduct";
 
 export default function Productos() {
     const [productos, setProductos] = useState([]);
@@ -59,36 +59,7 @@ export default function Productos() {
                     {productos.map((producto) => {
                         return (
                             <li className="card mb-3" key={producto._id}>
-                                <PreviewProducto producto={producto} editBtn={true} handleShow={handleShow} handleSelectedDelete={handleSelectedDelete}></PreviewProducto>
-                                {/* <div className="row g-0">
-                                        <div className="col-md-3">
-                                            <img src="..." className="img-fluid rounded-start" alt="..." />
-                                        </div>
-                                        <div className="col-md-9">
-                                            <div className="row g-0">
-                                                <div className="card-body col-md-8">
-                                                    <small className="text-body-secondary">Demora: {producto.demora_producto} dias</small>
-                                                    <h5 className="card-title">Nombre: {producto.nombre}</h5>
-                                                    <p className="card-text">Descripción: {producto.descripcion}</p>
-                                                    <p>Material: <span className="badge text-bg-primary">{producto.material}</span></p>
-                                                    ${producto.precio}
-                                                </div>
-                                                <div className="col-md-4 d-flex align-items-end justify-content-end">
-                                                    <Link to={"producto/id-" + producto._id} className="btn btn-warning btn-editar me-2">
-                                                        <span>Editar</span>
-                                                    </Link>
-                                                    <button
-                                                        onClick={() => { handleShow(); handleSelectedDelete(producto); }}
-                                                        className="btn btn-danger btn-eliminar"
-                                                        type="button"
-                                                        data-toggle="tooltip"
-                                                        data-placement="top">
-                                                        <span>Eliminar</span>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div> */}
+                                <PreviewProduct producto={producto} editBtn={true} handleShow={handleShow} handleSelectedDelete={handleSelectedDelete}></PreviewProduct>
                             </li>
                         );
                     })}

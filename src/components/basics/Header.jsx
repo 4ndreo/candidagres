@@ -54,10 +54,10 @@ export default function Header() {
                     <Link to="/cursos">Clases</Link>
                     <NavDropdown title="Tienda" className="panel-ddown">
                       <Link to="/store" className="dropdown-item"><span className="pi pi-box"></span>Productos</Link>
-                      <Link to={'/store/carrito/id-' + value.currentUser._id} className="dropdown-item">
+                      <Link to={'/store/cart/' + value.currentUser._id} className="dropdown-item">
                       <span className="pi pi-shopping-cart"></span>Carrito
                       </Link>
-                      <Link to={'/store/historial/id-' + value.currentUser._id} className="dropdown-item">
+                      <Link to={'/store/purchases/' + value.currentUser._id} className="dropdown-item">
                       <span className="pi pi-history"></span>Historial
                       </Link>
                     </NavDropdown>

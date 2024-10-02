@@ -1,10 +1,10 @@
-import "./PreviewProducto.css";
+import "./PreviewProduct.css";
 import React, { useEffect, useState, useContext } from "react";
-import * as productosService from "../../services/productos.service";
+import * as productosService from "../../../services/productos.service";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { AuthContext } from "../../App";
+import { AuthContext } from "../../../App";
 
-export function PreviewProducto(params) {
+export function PreviewProduct(params) {
   const SERVER_URL = process.env.REACT_APP_SERVER_URL;
   const value = useContext(AuthContext);
 

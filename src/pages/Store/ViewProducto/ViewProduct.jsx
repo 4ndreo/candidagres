@@ -42,7 +42,7 @@ export function ViewProduct(props) {
       setAdding(true);
       await carritoService.addToCart(context.currentUser._id, { id: product._id, quantity: 1 }).then((cart) => {
         setAdded(true);
-        setTimeout(() => setAdded(false), 3000);
+        setTimeout(() => setAdded(false), 1500);
       });
       setAdding(false);
     } catch (err) {
