@@ -1,11 +1,7 @@
 import "./StoreProduct.css";
-import React, { useState } from "react";
-import * as carritoService from "../../../services/carrito.service";
 import { Link } from "react-router-dom";
-
 import { Card } from "react-bootstrap";
-
-import ImagePlaceholder from "../../../img/placeholder-image.jpg";
+import ImagePlaceholder from "../../img/placeholder-image.jpg";
 
 export function StoreProduct({ props }) {
   const SERVER_URL = process.env.REACT_APP_SERVER_URL;

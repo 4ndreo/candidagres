@@ -11,13 +11,12 @@ import * as carritoService from "../../../services/carrito.service";
 
 // Components
 import Loader from "../../../components/basics/Loader";
-import { CartProduct } from "../../../components/productos/CartProduct/CartProduct";
-import LoaderMini from "../../../components/basics/LoaderMini";
+import { CartProduct } from "../../../components/CartProduct/CartProduct";
 import { calculateDelay, calculateTotalCost, calculateTotalQuantity } from "../../../utils/utils";
-
+import CustomToast from "../../../components/basics/CustomToast/CustomToast";
 
 // External Libraries
-import { Button, Card } from "react-bootstrap";
+import { Button, Card} from "react-bootstrap";
 import { initMercadoPago } from '@mercadopago/sdk-react'
 
 
@@ -25,13 +24,11 @@ export function Cart() {
     const params = useParams();
 
     const [initPoint, setInitPoint] = useState(null);
-    const [error, setError] = useState(null);
+    const [showToast, setShowToast] = useState(null);
+
     initMercadoPago(process.env.REACT_APP_MP_PUBLIC_KEY, { locale: 'es-AR' });
 
-    
-
     const fetchCart = async () => {
-        setInitPoint(null)
         const res = await carritoService.findByIdUser(params?.idUsuario);
         const result = {
             ...res,
@@ -42,18 +39,18 @@ export function Cart() {
         return result;
     }
 
-    const { data: cart, isLoading, isError, refetch } = useQuery(
+    const { data: cart, isLoading, isError, error, refetch } = useQuery(
         'cart',
         fetchCart,
         {
             staleTime: 0,
             retry: 2,
-            onError: (err) => setError(err || 'Ha habido un error. Inténtalo de nuevo más tarde.'),
         }
     );
 
     useEffect(() => {
-        if(cart) {
+        if (cart) {
+            setInitPoint(null)
             handleCreatePreference(cart)
         }
     }, [cart])
@@ -88,7 +85,7 @@ export function Cart() {
         }
         return cart.items.map((item) => {
             return (
-                <CartProduct key={item._id} props={{ idUser: params?.idUsuario, item: item, refetch: refetch, setInitPoint: setInitPoint }} ></CartProduct>
+                <CartProduct key={item._id} props={{ idUser: params?.idUsuario, item: item, refetch: refetch, setInitPoint: setInitPoint, setShowToast: setShowToast }} ></CartProduct>
             )
         })
     }
@@ -102,7 +99,17 @@ export function Cart() {
     }
 
     const renderMPButton = () => {
-        if (!initPoint) return <LoaderMini></LoaderMini>
+        if (!initPoint) return (
+            <a className="d-block">
+                <Button
+                    className="w-100"
+                    variant="primary"
+                    type="submit"
+                    disabled
+                > Ir a pagar
+                </Button>
+            </a>
+        )
 
         return (
             <a className="d-block" href={initPoint}>
@@ -149,6 +156,7 @@ export function Cart() {
                     </Card.Footer>
                 </Card>
             </div>
+            <CustomToast props={{ data: showToast, setShowToast: setShowToast }} />
         </div>
     );
 }

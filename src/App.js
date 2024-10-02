@@ -26,8 +26,8 @@ import { CreateInscripcionUser } from "./components/inscripcion/CreateInscripcio
 import { EditInscripcion } from "./components/inscripcion/EditInscripcion";
 
 import Productos from "./pages/admin/Productos";
-import { CreateProducto } from "./components/productos/CreateProduct/CreateProducto";
-import { EditProducto } from "./components/productos/EditProducto";
+import { CreateProducto } from "./components/CreateProduct/CreateProducto";
+import { EditProducto } from "./components/EditProduct/EditProducto";
 
 import Store from "./pages/Store";
 import VerProductoId from "./pages/VerProducto"
@@ -35,7 +35,7 @@ import VerProductoId from "./pages/VerProducto"
 import Perfil from "./pages/Perfil";
 import { PerfilTurnos } from "./components/perfil/PerfilTurnos";
 
-import { HistorialCompras } from "./pages/Store/HistorialCompras"
+import { Purchases } from "./pages/Store/Purchases/Purchases"
 
 import { Dashboard } from "./components/dashboard/Dashboard"
 import { VerTienda } from "./pages/Store/VerTienda";
@@ -118,7 +118,7 @@ function App() {
           {/*/>*/}
 
           {/* --------------- / ---------------- */}
-            <Route path="cursos" element={<Cursos />} />
+          <Route path="cursos" element={<Cursos />} />
 
 
           <Route path="/admin" element={<Admin />}>
@@ -126,11 +126,11 @@ function App() {
             {/* Rutas de Productos */}
             <Route path="products" element={<Productos />} />
             <Route
-              path="productos/producto"
+              path="products/producto"
               element={<CreateProducto title={"Producto"} />}
             />
             <Route
-              path="productos/producto/id-:idProducto"
+              path="products/producto/id-:idProducto"
               element={<EditProducto title={"Producto"} />}
             />
 
@@ -153,9 +153,9 @@ function App() {
             <Route path="item/:id" element={<ViewProduct />} />
             {/* Rutas de Carrito de Compras */}
 
-            <Route path="carrito/id-:idUsuario" element={<Cart />} title={"Compras"} />
+            <Route path="cart/:idUsuario" element={<Cart />} title={"Compras"} />
 
-            <Route path="historial/id-:idUsuario" element={<HistorialCompras />} title={"Historial"} />
+            <Route path="purchases/:idUsuario" element={<Purchases />} title={"Historial"} />
           </Route>
 
           {/* Rutas Perfil */}

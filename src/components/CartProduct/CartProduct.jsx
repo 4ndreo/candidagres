@@ -1,8 +1,8 @@
 import "./CartProduct.css";
 import React, { useEffect, useState } from "react";
-import * as carritoService from "../../../services/carrito.service";
+import * as carritoService from "../../services/carrito.service";
 import { Button } from "react-bootstrap";
-import LoaderMini from "../../basics/LoaderMini";
+import LoaderMini from "../basics/LoaderMini";
 
 export function CartProduct({ props }) {
   const SERVER_URL = process.env.REACT_APP_SERVER_URL;
@@ -15,19 +15,18 @@ export function CartProduct({ props }) {
   }, [props.item.quantity]);
 
   const handleAddToCart = async (item) => {
-    setLoadingQuantities(true);
     try {
       setQuantity(prev => prev + 1);
       await carritoService.addToCart(props.idUser, { id: item._id, quantity: props.item.quantity });
       props.refetch();
     } catch (err) {
+      props.setShowToast({show: true, title: 'Error al agregar al carrito', message: 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end'});
+      setQuantity(prev => prev - 1 );
       console.error(err);
     }
-    setLoadingQuantities(false);
   }
 
   const handleSubtractToCart = async (item) => {
-    setLoadingQuantities(true);
     try {
       // props.item.quantity--
       setQuantity(prev => prev - 1);
@@ -36,7 +35,6 @@ export function CartProduct({ props }) {
     } catch (err) {
       console.error(err);
     }
-    setLoadingQuantities(false);
   }
 
   const renderQuantity = () => {

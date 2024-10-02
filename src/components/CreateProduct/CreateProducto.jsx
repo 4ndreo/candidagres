@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useContext } from "react";
-import * as productosService from "../../../services/productos.service";
-import * as mediaService from "../../../services/media.service";
+import * as productosService from "../../services/productos.service";
+import * as mediaService from "../../services/media.service";
 import { useNavigate, useParams } from "react-router-dom";
-import { AuthContext } from "../../../App";
-import { uploadImagen } from "../../../services/productos.service";
+import { AuthContext } from "../../App";
+import { uploadImagen } from "../../services/productos.service";
 
 const imageMimeType = /image\/(png|jpg|jpeg)/i;
 
