@@ -21,10 +21,18 @@ export function Purchases() {
         'purchases',
         fetchPurchases,
         {
-            staleTime: Infinity,
+            staleTime: 1000,
             retry: 2,
         }
     );
+
+    const renderError = () => {
+        return (
+            <div className="alert alert-danger" role="alert">
+                {error.message}
+            </div>
+        )
+    }
 
     if (isLoading) {
         return <Loader></Loader>
@@ -34,9 +42,7 @@ export function Purchases() {
         <>
             <h1 className="mb-4">Historial de compras</h1>
             {isError ?
-                <div className="alert alert-danger" role="alert">
-                    Error al cargar los registros. Inténtelo de nuevo más tarde.
-                </div> :
+               renderError() :
                 <ul className="cont-purchases">
                     {purchases.map((compra, index) => (
                         <li key={index}>

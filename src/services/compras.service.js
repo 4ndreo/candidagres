@@ -5,7 +5,8 @@ async function find() {
         headers: {
             'auth-token': localStorage.getItem('token')
         }
-    }).then((response) => response.json());
+    }).then((response) => response.json()
+    ).catch(() => { throw new Error('Error: no se pudo traer el historial. Inténtelo de nuevo más tarde') });
 }
 
 async function findById(idCompra) {
@@ -15,7 +16,7 @@ async function findById(idCompra) {
         }
     }).then((response) =>
         response.json()
-    );
+    ).catch(() => { throw new Error('Error: no se pudo traer el historial. Inténtelo de nuevo más tarde') });
 }
 
 async function findByIdUser(idUser) {
@@ -25,7 +26,7 @@ async function findByIdUser(idUser) {
         }
     }).then((response) =>
         response.json()
-    );
+    ).catch(() => { throw new Error('Error: no se pudo traer el historial. Inténtelo de nuevo más tarde') });
 }
 
 async function create(data) {
@@ -36,7 +37,8 @@ async function create(data) {
             'auth-token': localStorage.getItem('token')
         },
         body: JSON.stringify(data),
-    }).then((response) => response.json());
+    }).then((response) => response.json()
+    ).catch(() => { throw new Error('Error: no se pudo crear la compra. Inténtelo de nuevo más tarde') });
 }
 
 async function remove(idCompra) {
@@ -45,7 +47,8 @@ async function remove(idCompra) {
         headers: {
             'auth-token': localStorage.getItem('token')
         }
-    }).then((response) => response.json());
+    }).then((response) => response.json()
+    ).catch(() => { throw new Error('Error: no se pudo eliminar la compra. Inténtelo de nuevo más tarde') });
 }
 
 async function update(compra) {
@@ -57,19 +60,21 @@ async function update(compra) {
             'auth-token': localStorage.getItem('token')
         },
         body: JSON.stringify({ productos: compra.productos }),
-    }).then((response) => true);
+    }).then((response) => true
+    ).catch(() => { throw new Error('Error: no se pudo modificar la compra. Inténtelo de nuevo más tarde') });
 }
 
-async function savePurchase(data) {
-    return fetch(url + "api/compras/" + data._id, {
-        method: "PATCH",
-        headers: {
-            "Content-Type": "application/json",
-            'auth-token': localStorage.getItem('token')
-        },
-        body: JSON.stringify({ productos: data.productos }),
-    }).then((response) => true);
-}
+// async function savePurchase(data) {
+//     return fetch(url + "api/compras/" + data._id, {
+//         method: "PATCH",
+//         headers: {
+//             "Content-Type": "application/json",
+//             'auth-token': localStorage.getItem('token')
+//         },
+//         body: JSON.stringify({ productos: data.productos }),
+//     }).then((response) => true
+//     ).catch(() => { throw new Error('Error: no se pudo actualizar la compra. Inténtelo de nuevo más tarde') });
+// }
 
 export {
     find,
@@ -78,5 +83,5 @@ export {
     create,
     remove,
     update,
-    savePurchase,
+    // savePurchase,
 };

@@ -25,7 +25,7 @@ import { CreateInscripcion } from "./components/inscripcion/CreateInscripcion";
 import { CreateInscripcionUser } from "./components/inscripcion/CreateInscripcionUser";
 import { EditInscripcion } from "./components/inscripcion/EditInscripcion";
 
-import Productos from "./pages/admin/Productos";
+import AdminProducts from "./pages/admin/AdminProducts/AdminProducts";
 import { CreateProducto } from "./components/CreateProduct/CreateProducto";
 import { EditProducto } from "./components/EditProduct/EditProducto";
 
@@ -124,7 +124,7 @@ function App() {
           <Route path="/admin" element={<Admin />}>
 
             {/* Rutas de Productos */}
-            <Route path="products" element={<Productos />} />
+            <Route path="products" element={<AdminProducts />} />
             <Route
               path="products/producto"
               element={<CreateProducto title={"Producto"} />}
