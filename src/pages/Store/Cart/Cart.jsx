@@ -16,7 +16,7 @@ import { calculateDelay, calculateTotalCost, calculateTotalQuantity } from "../.
 import CustomToast from "../../../components/basics/CustomToast/CustomToast";
 
 // External Libraries
-import { Button, Card} from "react-bootstrap";
+import { Button, Card } from "react-bootstrap";
 import { initMercadoPago } from '@mercadopago/sdk-react'
 
 
