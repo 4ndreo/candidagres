@@ -16,7 +16,7 @@ import Paginator from "../../../components/Paginator/Paginator";
 
 
 export default function AdminProducts() {
-    const [activePage, setActivePage] = useState(1);
+
     const [request, setRequest] = useState({
         page: 0,
         limit: 2,
@@ -31,7 +31,7 @@ export default function AdminProducts() {
     }
 
     const { data: products, isLoading, isError, error, refetch } = useQuery(
-        ['products', request],
+        'products',
         () => fetchPurchases(request),
         {
             staleTime: 1000,
@@ -39,21 +39,17 @@ export default function AdminProducts() {
         }
     );
 
-    const visiblePages = 3; // show 5 pages at a time
-    const [startPage, setStartPage] = useState(1);
-    const [endPage, setEndPage] = useState(visiblePages + 1);
-    
+    useEffect(() => {
+        refetch();
+    }, [request]);
+
 
     function handlePaginate(page) {
-        setActivePage(page + 1);
         setRequest({ ...request, page: request.limit * page }); //old
     }
 
     function handlePaginatePrevious(page) {
         if (page > 1) {
-            setActivePage(prev => 0 < prev - 1 ? prev - 1 : 1);
-            setStartPage((page - 1) % visiblePages === 0 ? page - visiblePages : startPage);
-            setEndPage((page - 1) % visiblePages === 0 ? activePage : endPage);
             if (request.page >= request.limit) {
                 setRequest({ ...request, page: request.page - request.limit });
             }
@@ -61,9 +57,6 @@ export default function AdminProducts() {
     }
 
     function handlePaginateNext(page) {
-        setActivePage(prev => prev + 1 <= products.pages ? prev + 1 : products.pages);
-        setStartPage((page) % visiblePages === 0 ? page + 1 : startPage);
-        setEndPage(page % visiblePages === 0 ? activePage + visiblePages + 1 : endPage);
         if ((request.page + request.limit) <= products.count) {
             setRequest({ ...request, page: request.page + request.limit });
         }
@@ -114,9 +107,9 @@ export default function AdminProducts() {
                             </tbody>
                         </table>
                     </div>
-                    <Paginator props={{ startPage: startPage, endPage: endPage, activePage: activePage, pages: products.pages, page: request.page, limit: request.limit, handlePaginate: handlePaginate, handlePaginateNext: handlePaginateNext, handlePaginatePrevious: handlePaginatePrevious }} />
                 </div>
             }
+            <Paginator props={{ pages: products.pages, page: request.page, limit: request.limit, handlePaginate: handlePaginate, handlePaginateNext: handlePaginateNext, handlePaginatePrevious: handlePaginatePrevious }} />
 
         </div>
     );
