@@ -19,7 +19,7 @@ export default function AdminProducts() {
 
     const [request, setRequest] = useState({
         page: 0,
-        limit: 2,
+        limit: 10,
         filter: { field: undefined, value: undefined },
         sort: undefined,
         order: 1,
@@ -45,21 +45,15 @@ export default function AdminProducts() {
 
 
     function handlePaginate(page) {
-        setRequest({ ...request, page: request.limit * page }); //old
+        setRequest({ ...request, page: request.limit * page });
     }
 
-    function handlePaginatePrevious(page) {
-        if (page > 1) {
-            if (request.page >= request.limit) {
-                setRequest({ ...request, page: request.page - request.limit });
-            }
-        }
+    function handlePaginatePrevious() {
+        setRequest({ ...request, page: request.page - request.limit });
     }
 
-    function handlePaginateNext(page) {
-        if ((request.page + request.limit) <= products.count) {
-            setRequest({ ...request, page: request.page + request.limit });
-        }
+    function handlePaginateNext() {
+        setRequest({ ...request, page: request.page + request.limit });
     }
 
     const renderError = () => {
@@ -109,7 +103,7 @@ export default function AdminProducts() {
                     </div>
                 </div>
             }
-            <Paginator props={{ pages: products.pages, page: request.page, limit: request.limit, handlePaginate: handlePaginate, handlePaginateNext: handlePaginateNext, handlePaginatePrevious: handlePaginatePrevious }} />
+            <Paginator props={{ pages: products.pages, count: products.count, page: request.page, limit: request.limit, handlePaginate: handlePaginate, handlePaginateNext: handlePaginateNext, handlePaginatePrevious: handlePaginatePrevious }} />
 
         </div>
     );
