@@ -10,17 +10,17 @@ async function find() {
 }
 
 async function findQuery(request) {
-  // Construct the full URL
-  const fullUrl = new URL(url + "products");
+    // Construct the full URL
+    const fullUrl = new URL(url + "products");
 
-  // Add query parameters to the URL
-  Object.entries(request).forEach(([key, value]) => {
-    if (Array.isArray(value)) {
-      value.forEach(v => fullUrl.searchParams.append(key, v));
-    } else {
-      fullUrl.searchParams.append(key, value);
-    }
-  });
+    // Add query parameters to the URL
+    Object.entries(request).forEach(([key, value]) => {
+        if (Array.isArray(value)) {
+            value.forEach(v => fullUrl.searchParams.append(key, v));
+        } else {
+            fullUrl.searchParams.append(key, value);
+        }
+    });
 
     return fetch(fullUrl, {
         headers: {
