@@ -1,10 +1,31 @@
 const url = process.env.REACT_APP_API_URL
 
 async function find() {
-    return fetch(url + "productos", {
+    return fetch(url + "productsAll", {
         headers: {
             'auth-token': localStorage.getItem('token')
         }
+    }).then((response) => response.json()
+    ).catch(() => { throw new Error('Error: no se pudieron obtener los registros. Inténtelo de nuevo más tarde') });
+}
+
+async function findQuery(request) {
+  // Construct the full URL
+  const fullUrl = new URL(url + "products");
+
+  // Add query parameters to the URL
+  Object.entries(request).forEach(([key, value]) => {
+    if (Array.isArray(value)) {
+      value.forEach(v => fullUrl.searchParams.append(key, v));
+    } else {
+      fullUrl.searchParams.append(key, value);
+    }
+  });
+
+    return fetch(fullUrl, {
+        headers: {
+            'auth-token': localStorage.getItem('token')
+        },
     }).then((response) => response.json()
     ).catch(() => { throw new Error('Error: no se pudieron obtener los registros. Inténtelo de nuevo más tarde') });
 }
@@ -66,4 +87,4 @@ async function uploadImagen(imagen) {
     }).then((response) => response.json());
 }
 
-export { find, findById, create, remove, update, uploadImagen };
+export { find, findQuery, findById, create, remove, update, uploadImagen };
