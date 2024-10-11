@@ -60,7 +60,6 @@ export function CreateProducto({ props }) {
     productosService
       .create(producto)
       .then((producto) => {
-        console.log(producto)
         if (file) {
           return mediaService.uploadImagen(file).then((nombreImg) => {
             productosService.update(producto._id, { img: nombreImg }).then((data) => {
@@ -86,12 +85,6 @@ export function CreateProducto({ props }) {
     }
     setFile(file);
   }
-
-  // const handleImagenChange = (event) => {
-  //   const archivo = event.target.files[0];
-  //   setImagen(archivo);
-  //   console.log(archivo)
-  // };
 
   return (
     <main className="container edit-cont">
