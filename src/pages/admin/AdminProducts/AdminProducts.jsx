@@ -36,8 +36,7 @@ export default function AdminProducts() {
         page: 0,
         limit: 10,
         filter: JSON.stringify({ field: undefined, value: undefined }),
-        sort: undefined,
-        order: 1,
+        sort: JSON.stringify({ field: undefined, direction: 1 }),
     });
 
     const fetchPurchases = async (request) => {
@@ -63,8 +62,14 @@ export default function AdminProducts() {
         setRequest({ ...request, filter: JSON.stringify({ field, value }) });
     }
 
-    function handleSort(page) {
-        setRequest({ ...request, page: request.limit * page });
+    function handleSort(field) {
+        const parsedSort = JSON.parse(request.sort)
+        if (parsedSort.field === field) {
+            console.log('entre')
+            setRequest({ ...request, sort: JSON.stringify({ field, direction: parsedSort.direction === 1 ? -1 : 1 }) });
+        } else {
+            setRequest({ ...request, sort: JSON.stringify({ field, direction: 1 }) });
+        }
     }
 
     function handleClear(page) {
@@ -97,7 +102,10 @@ export default function AdminProducts() {
                 return (
                     <th className="col-header" scope="col" key={col.field}>
                         <Dropdown as={ButtonGroup}>
-                            <Button className="col-label" variant="link">{col.header}</Button>
+                            <Button className="col-label" variant="link" onClick={(e) => { e.preventDefault(); handleSort(col.field) }}>
+                                <span>{col.header}</span>
+                                {JSON.parse(request.sort).field === col.field && <span className={"pi pi-sort-alpha" + (JSON.parse(request.sort).direction === 1 ? "-down" : "-down-alt")}></span>}
+                            </Button>
 
                             <Dropdown.Toggle split as={renderFilterMenu} />
 
@@ -114,9 +122,19 @@ export default function AdminProducts() {
                         </Dropdown>
                     </th>
                 )
-            // case 'number':
+            case 'number':
+            case 'currency':
+                return (
+                    <th className="col-header" scope="col" key={col.field}>
+                        <Dropdown as={ButtonGroup}>
+                            <Button className="col-label" variant="link" onClick={(e) => { e.preventDefault(); handleSort(col.field) }}>
+                                <span>{col.header}</span>
+                                {JSON.parse(request.sort).field === col.field && <span className={"pi pi-sort-numeric" + (JSON.parse(request.sort).direction === 1 ? "-down" : "-down-alt")}></span>}
+                            </Button>
+                        </Dropdown>
+                    </th>
+                )
             // case 'date':
-            // case 'currency':
             default:
                 return (
                     <th scope="col" key={col.field}>{col.header}</th>

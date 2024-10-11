@@ -43,7 +43,7 @@ export default function AdminProductRow({ props }) {
         <td>{props.item.nombre}</td>
         <td>{props.item.descripcion}</td>
         <td>{props.item.material}</td>
-        <td className="text-center">${props.item.precio}</td>
+        <td className="text-center">${props.item.price}</td>
         <td className="text-center">{props.item.demora_producto}</td>
       </tr>
       <Modal show={show} onHide={handleClose} size="lg" variant="white" className="modal-delete">
