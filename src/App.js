@@ -127,7 +127,7 @@ function App() {
             <Route path="products" element={<AdminProducts />} />
             <Route
               path="products/producto"
-              element={<CreateProducto title={"Producto"} />}
+              element={<CreateProducto props={{title: "Producto"}} />}
             />
             <Route
               path="products/producto/id-:idProducto"

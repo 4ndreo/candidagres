@@ -112,11 +112,11 @@ export function ViewProduct(props) {
           <div className="col-md-6">
             <div className="row g-0 h-100 align-content-between">
               <div>
-                <p className="text-body-secondary">Demora estimada: {product.demora_producto} días</p>
-                <h1 className="card-title">{product.nombre}</h1>
-                <p className="card-price">${product.precio}</p>
+                <p className="text-body-secondary">Demora estimada: {product.estimated_delay} días</p>
+                <h1 className="card-title">{product.title}</h1>
+                <p className="card-price">${product.price}</p>
                 <p className="negritas">Lo que deberías saber de este artículo:</p>
-                <p className="card-text">{product.descripcion}</p>
+                <p className="card-text">{product.description}</p>
                 <p>Material: <span className="badge text-bg-primary">{product.material}</span></p>
               </div>
 

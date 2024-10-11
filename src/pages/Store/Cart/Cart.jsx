@@ -63,7 +63,7 @@ export function Cart() {
             items: cart.items.map((product) => ({
                 title: product.nombre,
                 description: product.descripcion,
-                unit_price: product.precio,
+                unit_price: product.price,
                 quantity: product.quantity,
                 material: product.material
             })),
@@ -139,7 +139,7 @@ export function Cart() {
                 <Card className="resumen">
                     <Card.Body>
                         <h2 className="title">Resumen de compra</h2>
-                        <Card.Text className="precio">
+                        <Card.Text className="price">
                             Importe: ${cart?.totalCost || 0}
                         </Card.Text>
                         <Card.Text>

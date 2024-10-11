@@ -7,7 +7,7 @@ import { uploadImagen } from "../../services/productos.service";
 
 const imageMimeType = /image\/(png|jpg|jpeg)/i;
 
-export function CreateProducto({ title }) {
+export function CreateProducto({ props }) {
   const SERVER_URL = process.env.REACT_APP_SERVER_URL;
   const value = useContext(AuthContext);
 
@@ -18,26 +18,20 @@ export function CreateProducto({ title }) {
   let navigate = useNavigate();
 
   const [producto, setProducto] = useState({
-    nombre: "",
-    descripcion: "",
-    demora_producto: 0,
-    precio: 0,
+    title: "",
+    description: "",
+    estimated_delay: 0,
+    price: 0,
     material: "",
-    imagen: "",
+    img: "",
   });
-  const [nombre, setNombre] = useState("");
-  const [descripcion, setDescripcion] = useState("");
-  const [demora_producto, setDemora] = useState(0);
-  const [precio, setPrecio] = useState(0);
-  const [material, setMaterial] = useState('');
-  const [imagen, setImagen] = useState(null);
   const [error, setError] = useState("");
 
   useEffect(() => {
     if (value.currentUser.role !== 1) {
       navigate("/", { replace: true });
     }
-    setMaterial("Gres")
+    // setMaterial("Gres")
   }, []);
 
   useEffect(() => {
@@ -80,7 +74,7 @@ export function CreateProducto({ title }) {
   }
 
   function handleChange(e) {
-    setProducto({ ...producto, [e.target.name]: e.target.value });
+    setProducto({ ...producto, [e.target.name]: !isNaN(parseInt(e.target.value)) ? parseInt(e.target.value) : e.target.value.trim() });
   }
 
   const changeHandler = (e) => {
@@ -101,14 +95,14 @@ export function CreateProducto({ title }) {
 
   return (
     <main className="container edit-cont">
-      <h1>Crear - {title}</h1>
+      <h1>Crear - {props.title}</h1>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label className="form-label">Nombre del producto</label>
           <input
             type="text"
-            name="nombre"
-            value={producto.nombre}
+            name="title"
+            // value={producto.title}
             required
             onChange={(e) => handleChange(e)}
             className="form-control"
@@ -118,8 +112,8 @@ export function CreateProducto({ title }) {
           <label className="form-label">Ingrese una breve descripción del producto</label>
           <input
             type="text"
-            name="descripcion"
-            value={producto.descripcion}
+            name="description"
+            // value={producto.description}
             required
             onChange={(e) => handleChange(e)}
             className="form-control"
@@ -129,8 +123,8 @@ export function CreateProducto({ title }) {
           <label className="form-label">¿En cuantos dias estimas la entrega?</label>
           <input
             type="number"
-            name="demora_producto"
-            value={producto.demora_producto}
+            name="estimated_delay"
+            // value={producto.estimated_delay}
             required
             onChange={(e) => handleChange(e)}
             className="form-control"
@@ -140,8 +134,8 @@ export function CreateProducto({ title }) {
           <label className="form-label">¿Cuanto cuesta el producto?</label>
           <input
             type="number"
-            name="precio"
-            value={producto.precio}
+            name="price"
+            // value={producto.price}
             required
             onChange={(e) => handleChange(e)}
             className="form-control"
@@ -152,7 +146,7 @@ export function CreateProducto({ title }) {
           <input
             type="text"
             name="material"
-            value={producto.material}
+            // value={producto.material}
             required
             onChange={(e) => handleChange(e)}
             className="form-control"
@@ -165,8 +159,8 @@ export function CreateProducto({ title }) {
             accept='.png, .jpg, .jpeg'
             onChange={changeHandler}
             className="form-control"
-            name="imagenProducto"
-            id="imagenProducto"
+            name="productImage"
+            id="productImage"
           />
 
           {imageError && <p>{imageError}</p>}
@@ -176,7 +170,7 @@ export function CreateProducto({ title }) {
             <p className="img-preview-wrapper">
               {<>
                 <label className="form-label d-block">Nueva imagen:</label>
-                <img src={fileDataURL} className="product-image img-fluid rounded-3" alt={producto.descripcion} />
+                <img src={fileDataURL} className="product-image img-fluid rounded-3" alt={producto.description} />
               </>}
             </p> : null}
         </div>

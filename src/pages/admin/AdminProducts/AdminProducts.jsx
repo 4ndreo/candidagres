@@ -24,7 +24,7 @@ export default function AdminProducts() {
     const cols = [
         { field: 'actions', header: 'Acciones', type: 'actions' },
         { field: 'image', header: 'Imagen', type: 'image' },
-        { field: 'name', header: 'Título', type: 'string' },
+        { field: 'title', header: 'Título', type: 'string' },
         { field: 'description', header: 'Descripción', type: 'string' },
         { field: 'material', header: 'Material', type: 'string' },
         { field: 'price', header: 'Precio', type: 'currency' },
