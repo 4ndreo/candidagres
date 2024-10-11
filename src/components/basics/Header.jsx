@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Header.css";
 
-import { Navbar, Container, Nav, NavDropdown, Button } from "react-bootstrap";
+import { Navbar, Container, Nav, NavDropdown, Button, OverlayTrigger, Popover, Dropdown } from "react-bootstrap";
 import { useEffect, useContext } from "react";
 import { AuthContext } from "../../App";
 
@@ -32,6 +32,8 @@ export default function Header() {
     setShowProfile(!showProfile);
   }
 
+
+
   if ((!value.token && !value.currentUser) || value.currentUser) {
     return (
       <header className="navbar-base">
@@ -53,44 +55,46 @@ export default function Header() {
                   <>
                     <Link to="/cursos">Clases</Link>
                     <NavDropdown title="Tienda" className="panel-ddown">
-                      <Link to="/store" className="dropdown-item"><span className="pi pi-box"></span>Productos</Link>
-                      <Link to={'/store/cart/' + value.currentUser._id} className="dropdown-item">
-                      <span className="pi pi-shopping-cart"></span>Carrito
-                      </Link>
-                      <Link to={'/store/purchases/' + value.currentUser._id} className="dropdown-item">
-                      <span className="pi pi-history"></span>Historial
-                      </Link>
+                      <NavDropdown.Item href="/store" className="dropdown-item"><span className="pi pi-box"></span>Productos</NavDropdown.Item>
+                      <NavDropdown.Item href={'/store/cart/' + value.currentUser._id} className="dropdown-item">
+                        <span className="pi pi-shopping-cart"></span>Carrito
+                      </NavDropdown.Item>
+                      <NavDropdown.Item href={'/store/purchases/' + value.currentUser._id} className="dropdown-item">
+                        <span className="pi pi-history"></span>Historial
+                      </NavDropdown.Item>
                     </NavDropdown>
                     {value.currentUser.role === 1 && (
                       <NavDropdown title="Panel" className="panel-ddown">
-                        <Link to="admin/classes" className="dropdown-item">
+                        <NavDropdown.Item href="/admin/classes">
                           Clases
-                        </Link>
-                        <Link to="panel/turnos" className="dropdown-item">
+                        </NavDropdown.Item>
+                        <NavDropdown.Item href="/panel/turnos">
                           Turnos
-                        </Link>
-                        <Link to="admin/products" className="dropdown-item">
+                        </NavDropdown.Item>
+                        <NavDropdown.Item href="/admin/products">
                           Productos
-                        </Link>
-                        <Link to="/Inscripciones" className="dropdown-item">
+                        </NavDropdown.Item>
+                        <NavDropdown.Item href="/Inscripciones">
                           Inscripciones
-                        </Link>
-                        <Link to="/Dashboard" className="dropdown-item">
+                        </NavDropdown.Item>
+                        <NavDropdown.Item href="/Dashboard">
                           Dashboard
-                        </Link>
+                        </NavDropdown.Item>
                       </NavDropdown>
                     )}
-                    <span className="btn-profile" onClick={() => handleShowProfile()}>
-                      <span>
-                        <div className={!showProfile ? "d-none" : "profile-links panel-ddown"} onMouseLeave={() => handleShowProfile()}>
-                          <Link to="/perfil" className="dropdown-item">Perfil</Link>
-                          <Link to="/perfil/clases" className="dropdown-item">Mis clases</Link>
-                          <Button variant="link" className="logout dropdown-item" onClick={logOut}>
-                            Cerrar sesión
-                          </Button>
-                        </div>
-                      </span>
-                    </span>
+                    <Dropdown align="end">
+                      <Dropdown.Toggle variant="light" className="d-flex align-items-center gap-2" id="dropdown-basic">
+                        <span className="pi pi-user"></span>{value.currentUser.name}
+                      </Dropdown.Toggle>
+
+                      <Dropdown.Menu>
+                        <Dropdown.Item href="/perfil" className="">Perfil</Dropdown.Item>
+                        <Dropdown.Item href="/perfil/clases" className="">Mis clases</Dropdown.Item>
+                        <Dropdown.Item variant="link" className="" onClick={logOut}>
+                          Cerrar sesión
+                        </Dropdown.Item>
+                      </Dropdown.Menu>
+                    </Dropdown>
                   </>
                 )}
               </Nav>
