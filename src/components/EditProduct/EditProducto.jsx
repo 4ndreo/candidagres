@@ -18,13 +18,13 @@ export function EditProducto({ title }) {
   let navigate = useNavigate();
   const params = useParams();
 
-  const [producto, setProducto] = useState({
-    nombre: "",
-    descripcion: "",
-    demora_producto: 0,
-    precio: 0,
+  const [product, setProducto] = useState({
+    title: "",
+    description: "",
+    estimated_delay: 0,
+    price: 0,
     material: "",
-    imagen: "",
+    img: "",
   });
   const [error, setError] = useState("");
 
@@ -32,16 +32,8 @@ export function EditProducto({ title }) {
     productosService
       .findById(params?.idProducto)
       .then((producto) => {
-        setProducto(
-          {
-            nombre: producto.nombre,
-            descripcion: producto.descripcion,
-            demora_producto: producto.demora_producto,
-            precio: producto.precio,
-            material: producto.material,
-            img: producto.img,
-          }
-        );
+        delete producto._id
+        setProducto(producto);
       })
       .catch((err) => setError(err.message));
 
@@ -68,14 +60,13 @@ export function EditProducto({ title }) {
         fileReader.abort();
       }
     }
-    console.log('imagen nueva')
 
   }, [file]);
 
   function handleSubmit(e) {
     e.preventDefault();
     productosService
-      .update(params?.idProducto, producto)
+      .update(params?.idProducto, product)
       .then((data) => {
         if (file) {
           return mediaService.uploadImagen(file).then((nombreImg) => {
@@ -90,7 +81,7 @@ export function EditProducto({ title }) {
   }
 
   function handleChange(e) {
-    setProducto({ ...producto, [e.target.name]: e.target.value });
+    setProducto({ ...product, [e.target.name]: !isNaN(parseInt(e.target.value)) ? parseInt(e.target.value) : e.target.value.trim() });
   }
 
   const changeHandler = (e) => {
@@ -103,7 +94,7 @@ export function EditProducto({ title }) {
     setFile(file);
   }
 
-  if (producto) {
+  if (product) {
 
 
     return (
@@ -116,8 +107,8 @@ export function EditProducto({ title }) {
             <label className="form-label">Nombre</label>
             <input
               type="text"
-              name="nombre"
-              value={producto.nombre}
+              name="title"
+              defaultValue={product.title}
               required
               onChange={(e) => handleChange(e)}
               className="form-control"
@@ -127,8 +118,8 @@ export function EditProducto({ title }) {
             <label className="form-label">Descripción</label>
             <input
               type="text"
-              name="descripcion"
-              value={producto.descripcion}
+              name="description"
+              defaultValue={product.description}
               required
               onChange={(e) => handleChange(e)}
               className="form-control"
@@ -138,8 +129,8 @@ export function EditProducto({ title }) {
             <label className="form-label">Demora esperada (en días)</label>
             <input
               type="number"
-              name="demora_producto"
-              value={producto.demora_producto}
+              name="estimated_delay"
+              defaultValue={product.estimated_delay}
               required
               onChange={(e) => handleChange(e)}
               className="form-control"
@@ -149,8 +140,8 @@ export function EditProducto({ title }) {
             <label className="form-label">Precio</label>
             <input
               type="number"
-              name="precio"
-              value={producto.precio}
+              name="price"
+              defaultValue={product.price}
               required
               onChange={(e) => handleChange(e)}
               className="form-control"
@@ -161,7 +152,7 @@ export function EditProducto({ title }) {
             <input
               type="text"
               name="material"
-              value={producto.material}
+              defaultValue={product.material}
               required
               onChange={(e) => handleChange(e)}
               className="form-control"
@@ -185,11 +176,11 @@ export function EditProducto({ title }) {
               <p className="img-preview-wrapper">
                 {<>
                   <label className="form-label d-block">Nueva imagen:</label>
-                  <img src={fileDataURL} className="product-image img-fluid rounded-3" alt={producto.descripcion} />
+                  <img src={fileDataURL} className="product-image img-fluid rounded-3" alt={product.descripcion} />
                 </>}
               </p> : <>
                 <label className="form-label d-block">Imagen actual:</label>
-                <img src={SERVER_URL + "uploads/" + producto.img} className="product-image img-fluid rounded-3" alt={producto.descripcion} />
+                <img src={SERVER_URL + "uploads/" + product.img} className="product-image img-fluid rounded-3" alt={product.descripcion} />
               </>}
           </div>
 

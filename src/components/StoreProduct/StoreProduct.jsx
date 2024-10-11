@@ -17,7 +17,7 @@ export function StoreProduct({ props }) {
       </div>
       <Card.Body>
         <div className="d-flex flex-column justify-content-between ">
-          <Link to={`/store/item/${item._id}`} className="stretched-link"><span className="card-title">{item.nombre}</span></Link>
+          <Link to={`/store/item/${item._id}`} className="stretched-link"><span className="card-title">{item.title}</span></Link>
           <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-md-3">
 
 
@@ -25,7 +25,7 @@ export function StoreProduct({ props }) {
               <span className="badge text-bg-primary card-material">{item.material}</span>
             {/* </Card.Text> */}
             <Card.Text className="card-price">
-              ${item.precio}
+              ${item.price}
             </Card.Text>
           </div>
         </div>

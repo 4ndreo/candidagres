@@ -7,7 +7,7 @@
 export function calculateTotalCost(items) {
     let total = 0
     items.forEach(producto => {
-        total += producto.precio * producto.quantity
+        total += producto.price * producto.quantity
     })
     return total;
 }

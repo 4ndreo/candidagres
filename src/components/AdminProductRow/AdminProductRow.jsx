@@ -40,11 +40,11 @@ export default function AdminProductRow({ props }) {
           </div>
         </td>
         <td><img src={SERVER_URL + "uploads/" + props.item.img} className="img-fluid rounded" alt={props.item.descripcion} /></td>
-        <td>{props.item.nombre}</td>
-        <td>{props.item.descripcion}</td>
+        <td>{props.item.title}</td>
+        <td>{props.item.description}</td>
         <td>{props.item.material}</td>
         <td className="text-center">${props.item.price}</td>
-        <td className="text-center">{props.item.demora_producto}</td>
+        <td className="text-center">{props.item.estimated_delay}</td>
       </tr>
       <Modal show={show} onHide={handleClose} size="lg" variant="white" className="modal-delete">
         <Modal.Header className="modal-title" closeButton>

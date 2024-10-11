@@ -59,7 +59,7 @@ export function CartProduct({ props }) {
         <div className="row g-0 h-100">
           <div className="d-flex flex-md-column col-md-9 gx-4 justify-content-between  align-self-justify gap-md-4">
             <a href={`/store/item/${item._id}`} className="stretched-link"><span className="card-title">{item.nombre}</span></a>
-            <span className="card-price">${item.precio}</span>
+            <span className="card-price">${item.price}</span>
           </div>
           <div className="col-md-3 d-flex flex-column gap-2 align-items-end align-items-md-center justify-content-end">
             <div className="counter-cantidad">
