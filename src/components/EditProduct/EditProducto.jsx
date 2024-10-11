@@ -80,11 +80,11 @@ export function EditProducto({ title }) {
         if (file) {
           return mediaService.uploadImagen(file).then((nombreImg) => {
             productosService.update(params?.idProducto, { img: nombreImg }).then((data) => {
-              navigate("/productos", { replace: true });
+              navigate("/admin/products", { replace: true });
             });
           })
         } else {
-          navigate("/productos", { replace: true });
+          navigate("/admin/products", { replace: true });
         }
       });
   }

@@ -1,0 +1,25 @@
+.admin-table th {
+    text-align: center;
+}
+.admin-table table {
+    min-height: 200px;
+}
+
+.admin-table th .dropdown {
+    gap: 1rem;
+}
+
+.admin-table th .dropdown .col-label{
+    color: inherit;
+    font-weight: inherit !important;
+    text-decoration: none;
+}
+
+.admin-table .col-header .btn-group>button {
+    padding: 0;
+}
+
+.admin-table .cont-search {
+    width: max-content;
+    padding: 0.5rem
+}

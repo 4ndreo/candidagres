@@ -30,8 +30,8 @@ async function findQuery(request) {
     ).catch(() => { throw new Error('Error: no se pudieron obtener los registros. Inténtelo de nuevo más tarde') });
 }
 
-async function findById(idProductos) {
-    return fetch(url + "productos/" + idProductos, {
+async function findById(id) {
+    return fetch(url + "products/" + id, {
         headers: {
             'auth-token': localStorage.getItem('token')
         }
@@ -41,7 +41,7 @@ async function findById(idProductos) {
 }
 
 async function create(producto) {
-    return fetch(url + "productos/producto", {
+    return fetch(url + "products", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -53,7 +53,7 @@ async function create(producto) {
 }
 
 async function remove(idProductos) {
-    return fetch(url + "productos/" + idProductos, {
+    return fetch(url + "products/" + idProductos, {
         method: "DELETE",
         headers: {
             'auth-token': localStorage.getItem('token')
@@ -63,7 +63,7 @@ async function remove(idProductos) {
 }
 
 async function update(idProductos, producto) {
-    return fetch(url + "productos/" + idProductos, {
+    return fetch(url + "products/" + idProductos, {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json",
@@ -78,7 +78,7 @@ async function uploadImagen(imagen) {
     const formData = new FormData();
     formData.append('imagenProducto', imagen);
 
-    return fetch(url + "productos/imagenes", {
+    return fetch(url + "products/imagenes", {
         method: "POST",
         headers: {
             'auth-token': localStorage.getItem('token')
