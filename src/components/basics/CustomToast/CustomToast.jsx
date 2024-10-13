@@ -15,10 +15,10 @@ export default function CustomToast({ props }) {
       autohide
       className='overflow-hidden'
     >
-      <Toast.Header className='bg-danger text-white' closeButton={true}>
+      <Toast.Header className={'text-' + props.data?.variant} closeButton={true}>
         <span className="negritas me-auto">{props.data?.title}</span>
       </Toast.Header>
-      <Toast.Body className='bg-light'>{props.data?.message}</Toast.Body>
+      <Toast.Body className={'text-' + props.data?.variant}>{props.data?.message}</Toast.Body>
     </Toast>
   </ToastContainer>
 }

@@ -13,4 +13,13 @@ async function uploadImagen(imagen) {
     }).then((response) => response.json());
 }
 
-export { uploadImagen };
+async function removeImage(fileName) {
+    return fetch(url + "media/" + fileName, {
+        method: "DELETE",
+        headers: {
+            'auth-token': localStorage.getItem('token')
+        },
+    }).then((response) => response.json());
+}
+
+export { uploadImagen, removeImage };
