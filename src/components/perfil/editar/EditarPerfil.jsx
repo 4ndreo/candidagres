@@ -53,7 +53,7 @@ export function EditarPerfil(data) {
         //         navigate("/perfil", { replace: true });
         //     });
         usersService
-            .update(params?.id, { name: user.name, imagen: user.imagen })
+            .updateProfile(params?.id, { name: user.name, imagen: user.imagen })
             .then((data) => {
                 console.log('user', value.currentUser)
                 if (file) {

@@ -51,4 +51,16 @@ async function update(idUser, user) {
   }).then((response) => response.json());
 }
 
-export { find, findById, create, remove, update };
+async function updateProfile(idUser, user) {
+  console.log(user)
+  return fetch(url + "api/profile/" + idUser, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      'auth-token': localStorage.getItem('token')
+    },
+    body: JSON.stringify(user),
+  }).then((response) => response.json());
+}
+
+export { find, findById, create, remove, update, updateProfile };

@@ -154,7 +154,7 @@ export function FormProduct({ props }) {
               type="text"
               id="title"
               name="title"
-              placeholder="Nombre"
+              placeholder="Elegí un título llamativo"
               defaultValue={product.title}
               required
               onChange={(e) => handleChange(e)}
@@ -163,51 +163,71 @@ export function FormProduct({ props }) {
           </div>
           <div className="mb-3">
             <label htmlFor="description" className="form-label">Descripción</label>
-            <input
+            <textarea
+              rows={4}
               id="description"
               type="text"
               name="description"
+              placeholder="Redactá una descricpión detallada sobre tu producto. Podés incluir detalles de uso, materiales, etc."
               defaultValue={product.description}
               required
               onChange={(e) => handleChange(e)}
               className="form-control"
-            />
+            ></textarea>
           </div>
-          <div className="mb-3">
-            <label htmlFor="estimated_delay" className="form-label">Demora esperada (en días)</label>
-            <input
-              id="estimated_delay"
-              type="number"
-              name="estimated_delay"
-              value={parseInt(product.estimated_delay)}
-              required
-              onChange={(e) => handleChange(e)}
-              className="form-control"
-            />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="price" className="form-label">Precio</label>
-            <input
-              id="price"
-              type="number"
-              name="price"
-              value={parseInt(product.price)}
-              required
-              onChange={(e) => handleChange(e)}
-              className="form-control"
-            />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="material" className="form-label">Material</label>
-            <input
-              id="material"
-              type="text"
-              name="material"
-              defaultValue={product.material}
-              required
-              onChange={(e) => handleChange(e)}
-              className="form-control"
-            />
+          <div className="d-flex flex-column flex-md-row gap-3">
+
+            <div className="mb-3 w-100">
+              <label htmlFor="estimated_delay" className="form-label">Demora esperada</label>
+              <div class="input-group mb-3">
+
+                <input
+                  id="estimated_delay"
+                  type="number"
+                  name="estimated_delay"
+                  value={parseInt(product.estimated_delay)}
+                  required
+                  onChange={(e) => handleChange(e)}
+                  className="form-control"
+                />
+                <div class="input-group-append">
+                  <span class="input-group-text">días</span>
+                </div>
+              </div>
+
+            </div>
+            <div className="mb-3 w-100">
+              <label htmlFor="price" className="form-label">Precio</label>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">$</span>
+                </div>
+                <input
+                  id="price"
+                  type="number"
+                  name="price"
+                  value={parseInt(product.price)}
+                  required
+                  onChange={(e) => handleChange(e)}
+                  className="form-control"
+                />
+                <div class="input-group-append">
+                  <span class="input-group-text">.00</span>
+                </div>
+              </div>
+            </div>
+            <div className="mb-3 w-100">
+              <label htmlFor="material" className="form-label">Material</label>
+              <input
+                id="material"
+                type="text"
+                name="material"
+                defaultValue={product.material}
+                required
+                onChange={(e) => handleChange(e)}
+                className="form-control"
+              />
+            </div>
           </div>
           <div className="mb-3">
             <label htmlFor="productImage" className="form-label">Subir Imagen:</label>

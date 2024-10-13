@@ -5,7 +5,7 @@ import "../css/AdminTable.css";
 // React
 import { Link } from "react-router-dom";
 import { useQuery } from "react-query";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 // Services
 import * as productosService from "../../../services/productos.service";
@@ -18,9 +18,11 @@ import Paginator from "../../../components/Paginator/Paginator";
 // External Libraries
 import { Button, ButtonGroup, Dropdown, Form } from "react-bootstrap";
 import CustomToast from "../../../components/basics/CustomToast/CustomToast";
+import { AuthContext } from "../../../App";
 
 
 export default function AdminProducts() {
+    const value = useContext(AuthContext);
 
     const cols = [
         { field: 'actions', header: 'Acciones', type: 'actions' },
@@ -30,6 +32,7 @@ export default function AdminProducts() {
         { field: 'material', header: 'Material', type: 'string' },
         { field: 'price', header: 'Precio', type: 'currency' },
         { field: 'estimated_delay', header: 'Demora', type: 'number' },
+        { field: 'created_by', header: 'Creado por', type: 'created_by' },
     ]
 
     const [showToast, setShowToast] = useState(null);
@@ -108,7 +111,7 @@ export default function AdminProducts() {
                                 {JSON.parse(request.sort).field === col.field && <span className={"pi pi-sort-alpha" + (JSON.parse(request.sort).direction === 1 ? "-down" : "-down-alt")}></span>}
                             </Button>
 
-                            <Dropdown.Toggle split as={renderFilterMenu} />
+                            <Dropdown.Toggle split as={JSON.parse(request.filter)?.field === col.field ? renderSelectedFilterMenu : renderFilterMenu} />
 
 
                             <Dropdown.Menu className="cont-search">
@@ -136,6 +139,11 @@ export default function AdminProducts() {
                     </th>
                 )
             // case 'date':
+            case 'created_by':
+                return (
+                    value.currentUser?.role === 1 &&
+                    <th scope="col" key={col.field}>{col.header}</th>
+                )
             default:
                 return (
                     <th scope="col" key={col.field}>{col.header}</th>
@@ -151,6 +159,20 @@ export default function AdminProducts() {
     const renderFilterMenu = React.forwardRef(({ onClick }, ref) => (
         <Button
             className="btn-filter"
+            variant="secondary-outline"
+            ref={ref}
+            onClick={(e) => {
+                e.preventDefault();
+                onClick(e);
+            }
+            }
+        >
+            <span className={"pi pi-filter"}></span>
+        </Button>
+    ));
+    const renderSelectedFilterMenu = React.forwardRef(({ onClick }, ref) => (
+        <Button
+            className="btn-filter"
             variant="link"
             ref={ref}
             onClick={(e) => {
@@ -159,7 +181,7 @@ export default function AdminProducts() {
             }
             }
         >
-            <span className="pi pi-filter"></span>
+            <span className="pi pi-filter-fill"></span>
         </Button>
     ));
 
@@ -192,7 +214,7 @@ export default function AdminProducts() {
                                     })
                                     :
                                     <tr>
-                                        <td colSpan={cols.length}>'No hay registros que coincidan con esa búsqueda. Intentá ampliar el criterio.'</td>
+                                        <td colSpan={cols.length}>No hay registros que coincidan con esa búsqueda. Intentá ampliar el criterio.</td>
                                     </tr>
                                 }
                             </tbody>
