@@ -1,12 +1,15 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import './AdminProductRow.css';
 import { Modal, Toast, ToastContainer } from "react-bootstrap";
 import { Link } from 'react-router-dom';
 import * as productosService from "../../services/productos.service";
 import * as mediaService from "../../services/media.service";
+import { AuthContext } from '../../App';
 
 export default function AdminProductRow({ props }) {
   const SERVER_URL = process.env.REACT_APP_SERVER_URL;
+  const value = useContext(AuthContext);
+
   const [productoEliminar, setProductoEliminar] = useState();
   const [show, setShow] = useState(false);
 
@@ -56,6 +59,11 @@ export default function AdminProductRow({ props }) {
               return (<td key={index} className="text-center">{parseInt(props.item[col.field])}</td>)
             case 'currency':
               return (<td key={index} className="text-center">${parseInt(props.item[col.field])}</td>)
+            case 'created_by':
+              return (
+                value.currentUser?.role === 1 &&
+                <td key={index}>{props.item.user[0].email}</td>
+              )
             case 'image':
               return (<td key={index}><img src={SERVER_URL + "uploads/" + props.item[col.field]} className="img-fluid rounded" alt={props.item.descripcion} /></td>)
             // case 'date':
