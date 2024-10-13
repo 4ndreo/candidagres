@@ -26,8 +26,6 @@ import { CreateInscripcionUser } from "./components/inscripcion/CreateInscripcio
 import { EditInscripcion } from "./components/inscripcion/EditInscripcion";
 
 import AdminProducts from "./pages/admin/AdminProducts/AdminProducts";
-import { CreateProducto } from "./components/CreateProduct/CreateProducto";
-import { EditProducto } from "./components/EditProduct/EditProducto";
 
 import Store from "./pages/Store";
 import VerProductoId from "./pages/VerProducto"
@@ -45,6 +43,7 @@ import { EditarPerfil } from "./components/perfil/editar/EditarPerfil";
 import Admin from "./pages/admin/Admin";
 import { ViewProduct } from "./pages/Store/ViewProducto/ViewProduct";
 import { Cart } from "./pages/Store/Cart/Cart";
+import { FormProduct } from "./components/FormProduct/FormProduct";
 
 export const AuthContext = createContext();
 
@@ -126,12 +125,12 @@ function App() {
             {/* Rutas de Productos */}
             <Route path="products" element={<AdminProducts />} />
             <Route
-              path="products/producto"
-              element={<CreateProducto props={{title: "Producto"}} />}
+              path="products/new"
+              element={<FormProduct props={{title: "Producto"}} />}
             />
             <Route
-              path="products/producto/id-:idProducto"
-              element={<EditProducto title={"Producto"} />}
+              path="products/:id"
+              element={<FormProduct props={{title: "Producto"}} />}
             />
 
             {/* Rutas de cursos */}

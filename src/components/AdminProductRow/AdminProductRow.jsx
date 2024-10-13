@@ -3,6 +3,7 @@ import './AdminProductRow.css';
 import { Modal, Toast, ToastContainer } from "react-bootstrap";
 import { Link } from 'react-router-dom';
 import * as productosService from "../../services/productos.service";
+import * as mediaService from "../../services/media.service";
 
 export default function AdminProductRow({ props }) {
   const SERVER_URL = process.env.REACT_APP_SERVER_URL;
@@ -16,35 +17,53 @@ export default function AdminProductRow({ props }) {
     setProductoEliminar(item);
   }
 
-  function handleConfirmDelete(item) {
-    productosService.remove(item._id).then((productos) => {
+  async function handleConfirmDelete(item) {
+    try {
+      await productosService.remove(item._id)
+      await mediaService.removeImage(item.img)
       props.refetch();
-    });
+    } catch (err) {
+      props.setShowToast({ show: true, title: 'Error al eliminar el producto', message: 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end' });
+
+    }
   }
 
   return (
     <>
       <tr className="cont-admin-products-row">
-        <td>
-          <div className="d-flex gap-3 align-items-center justify-content-center">
-            <Link to={"producto/id-" + props.item._id} aria-label="Editar">
-              <span className="pi pi-pen-to-square text-primary"></span>
-            </Link>
-            <button
-              onClick={() => { handleShow(); handleSelectedDelete(props.item); }}
-              className="btn p-0"
-              type="button"
-              aria-label="Eliminar">
-              <span className="pi pi-trash text-danger"></span>
-            </button>
-          </div>
-        </td>
-        <td><img src={SERVER_URL + "uploads/" + props.item.img} className="img-fluid rounded" alt={props.item.descripcion} /></td>
-        <td>{props.item.title}</td>
-        <td>{props.item.description}</td>
-        <td>{props.item.material}</td>
-        <td className="text-center">${props.item.price}</td>
-        <td className="text-center">{props.item.estimated_delay}</td>
+        {props.cols.map((col, index) => {
+          switch (col.type) {
+            case 'actions':
+              return (
+                <td key={index}>
+                  <div className="d-flex gap-3 align-items-center justify-content-center">
+                    {props.showEdit && <Link to={props.item._id} aria-label="Editar">
+                      <span className="pi pi-pen-to-square text-primary"></span>
+                    </Link>}
+                    {props.showDelete && <button
+                      onClick={() => { handleShow(); handleSelectedDelete(props.item); }}
+                      className="btn p-0"
+                      type="button"
+                      aria-label="Eliminar">
+                      <span className="pi pi-trash text-danger"></span>
+                    </button>}
+                  </div>
+                </td>
+              )
+            case 'string':
+              return (<td key={index}>{props.item[col.field]}</td>)
+            case 'number':
+              return (<td key={index} className="text-center">{parseInt(props.item[col.field])}</td>)
+            case 'currency':
+              return (<td key={index} className="text-center">${parseInt(props.item[col.field])}</td>)
+            case 'image':
+              return (<td key={index}><img src={SERVER_URL + "uploads/" + props.item[col.field]} className="img-fluid rounded" alt={props.item.descripcion} /></td>)
+            // case 'date':
+            default:
+              return (<td key={index}>{props.item[col.field]}</td>)
+          }
+        }
+        )}
       </tr>
       <Modal show={show} onHide={handleClose} size="lg" variant="white" className="modal-delete">
         <Modal.Header className="modal-title" closeButton>

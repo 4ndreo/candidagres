@@ -17,13 +17,14 @@ import Paginator from "../../../components/Paginator/Paginator";
 
 // External Libraries
 import { Button, ButtonGroup, Dropdown, Form } from "react-bootstrap";
+import CustomToast from "../../../components/basics/CustomToast/CustomToast";
 
 
 export default function AdminProducts() {
 
     const cols = [
         { field: 'actions', header: 'Acciones', type: 'actions' },
-        { field: 'image', header: 'Imagen', type: 'image' },
+        { field: 'img', header: 'Imagen', type: 'image' },
         { field: 'title', header: 'Título', type: 'string' },
         { field: 'description', header: 'Descripción', type: 'string' },
         { field: 'material', header: 'Material', type: 'string' },
@@ -31,7 +32,8 @@ export default function AdminProducts() {
         { field: 'estimated_delay', header: 'Demora', type: 'number' },
     ]
 
-    const [filterInput, setFilterInput] = useState(undefined)
+    const [showToast, setShowToast] = useState(null);
+    // const [filterInput, setFilterInput] = useState(undefined)
     const [request, setRequest] = useState({
         page: 0,
         limit: 10,
@@ -48,7 +50,7 @@ export default function AdminProducts() {
         'products',
         () => fetchPurchases(request),
         {
-            staleTime: 1000,
+            staleTime: Infinity,
             retry: 2,
         }
     );
@@ -65,7 +67,6 @@ export default function AdminProducts() {
     function handleSort(field) {
         const parsedSort = JSON.parse(request.sort)
         if (parsedSort.field === field) {
-            console.log('entre')
             setRequest({ ...request, sort: JSON.stringify({ field, direction: parsedSort.direction === 1 ? -1 : 1 }) });
         } else {
             setRequest({ ...request, sort: JSON.stringify({ field, direction: 1 }) });
@@ -167,7 +168,7 @@ export default function AdminProducts() {
             <div className="d-md-flex justify-content-between align-items-center mb-3">
 
                 <h1>Administrar Productos</h1>
-                <Link to="producto" className="btn btn-primary btn-icon">
+                <Link to="new" className="btn btn-primary btn-icon">
                     <span className="pi pi-plus"></span>Crear un Producto
                 </Link>
             </div>
@@ -182,32 +183,12 @@ export default function AdminProducts() {
                                     {cols.map((col) => {
                                         return renderCols(col);
                                     })}
-                                    {/* <th scope="col">Acciones</th>
-                                    <th scope="col">Imagen</th>
-                                    <th scope="col">
-                                        <Dropdown as={ButtonGroup}>
-                                            <Button className="col-label" variant="link">Título</Button>
-
-                                            <Dropdown.Toggle split as={renderFilterMenu} />
-
-
-                                            <Dropdown.Menu>
-                                                <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                                                <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                                                <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-                                            </Dropdown.Menu>
-                                        </Dropdown>
-                                    </th>
-                                    <th scope="col">Descripción</th>
-                                    <th scope="col">Material</th>
-                                    <th scope="col">Precio</th>
-                                    <th scope="col">Demora</th> */}
                                 </tr>
                             </thead>
                             <tbody>
                                 {products?.data.length > 0 ?
                                     products?.data?.map((item) => {
-                                        return <AdminProductRow props={{ item: item, refetch: refetch }} key={item._id} />
+                                        return <AdminProductRow props={{ item: item, refetch: refetch, cols: cols, showEdit: true, showDelete: true, setShowToast: setShowToast }} key={item._id} />
                                     })
                                     :
                                     <tr>
@@ -223,6 +204,7 @@ export default function AdminProducts() {
                 <Paginator props={{ pages: products?.pages ?? 0, count: products?.count ?? 0, page: request.page, limit: request.limit, handlePaginate: handlePaginate, handlePaginateNext: handlePaginateNext, handlePaginatePrevious: handlePaginatePrevious }} />
 
             }
+            <CustomToast props={{ data: showToast, setShowToast: setShowToast }} />
 
         </div>
     );
