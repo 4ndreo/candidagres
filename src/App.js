@@ -7,8 +7,6 @@ import Header from "./components/basics/Header";
 import Footer from "./components/basics/Footer";
 import Home from "./pages/Home";
 
-import PageLogin from "./pages/Login";
-import PageRegister from "./pages/Register";
 
 import Turnos from "./pages/admin/Turnos";
 import { CreateTurno } from "./components/turnos/CreateTurno";
@@ -44,6 +42,12 @@ import Admin from "./pages/admin/Admin";
 import { ViewProduct } from "./pages/Store/ViewProducto/ViewProduct";
 import { Cart } from "./pages/Store/Cart/Cart";
 import { FormProduct } from "./components/FormProduct/FormProduct";
+import StorePage from "./pages/Store";
+// import LoginPage from "./pages/Auth/Login";
+import RegisterPage from "./pages/Auth/Register";
+import AuthPage from "./pages/Auth/Auth";
+import Login from "./components/Login/Login";
+import Register from "./components/Register/Register";
 
 export const AuthContext = createContext();
 
@@ -56,15 +60,11 @@ function App() {
 
   useEffect(() => {
     if (!token) {
-      navigate("/login", { replace: true });
+      navigate("auth/login", { replace: true });
     }
   }, []);
 
-  async function onLogin(user, tokenInc) {
-    localStorage.setItem("user", JSON.stringify(user));
-    localStorage.setItem("token", tokenInc);
-    navigate("/", { replace: true });
-  }
+  
 
   return (
     <>
@@ -74,11 +74,18 @@ function App() {
         <Header></Header>
 
         <Routes>
-          <Route path="/login" element={<PageLogin onLogin={onLogin} />} />
+          <Route path="/auth" element={<AuthPage />}>
+            <Route path="login" element={<Login />} />
+            <Route
+              path="register"
+              element={<Register />}
+            />
+          </Route>
+          {/* <Route path="/login" element={<LoginPage onLogin={onLogin} />} />
           <Route
             path="/register"
-            element={<PageRegister onLogin={onLogin} />}
-          />
+            element={<RegisterPage onLogin={onLogin} />}
+          /> */}
 
           <Route path="*" element={<Home />} />
 
@@ -126,11 +133,11 @@ function App() {
             <Route path="products" element={<AdminProducts />} />
             <Route
               path="products/new"
-              element={<FormProduct props={{title: "Producto"}} />}
+              element={<FormProduct props={{ title: "Producto" }} />}
             />
             <Route
               path="products/:id"
-              element={<FormProduct props={{title: "Producto"}} />}
+              element={<FormProduct props={{ title: "Producto" }} />}
             />
 
             {/* Rutas de cursos */}
@@ -146,7 +153,7 @@ function App() {
           </Route>
 
           {/* Rutas de Tienda */}
-          <Route path="/store" element={<Store />}>
+          <Route path="/store" element={<StorePage />}>
 
             <Route path="" element={<VerTienda />} title={"Tienda"} />
             <Route path="item/:id" element={<ViewProduct />} />

@@ -25,7 +25,7 @@ export default function Header() {
     localStorage.clear();
     value.setToken(null);
     value.setCurrentUser(null);
-    navigate("/login", { replace: true });
+    navigate("/auth/login", { replace: true });
   }
 
   function handleShowProfile() {
