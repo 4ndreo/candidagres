@@ -1,12 +1,15 @@
 .login-cont form {
   display: flex;
   flex-direction: column;
+  gap: 1rem
 }
+
 .login-cont input,
 button {
   border-radius: 4px;
   border: 1px solid grey;
 }
+
 .login-cont button {
   margin-top: 2rem;
   background: #4361ee;
@@ -15,11 +18,11 @@ button {
   padding: 0.5rem 0;
   transition: all ease 0.3s;
 }
+
 .login-cont button:hover {
   margin-top: 2rem;
   background: white;
   color: #4361ee;
-  /* border: white; */
   padding: 0.5rem 0;
 }
 

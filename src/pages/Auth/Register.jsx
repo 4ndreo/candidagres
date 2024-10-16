@@ -1,9 +1,9 @@
 import React, { useContext, useState } from "react";
-import * as UsersService from "../services/users.service";
-import * as authService from "../services/auth.service";
-import { AuthContext } from "../App";
+import * as UsersService from "../../services/users.service";
+import * as authService from "../../services/auth.service";
+import { AuthContext } from "../../App";
 
-function PageRegister({ onLogin }) {
+function RegisterPage({ onLogin }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -54,4 +54,4 @@ function PageRegister({ onLogin }) {
   );
 }
 
-export default PageRegister;
+export default RegisterPage;

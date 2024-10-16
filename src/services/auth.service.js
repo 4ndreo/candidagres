@@ -11,7 +11,8 @@ async function login (email, password){
             if(response.status === 200){
                 return response.json()
             }
-            throw new Error('Error de autenticación')
+            
+            throw new Error('Las credenciales son incorrectas.');
         })
 }
 
