@@ -18,9 +18,7 @@ export default function Register({ onLogin }) {
     e.preventDefault();
     UsersService.create({ email, password })
     .then((user) => {
-      console.log('user', user);
       if (!user.err) {
-        console.log('err', user.err);
         authService
           .login(email, password)
           .then(({ userData, token }) => {
@@ -32,7 +30,6 @@ export default function Register({ onLogin }) {
           })
           .catch((err) => handleShowToast(err.err));
       } else {
-        console.log('err', user.err);
         handleShowToast(user.err)
       }
     });
