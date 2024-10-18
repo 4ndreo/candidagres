@@ -1,13 +1,18 @@
 import { useState } from "react";
 import CustomToast from "../../components/basics/CustomToast/CustomToast";
 import "./Auth.css";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 
 export default function AuthPage() {
+  const navigate = useNavigate();
   const [showToast, setShowToast] = useState(null);
+  const [token, setToken] = useState(localStorage.getItem("token"));
 
   function handleShowToast(msg) {
     setShowToast({ show: true, title: 'Error', message: msg ?? 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end' });
+  }
+  if (token) {
+    navigate("/", { replace: true });
   }
 
   return (
@@ -16,7 +21,7 @@ export default function AuthPage() {
         <div className="col-lg-6 auth-card-img">
         </div>
         <div className="col-lg-6 auth-card-body p-5">
-          <Outlet context={ handleShowToast } />
+          <Outlet context={handleShowToast} />
         </div>
       </div>
       <CustomToast props={{ data: showToast, setShowToast: setShowToast }} />

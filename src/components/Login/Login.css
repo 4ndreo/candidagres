@@ -10,7 +10,7 @@ button {
   border: 1px solid grey;
 }
 
-.login-cont button {
+.login-cont .submit-btn {
   margin-top: 2rem;
   background: #4361ee;
   color: white;
@@ -19,7 +19,7 @@ button {
   transition: all ease 0.3s;
 }
 
-.login-cont button:hover {
+.login-cont .submit-btn:hover {
   margin-top: 2rem;
   background: white;
   color: #4361ee;
