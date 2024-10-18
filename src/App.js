@@ -43,8 +43,6 @@ import { ViewProduct } from "./pages/Store/ViewProducto/ViewProduct";
 import { Cart } from "./pages/Store/Cart/Cart";
 import { FormProduct } from "./components/FormProduct/FormProduct";
 import StorePage from "./pages/Store";
-// import LoginPage from "./pages/Auth/Login";
-import RegisterPage from "./pages/Auth/Register";
 import AuthPage from "./pages/Auth/Auth";
 import Login from "./components/Login/Login";
 import Register from "./components/Register/Register";

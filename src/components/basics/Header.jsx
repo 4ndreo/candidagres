@@ -19,6 +19,7 @@ export default function Header() {
     if (!value.token) {
       navigate("/login", { replace: true });
     }
+    console.log(value.currentUser)
   }, []);
 
   function logOut() {
@@ -92,7 +93,7 @@ export default function Header() {
                     )}
                     <Dropdown align="end">
                       <Dropdown.Toggle variant="light" className="d-flex align-items-center gap-2" id="dropdown-basic">
-                        <span className="pi pi-user"></span>{value.currentUser.name}
+                        <span className="pi pi-user"></span>{value.currentUser.firstName}
                       </Dropdown.Toggle>
 
                       <Dropdown.Menu>
