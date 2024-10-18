@@ -21,6 +21,7 @@ export default function Login() {
 
 
   async function handleSubmit(e) {
+    //TODO: validate frontend 
     e.preventDefault();
     await authService
       .login(form.email, form.password)

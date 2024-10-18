@@ -14,6 +14,7 @@ export default function Register({ onLogin }) {
   const value = useContext(AuthContext);
 
   function handleSubmit(e) {
+    //TODO: validate frontend
     e.preventDefault();
     UsersService.create(form)
       .then((user) => {
