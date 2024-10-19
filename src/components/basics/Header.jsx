@@ -49,8 +49,7 @@ export default function Header() {
                 <Link to="/">Home</Link>
                 {!value.token ? (
                   <>
-                    <Link to="/login">Login</Link>
-                    <Link to="/register">Registrarse</Link>
+                    <Link to="/auth/login">Ingresar</Link>
                   </>
                 ) : (
                   <>
