@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import * as cursosService from "../../../services/cursos.service";
+import * as classesService from "../../../services/classes.service";
 import { useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../../../App";
 
@@ -23,7 +23,7 @@ export function CreateClass({ title }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    cursosService
+    classesService
       .create({ nombre, descripcion, precio, profesor })
       .then((data) => {
         navigate("/panel/cursos", { replace: true });

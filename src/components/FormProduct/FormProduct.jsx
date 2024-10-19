@@ -179,7 +179,7 @@ export function FormProduct({ props }) {
 
             <div className="mb-3 w-100">
               <label htmlFor="estimated_delay" className="form-label">Demora esperada</label>
-              <div class="input-group mb-3">
+              <div className="input-group mb-3">
 
                 <input
                   id="estimated_delay"
@@ -190,17 +190,17 @@ export function FormProduct({ props }) {
                   onChange={(e) => handleChange(e)}
                   className="form-control"
                 />
-                <div class="input-group-append">
-                  <span class="input-group-text">días</span>
+                <div className="input-group-append">
+                  <span className="input-group-text">días</span>
                 </div>
               </div>
 
             </div>
             <div className="mb-3 w-100">
               <label htmlFor="price" className="form-label">Precio</label>
-              <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                  <span class="input-group-text">$</span>
+              <div className="input-group mb-3">
+                <div className="input-group-prepend">
+                  <span className="input-group-text">$</span>
                 </div>
                 <input
                   id="price"
@@ -211,8 +211,8 @@ export function FormProduct({ props }) {
                   onChange={(e) => handleChange(e)}
                   className="form-control"
                 />
-                <div class="input-group-append">
-                  <span class="input-group-text">.00</span>
+                <div className="input-group-append">
+                  <span className="input-group-text">.00</span>
                 </div>
               </div>
             </div>

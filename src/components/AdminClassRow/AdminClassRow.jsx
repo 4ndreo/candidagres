@@ -1,12 +1,12 @@
 import { useContext, useState } from 'react';
-import './AdminProductRow.css';
+import './AdminClassRow.css';
 import { Modal } from "react-bootstrap";
 import { Link } from 'react-router-dom';
-import * as productosService from "../../services/productos.service";
+import * as classesService from "../../services/classes.service";
 import * as mediaService from "../../services/media.service";
 import { AuthContext } from '../../App';
 
-export default function AdminProductRow({ props }) {
+export default function AdminClassRow({ props }) {
   const SERVER_URL = process.env.REACT_APP_SERVER_URL;
   const value = useContext(AuthContext);
 
@@ -17,24 +17,23 @@ export default function AdminProductRow({ props }) {
   const handleShow = (selected) => { setShow(true); setDeleting(selected) };
 
   function handleSelectedDelete(item) {
-    console.log(item)
     setDeleting(item);
   }
 
   async function handleConfirmDelete(item) {
     try {
-      await productosService.remove(item._id)
+      await classesService.remove(item._id)
       await mediaService.removeImage(item.img)
       props.refetch();
     } catch (err) {
-      props.setShowToast({ show: true, title: 'Error al eliminar el producto', message: 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end' });
+      props.setShowToast({ show: true, title: 'Error al eliminar la clase', message: 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end' });
 
     }
   }
 
   return (
     <>
-      <tr className="cont-admin-products-row">
+      <tr className="cont-admin-classes-row">
         {props.cols.map((col, index) => {
           switch (col.type) {
             case 'actions':
@@ -76,7 +75,7 @@ export default function AdminProductRow({ props }) {
       </tr>
       <Modal show={show} onHide={handleClose} size="lg" variant="white" className="modal-delete">
         <Modal.Header className="modal-title" closeButton>
-          <Modal.Title className="negritas">¿Seguro querés eliminar el producto "{deleting?.title}"?</Modal.Title>
+          <Modal.Title className="negritas">¿Seguro querés eliminar la clase "{deleting?.title}"?</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <p><span className="negritas">Esta acción es irreversible</span></p>

@@ -2,7 +2,7 @@ import "../css/Edit.css";
 import React, { useEffect, useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import * as turnosService from "../../services/turnos.service";
-import * as cursosService from "../../services/cursos.service";
+import * as classesService from "../../services/classes.service";
 import { AuthContext } from "../../App";
 
 export function CreateTurno({ title }) {
@@ -23,7 +23,7 @@ export function CreateTurno({ title }) {
   let navigate = useNavigate();
 
   useEffect(() => {
-    cursosService.find().then((data) => {
+    classesService.find().then((data) => {
       setCursos(data);
       console.log(data);
     });

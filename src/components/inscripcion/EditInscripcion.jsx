@@ -2,7 +2,7 @@ import "../css/Edit.css";
 import React, { useEffect, useState, useContext } from "react";
 import * as inscripcionesService from "../../services/inscripciones.service";
 import * as turnosService from "../../services/turnos.service";
-import * as cursosService from "../../services/cursos.service";
+import * as classesService from "../../services/classes.service";
 import { useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../../App";
 import Loader from "../basics/Loader";
@@ -29,7 +29,7 @@ export function EditInscripcion({ title }) {
         setFormaPago("error");
         turnosService.findById(inscripcion.idTurno).then((turno) => {
           setTurno(turno);
-          cursosService.findById(inscripcion.idCurso).then((curso) => {
+          classesService.findById(inscripcion.idCurso).then((curso) => {
             setCurso(curso);
           });
         });
