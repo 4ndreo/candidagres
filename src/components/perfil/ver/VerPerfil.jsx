@@ -13,9 +13,9 @@ export function VerPerfil(data) {
                 <img className="avatar-img" src={data.data.imagen ? (SERVER_URL + "uploads/" + data.data.imagen) : UserImg} alt="Imagen de perfil del usuario" />
                 <div className="user-info">
 
-                    <h1>{data.data.firstName} {data.data.lastName}</h1>
+                    <h1>{data.data.first_name} {data.data.last_name}</h1>
                     <p>{data.data.email}</p>
-                    <p>{data.data.documentType}: {data.data.idDocument}</p>
+                    <p>{data.data.document_type}: {data.data.id_document}</p>
                 </div>
             </div>
         </div>

@@ -15,32 +15,6 @@ export default function Register({ onLogin }) {
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
 
-  function validate() {
-    const newErrors = {};
-
-    if (form.firstName?.length <= 0 || !form.firstName) newErrors.firstName = 'Debe completar el nombre';
-    if (form.lastName?.length <= 0 || !form.lastName) newErrors.lastName = 'Debe completar el apellido';
-    if (validateEmail(form.email)) newErrors.email = validateEmail(form.email);
-    if (validatePassword(form.password)) newErrors.password = validatePassword(form.password);
-
-    switch (form.documentType) {
-      case 'DNI':
-        if (validateDNI(form.idDocument)) newErrors.idDocument = validateDNI(form.idDocument)
-        break;
-      case 'CUIL':
-        if (validateCUIL(form.idDocument)) newErrors.idDocument = validateCUIL(form.idDocument)
-        break;
-      case 'Pasaporte':
-        if (validatePassport(form.idDocument)) newErrors.idDocument = validatePassport(form.idDocument)
-        break;
-      default:
-        newErrors.documentType = 'Debe ingresar un tipo de documento válido.'
-    }
-
-    setErrors(newErrors);
-
-    return Object.keys(newErrors).length === 0;
-  }
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -56,25 +30,23 @@ export default function Register({ onLogin }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    if (validate()) {
-      UsersService.create(form)
-        .then((user) => {
-          if (!user.err) {
-            authService
-              .login(form.email, form.password)
-              .then(({ userData, token }) => {
-                value.setToken(token);
-                value.setCurrentUser(userData);
-                localStorage.setItem("user", JSON.stringify(userData));
-                localStorage.setItem("token", token);
-                navigate("/", { replace: true });
-              })
-              .catch((err) => handleShowToast(err.err));
-          } else {
-            handleShowToast(user.err)
-          }
-        });
-    }
+    UsersService.create(form)
+      .then((resp) => {
+        if (!resp.err) {
+          authService
+            .login(form.email, form.password)
+            .then(({ userData, token }) => {
+              value.setToken(token);
+              value.setCurrentUser(userData);
+              localStorage.setItem("user", JSON.stringify(userData));
+              localStorage.setItem("token", token);
+              navigate("/", { replace: true });
+            })
+            .catch((err) => handleShowToast(err.err));
+        } else {
+          setErrors(resp.err);
+        }
+      });
   }
 
   return (
@@ -83,86 +55,113 @@ export default function Register({ onLogin }) {
         <h1 className="mb-0">Creá tu cuenta</h1>
         <small>Todos los campos son requeridos.</small>
       </div>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} noValidate>
 
         <div className="d-flex flex-column flex-sm-row justify-content-between gap-3">
 
           <div className="d-flex flex-column w-100">
-            <label htmlFor="firstName">Nombre</label>
+            <label htmlFor="first_name">Nombre</label>
             <input
-              className={"form-control w-100 " + (errors.firstName ? 'is-invalid' : '')}
-              id="firstName"
-              name="firstName"
+              className={"form-control w-100 " + (errors.first_name ? 'is-invalid' : '')}
+              id="first_name"
+              name="first_name"
               type="text"
-              // value={form?.firstName}
               onChange={handleChange}
+              required
             />
-            <small class="form-text text-danger">
-              {errors.firstName}
+            <small className="form-text text-danger">
+              {errors.first_name}
             </small>
           </div>
           <div className="d-flex flex-column w-100">
-            <label htmlFor="lastName">Apellido</label>
+            <label htmlFor="last_name">Apellido</label>
             <input
-              className={"form-control w-100 " + (errors.lastName ? 'is-invalid' : '')}
-              id="lastName"
-              name="lastName"
+              className={"form-control w-100 " + (errors.last_name ? 'is-invalid' : '')}
+              id="last_name"
+              name="last_name"
               type="text"
-              // value={form?.lastName}
               onChange={handleChange}
+              required
             />
-            <small class="form-text text-danger">
-              {errors.lastName}
+            <small className="form-text text-danger">
+              {errors.last_name}
             </small>
           </div>
         </div>
         <div className="d-flex flex-sm-row justify-content-between gap-3">
 
           <div className="d-flex flex-column w-25">
-            <label htmlFor="documentType">Tipo</label>
+            <label htmlFor="document_type">Tipo</label>
             <select
-              className={"form-control w-100 " + (errors.documentType ? 'is-invalid' : '')}
-              id="documentType"
-              name="documentType"
+              className={"form-control w-100 " + (errors.document_type ? 'is-invalid' : '')}
+              id="document_type"
+              name="document_type"
               defaultValue="0"
               onChange={handleChange}
+              required
             >
               <option disabled value="0">Elegir...</option>
               <option >DNI</option>
               <option>CUIL</option>
               <option>Pasaporte</option>
             </select>
-            <small class="form-text text-danger">
-              {errors.documentType}
+            <small className="form-text text-danger">
+              {errors.document_type}
             </small>
           </div>
           <div className="d-flex flex-column w-100">
-            <label htmlFor="idDocument">Documento</label>
+            <label htmlFor="id_document">Documento</label>
             <input
-              className={"form-control w-100 " + (errors.idDocument ? 'is-invalid' : '')}
-              id="idDocument"
-              name="idDocument"
+              className={"form-control w-100 " + (errors.id_document ? 'is-invalid' : '')}
+              id="id_document"
+              name="id_document"
               type="text"
-              // value={form?.idDocument}
               onChange={handleChange}
+              required
             />
-            <small class="form-text text-danger">
-              {errors.idDocument}
-            </small>
+            {errors.id_document ?
+              <small className="form-text text-danger">
+                {errors.id_document}
+              </small>
+              :
+              (form.document_type === "DNI" &&
+                <small className="form-text text-muted">
+                  Puede tener 7 u 8 números.
+                </small> ||
+                form.document_type === "CUIL" &&
+                <small className="form-text text-muted">
+                  Debe tener el formato XX-XXXXXXXX-X.
+                </small>)
+            }
+
           </div>
         </div>
 
+        <div className="d-flex flex-column">
+          <label htmlFor="birth_date">Fecha de nacimiento</label>
+          <input
+            className={"form-control w-100 " + (errors.birth_date ? 'is-invalid' : '')}
+            id="birth_date"
+            name="birth_date"
+            type="date"
+            onChange={handleChange}
+            required
+          />
+          <small className="form-text text-danger">
+            {errors.birth_date}
+          </small>
+        </div>
         <div className="d-flex flex-column">
           <label htmlFor="email">Email</label>
           <input
             className={"form-control w-100 " + (errors.email ? 'is-invalid' : '')}
             id="email"
             name="email"
-            type="text"
-            // value={form?.email}
+            type="email"
             onChange={handleChange}
+            required
           />
-          <small class="form-text text-danger">
+          <small className="form-text text-danger">
             {errors.email}
           </small>
         </div>
@@ -175,12 +174,12 @@ export default function Register({ onLogin }) {
               id="password"
               name="password"
               type={showPassword ? 'text' : "password"}
-              // value={form?.password}
               onChange={handleChange}
+              required
             />
             <button className="btn btn-link pe-0" type="button" onClick={() => setShowPassword(prev => !prev)}><span className={showPassword ? 'pi pi-eye' : 'pi pi-eye-slash'}></span></button>
           </div>
-          <small class="form-text text-danger">
+          <small className="form-text text-danger">
             {errors.password}
           </small>
         </div>

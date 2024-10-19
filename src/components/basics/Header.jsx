@@ -92,7 +92,7 @@ export default function Header() {
                     )}
                     <Dropdown align="end">
                       <Dropdown.Toggle variant="light" className="d-flex align-items-center gap-2" id="dropdown-basic">
-                        <span className="pi pi-user"></span>{value.currentUser.firstName}
+                        <span className="pi pi-user"></span>{value.currentUser.first_name}
                       </Dropdown.Toggle>
 
                       <Dropdown.Menu>
