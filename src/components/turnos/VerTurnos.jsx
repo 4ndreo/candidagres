@@ -3,7 +3,7 @@ import "./VerTurnos.css";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import * as turnosService from "../../services/turnos.service";
-import * as cursosService from "../../services/cursos.service";
+import * as classesService from "../../services/classes.service";
 import * as inscripcionesService from "../../services/inscripciones.service";
 import Loader from "../basics/Loader";
 import TarjetaTurno from "../tarjeta-turno/TarjetaTurno";
@@ -98,7 +98,7 @@ export function VerTurnos() {
 
   function getCurso(curso_id) {
     return new Promise((resolve, reject) => {
-      cursosService
+      classesService
         .findById(params?.idCurso || curso_id)
         .then((curso) => {
           setCurso(curso);

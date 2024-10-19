@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import * as turnosService from "../../services/turnos.service";
 import * as inscripcionesService from "../../services/inscripciones.service";
-import * as cursosService from "../../services/cursos.service";
+import * as classesService from "../../services/classes.service";
 
 import { useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../../App";
@@ -51,7 +51,7 @@ export function CreateInscripcionUser({ title }) {
   //     // })
   //     // console.log(nombreUser)
 
-  //   cursosService.findById(params?.idCurso)
+  //   classesService.findById(params?.idCurso)
   //        .then((curso) =>{
   //            setCurso(curso)
   //            setNombreTaller(curso.nombre)
@@ -83,7 +83,7 @@ export function CreateInscripcionUser({ title }) {
 
     delay(
       200,
-      cursosService.findById(params?.idCurso).then((curso) => {
+      classesService.findById(params?.idCurso).then((curso) => {
         setIdCurso(params?.idCurso);
         setCursoObtenido(curso);
         setNombreTaller(curso.nombre);
@@ -104,7 +104,7 @@ export function CreateInscripcionUser({ title }) {
     //   setDia(turno.dia);
     //   setHorario(turno.horario);
     // });
-    // cursosService.findById(params?.idCurso).then((curso) => {
+    // classesService.findById(params?.idCurso).then((curso) => {
     //   setIdCurso(params?.idCurso);
     //   setCursoObtenido(curso);
     //   setNombreTaller(curso.nombre);

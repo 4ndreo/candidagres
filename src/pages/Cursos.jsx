@@ -4,7 +4,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 
 
-import * as cursosService from "../services/cursos.service";
+import * as classesService from "../services/classes.service";
 import Loader from "../components/basics/Loader";
 import { ClaseDisponible } from "../components/cursos/clase-disponible/ClaseDisponible";
 
@@ -12,7 +12,7 @@ export default function Header() {
   const [cursos, setCursos] = useState([]);
 
   useEffect(() => {
-    cursosService.find().then((data) => {
+    classesService.find().then((data) => {
       setCursos(data);
     });
   }, []);

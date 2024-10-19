@@ -3,7 +3,7 @@ import "../../pages/css/Turnos.css";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import * as turnosService from "../../services/turnos.service";
-import * as cursosService from "../../services/cursos.service";
+import * as classesService from "../../services/cursos.service";
 import Loader from "../basics/Loader";
 
 export function VerTurnos() {
@@ -21,7 +21,7 @@ export function VerTurnos() {
           return a.horarioInicio - b.horarioInicio;
         })
       );
-      cursosService
+      classesService
         .findById(params?.idCurso)
         .then((curso) => {
           setCurso(curso);

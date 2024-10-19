@@ -3,7 +3,7 @@ import "./css/Turnos.css";
 import React, { useEffect, useState, useContext } from "react";
 import { useNavigate, Link, useParams } from "react-router-dom";
 import * as turnosService from "../../services/turnos.service";
-import * as cursosService from "../../services/cursos.service";
+import * as classesService from "../../services/classes.service";
 import { AuthContext } from "../../App";
 import Loader from "../../components/basics/Loader";
 
@@ -26,7 +26,7 @@ export default function Turnos() {
   useEffect(() => {
     turnosService.find().then((turnos) => {
       setTurnos(turnos);
-      cursosService
+      classesService
         .find()
         .then((cursos) => {
           console.log(cursos)

@@ -6,7 +6,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { useNavigate, Link, useParams } from "react-router-dom";
 import Loader from "../../components/basics/Loader";
 import { AuthContext } from "../../App";
-import * as cursosService from '../../services/cursos.service';
+import * as classesService from '../../services/classes.service';
 import * as userService from '../../services/users.service';
 import * as turnosService from '../../services/turnos.service';
 import * as inscripcionesService from '../../services/inscripciones.service';
@@ -64,7 +64,7 @@ export default function Inscripciones() {
 
   async function getCursos() {
     return new Promise((resolve, reject) => {
-      cursosService
+      classesService
         .find()
         .then((data) => {
           setCursos(data);

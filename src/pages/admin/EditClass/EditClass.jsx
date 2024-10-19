@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import * as cursosService from "../../../services/cursos.service";
+import * as classesService from "../../../services/classes.service";
 import { useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../../../App";
 
@@ -18,7 +18,7 @@ export function EditClass({ title }) {
   const [checked, setChecked] = useState({});
 
   useEffect(() => {
-    cursosService
+    classesService
       .findById(params?.idCurso)
       .then((curso) => {
         setNombre(curso.nombre);
@@ -35,7 +35,7 @@ export function EditClass({ title }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    cursosService
+    classesService
       .update(params?.idCurso, { nombre, descripcion, precio, profesor })
       .then((data) => {
         navigate("/panel/cursos", { replace: true });

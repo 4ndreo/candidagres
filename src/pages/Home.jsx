@@ -17,7 +17,7 @@ import Plato_Blanco from "../img/plato-blanco.jpeg";
 import Pote_Blanco from "../img/pote-blanco.jpeg";
 import Torno from "../img/torno.jpeg";
 
-import * as cursosService from "../services/cursos.service";
+import * as classesService from "../services/classes.service";
 import Loader from "../components/basics/Loader";
 
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -33,7 +33,7 @@ export default function Header() {
   let navigate = useNavigate();
 
   useEffect(() => {
-    cursosService.find().then((data) => {
+    classesService.find().then((data) => {
       setCursos(data);
     });
   }, []);

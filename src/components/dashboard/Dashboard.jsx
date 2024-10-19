@@ -14,7 +14,7 @@ import {
 	Modal,
 	ListGroup,
 } from 'react-bootstrap';
-import * as cursosService from '../../services/cursos.service';
+import * as classesService from '../../services/classes.service';
 import * as userService from '../../services/users.service';
 import * as turnosService from '../../services/turnos.service';
 import * as inscripcionesService from '../../services/inscripciones.service';
@@ -59,7 +59,7 @@ export function Dashboard({title}) {
 
 	function getCursos() {
 		return new Promise((resolve, reject) => {
-			cursosService
+			classesService
 				.find()
 				.then((data) => {
 					cursos = data;

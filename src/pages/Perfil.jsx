@@ -3,7 +3,7 @@ import "./css/Perfil.css";
 import React, { useEffect, useState, useContext } from "react";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
 // import * as inscripcionesService from "../services/inscripciones.service";
-// import * as cursosService from "../services/cursos.service";
+// import * as classesService from "../services/cursos.service";
 // import * as turnosService from "../services/turnos.service";
 import { AuthContext } from "../App";
 
@@ -98,7 +98,7 @@ export default function Perfil() {
 
   // function getCursos() {
   //   return new Promise((resolve, reject) => {
-  //     cursosService.find()
+  //     classesService.find()
   //       .then((data) => {
   //         cursos = data;
   //         resolve(data);

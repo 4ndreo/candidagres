@@ -44,14 +44,14 @@ export default function AdminProducts() {
         sort: JSON.stringify({ field: undefined, direction: 1 }),
     });
 
-    const fetchPurchases = async (request) => {
+    const fetchProducts = async (request) => {
         const result = await productosService.findQuery(request);
         return result[0];
     }
 
     const { data: products, isLoading, isError, error, refetch } = useQuery(
         'products',
-        () => fetchPurchases(request),
+        () => fetchProducts(request),
         {
             staleTime: Infinity,
             retry: 2,
