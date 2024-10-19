@@ -17,17 +17,6 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
 
-  function validate() {
-    const newErrors = {};
-
-    if (validateEmail(form.email)) newErrors.email = validateEmail(form.email);
-    if (validatePassword(form.password)) newErrors.password = validatePassword(form.password);
-
-    setErrors(newErrors);
-
-    return Object.keys(newErrors).length === 0;
-  }
-
   function handleChange(e) {
     const { name, value } = e.target;
     setForm({
@@ -41,31 +30,27 @@ export default function Login() {
   }
 
   async function handleSubmit(e) {
-    //TODO: validate frontend 
     e.preventDefault();
-    if (validate()) {
-      await authService
-        .login(form.email, form.password)
-        .then((resp) => {
-          if (!resp.err) {
-            // console.log(resp.userData);
-            value.setToken(resp.token);
-            value.setCurrentUser(resp.userData);
-            localStorage.setItem("user", JSON.stringify(resp.userData));
-            localStorage.setItem("token", resp.token);
-            navigate("/", { replace: true });
-          } else {
-            handleShowToast(resp.err)
-
-          }
-        })
-    }
+    await authService
+      .login(form.email, form.password)
+      .then((resp) => {
+        if (!resp.err) {
+          // console.log(resp.userData);
+          value.setToken(resp.token);
+          value.setCurrentUser(resp.userData);
+          localStorage.setItem("user", JSON.stringify(resp.userData));
+          localStorage.setItem("token", resp.token);
+          navigate("/", { replace: true });
+        } else {
+          setErrors(resp.err);
+        }
+      })
   }
 
   return (
     <div className="login-cont w-100">
       <h1 className="pb-4">Ingresá</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} noValidate>
         <div className="d-flex flex-column">
 
           <label htmlFor="email">Email</label>
@@ -73,10 +58,11 @@ export default function Login() {
             className={"form-control w-100 " + (errors.email ? 'is-invalid' : '')}
             id="email"
             name="email"
-            type="text"
+            type="email"
             onChange={handleChange}
+            required
           />
-          <small class="form-text text-danger">
+          <small className="form-text text-danger">
             {errors.email}
           </small>
         </div>
@@ -90,12 +76,13 @@ export default function Login() {
               name="password"
               type={showPassword ? 'text' : "password"}
               onChange={handleChange}
+              required
             />
             <button className="btn btn-link pe-0" type="button" onClick={() => setShowPassword(prev => !prev)}><span className={showPassword ? 'pi pi-eye' : 'pi pi-eye-slash'}></span></button>
           </div>
-        <small class="form-text text-danger">
-          {errors.password}
-        </small>
+          <small className="form-text text-danger">
+            {errors.password}
+          </small>
         </div>
         <button className="btn submit-btn" type="submit" disabled={Object.values(form).length === 0 || Object.values(form)[0].length === 0}>Login</button>
       </form>
