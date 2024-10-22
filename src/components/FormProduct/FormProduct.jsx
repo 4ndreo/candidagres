@@ -18,7 +18,7 @@ export function FormProduct({ props }) {
   let navigate = useNavigate();
   const params = useParams();
 
-  const [product, setProducto] = useState({
+  const [form, setForm] = useState({
     title: "",
     description: "",
     estimated_delay: 0,
@@ -28,6 +28,8 @@ export function FormProduct({ props }) {
   });
   const [showToast, setShowToast] = useState(null);
   const [error, setError] = useState(null);
+  const [errors, setErrors] = useState({});
+
 
   async function fetchProduct(id) {
     setIsLoading(true);
@@ -36,7 +38,7 @@ export function FormProduct({ props }) {
       .findById(id)
       .then((producto) => {
         delete producto._id
-        setProducto(producto);
+        setForm(producto);
       })
       .catch((err) => setError(err))
       .finally(() => setIsLoading(false));
@@ -74,58 +76,85 @@ export function FormProduct({ props }) {
     if (params?.id) {
       productosService
         .update(params?.id, {
-          title: product.title,
-          description: product.description,
-          estimated_delay: parseInt(product.estimated_delay),
-          price: parseInt(product.price),
-          material: product.material,
+          title: form.title,
+          description: form.description,
+          estimated_delay: parseInt(form.estimated_delay),
+          price: parseInt(form.price),
+          material: form.material,
         })
-        .then(() => {
-          if (file) {
-            return mediaService.uploadImagen(file).then((imgName) => {
-              productosService.update(params?.id, { img: imgName }).then(() => {
-                navigate("/admin/products", { replace: true });
-              });
-            })
+        .then((resp) => {
+          if (!resp.err) {
+            if (file) {
+              return mediaService.uploadImagen(file).then((imgName) => {
+                if (!imgName.err) {
+                  productosService.update(params?.id, { img: imgName }).then(() => {
+                    navigate("/admin/products", { replace: true, state: { show: true, title: 'Éxito', message: 'El producto se ha creado.', variant: 'success', position: 'top-end' } });
+                  }).catch((err) => setShowToast({ show: true, title: 'Error al agregar la imagen', message: 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end' }));
+                } else {
+                  setErrors(imgName.err);
+                }
+              })
+            } else {
+              navigate("/admin/products", { replace: true, state: { show: true, title: 'Éxito', message: 'El producto se ha creado.', variant: 'success', position: 'top-end' } });
+            }
           } else {
-            navigate("/admin/products", { replace: true });
+            setErrors(resp.err);
           }
         }).catch((err) => setShowToast({ show: true, title: 'Error al modificar el producto', message: 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end' }));
 
     } else {
       productosService
         .create({
-          title: product.title,
-          description: product.description,
-          estimated_delay: parseInt(product.estimated_delay),
-          price: parseInt(product.price),
-          material: product.material,
+          title: form.title,
+          description: form.description,
+          estimated_delay: parseInt(form.estimated_delay),
+          price: parseInt(form.price),
+          material: form.material,
         })
-        .then((producto) => {
-          if (file) {
-            return mediaService.uploadImagen(file).then((nombreImg) => {
-              productosService.update(producto._id, { img: nombreImg }).then((data) => {
-                navigate("/admin/products", { replace: true });
-              });
+        .then((resp) => {
+          if (!resp.err) {
+
+            // if (file) {
+            return mediaService.uploadImagen(file).then((imgName) => {
+              if (!imgName.err) {
+                productosService.update(resp._id, { img: imgName }).then((data) => {
+                  navigate("/admin/products", { replace: true, state: { show: true, title: 'Éxito', message: 'El producto se ha modificado.', variant: 'success', position: 'top-end' } });
+                }).catch((err) => setShowToast({ show: true, title: 'Error al modificar la imagen', message: 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end' }));
+
+              } else {
+                setErrors(imgName.err);
+              }
             })
+            // } else {
+            //   navigate("/admin/products", { replace: true, state: { show: true, title: 'Éxito', message: 'El producto se ha modificado.', variant: 'success', position: 'top-end' } });
+            // }
           } else {
-            navigate("/admin/products", { replace: true });
+            setErrors(resp.err);
           }
         }).catch((err) => setShowToast({ show: true, title: 'Error al crear el producto', message: 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end' }));
     }
   }
 
   function handleChange(e) {
-    setProducto({ ...product, [e.target.name]: !isNaN(parseInt(e.target.value)) ? parseInt(e.target.value) : e.target.value.trim() });
+    const { name, value } = e.target;
+    setForm({
+      ...form,
+      [name]: value,
+    });
+    setErrors({
+      ...errors,
+      [name]: '',
+    });
   }
 
   const changeHandler = (e) => {
-    setImageError(null);
+    const { name } = e.target;
+
+    setErrors({
+      ...errors,
+      [name]: '',
+    });
     const file = e.target.files[0];
-    if (!file.type.match(imageMimeType)) {
-      setImageError("El tipo de archivo no es válido");
-      return;
-    }
     setFile(file);
   }
 
@@ -142,119 +171,132 @@ export function FormProduct({ props }) {
 
   // if (product) {
   return (
-    <main className="container edit-cont">
+    <main className="container cont-admin-form-products">
       <h1>{params?.id ? 'Editar' : 'Crear'} - {props.title}</h1>
       {error ? renderError() :
         <form onSubmit={handleSubmit} noValidate>
-          <div className="mb-3">
-          </div>
-          <div className="mb-3">
+          <div>
             <label htmlFor="title" className="form-label">Nombre</label>
             <input
+              className={"form-control w-100 " + (errors.title ? 'is-invalid' : '')}
               type="text"
               id="title"
               name="title"
               placeholder="Elegí un título llamativo"
-              defaultValue={product.title}
+              defaultValue={form.title}
               required
               onChange={(e) => handleChange(e)}
-              className="form-control"
             />
+            <small className="form-text text-danger">
+              {errors.title}
+            </small>
           </div>
-          <div className="mb-3">
+          <div>
             <label htmlFor="description" className="form-label">Descripción</label>
             <textarea
+              className={"form-control w-100 " + (errors.description ? 'is-invalid' : '')}
               rows={4}
               id="description"
               type="text"
               name="description"
-              placeholder="Redactá una descricpión detallada sobre tu producto. Podés incluir detalles de uso, materiales, etc."
-              defaultValue={product.description}
+              placeholder="Redactá una descripción detallada sobre tu producto. Podés incluir detalles de uso, materiales, etc."
+              defaultValue={form.description}
               required
               onChange={(e) => handleChange(e)}
-              className="form-control"
             ></textarea>
+            <small className="form-text text-danger">
+              {errors.description}
+            </small>
           </div>
           <div className="d-flex flex-column flex-md-row gap-3">
 
-            <div className="mb-3 w-100">
+            <div className="w-100">
               <label htmlFor="estimated_delay" className="form-label">Demora esperada</label>
-              <div className="input-group mb-3">
-
+              <div className="input-group">
                 <input
+                  className={"form-control " + (errors.estimated_delay ? 'is-invalid' : '')}
                   id="estimated_delay"
                   type="number"
                   name="estimated_delay"
-                  value={parseInt(product.estimated_delay)}
+                  value={parseInt(form.estimated_delay)}
                   required
                   onChange={(e) => handleChange(e)}
-                  className="form-control"
                 />
                 <div className="input-group-append">
                   <span className="input-group-text">días</span>
                 </div>
               </div>
-
+              <small className="form-text text-danger">
+                {errors.estimated_delay}
+              </small>
             </div>
-            <div className="mb-3 w-100">
+            <div className="w-100">
               <label htmlFor="price" className="form-label">Precio</label>
-              <div className="input-group mb-3">
+              <div className="input-group">
                 <div className="input-group-prepend">
                   <span className="input-group-text">$</span>
                 </div>
                 <input
+                  className={"form-control " + (errors.price ? 'is-invalid' : '')}
                   id="price"
-                  type="number"
                   name="price"
-                  value={parseInt(product.price)}
+                  type="number"
+                  min={0}
+                  defaultValue={parseInt(form.price)}
+                  onChange={handleChange}
                   required
-                  onChange={(e) => handleChange(e)}
-                  className="form-control"
                 />
                 <div className="input-group-append">
                   <span className="input-group-text">.00</span>
                 </div>
               </div>
+              <small className="form-text text-danger">
+                {errors.price}
+              </small>
             </div>
-            <div className="mb-3 w-100">
+            <div className=" w-100">
               <label htmlFor="material" className="form-label">Material</label>
               <input
+                className={"form-control w-100 " + (errors.material ? 'is-invalid' : '')}
                 id="material"
                 type="text"
                 name="material"
-                defaultValue={product.material}
+                defaultValue={form.material}
                 required
-                onChange={(e) => handleChange(e)}
-                className="form-control"
+                onChange={handleChange}
               />
+              <small className="form-text text-danger">
+                {errors.material}
+              </small>
             </div>
           </div>
-          <div className="mb-3">
-            <label htmlFor="productImage" className="form-label">Subir Imagen:</label>
+          <div>
+            <label htmlFor="img" className="form-label">{params?.id ? 'Cambiar' : 'Subir'} Imagen:</label>
             <input
-              id="productImage"
+              className={"form-control w-100 " + (errors.img ? 'is-invalid' : '')}
+              id="img"
               type="file"
-              name="productImage"
+              name="img"
               accept='.png, .jpg, .jpeg'
               onChange={changeHandler}
-              // onChange={handleImagenChange}
-              className="form-control"
             />
-            {imageError && <p>{imageError}</p>}
+            <small className="form-text text-danger">
+              {errors.img}
+            </small>
           </div>
-          <div className="mb-3">
+          <div>
             <div className="img-preview-wrapper">
               {fileDataURL ?
                 <>
                   <label className="form-label d-block">Nueva imagen:</label>
-                  <img src={fileDataURL} className="product-image img-fluid rounded-3" alt={product.descripcion} />
+                  <img src={fileDataURL} className="product-image img-fluid rounded-3" alt={form.description} />
                 </>
                 :
 
                 params?.id &&
                 <>
                   <label className="form-label d-block">Imagen actual:</label>
-                  <img src={SERVER_URL + "uploads/" + product.img} className="product-image img-fluid rounded-3" alt={product.descripcion} />
+                  <img src={SERVER_URL + "uploads/" + form.img} className="product-image img-fluid rounded-3" alt={form.description} />
                 </>
 
               }
