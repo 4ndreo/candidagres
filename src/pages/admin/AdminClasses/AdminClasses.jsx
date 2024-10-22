@@ -12,7 +12,7 @@ import "./AdminClasses.css";
 import "../css/AdminTable.css";
 
 // React
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
 import React, { useContext, useEffect, useState } from "react";
 
@@ -41,6 +41,9 @@ export default function AdminClasses() {
     { field: 'min_age', header: 'Edad mínima', type: 'number' },
   ]
 
+  const location = useLocation({});
+  const navigate = useNavigate();
+
   const [showToast, setShowToast] = useState(null);
   // const [filterInput, setFilterInput] = useState(undefined)
   const [request, setRequest] = useState({
@@ -65,9 +68,14 @@ export default function AdminClasses() {
   );
 
   useEffect(() => {
+    console.log('location', location)
+    setShowToast(location.state || 'No hay mensaje');
+    navigate(location.pathname, { replace: true });
+  }, []);
+
+  useEffect(() => {
     refetch();
   }, [request]);
-
 
   function handleFilter(field, value) {
     setRequest({ ...request, filter: JSON.stringify({ field, value }) });

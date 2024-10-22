@@ -23,8 +23,8 @@ export default function AdminClassRow({ props }) {
   async function handleConfirmDelete(item) {
     try {
       await classesService.remove(item._id)
-      await mediaService.removeImage(item.img)
       props.refetch();
+      props.setShowToast({ show: true, title: 'Éxito', message: 'La clase se ha eliminado', variant: 'success', position: 'top-end' });
     } catch (err) {
       props.setShowToast({ show: true, title: 'Error al eliminar la clase', message: 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end' });
 

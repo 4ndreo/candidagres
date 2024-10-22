@@ -46,6 +46,7 @@ import StorePage from "./pages/Store";
 import AuthPage from "./pages/Auth/Auth";
 import Login from "./components/Login/Login";
 import Register from "./components/Register/Register";
+import { FormClass } from "./components/FormClass/FormClass";
 
 export const AuthContext = createContext();
 
@@ -62,7 +63,7 @@ function App() {
     }
   }, []);
 
-  
+
 
   return (
     <>
@@ -141,12 +142,12 @@ function App() {
             {/* Rutas de cursos */}
             <Route path="classes" element={<AdminClasses />} />
             <Route
-              path="classes/create"
-              element={<CreateClass title={"Clase"} />}
+              path="classes/new"
+              element={<FormClass props={{ title: "Clase" }} />}
             />
             <Route
-              path="classes/edit/id-:idCurso"
-              element={<EditClass title={"Clase"} />}
+              path="classes/:id"
+              element={<FormClass props={{ title: "Clase" }} />}
             />
           </Route>
 

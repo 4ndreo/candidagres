@@ -68,7 +68,7 @@ export default function Login() {
         </div>
 
         <div className="d-flex flex-column">
-          <label htmlFor="password">Password</label>
+          <label htmlFor="password">Contraseña</label>
           <div className="d-flex align-items-center">
             <input
               className={"form-control mb-0 w-100 " + (errors.password ? 'is-invalid' : '')}
@@ -84,7 +84,7 @@ export default function Login() {
             {errors.password}
           </small>
         </div>
-        <button className="btn submit-btn" type="submit" disabled={Object.values(form).length === 0 || Object.values(form)[0].length === 0}>Login</button>
+        <button className="btn submit-btn" type="submit" disabled={Object.values(form).length === 0 || Object.values(form)[0].length === 0}>Iniciar sesión</button>
       </form>
       {/* TODO: OLvidé mi contraseña */}
       <Link className=" d-block text-center mt-4" to="/auth/register">¿Aún no tenés una cuenta? Registrate acá.</Link>

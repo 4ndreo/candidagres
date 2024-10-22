@@ -1,7 +1,7 @@
 const url = process.env.REACT_APP_API_URL
 
 async function find() {
-    return fetch(url + "api/classes", {
+    return fetch(url + "classesAll", {
         headers: {
             'auth-token': localStorage.getItem('token')
         }
@@ -30,8 +30,8 @@ async function findQuery(request) {
     ).catch(() => { throw new Error('Error: no se pudieron obtener los registros. Inténtelo de nuevo más tarde') });
 }
 
-async function findById(idCursos) {
-    return fetch(url + "api/classes/" + idCursos, {
+async function findById(id) {
+    return fetch(url + "classes/" + id, {
         headers: {
             'auth-token': localStorage.getItem('token')
         }
@@ -41,7 +41,7 @@ async function findById(idCursos) {
 }
 
 async function create(curso) {
-    return fetch(url + "api/classes/curso", {
+    return fetch(url + "classes", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -51,8 +51,8 @@ async function create(curso) {
     }).then((response) => response.json());
 }
 
-async function remove(idCursos) {
-    return fetch(url + "api/classes/" + idCursos, {
+async function remove(id) {
+    return fetch(url + "classes/" + id, {
         method: "DELETE",
         headers: {
             'auth-token': localStorage.getItem('token')
@@ -60,14 +60,14 @@ async function remove(idCursos) {
     }).then((response) => response.json());
 }
 
-async function update(idCursos, curso) {
-    return fetch(url + "api/classes/" + idCursos, {
+async function update(id, data) {
+    return fetch(url + "classes/" + id, {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json",
             'auth-token': localStorage.getItem('token')
         },
-        body: JSON.stringify(curso),
+        body: JSON.stringify(data),
     }).then((response) => response.json());
 }
 
