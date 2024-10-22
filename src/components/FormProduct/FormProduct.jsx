@@ -145,7 +145,7 @@ export function FormProduct({ props }) {
     <main className="container edit-cont">
       <h1>{params?.id ? 'Editar' : 'Crear'} - {props.title}</h1>
       {error ? renderError() :
-        <form onSubmit={handleSubmit} className="form">
+        <form onSubmit={handleSubmit} noValidate>
           <div className="mb-3">
           </div>
           <div className="mb-3">

@@ -167,7 +167,7 @@ export default function Register({ onLogin }) {
         </div>
 
         <div className="d-flex flex-column">
-          <label htmlFor="password">Password</label>
+          <label htmlFor="password">Contraseña</label>
           <div className="d-flex align-items-center">
             <input
               className={"form-control mb-0 w-100 " + (errors.password ? 'is-invalid' : '')}

@@ -14,10 +14,8 @@
 }
 
 .register-cont .submit-btn:hover {
-  margin-top: 2rem;
   background: white;
   color: #4361ee;
-  padding: 0.5rem 0;
 }
 
 .register-cont input, .register-cont select {

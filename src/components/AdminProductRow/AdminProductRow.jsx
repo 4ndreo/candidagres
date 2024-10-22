@@ -25,6 +25,7 @@ export default function AdminProductRow({ props }) {
     try {
       await productosService.remove(item._id)
       await mediaService.removeImage(item.img)
+      props.setShowToast({ show: true, title: 'Éxito', message: 'El producto se ha eliminado', variant: 'success', position: 'top-end' });
       props.refetch();
     } catch (err) {
       props.setShowToast({ show: true, title: 'Error al eliminar el producto', message: 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end' });
