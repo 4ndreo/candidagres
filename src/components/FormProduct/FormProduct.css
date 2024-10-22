@@ -1,3 +1,9 @@
-.edit-cont .product-image {
+.cont-admin-form-products form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem
+}
+
+.cont-admin-form-products .product-image {
   width: 20%;
 }

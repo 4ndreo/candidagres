@@ -1,9 +1,5 @@
-
 .cont-admin-form-classes form {
   display: flex;
   flex-direction: column;
   gap: 1rem
-}
-.edit-cont .product-image {
-  width: 20%;
 }

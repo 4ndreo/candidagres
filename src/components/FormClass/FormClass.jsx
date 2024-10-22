@@ -140,9 +140,9 @@ export function FormClass({ props }) {
     }
   }
 
-  function handleChange(e) {
-    setForm({ ...form, [e.target.name]: !isNaN(parseInt(e.target.value)) ? parseInt(e.target.value) : e.target.value.trim() });
-  }
+  // function handleChange(e) {
+  //   setForm({ ...form, [e.target.name]: !isNaN(parseInt(e.target.value)) ? parseInt(e.target.value) : e.target.value.trim() });
+  // }
 
   const changeHandler = (e) => {
     setImageError(null);
