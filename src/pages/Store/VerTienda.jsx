@@ -14,12 +14,6 @@ export function VerTienda() {
         return result;
     }
 
-    useEffect(() => {
-        return () => {
-            
-        }
-    }, []);
-
     const { data: products, isLoading, isError, refetch } = useQuery(
         'products',
         fetchProducts,

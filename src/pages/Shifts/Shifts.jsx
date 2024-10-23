@@ -1,19 +1,19 @@
-import "./VerTurnos.css";
+import "./Shifts.css";
 
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import * as turnosService from "../../services/turnos.service";
 import * as classesService from "../../services/classes.service";
 import * as inscripcionesService from "../../services/inscripciones.service";
-import Loader from "../basics/Loader";
-import TarjetaTurno from "../tarjeta-turno/TarjetaTurno";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useContext } from "react";
 import { AuthContext } from "../../App";
-import LoaderMini from "../basics/LoaderMini";
+import LoaderMini from "../../components/basics/LoaderMini";
+import Loader from "../../components/basics/Loader";
+import TarjetaTurno from "../../components/tarjeta-turno/TarjetaTurno";
 
-export function VerTurnos() {
+export function ShiftsPage() {
   let navigate = useNavigate();
   const value = useContext(AuthContext);
   const params = useParams();
@@ -58,12 +58,12 @@ export function VerTurnos() {
     },
   ];
   useEffect(() => {
-    getTurnos(params?.idCurso)
+    getTurnos(params?.id)
       .then(() => {
         getInscripcionesByUser(value.currentUser._id)
           .then(() => {
             getCurso().then(() => {
-              inscripcionesService.countInscripcionesByCurso(params?.idCurso).then((data) => {
+              inscripcionesService.countInscripcionesByCurso(params?.id).then((data) => {
                 setCupos(data);
                 setLoadingInscripciones(false);
               })
@@ -99,7 +99,7 @@ export function VerTurnos() {
   function getCurso(curso_id) {
     return new Promise((resolve, reject) => {
       classesService
-        .findById(params?.idCurso || curso_id)
+        .findById(params?.id || curso_id)
         .then((curso) => {
           setCurso(curso);
           resolve();
@@ -132,7 +132,7 @@ export function VerTurnos() {
         if (inscripciones.length === 0) {
           return createInscripcion(turno).then(() => {
             getInscripcionesByUser(value.currentUser._id).then(() => {
-              inscripcionesService.countInscripcionesByCurso(params?.idCurso).then((data) => {
+              inscripcionesService.countInscripcionesByCurso(params?.id).then((data) => {
                 setCupos(data);
                 setLoadingInscripciones(false);
               })
@@ -143,7 +143,7 @@ export function VerTurnos() {
         if (inscripciones[0].deleted) {
           return restoreInscripciones(inscripciones[0]._id).then(() => {
             getInscripcionesByUser(value.currentUser._id).then(() => {
-              inscripcionesService.countInscripcionesByCurso(params?.idCurso).then((data) => {
+              inscripcionesService.countInscripcionesByCurso(params?.id).then((data) => {
                 setCupos(data);
                 setLoadingInscripciones(false);
               })
@@ -154,7 +154,7 @@ export function VerTurnos() {
           return inscripcionesService.remove(inscripciones[0]._id)
             .then(() => {
               getInscripcionesByUser(value.currentUser._id).then(() => {
-                inscripcionesService.countInscripcionesByCurso(params?.idCurso).then((data) => {
+                inscripcionesService.countInscripcionesByCurso(params?.id).then((data) => {
                   setCupos(data);
                   setLoadingInscripciones(false);
                 })
@@ -169,7 +169,7 @@ export function VerTurnos() {
 
   function createInscripcion(data) {
     return new Promise((resolve, reject) => {
-      inscripcionesService.create({ idCurso: data.idCurso, idTurno: data._id, idUser: value.currentUser._id })
+      inscripcionesService.create({ id: data.id, idTurno: data._id, idUser: value.currentUser._id })
         .then((data) => {
           resolve();
         })

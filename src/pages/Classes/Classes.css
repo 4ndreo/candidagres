@@ -1,0 +1,30 @@
+.classes-cont .classes-list {
+    padding: 0;
+    margin: 1rem 0;
+    /* display: flex; */
+    display: grid;
+    justify-content: space-between;
+    grid-template-columns: repeat(auto-fit, 300px);
+    row-gap: 1rem;
+}
+
+.classes-cont .classes-list li {
+    padding: 1rem;
+    /* margin-bottom: 1rem; */
+    border: 1px solid lightgray;
+    border-radius: 0.5rem;
+    list-style-type: none;
+}
+
+@media screen and (max-width: 768px) {
+
+    .classes-cont .classes-list {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .classes-cont .classes-list li {
+        width: 100%;
+    }
+
+}

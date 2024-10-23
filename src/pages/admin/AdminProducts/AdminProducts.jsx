@@ -36,7 +36,6 @@ export default function AdminProducts() {
     ]
 
     const [showToast, setShowToast] = useState(null);
-    // const [filterInput, setFilterInput] = useState(undefined)
     const [request, setRequest] = useState({
         page: 0,
         limit: 10,
