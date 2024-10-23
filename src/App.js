@@ -11,9 +11,7 @@ import Home from "./pages/Home";
 import Turnos from "./pages/admin/Turnos";
 import { CreateTurno } from "./components/turnos/CreateTurno";
 import { EditTurno } from "./components/turnos/EditTurno";
-import { VerTurnos } from "./components/turnos/VerTurnos";
 
-import Cursos from "./pages/Cursos";
 import AdminClasses from "./pages/admin/AdminClasses/AdminClasses";
 import { CreateClass } from "./pages/admin/CreateClass/CreateClass";
 import { EditClass } from "./pages/admin/EditClass/EditClass";
@@ -47,6 +45,8 @@ import AuthPage from "./pages/Auth/Auth";
 import Login from "./components/Login/Login";
 import Register from "./components/Register/Register";
 import { FormClass } from "./components/FormClass/FormClass";
+import ClassesPage from "./pages/Classes/Classes";
+import { ShiftsPage } from "./pages/Shifts/Shifts";
 
 export const AuthContext = createContext();
 
@@ -99,10 +99,6 @@ function App() {
             path="/panel/turnos/turno/id-:idTurno"
             element={<EditTurno title={"Turno"} />}
           />
-          <Route
-            path="/turnos/turno/ver-:idCurso"
-            element={<VerTurnos title={"Turnos"} />}
-          />
 
 
 
@@ -123,7 +119,8 @@ function App() {
           {/*/>*/}
 
           {/* --------------- / ---------------- */}
-          <Route path="cursos" element={<Cursos />} />
+          <Route path="classes" element={<ClassesPage />} />
+          <Route path="classes/shifts/:id" element={<ShiftsPage title={"Comisiones"} />} />
 
 
           <Route path="/admin" element={<Admin />}>

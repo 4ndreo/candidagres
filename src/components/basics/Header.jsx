@@ -53,7 +53,7 @@ export default function Header() {
                   </>
                 ) : (
                   <>
-                    <Link to="/cursos">Clases</Link>
+                    <Link to="/classes">Clases</Link>
                     <NavDropdown title="Tienda" className="panel-ddown">
                       <NavDropdown.Item href="/store" className="dropdown-item"><span className="pi pi-box"></span>Productos</NavDropdown.Item>
                       <NavDropdown.Item href={'/store/cart/' + value.currentUser._id} className="dropdown-item">

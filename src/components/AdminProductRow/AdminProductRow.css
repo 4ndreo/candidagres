@@ -1,5 +1,6 @@
 .cont-admin-products-row td {
     vertical-align: middle;
+    max-width: 300px;
 }
 
 .cont-admin-products-row td img {
