@@ -40,6 +40,16 @@ async function findById(id) {
     );
 }
 
+async function findOneWithShifts(id) {
+    return fetch(url + "classes/" + id + "/shifts", {
+        headers: {
+            'auth-token': localStorage.getItem('token')
+        }
+    }).then((response) =>
+        response.json()
+    );
+}
+
 async function create(curso) {
     return fetch(url + "classes", {
         method: "POST",
@@ -71,4 +81,4 @@ async function update(id, data) {
     }).then((response) => response.json());
 }
 
-export { find, findQuery, findById, create, remove, update };
+export { find, findQuery, findById, findOneWithShifts, create, remove, update };

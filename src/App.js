@@ -120,7 +120,8 @@ function App() {
 
           {/* --------------- / ---------------- */}
           <Route path="classes" element={<ClassesPage />} />
-          <Route path="classes/shifts/:id" element={<ShiftsPage title={"Comisiones"} />} />
+          <Route path="classes/:id/shifts" element={<ShiftsPage title={"Comisiones"} />} />
+          {/* <Route path="classes/shifts/:id" element={<ShiftsPage title={"Comisiones"} />} /> */}
 
 
           <Route path="/admin" element={<Admin />}>
