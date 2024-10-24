@@ -57,24 +57,24 @@ export function ShiftsPage() {
       nombre: "Viernes",
     },
   ];
-  useEffect(() => {
-    getTurnos(params?.id)
-      .then(() => {
-        getInscripcionesByUser(value.currentUser._id)
-          .then(() => {
-            getCurso().then(() => {
-              inscripcionesService.countInscripcionesByCurso(params?.id).then((data) => {
-                setCupos(data);
-                setLoadingInscripciones(false);
-              })
-            });
-          })
-      }).catch((err) => {
-        console.log(err)
-      })
-      ;
+  // useEffect(() => {
+  //   getTurnos(params?.id)
+  //     .then(() => {
+  //       getInscripcionesByUser(value.currentUser._id)
+  //         .then(() => {
+  //           getCurso().then(() => {
+  //             inscripcionesService.countInscripcionesByCurso(params?.id).then((data) => {
+  //               setCupos(data);
+  //               setLoadingInscripciones(false);
+  //             })
+  //           });
+  //         })
+  //     }).catch((err) => {
+  //       console.log(err)
+  //     })
+  //     ;
 
-  }, []);
+  // }, []);
 
   function getTurnos(curso_id) {
     return new Promise((resolve, reject) => {
