@@ -1,7 +1,7 @@
 import "../css/Edit.css";
 import React, { useEffect, useState, useContext } from "react";
-import * as turnosService from "../../services/turnos.service";
-import * as inscripcionesService from "../../services/inscripciones.service";
+import * as turnosService from "../../services/shifts.service";
+import * as inscripcionesService from "../../services/enrollments.service";
 import { useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../../App";
 import * as productosService from "../../services/productos.service";

@@ -1,9 +1,9 @@
 import "../../pages/css/Perfil.css";
 
 import React, { useEffect, useState } from "react";
-import * as inscripcionesService from "../../services/inscripciones.service";
+import * as inscripcionesService from "../../services/enrollments.service";
 import * as classesService from "../../services/classes.service";
-import * as turnosService from "../../services/turnos.service";
+import * as turnosService from "../../services/shifts.service";
 
 import { useNavigate, useParams } from "react-router-dom";
 

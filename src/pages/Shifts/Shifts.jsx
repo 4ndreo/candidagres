@@ -2,9 +2,10 @@ import "./Shifts.css";
 
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
-import * as turnosService from "../../services/turnos.service";
+import * as turnosService from "../../services/shifts.service";
 import * as classesService from "../../services/classes.service";
-import * as inscripcionesService from "../../services/inscripciones.service";
+// import * as shiftsService from "../../services/shifts.service";
+import * as inscripcionesService from "../../services/enrollments.service";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useContext } from "react";
@@ -12,16 +13,31 @@ import { AuthContext } from "../../App";
 import LoaderMini from "../../components/basics/LoaderMini";
 import Loader from "../../components/basics/Loader";
 import TarjetaTurno from "../../components/tarjeta-turno/TarjetaTurno";
+import { useQuery } from "react-query";
 
 export function ShiftsPage() {
   let navigate = useNavigate();
   const value = useContext(AuthContext);
   const params = useParams();
 
+  const fetchShifts = async () => {
+    const result = await classesService.findOneWithShifts(params.id);
+    return result;
+  }
+
+  const { data: classData, isLoading, isError, error, refetch } = useQuery(
+    'classData',
+    fetchShifts,
+    {
+      staleTime: 60000,
+      retry: 2,
+    }
+  );
+
   const [turnos, setTurnos] = useState([]);
   const [curso, setCurso] = useState();
   const [inscripciones, setInscripciones] = useState([]);
-  const [error, setError] = useState([]);
+  // const [error, setError] = useState([]);
   const [selectedTurno, setSelectedTurno] = useState({});
   const [hoveredTurno, setHoveredTurno] = useState("");
   const [selectedInscripcion, setSelectedInscripcion] = useState({});
@@ -33,7 +49,6 @@ export function ShiftsPage() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  let daysCount = 0;
 
   const diasSemana = [
     {
@@ -57,6 +72,7 @@ export function ShiftsPage() {
       nombre: "Viernes",
     },
   ];
+  
   // useEffect(() => {
   //   getTurnos(params?.id)
   //     .then(() => {
@@ -89,7 +105,7 @@ export function ShiftsPage() {
         })
         .catch((err) => {
           console.log(err)
-          setError(err.message);
+          // setError(err.message);
           reject(err);
         });
 
@@ -105,7 +121,7 @@ export function ShiftsPage() {
           resolve();
         })
         .catch((err) => {
-          setError(err.message);
+          // setError(err.message);
           reject(err);
         });
     })
@@ -120,7 +136,7 @@ export function ShiftsPage() {
           resolve();
         })
         .catch((err) => {
-          setError(err.message);
+          // setError(err.message);
           reject(err);
         });
     })
@@ -161,10 +177,10 @@ export function ShiftsPage() {
               });
               // setInscripciones(inscripciones);
             })
-            .catch((err) => setError(err.message));
+            // .catch((err) => setError(err.message));
         }
       })
-      .catch((err) => setError(err.message));
+      // .catch((err) => setError(err.message));
   }
 
   function createInscripcion(data) {
@@ -174,7 +190,7 @@ export function ShiftsPage() {
           resolve();
         })
         .catch((err) => {
-          setError(err.message);
+          // setError(err.message);
           reject(err);
         });
     })
@@ -187,7 +203,7 @@ export function ShiftsPage() {
           resolve();
         })
         .catch((err) => {
-          setError(err.message);
+          // setError(err.message);
           reject(err);
         });
     })
@@ -216,25 +232,36 @@ export function ShiftsPage() {
       Object.values(inscripcion).some((arrVal) => turno_id === arrVal)
     )
   }
+  // return     (
+  //   <main>
+
+  //  { JSON.stringify(classData?.shifts.length)}
+  //   </main>
+  //   )
+  
 
   // TODO: cambiar por Swiper para mostrar dias de la semana. Esto va a hacer que la funcionalidad sea responsive
-  if (curso && turnos.length > 0) {
+  if (classData && classData?.shifts.length > 0) {
+
     return (
+
       <main className="container main">
         <div className="cont-turno">
-          <h1>Turnos disponibles para la clase "{curso.nombre}"</h1>
+          <h1>Horarios disponibles para "{classData.title}"</h1>
           <ul className="cont-listado-dias">
             {diasSemana.map((diaSemana) => {
               return (
                 <li key={diaSemana.id} className="item-dia">
                   <h2> {diaSemana.nombre}</h2>
                   <ul className="cont-TarjetaTurnos">
-                    {turnos.map((turno) => {
-                      if (turno.dias.some((dia) => dia === diaSemana.id)) {
+                    {classData.shifts.map((shift) => {
+                      if (shift.days.some((day) => day === diaSemana.id)) {
                         return (
                           <TarjetaTurno
-                            key={turno._id}
-                            turno={turno}
+                            key={shift._id}
+                            shift={shift}
+                            classData={classData}
+                            weekdays={diasSemana}
                             handleSelectedTurno={handleSelectedTurno}
                             handleSelectedInscripcion={handleSelectedInscripcion}
                             handleMouseOver={handleMouseOver}
@@ -242,7 +269,7 @@ export function ShiftsPage() {
                             hoveredTurno={hoveredTurno}
                             handleShow={handleShow}
                             verifyInscripto={verifyInscripto}
-                            inscripcion={inscripciones.filter(inscripcion => inscripcion.idUser === value.currentUser._id && inscripcion.idTurno === turno._id)}
+                            inscripcion={inscripciones.filter(inscripcion => inscripcion.idUser === value.currentUser._id && inscripcion.idTurno === shift._id)}
                             cupos={cupos}
                           />
                         );
@@ -254,57 +281,7 @@ export function ShiftsPage() {
             })}
           </ul>
 
-          <Modal show={show} onHide={handleClose} size="lg" variant="white">
-            <Modal.Header className="modal-title" closeButton>
-              <Modal.Title className="negritas">Inscribirse al curso de {curso.nombre}</Modal.Title>
-              <button type="button" className="btn btn-link btn-close-link" variant="link" onClick={handleClose}></button>
-            </Modal.Header>
-            <Modal.Body>
-              <p><span className="negritas">Detalle de la clase:</span> {curso.descripcion}</p>
-              <p>
-                <span className="negritas">Dias y horario:</span>
-                {selectedTurno.dias?.map(dia => {
-
-                  daysCount++
-                  return (
-                    <span key={dia}>{daysCount > 1 ? ', ' : ''} {diasSemana.find(o => o.id === dia).nombre}</span>
-
-                  )
-                })}
-                <span> de {selectedTurno.horarioInicio}hs a {selectedTurno.horarioFin}hs</span>
-              </p>
-              <p><span className="negritas">Docente:</span> {curso.profesor.charAt(0).toUpperCase() + curso.profesor.slice(1)}</p>
-              <p><span className="negritas">Precio:</span> ${curso.precio}</p>
-            </Modal.Body>
-            <Modal.Footer>
-
-              {verifyInscripto(selectedTurno._id).some(val => val) ?
-                <button
-                  type="button"
-                  disabled={loadingInscripciones}
-                  className={loadingInscripciones ? "btn-close-link btn-loading" : "btn-close-link btn-inscripto"}
-                  onClick={() => handleInscripciones(selectedTurno)}>
-                  {loadingInscripciones ? <LoaderMini></LoaderMini> : ""}
-                </button>
-                :
-                ((cupos.filter(cupo => cupo._id === selectedTurno._id)[0]?.totalQuantity ?? 0) === selectedTurno.max_turnos) ?
-                  <button
-                    type="button"
-                    className="btn btn-link btn-close-link btn-full"
-                    disabled>
-                  </button>
-                  :
-                  <button
-                    type="button"
-                    disabled={loadingInscripciones}
-                    className={loadingInscripciones ? "btn-loading" : "btn btn-primary btn-icon"}
-                    onClick={() => handleInscripciones(selectedTurno)}>
-                    <span className="pi pi-plus"></span>
-                    {loadingInscripciones ? <LoaderMini></LoaderMini> : "Inscribirse en este horario"}
-                  </button>
-              }
-            </Modal.Footer>
-          </Modal>
+          
         </div>
       </main>
     );
