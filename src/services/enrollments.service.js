@@ -50,7 +50,7 @@ async function findAllByUserAndTurno(idUser, idTurno) {
 }
 
 async function create(inscripcion) {
-  return fetch(url + "api/inscripciones/inscripcion", {
+  return fetch(url + "api/enrollments", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

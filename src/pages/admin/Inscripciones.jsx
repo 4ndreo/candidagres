@@ -8,8 +8,8 @@ import Loader from "../../components/basics/Loader";
 import { AuthContext } from "../../App";
 import * as classesService from '../../services/classes.service';
 import * as userService from '../../services/users.service';
-import * as turnosService from '../../services/turnos.service';
-import * as inscripcionesService from '../../services/inscripciones.service';
+import * as turnosService from '../../services/shifts.service';
+import * as inscripcionesService from '../../services/enrollments.service';
 import { ConfirmDeleteModal } from "../../components/ConfirmDeleteModal/ConfirmDeleteModal";
 
 export default function Inscripciones() {

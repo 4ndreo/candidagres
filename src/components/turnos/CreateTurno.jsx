@@ -1,7 +1,7 @@
 import "../css/Edit.css";
 import React, { useEffect, useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import * as turnosService from "../../services/turnos.service";
+import * as turnosService from "../../services/shifts.service";
 import * as classesService from "../../services/classes.service";
 import { AuthContext } from "../../App";
 

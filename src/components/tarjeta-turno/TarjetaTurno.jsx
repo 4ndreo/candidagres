@@ -1,21 +1,33 @@
 import "./TarjetaTurno.css";
 
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { DateTime, Duration } from "luxon";
 import { useNavigate, useParams, Link } from "react-router-dom";
+import CustomBadge from "./CustomBadge/CustomBadge";
+import { Modal } from "react-bootstrap";
+import EnrollModal from "./EnrollModal/EnrollModal";
+import { AuthContext } from '../../App';
+
+
 export default function TarjetaTurno({
-  turno,
-  handleSelectedTurno,
-  handleSelectedInscripcion,
+  shift,
+  classData,
+  weekdays,
   handleMouseOver,
   handleMouseLeave,
   hoveredTurno,
-  handleShow,
   verifyInscripto,
-  inscripcion,
-  cupos,
 }) {
   const factor = 70;
+
+  const context = useContext(AuthContext);
+
+  const [selectedTurno, setSelectedTurno] = useState({});
+  const [selectedInscripcion, setSelectedInscripcion] = useState({});
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  // const handleShow = () => setShow(true);
+
 
   function getDistancia(horaInicio, horaFin) {
     let start = DateTime.fromFormat(horaInicio, "HH:mm");
@@ -28,43 +40,52 @@ export default function TarjetaTurno({
     return parseInt(horas) + parseFloat(minutos) / 60;
   }
 
-    return (
+  function verifyInscripto() {
+    // const test = shift.enrollments.map(inscripcion =>
+    //   // context.currentUser._id === inscripcion.id_user && !inscripcion.deleted
+    //   Object.entries(inscripcion).some((x) => context.currentUser._id === x.id_user && !x.deleted)
+    //   )
+    shift.enrollments.some((x) => console.log(x.id_user, x.deleted))
+    const test = shift.enrollments.some((x) => context.currentUser._id === x.id_user && x.deleted === false)
+      // )
+    // console.log(test)
+    return test
+  }
+
+  return (
+    <>
+
       <div
-        className={ verifyInscripto(turno._id).some(val => val) || ((cupos.filter(cupo => cupo._id === turno._id )[0]?.totalQuantity ?? 0) === turno.max_turnos) ? "item-turno w-100 inscripto" : "item-turno w-100" }
+        className={verifyInscripto() || (shift.enrollmentsCount === shift.max_places) ? "item-turno w-100 inscripto" : "item-turno w-100"}
         style={{
-          height: (getDistancia(turno.horarioInicio, turno.horarioFin) * factor > factor ? getDistancia(turno.horarioInicio, turno.horarioFin) * factor : factor) + "px",
-          top: getDistancia("09:00", turno.horarioInicio) * factor + "px",
-          border: "2px solid " + hoveredTurno === turno._id ? "hsl(220 50% 70% / 1)" : "#e6e6e6",
-          backgroundColor: hoveredTurno === turno._id ? "hsl(220 50% 70% / 1)" : "#e6e6e6",
+          height: (getDistancia(shift.start_time, shift.end_time) * factor > factor ? getDistancia(shift.start_time, shift.end_time) * factor : factor) + "px",
+          top: getDistancia("09:00", shift.start_time) * factor + "px",
+          border: "2px solid " + hoveredTurno === shift._id ? "hsl(220 50% 70% / 1)" : "#e6e6e6",
+          backgroundColor: hoveredTurno === shift._id ? "hsl(220 50% 70% / 1)" : "#e6e6e6",
         }}
         // onClick={() => {handleSelectedTurno(turno); handleCloseTooltip(true);}}
-        onClick={() => {handleShow(); handleSelectedTurno(turno); handleSelectedInscripcion(inscripcion)}}
-        onMouseEnter={() => handleMouseOver(turno._id)}
-        onMouseLeave={() => handleMouseLeave(turno._id)}
+        onClick={() => setShow(true)}
+        onMouseEnter={() => handleMouseOver(shift._id)}
+        onMouseLeave={() => handleMouseLeave(shift._id)}
       >
         <div className="d-flex justify-content-between mb-2">
-        <h3>{turno.nombre}</h3>
-        {verifyInscripto(turno._id).some(val => val)
-        ?
-        <span className="badge badge-inscripto badge bg-secondary">
-          <svg className="me-1" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="m10.6 16.6l7.05-7.05l-1.4-1.4l-5.65 5.65l-2.85-2.85l-1.4 1.4l4.25 4.25ZM12 22q-2.075 0-3.9-.788t-3.175-2.137q-1.35-1.35-2.137-3.175T2 12q0-2.075.788-3.9t2.137-3.175q1.35-1.35 3.175-2.137T12 2q2.075 0 3.9.788t3.175 2.137q1.35 1.35 2.138 3.175T22 12q0 2.075-.788 3.9t-2.137 3.175q-1.35 1.35-3.175 2.138T12 22Z"/></svg>
-          <span>Inscripto</span>
-        </span>
-        : (
-          ((cupos.filter(cupo => cupo._id === turno._id )[0]?.totalQuantity ?? 0) === turno.max_turnos) ?
-        <span className="badge badge-full bg-secondary">
-          <svg className="me-1" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="m10.6 16.6l7.05-7.05l-1.4-1.4l-5.65 5.65l-2.85-2.85l-1.4 1.4l4.25 4.25ZM12 22q-2.075 0-3.9-.788t-3.175-2.137q-1.35-1.35-2.137-3.175T2 12q0-2.075.788-3.9t2.137-3.175q1.35-1.35 3.175-2.137T12 2q2.075 0 3.9.788t3.175 2.137q1.35 1.35 2.138 3.175T22 12q0 2.075-.788 3.9t-2.137 3.175q-1.35 1.35-3.175 2.138T12 22Z"/></svg>
-          <span>Completo</span>
-        </span>
-        : null
-        )}
-          </div>
-        <div className="d-flex justify-content-between">
-          <span>{turno.horarioInicio}-{turno.horarioFin}hs</span>
-          <span className="cupos">{cupos.filter(cupo => cupo._id === turno._id )[0]?.totalQuantity ?? 0}/{turno.max_turnos}</span>
+          <h3>{shift.title}</h3>
+          {verifyInscripto()
+            ?
+            <CustomBadge props={{ label: "Inscripto", icon: "check-circle" }} />
+            :
+            (shift.enrollmentsCount === shift.max_places) ?? <CustomBadge props={{ label: "Completo", icon: "ban" }} />
+          }
         </div>
-        
+        <div className="d-flex justify-content-between">
+          <span>{shift.start_time}-{shift.end_time}hs</span>
+          <span className="d-flex align-items-center gap-1"><span className="pi pi-user"></span>{shift.enrollmentsCount}/{shift.max_places}</span>
+        </div>
+
       </div>
-    );
+      {/* {JSON.stringify(show)} */}
+      {show && <EnrollModal props={{ show, setShow, classData, shift, weekdays, verifyInscripto }} />}
+    </>
+  );
   // }
 }

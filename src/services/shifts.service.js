@@ -1,7 +1,7 @@
 const url = "http://localhost:2025/";
 
 async function find() {
-    return fetch(url + "api/turnos", {
+    return fetch(url + "api/shifts", {
         headers: {
             'auth-token': localStorage.getItem('token')
         }

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
-import * as turnosService from "../../services/turnos.service";
-import * as inscripcionesService from "../../services/inscripciones.service";
+import * as turnosService from "../../services/shifts.service";
+import * as inscripcionesService from "../../services/enrollments.service";
 import * as classesService from "../../services/classes.service";
 
 import { useNavigate, useParams } from "react-router-dom";

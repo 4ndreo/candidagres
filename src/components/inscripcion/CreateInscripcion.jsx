@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
-import * as turnosService from "../../services/turnos.service";
-import * as inscripcionesService from "../../services/inscripciones.service";
+import * as turnosService from "../../services/shifts.service";
+import * as inscripcionesService from "../../services/enrollments.service";
 
 import { AuthContext } from "../../App";
 
