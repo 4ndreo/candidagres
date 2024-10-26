@@ -60,8 +60,8 @@ async function create(inscripcion) {
   }).then((response) => response.json());
 }
 
-async function remove(idInscripciones) {
-  return fetch(url + "api/inscripciones/" + idInscripciones, {
+async function remove(id) {
+  return fetch(url + "api/enrollments/" + id, {
     method: "DELETE",
     headers: {
       "auth-token": localStorage.getItem("token"),

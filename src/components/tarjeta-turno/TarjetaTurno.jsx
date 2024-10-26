@@ -9,29 +9,17 @@ import EnrollModal from "./EnrollModal/EnrollModal";
 import { AuthContext } from '../../App';
 
 
-export default function TarjetaTurno({
-  shift,
-  classData,
-  weekdays,
-  handleMouseOver,
-  handleMouseLeave,
-  hoveredTurno,
-  verifyInscripto,
-}) {
+export default function TarjetaTurno({ props }) {
   const factor = 70;
 
   const context = useContext(AuthContext);
 
-  const [selectedTurno, setSelectedTurno] = useState({});
-  const [selectedInscripcion, setSelectedInscripcion] = useState({});
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  // const handleShow = () => setShow(true);
+  const [userEnrollment, setUserEnrollment] = useState();
 
-
-  function getDistancia(horaInicio, horaFin) {
-    let start = DateTime.fromFormat(horaInicio, "HH:mm");
-    let end = DateTime.fromFormat(horaFin, "HH:mm");
+  function getDistancia(start_time, end_time) {
+    let start = DateTime.fromFormat(start_time, "HH:mm");
+    let end = DateTime.fromFormat(end_time, "HH:mm");
     let diff = end.diff(start, "hours", "minutes").toFormat("hh:mm");
 
     let horas = DateTime.fromFormat(diff, "HH:mm").toFormat("HH");
@@ -40,51 +28,48 @@ export default function TarjetaTurno({
     return parseInt(horas) + parseFloat(minutos) / 60;
   }
 
-  function verifyInscripto() {
-    // const test = shift.enrollments.map(inscripcion =>
-    //   // context.currentUser._id === inscripcion.id_user && !inscripcion.deleted
-    //   Object.entries(inscripcion).some((x) => context.currentUser._id === x.id_user && !x.deleted)
-    //   )
-    shift.enrollments.some((x) => console.log(x.id_user, x.deleted))
-    const test = shift.enrollments.some((x) => context.currentUser._id === x.id_user && x.deleted === false)
-      // )
-    // console.log(test)
-    return test
+  useEffect(() => {
+    setUserEnrollment(verifyEnrollment()[0]?._id ?? null)
+  }, [props.classData])
+
+  function verifyEnrollment() {
+    return props.shift.enrollments.filter((x) => context.currentUser._id === x.id_user && x.deleted === false)
+  }
+
+  const renderBadge = () => {
+    if (userEnrollment) return <CustomBadge props={{ label: "Inscripto", icon: "check-circle" }} />;
+    if (props.shift.enrollmentsCount === props.shift.max_places) return <CustomBadge props={{ label: "Completo", icon: "lock" }} />;
   }
 
   return (
     <>
 
       <div
-        className={verifyInscripto() || (shift.enrollmentsCount === shift.max_places) ? "item-turno w-100 inscripto" : "item-turno w-100"}
+        className={userEnrollment || (props.shift.enrollmentsCount === props.shift.max_places) ? "item-turno w-100 inscripto" : "item-turno w-100"}
         style={{
-          height: (getDistancia(shift.start_time, shift.end_time) * factor > factor ? getDistancia(shift.start_time, shift.end_time) * factor : factor) + "px",
-          top: getDistancia("09:00", shift.start_time) * factor + "px",
-          border: "2px solid " + hoveredTurno === shift._id ? "hsl(220 50% 70% / 1)" : "#e6e6e6",
-          backgroundColor: hoveredTurno === shift._id ? "hsl(220 50% 70% / 1)" : "#e6e6e6",
+          height: (getDistancia(props.shift.start_time, props.shift.end_time) * factor > factor ? getDistancia(props.shift.start_time, props.shift.end_time) * factor : factor) + "px",
+          top: getDistancia("09:00", props.shift.start_time) * factor + "px",
+          border: "2px solid " + props.hoveredTurno === props.shift._id ? "hsl(220 50% 70% / 1)" : "#e6e6e6",
+          backgroundColor: props.hoveredTurno === props.shift._id ? "hsl(220 50% 70% / 1)" : "#e6e6e6",
         }}
         // onClick={() => {handleSelectedTurno(turno); handleCloseTooltip(true);}}
         onClick={() => setShow(true)}
-        onMouseEnter={() => handleMouseOver(shift._id)}
-        onMouseLeave={() => handleMouseLeave(shift._id)}
+        onMouseEnter={() => props.handleMouseOver(props.shift._id)}
+        onMouseLeave={() => props.handleMouseLeave(props.shift._id)}
       >
         <div className="d-flex justify-content-between mb-2">
-          <h3>{shift.title}</h3>
-          {verifyInscripto()
-            ?
-            <CustomBadge props={{ label: "Inscripto", icon: "check-circle" }} />
-            :
-            (shift.enrollmentsCount === shift.max_places) ?? <CustomBadge props={{ label: "Completo", icon: "ban" }} />
-          }
+          <h3>{props.shift.title}</h3>
+          {renderBadge()}
         </div>
         <div className="d-flex justify-content-between">
-          <span>{shift.start_time}-{shift.end_time}hs</span>
-          <span className="d-flex align-items-center gap-1"><span className="pi pi-user"></span>{shift.enrollmentsCount}/{shift.max_places}</span>
+          <span>{props.shift.start_time}-{props.shift.end_time}hs</span>
+          <span className="d-flex align-items-center gap-1"><span className="pi pi-user"></span>{props.shift.enrollmentsCount}/{props.shift.max_places}</span>
         </div>
 
       </div>
-      {/* {JSON.stringify(show)} */}
-      {show && <EnrollModal props={{ show, setShow, classData, shift, weekdays, verifyInscripto }} />}
+      {show && <EnrollModal props={{
+        show, setShow, classData: props.classData, shift: props.shift, weekdays: props.weekdays, userEnrollment, refetch: props.refetch
+      }} />}
     </>
   );
   // }

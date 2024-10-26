@@ -1,0 +1,21 @@
+.enroll-modal-cont .enroll-modal-cont .btn-remove-enrollment {
+    transition: all 0.3s ease
+}
+
+.enroll-modal-cont .btn-remove-enrollment .pi-check-circle,
+.enroll-modal-cont .btn-remove-enrollment .pi-times-circle {
+    transition: all 0.3s ease
+}
+
+
+.enroll-modal-cont .btn-remove-enrollment:hover .pi-check-circle {
+    transform: rotate(180deg);
+}
+
+.enroll-modal-cont .btn-remove-enrollment:hover .pi-times-circle {
+    transform: rotate(180deg);
+}
+.enroll-modal-cont .mini-loader-cont {
+    width: 1.5rem;
+    height: 1.5rem;
+}
