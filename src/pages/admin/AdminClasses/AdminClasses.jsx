@@ -15,6 +15,7 @@ import "../css/AdminTable.css";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
 import React, { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../../../App";
 
 // Services
 import * as classesService from "../../../services/classes.service";
@@ -27,7 +28,6 @@ import Paginator from "../../../components/Paginator/Paginator";
 // External Libraries
 import { Button, ButtonGroup, Dropdown, Form } from "react-bootstrap";
 import CustomToast from "../../../components/basics/CustomToast/CustomToast";
-import { AuthContext } from "../../../App";
 
 export default function AdminClasses() {
   const value = useContext(AuthContext);

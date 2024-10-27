@@ -8,7 +8,6 @@ import Footer from "./components/basics/Footer";
 import Home from "./pages/Home";
 
 
-import Turnos from "./pages/admin/Turnos";
 import { CreateTurno } from "./components/turnos/CreateTurno";
 import { EditTurno } from "./components/turnos/EditTurno";
 
@@ -47,6 +46,7 @@ import Register from "./components/Register/Register";
 import { FormClass } from "./components/FormClass/FormClass";
 import ClassesPage from "./pages/Classes/Classes";
 import { ShiftsPage } from "./pages/Shifts/Shifts";
+import AdminShifts from "./pages/admin/AdminShifts/AdminShifts";
 
 export const AuthContext = createContext();
 
@@ -88,17 +88,7 @@ function App() {
 
           <Route path="*" element={<Home />} />
 
-          {/* Rutas de turnos */}
 
-          <Route path="/panel/turnos" element={<Turnos />} />
-          <Route
-            path="/panel/turnos/turno"
-            element={<CreateTurno title={"Turno"} />}
-          />
-          <Route
-            path="/panel/turnos/turno/id-:idTurno"
-            element={<EditTurno title={"Turno"} />}
-          />
 
 
 
@@ -146,6 +136,18 @@ function App() {
             <Route
               path="classes/:id"
               element={<FormClass props={{ title: "Clase" }} />}
+            />
+
+            {/* Rutas de turnos */}
+
+            <Route path="shifts" element={<AdminShifts />} />
+            <Route
+              path="shifts/new"
+              element={<CreateTurno title={"Comisión"} />}
+            />
+            <Route
+              path="shifts/:id"
+              element={<EditTurno title={"Comisión"} />}
             />
           </Route>
 

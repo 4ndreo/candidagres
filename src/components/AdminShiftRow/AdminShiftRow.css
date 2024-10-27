@@ -1,0 +1,10 @@
+.cont-admin-products-row td {
+    vertical-align: middle;
+    max-width: 300px;
+}
+
+.cont-admin-products-row td img {
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    max-width: 50px;
+}
