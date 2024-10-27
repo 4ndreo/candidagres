@@ -70,16 +70,9 @@ export default function Header() {
                             <NavDropdown.Item href="/admin/classes">
                               Clases
                             </NavDropdown.Item>
-                            <NavDropdown.Item href="/panel/turnos">
-                              Turnos
+                            <NavDropdown.Item href="/admin/shifts">
+                              Comisiones
                             </NavDropdown.Item>
-                          </>
-                        )}
-                        <NavDropdown.Item href="/admin/products">
-                          Productos
-                        </NavDropdown.Item>
-                        {value.currentUser.role === 1 && (
-                          <>
                             <NavDropdown.Item href="/Inscripciones">
                               Inscripciones
                             </NavDropdown.Item>
@@ -88,6 +81,9 @@ export default function Header() {
                             </NavDropdown.Item>
                           </>
                         )}
+                        <NavDropdown.Item href="/admin/products">
+                          Productos
+                        </NavDropdown.Item>
                       </NavDropdown>
                     )}
                     <Dropdown align="end">

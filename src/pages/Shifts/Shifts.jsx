@@ -14,6 +14,7 @@ import LoaderMini from "../../components/basics/LoaderMini";
 import Loader from "../../components/basics/Loader";
 import TarjetaTurno from "../../components/tarjeta-turno/TarjetaTurno";
 import { useQuery } from "react-query";
+import { weekdays } from "../../utils/utils";
 
 export function ShiftsPage() {
   let navigate = useNavigate();
@@ -32,14 +33,6 @@ export function ShiftsPage() {
   );
 
   const [hoveredTurno, setHoveredTurno] = useState("");
-
-  const weekdays = [
-    { id: "D1", name: "Lunes", },
-    { id: "D2", name: "Martes", },
-    { id: "D3", name: "Miércoles", },
-    { id: "D4", name: "Jueves", },
-    { id: "D5", name: "Viernes", },
-  ];
 
   function handleMouseOver(id) {
     setHoveredTurno(id);
