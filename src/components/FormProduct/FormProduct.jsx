@@ -8,7 +8,7 @@ import CustomToast from "../basics/CustomToast/CustomToast";
 
 const imageMimeType = /image\/(png|jpg|jpeg)/i;
 
-export function FormProduct({ props }) {
+export default function FormProduct({ props }) {
   const SERVER_URL = process.env.REACT_APP_SERVER_URL;
   const [imageError, setImageError] = useState(null);
   const [file, setFile] = useState(null);
