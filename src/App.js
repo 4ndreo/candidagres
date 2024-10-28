@@ -3,27 +3,36 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import React, { createContext, useEffect, useState } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
+
+// Basics
 import Header from "./components/basics/Header";
-import Footer from "./components/basics/Footer";
 import Home from "./pages/Home";
+import Footer from "./components/basics/Footer";
 
+// Auth
+import AuthPage from "./pages/Auth/Auth";
+import Login from "./components/Login/Login";
+import Register from "./components/Register/Register";
 
-import { CreateTurno } from "./components/turnos/CreateTurno";
-import { EditTurno } from "./components/turnos/EditTurno";
-
+// Admin
+import Admin from "./pages/admin/Admin";
 import AdminClasses from "./pages/admin/AdminClasses/AdminClasses";
-import { CreateClass } from "./pages/admin/CreateClass/CreateClass";
-import { EditClass } from "./pages/admin/EditClass/EditClass";
-
+import FormClass from "./components/FormClass/FormClass";
+import AdminProducts from "./pages/admin/AdminProducts/AdminProducts";
+import FormProduct from "./components/FormProduct/FormProduct";
+import AdminShifts from "./pages/admin/AdminShifts/AdminShifts";
+import FormShift from "./components/FormShift/FormShift";
 import Inscripciones from "./pages/admin/Inscripciones";
 import { CreateInscripcion } from "./components/inscripcion/CreateInscripcion";
 import { CreateInscripcionUser } from "./components/inscripcion/CreateInscripcionUser";
 import { EditInscripcion } from "./components/inscripcion/EditInscripcion";
 
-import AdminProducts from "./pages/admin/AdminProducts/AdminProducts";
+// Store
+import { VerTienda } from "./pages/Store/VerTienda";
+import { ViewProduct } from "./pages/Store/ViewProducto/ViewProduct";
+import StorePage from "./pages/Store";
+import { Cart } from "./pages/Store/Cart/Cart";
 
-import Store from "./pages/Store";
-import VerProductoId from "./pages/VerProducto"
 
 import Perfil from "./pages/Perfil";
 import { PerfilTurnos } from "./components/perfil/PerfilTurnos";
@@ -31,23 +40,11 @@ import { PerfilTurnos } from "./components/perfil/PerfilTurnos";
 import { Purchases } from "./pages/Store/Purchases/Purchases"
 
 import { Dashboard } from "./components/dashboard/Dashboard"
-import { VerTienda } from "./pages/Store/VerTienda";
 import MisClases from "./pages/MisClases";
 import { VerPerfil } from "./components/perfil/ver/VerPerfil";
 import { EditarPerfil } from "./components/perfil/editar/EditarPerfil";
-import Admin from "./pages/admin/Admin";
-import { ViewProduct } from "./pages/Store/ViewProducto/ViewProduct";
-import { Cart } from "./pages/Store/Cart/Cart";
-import { FormProduct } from "./components/FormProduct/FormProduct";
-import StorePage from "./pages/Store";
-import AuthPage from "./pages/Auth/Auth";
-import Login from "./components/Login/Login";
-import Register from "./components/Register/Register";
-import { FormClass } from "./components/FormClass/FormClass";
 import ClassesPage from "./pages/Classes/Classes";
 import { ShiftsPage } from "./pages/Shifts/Shifts";
-import AdminShifts from "./pages/admin/AdminShifts/AdminShifts";
-import { FormShift } from "./components/FormShift/FormShift";
 
 export const AuthContext = createContext();
 

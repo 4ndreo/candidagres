@@ -18,7 +18,7 @@ import { weekdays } from "../../utils/utils";
 // External Libraries
 import { Dropdown } from "react-bootstrap";
 
-export function FormShift({ props }) {
+export default function FormShift({ props }) {
   const [isLoading, setIsLoading] = useState(false);
 
   let navigate = useNavigate();

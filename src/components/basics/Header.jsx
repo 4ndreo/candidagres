@@ -46,7 +46,7 @@ export default function Header() {
             <Navbar.Toggle aria-controls="menu-nav" />
             <Navbar.Collapse id="menu-nav">
               <Nav className="nav-menu">
-                <Link to="/">Home</Link>
+                <Link to="/">Inicio</Link>
                 {!value.token ? (
                   <>
                     <Link to="/auth/login">Ingresar</Link>

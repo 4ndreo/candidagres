@@ -8,7 +8,7 @@ import CustomToast from "../basics/CustomToast/CustomToast";
 
 const imageMimeType = /image\/(png|jpg|jpeg)/i;
 
-export function FormClass({ props }) {
+export default function FormClass({ props }) {
   const [isLoading, setIsLoading] = useState(false);
 
   let navigate = useNavigate();

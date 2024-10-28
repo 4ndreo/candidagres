@@ -1,5 +1,5 @@
 // Styles
-import "./AdminShifts.css";
+import "./AdminEnrollments.css";
 import "../css/AdminTable.css";
 
 // React
@@ -21,7 +21,7 @@ import CustomToast from "../../../components/basics/CustomToast/CustomToast";
 // External Libraries
 import { Button, ButtonGroup, Dropdown, Form } from "react-bootstrap";
 
-export default function AdminShifts() {
+export default function AdminEnrollments() {
   const value = useContext(AuthContext);
 
   const cols = [
