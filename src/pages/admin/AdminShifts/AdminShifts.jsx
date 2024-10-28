@@ -16,10 +16,10 @@ import * as classesService from "../../../services/classes.service";
 import Loader from "../../../components/basics/Loader";
 import AdminShiftRow from "../../../components/AdminShiftRow/AdminShiftRow";
 import Paginator from "../../../components/Paginator/Paginator";
+import CustomToast from "../../../components/basics/CustomToast/CustomToast";
 
 // External Libraries
 import { Button, ButtonGroup, Dropdown, Form } from "react-bootstrap";
-import CustomToast from "../../../components/basics/CustomToast/CustomToast";
 
 // import "./AdminShifts.css";
 
