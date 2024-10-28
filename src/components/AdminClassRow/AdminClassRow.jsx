@@ -3,7 +3,6 @@ import './AdminClassRow.css';
 import { Modal } from "react-bootstrap";
 import { Link } from 'react-router-dom';
 import * as classesService from "../../services/classes.service";
-import * as mediaService from "../../services/media.service";
 import { AuthContext } from '../../App';
 
 export default function AdminClassRow({ props }) {
@@ -54,11 +53,11 @@ export default function AdminClassRow({ props }) {
                 </td>
               )
             case 'string':
-              return (<td key={index} className="text-center">{props.item[col.field]}</td>)
+              return <td key={index} className="text-left"><span className="d-flex justify-content-center">{props.item[col.field]}</span></td>
             case 'number':
-              return (<td key={index} className="text-center">{parseInt(props.item[col.field])}</td>)
+              return <td key={index} className="text-center">{parseInt(props.item[col.field])}</td>
             case 'currency':
-              return (<td key={index} className="text-center">${parseInt(props.item[col.field])}</td>)
+              return <td key={index} className="text-center">${parseInt(props.item[col.field])}</td>
             case 'created_by':
               return (
                 value.currentUser?.role === 1 &&
@@ -75,7 +74,7 @@ export default function AdminClassRow({ props }) {
       </tr>
       <Modal show={show} onHide={handleClose} size="lg" variant="white" className="modal-delete">
         <Modal.Header className="modal-title" closeButton>
-          <Modal.Title className="negritas">¿Seguro querés eliminar la clase "{deleting?.title}"?</Modal.Title>
+          <Modal.Title className="negritas">¿Seguro querés eliminar "{deleting?.title}"?</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <p><span className="negritas">Esta acción es irreversible</span></p>

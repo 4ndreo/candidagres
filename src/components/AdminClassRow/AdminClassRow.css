@@ -1,5 +1,6 @@
 .cont-admin-classes-row td {
     vertical-align: middle;
+    max-width: 300px;
 }
 
 .cont-admin-classes-row td img {
