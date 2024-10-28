@@ -47,6 +47,7 @@ import { FormClass } from "./components/FormClass/FormClass";
 import ClassesPage from "./pages/Classes/Classes";
 import { ShiftsPage } from "./pages/Shifts/Shifts";
 import AdminShifts from "./pages/admin/AdminShifts/AdminShifts";
+import { FormShift } from "./components/FormShift/FormShift";
 
 export const AuthContext = createContext();
 
@@ -110,7 +111,7 @@ function App() {
 
           {/* --------------- / ---------------- */}
           <Route path="classes" element={<ClassesPage />} />
-          <Route path="classes/:id/shifts" element={<ShiftsPage title={"Comisiones"} />} />
+          <Route path="classes/:id/shifts" element={<ShiftsPage />} />
           {/* <Route path="classes/shifts/:id" element={<ShiftsPage title={"Comisiones"} />} /> */}
 
 
@@ -143,11 +144,11 @@ function App() {
             <Route path="shifts" element={<AdminShifts />} />
             <Route
               path="shifts/new"
-              element={<CreateTurno title={"Comisión"} />}
+              element={<FormShift props={{ title: "Comisión" }} />}
             />
             <Route
               path="shifts/:id"
-              element={<EditTurno title={"Comisión"} />}
+              element={<FormShift props={{ title: "Comisión" }} />}
             />
           </Route>
 

@@ -1,0 +1,12 @@
+.cont-admin-form-shifts form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem
+}
+
+
+@media (min-width: 992px) {
+  .cont-admin-form-shifts .w-lg-50 {
+    width: 50% !important;
+  }
+}
