@@ -39,18 +39,17 @@ export default function AdminShifts() {
   const [request, setRequest] = useState({
     page: 0,
     limit: 10,
-    filter: JSON.stringify({ field: undefined, value: undefined }),
-    sort: JSON.stringify({ field: undefined, direction: 1 }),
+    filter: [{ field: 'undefined', value: 'undefined' }],
+    sort: { field: 'undefined', direction: 1 },
   });
 
   const fetchShifts = async (request) => {
-    const result = await shiftsService.findQuery(request);
+    const result = await shiftsService.findQuery({ ...request, filter: JSON.stringify(request.filter), sort: JSON.stringify(request.sort) });
     return result[0];
   }
 
   const fetchClasses = async () => {
     const result = await classesService.find();
-    console.log(result)
     return result;
   }
 
@@ -78,16 +77,27 @@ export default function AdminShifts() {
 
 
   function handleFilter(field, value) {
-    setRequest({ ...request, filter: JSON.stringify({ field, value }) });
+    if (request.filter.some(x => x.field === field)) {
+      request.filter[request.filter.findIndex(x => x.field === field)] = { field, value }
+    } else {
+      request.filter.push({ field, value })
+    }
+
+    setRequest({ ...request });
   }
 
   function handleSort(field) {
-    const parsedSort = JSON.parse(request.sort)
+    const parsedSort = request.sort
     if (parsedSort.field === field) {
-      setRequest({ ...request, sort: JSON.stringify({ field, direction: parsedSort.direction === 1 ? -1 : 1 }) });
+      setRequest({ ...request, sort: { field, direction: parsedSort.direction === 1 ? -1 : 1 } });
     } else {
-      setRequest({ ...request, sort: JSON.stringify({ field, direction: 1 }) });
+      setRequest({ ...request, sort: { field, direction: 1 } });
     }
+  }
+
+  function handleClear(field) {
+    request.filter[request.filter.findIndex(x => x.field === field)] = {}
+    setRequest({ ...request });
   }
 
   function handlePaginate(page) {
@@ -118,17 +128,17 @@ export default function AdminShifts() {
             <Dropdown as={ButtonGroup}>
               <Button className="col-label" variant="link" onClick={(e) => { e.preventDefault(); handleSort(col.field) }}>
                 <span>{col.header}</span>
-                {JSON.parse(request.sort).field === col.field && <span className={"pi pi-sort-alpha" + (JSON.parse(request.sort).direction === 1 ? "-down" : "-down-alt")}></span>}
+                {request.sort.field === col.field && <span className={"pi pi-sort-alpha" + (request.sort.direction === 1 ? "-down" : "-down-alt")}></span>}
               </Button>
 
-              <Dropdown.Toggle split as={JSON.parse(request.filter)?.field === col.field ? renderSelectedFilterMenu : renderFilterMenu} />
+              <Dropdown.Toggle split as={request.filter.some(x => x.field === col.field) ? renderSelectedFilterMenu : renderFilterMenu} />
 
 
               <Dropdown.Menu className="cont-search">
                 <Form onSubmit={(e) => { e.preventDefault(); handleFilter(col.field, e.target.filter.value) }}>
                   <Form.Control type="text" name="filter" autoFocus placeholder={"Buscar por " + col.header} />
                   <div className="d-flex mt-2 justify-content-end gap-2">
-                    <Button variant="outline-secondary" onClick={(e) => { e.preventDefault(); handleFilter(undefined, undefined) }}>Limpiar</Button>
+                    <Button variant="outline-secondary" onClick={(e) => { e.preventDefault(); handleClear(col.field) }}>Limpiar</Button>
                     <Button variant="primary" type="submit">Aplicar</Button>
                   </div>
                 </Form>
@@ -143,7 +153,7 @@ export default function AdminShifts() {
             <Dropdown as={ButtonGroup}>
               <Button className="col-label" variant="link" onClick={(e) => { e.preventDefault(); handleSort(col.field) }}>
                 <span>{col.header}</span>
-                {JSON.parse(request.sort).field === col.field && <span className={"pi pi-sort-numeric" + (JSON.parse(request.sort).direction === 1 ? "-down" : "-down-alt")}></span>}
+                {request.sort.field === col.field && <span className={"pi pi-sort-numeric" + (request.sort.direction === 1 ? "-down" : "-down-alt")}></span>}
               </Button>
             </Dropdown>
           </th>
@@ -153,7 +163,7 @@ export default function AdminShifts() {
           <th className="col-header" scope="col" key={col.field}>
             <Dropdown as={ButtonGroup}>
               <span>{col.header}</span>
-              <Dropdown.Toggle split as={JSON.parse(request.filter)?.field === col.field ? renderSelectedFilterMenu : renderFilterMenu} />
+              <Dropdown.Toggle split as={request.filter.some(x => x.field === 'id_' + col.field) ? renderSelectedFilterMenu : renderFilterMenu} />
               <Dropdown.Menu className="cont-search">
                 <Form onSubmit={(e) => { e.preventDefault(); handleFilter('id_' + col.field, e.target.filter.value) }}>
                   <Form.Select id={col.field} name="filter">

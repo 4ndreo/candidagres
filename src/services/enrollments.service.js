@@ -6,7 +6,28 @@ async function find() {
       "auth-token": localStorage.getItem("token"),
     },
   }).then((response) => response.json())
-  .catch((err) => {return err});
+    .catch((err) => { return err });
+}
+
+async function findQuery(request) {
+  // Construct the full URL
+  const fullUrl = new URL(url + "shifts");
+
+  // Add query parameters to the URL
+  Object.entries(request).forEach(([key, value]) => {
+    if (Array.isArray(value)) {
+      value.forEach(v => fullUrl.searchParams.append(key, v));
+    } else {
+      fullUrl.searchParams.append(key, value);
+    }
+  });
+
+  return fetch(fullUrl, {
+    headers: {
+      'auth-token': localStorage.getItem('token')
+    },
+  }).then((response) => response.json()
+  ).catch(() => { throw new Error('Error: no se pudieron obtener los registros. Inténtelo de nuevo más tarde') });
 }
 
 async function findById(idInscripciones) {

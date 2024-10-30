@@ -30,8 +30,29 @@ async function findQuery(request) {
     ).catch(() => { throw new Error('Error: no se pudieron obtener los registros. Inténtelo de nuevo más tarde') });
 }
 
+
+async function filter(id) {
+    return fetch(url + "shifts/" + id, {
+        headers: {
+            'auth-token': localStorage.getItem('token')
+        }
+    }).then((response) =>
+        response.json()
+    ).catch(() => { throw new Error('Error: no se pudieron obtener los registros. Inténtelo de nuevo más tarde') });
+}
+
 async function findById(id) {
     return fetch(url + "shifts/" + id, {
+        headers: {
+            'auth-token': localStorage.getItem('token')
+        }
+    }).then((response) =>
+        response.json()
+    ).catch(() => { throw new Error('Error: no se pudieron obtener los registros. Inténtelo de nuevo más tarde') });
+}
+
+async function findOneWithEnrollments(id) {
+    return fetch(url + "shifts/" + id + "/enrollments", {
         headers: {
             'auth-token': localStorage.getItem('token')
         }
@@ -81,4 +102,4 @@ async function update(id, data) {
     }).then((response) => response.json());
 }
 
-export { find, findQuery, findById, findByCurso, create, remove, update };
+export { find, findQuery, findById, findOneWithEnrollments, findByCurso, create, remove, update };
