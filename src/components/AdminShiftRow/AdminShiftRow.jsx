@@ -66,8 +66,8 @@ export default function AdminShiftRow({ props }) {
             case 'image':
               return (<td key={index} className="text-center"><img src={SERVER_URL + "uploads/" + props.item[col.field]} className="img-fluid rounded" alt={props.item.descripcion} /></td>)
             case 'relation':
-              // return JSON.stringify(props.item[col.field])
-              return (props.item[col.field].length > 0 ? <td key={index} className="text-center">{props.item[col.field][0][[col.relationField]]}</td> : <td key={index} className="text-center"></td>)
+              // return <td key={index}>{JSON.stringify(props.item[col.field])}</td>
+              return ( <td key={index} className="text-center">{props.item[col.field][col.relationField]}</td>)
             // case 'date':
             default:
               return (<td key={index} className="text-center">{props.item[col.field]}</td>)

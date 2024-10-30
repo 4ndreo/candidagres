@@ -11,7 +11,7 @@ import * as classesService from "../../services/classes.service";
 
 // Components
 import Loader from "../../components/basics/Loader";
-import ClassPreview from "../../ClassPreview/ClassPreview";
+import ClassPreview from "../../components/ClassPreview/ClassPreview";
 import Paginator from "../../components/Paginator/Paginator";
 import CustomToast from "../../components/basics/CustomToast/CustomToast";
 
@@ -21,12 +21,12 @@ export default function ClassesPage() {
   const [request, setRequest] = useState({
     page: 0,
     limit: 12,
-    filter: JSON.stringify({ field: undefined, value: undefined }),
-    sort: JSON.stringify({ field: undefined, direction: 1 }),
+    filter: [{ field: 'undefined', value: 'undefined' }],
+    sort: { field: 'undefined', direction: 1 },
   });
 
   const fetchProducts = async (request) => {
-    const result = await classesService.findQuery(request);
+    const result = await classesService.findQuery({ ...request, filter: JSON.stringify(request.filter), sort: JSON.stringify(request.sort) });
     return result[0];
   }
 
