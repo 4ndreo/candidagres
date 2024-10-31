@@ -1,4 +1,4 @@
-const url = "http://localhost:2025/";
+const url = process.env.REACT_APP_API_URL
 
 async function find() {
   return fetch(url + "api/inscripciones", {
@@ -11,7 +11,7 @@ async function find() {
 
 async function findQuery(request) {
   // Construct the full URL
-  const fullUrl = new URL(url + "shifts");
+  const fullUrl = new URL(url + "enrollments");
 
   // Add query parameters to the URL
   Object.entries(request).forEach(([key, value]) => {
@@ -101,4 +101,4 @@ async function update(idInscripciones, inscripcion) {
   }).then((response) => response.json());
 }
 
-export { find, findById, countInscripcionesByCurso, findByUser, findAllByUserAndTurno, findAllByUser, create, remove, update };
+export { find, findQuery, findById, countInscripcionesByCurso, findByUser, findAllByUserAndTurno, findAllByUser, create, remove, update };

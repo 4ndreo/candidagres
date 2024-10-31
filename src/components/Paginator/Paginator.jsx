@@ -32,26 +32,28 @@ export default function Paginator({ props }) {
       props.handlePaginateNext(page);
     }
   }
-  return (<nav aria-label="pagination">
-    <ul className="pagination justify-content-center">
-      <li className="page-item">
-        <button className={'page-link ' + (activePage === 1 ? 'disabled' : '')} onClick={() => handlePaginatePrevious(activePage)} aria-label="Anterior" aria-disabled={activePage === 1}>
-          <span aria-hidden="true">&laquo;</span>
-        </button>
-      </li>
-      {Array.from({ length: endPage - startPage }, (_, index) => {
-        return (index + startPage <= props.pages && <li key={index} className={`page-item ${(props.page / props.limit === index + startPage - 1) ? 'active' : ''}`}>
-          <button className="rounded-0 page-link" onClick={() => handlePaginate(index + startPage)}>
-            {index + startPage}
+  return (
+    <nav aria-label="paginator-cont">
+      <ul className="pagination justify-content-center">
+        <li className="page-item">
+          <button className={'page-link ' + (activePage === 1 ? 'disabled' : '')} onClick={() => handlePaginatePrevious(activePage)} aria-label="Anterior" aria-disabled={activePage === 1}>
+          <span aria-hidden="true">&lsaquo;</span>
           </button>
-        </li>)
-      }
-      )}
-      <li className="page-item">
-        <button className={'page-link ' + (activePage === props.pages ? 'disabled' : '')} onClick={() => handlePaginateNext(activePage)} aria-label="Siguiente" aria-disabled={activePage === props.pages}>
-          <span aria-hidden="true">&raquo;</span>
-        </button>
-      </li>
-    </ul>
-  </nav>)
+        </li>
+        {Array.from({ length: endPage - startPage }, (_, index) => {
+          return (index + startPage <= props.pages && <li key={index} className={`page-item ${(props.page / props.limit === index + startPage - 1) ? 'active' : ''}`}>
+            <button className="rounded-0 page-link" onClick={() => handlePaginate(index + startPage)}>
+              {index + startPage}
+            </button>
+          </li>)
+        }
+        )}
+        <li className="page-item">
+          <button className={'page-link ' + (activePage === props.pages ? 'disabled' : '')} onClick={() => handlePaginateNext(activePage)} aria-label="Siguiente" aria-disabled={activePage === props.pages}>
+            <span aria-hidden="true">&rsaquo;</span>
+          </button>
+        </li>
+      </ul>
+    </nav>
+  )
 }

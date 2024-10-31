@@ -9,8 +9,10 @@ import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../App";
 
 // Services
+import * as enrollmentsService from "../../../services/enrollments.service";
 import * as shiftsService from "../../../services/shifts.service";
 import * as classesService from "../../../services/classes.service";
+import * as usersService from "../../../services/users.service";
 
 // Components
 import Loader from "../../../components/basics/Loader";
@@ -20,19 +22,22 @@ import CustomToast from "../../../components/basics/CustomToast/CustomToast";
 
 // External Libraries
 import { Button, ButtonGroup, Dropdown, Form } from "react-bootstrap";
+import AdminEnrollmentRow from "../../../components/AdminEnrollmentRow/AdminEnrollmentRow";
 
 export default function AdminEnrollments() {
   const value = useContext(AuthContext);
 
   const cols = [
     { field: 'actions', header: 'Acciones', type: 'actions' },
-    { field: 'title', header: 'Título', type: 'string' },
-    { field: 'description', header: 'Descripción', type: 'string' },
-    { field: 'class', header: 'Clase', type: 'relation', relationField: 'title' },
-    { field: 'start_time', header: 'Inicio', type: 'string' },
-    { field: 'end_time', header: 'Fin', type: 'string' },
-    { field: 'max_places', header: 'Cupos', type: 'number' },
-    { field: 'days', header: 'Días', type: 'days' },
+    // { field: 'title', header: 'Título', type: 'string' },
+    // { field: 'description', header: 'Descripción', type: 'string' },
+    { field: 'shift.class.title', header: 'Clase', type: 'relation', relationField: 'shift.id_class', relationTable: 'classes' },
+    { field: 'shift.title', header: 'Comisión', type: 'relation', relationField: 'id_shift', relationTable: 'shifts' },
+    { field: 'user.email', header: 'Usuario', type: 'relation', relationField: 'id_user', relationTable: 'users' },
+    // { field: 'start_time', header: 'Inicio', type: 'string' },
+    // { field: 'end_time', header: 'Fin', type: 'string' },
+    // { field: 'max_places', header: 'Cupos', type: 'number' },
+    // { field: 'days', header: 'Días', type: 'days' },
   ]
 
   const [showToast, setShowToast] = useState(null);
@@ -43,6 +48,11 @@ export default function AdminEnrollments() {
     sort: { field: 'undefined', direction: 1 },
   });
 
+  const fetchEnrollments = async (request) => {
+    const result = await enrollmentsService.findQuery(request);
+    return result[0];
+  }
+
   const fetchShifts = async (request) => {
     const result = await shiftsService.findQuery(request);
     return result[0];
@@ -50,20 +60,33 @@ export default function AdminEnrollments() {
 
   const fetchClasses = async () => {
     const result = await classesService.find();
-    console.log(result)
     return result;
   }
 
-  const { data: shifts, isLoading, isError, error, refetch } = useQuery(
-    'shifts',
-    () => fetchShifts({ ...request, filter: JSON.stringify(request.filter), sort: JSON.stringify(request.sort) }),
+  const fetchUsers = async () => {
+    const result = await usersService.find();
+    return result;
+  }
+
+  const { data: enrollments, isLoading, isError, error, refetch } = useQuery(
+    'enrollments',
+    () => fetchEnrollments({ ...request, filter: JSON.stringify(request.filter), sort: JSON.stringify(request.sort) }),
     {
       staleTime: Infinity,
       retry: 2,
     }
   );
 
-  const { data: classes, isLoadingClasses, isErrorClasses, errorClasses, refetchClasses } = useQuery(
+  const { data: shifts, refetch: refetchShifts } = useQuery(
+    'shifts',
+    () => fetchShifts(request.filter.filter(x => x.field === 'shift.id_class').length > 0 ? { filter: JSON.stringify([{ field: "id_class", value: request.filter.filter(x => x.field === 'shift.id_class')[0].value }]) } : { filter: JSON.stringify([{ "field": "undefined", "value": "undefined" }]) }),
+    {
+      staleTime: Infinity,
+      retry: 2,
+    }
+  );
+
+  const { data: classes } = useQuery(
     'classes',
     fetchClasses,
     {
@@ -72,8 +95,18 @@ export default function AdminEnrollments() {
     }
   );
 
+  const { data: users } = useQuery(
+    'users',
+    fetchUsers,
+    {
+      staleTime: Infinity,
+      retry: 2,
+    }
+  );
+
   useEffect(() => {
     refetch();
+    refetchShifts();
   }, [request]);
 
 
@@ -84,15 +117,15 @@ export default function AdminEnrollments() {
       request.filter.push({ field, value })
     }
 
-    setRequest({ ...request });
+    setRequest({ ...request, page: 0 });
   }
 
   function handleSort(field) {
     const parsedSort = request.sort
     if (parsedSort.field === field) {
-      setRequest({ ...request, sort: { field, direction: parsedSort.direction === 1 ? -1 : 1 } });
+      setRequest({ ...request, page: 0, sort: { field, direction: parsedSort.direction === 1 ? -1 : 1 } });
     } else {
-      setRequest({ ...request, sort: { field, direction: 1 } });
+      setRequest({ ...request, page: 0, sort: { field, direction: 1 } });
     }
   }
 
@@ -125,7 +158,7 @@ export default function AdminEnrollments() {
     switch (col.type) {
       case 'string':
         return (
-          <th className="col-header" scope="col" key={col.field}>
+          <th className="col-header" scope="col" key={col.relationTable}>
             <Dropdown as={ButtonGroup}>
               <Button className="col-label" variant="link" onClick={(e) => { e.preventDefault(); handleSort(col.field) }}>
                 <span>{col.header}</span>
@@ -164,16 +197,38 @@ export default function AdminEnrollments() {
           <th className="col-header" scope="col" key={col.field}>
             <Dropdown as={ButtonGroup}>
               <span>{col.header}</span>
-              <Dropdown.Toggle split as={request.filter.some(x => x.field === col.field) ? renderSelectedFilterMenu : renderFilterMenu} />
+              <Dropdown.Toggle split as={request.filter.some(x => x.field === col.relationField) ? renderSelectedFilterMenu : renderFilterMenu} />
               <Dropdown.Menu className="cont-search">
-                <Form onSubmit={(e) => { e.preventDefault(); handleFilter('id_' + col.field, e.target.filter.value) }}>
+
+                <Form onSubmit={(e) => { e.preventDefault(); handleFilter(col.relationField, e.target.filter.value) }}>
                   <Form.Select id={col.field} name="filter">
-                    {classes?.map((x) => (
-                      <option key={x._id} value={x._id}>{x.title}</option>
-                    ))}
+                    {col.relationTable === 'classes' && (
+                      classes?.map((x) => (
+                        <option key={x._id} value={x._id}>{x.title}</option>
+                      )) ?? <option key={0} disabled>No hay clases...</option>
+                    )}
+                    {col.relationTable === 'shifts' && (
+                      shifts?.data?.map((x) => (
+                        <option key={x._id} value={x._id}>{x.title}</option>
+                      )) ?? <option key={0} disabled>No hay comisiones...</option>
+                    )}
+                    {col.relationTable === 'users' && (
+                      users?.map((x) => (
+                        <option key={x._id} value={x._id}>{x.email}</option>
+                      )) ?? <option key={0} disabled>No hay comisiones...</option>
+                    )}
+                    {/* {col.relationTable === 'classes' ? (
+                      classes?.map((x) => (
+                        <option key={x._id} value={x._id}>{x.title}</option>
+                      )) ?? <option key={0} disabled>No hay clases...</option>
+                    ) : col.relationTable === 'shifts' ? (
+                      shifts?.data?.map((x) => (
+                        <option key={x._id} value={x._id}>{x.title}</option>
+                      )) ?? <option key={0} disabled>No hay comisiones...</option>
+                    ) : null} */}
                   </Form.Select>
                   <div className="d-flex mt-2 justify-content-end gap-2">
-                    <Button variant="outline-secondary" onClick={(e) => { e.preventDefault(); handleClear(col.field) }}>Limpiar</Button>
+                    <Button variant="outline-secondary" onClick={(e) => { e.preventDefault(); handleClear(col.relationField) }}>Limpiar</Button>
                     <Button variant="primary" type="submit">Aplicar</Button>
                   </div>
                 </Form>
@@ -232,10 +287,7 @@ export default function AdminEnrollments() {
     <div className="cont-admin-shifts admin-table">
       <div className="d-md-flex justify-content-between align-items-center mb-3">
 
-        <h1>Administrar Comisiones</h1>
-        <Link to="new" className="btn btn-primary btn-icon">
-          <span className="pi pi-plus"></span>Crear una Comisión
-        </Link>
+        <h1>Administrar Inscripciones</h1>
       </div>
       {isError ?
         renderError() :
@@ -251,9 +303,9 @@ export default function AdminEnrollments() {
                 </tr>
               </thead>
               <tbody>
-                {shifts?.data.length > 0 ?
-                  shifts?.data?.map((item) => {
-                    return <AdminShiftRow props={{ item: item, refetch: refetch, cols: cols, showEdit: true, showDelete: true, setShowToast: setShowToast }} key={item._id} />
+                {enrollments?.data.length > 0 ?
+                  enrollments?.data?.map((item) => {
+                    return <AdminEnrollmentRow props={{ item: item, refetch: refetch, cols: cols, showEdit: false, showDelete: true, setShowToast: setShowToast }} key={item._id} />
                   })
                   :
                   <tr>
@@ -265,8 +317,8 @@ export default function AdminEnrollments() {
           </div>
         </div>
       }
-      {shifts?.data.length > 0 &&
-        <Paginator props={{ pages: shifts?.pages ?? 0, count: shifts?.count ?? 0, page: request.page, limit: request.limit, handlePaginate: handlePaginate, handlePaginateNext: handlePaginateNext, handlePaginatePrevious: handlePaginatePrevious }} />
+      {enrollments?.data.length > 0 &&
+        <Paginator props={{ pages: enrollments?.pages ?? 0, count: enrollments?.count ?? 0, page: request.page, limit: request.limit, handlePaginate: handlePaginate, handlePaginateNext: handlePaginateNext, handlePaginatePrevious: handlePaginatePrevious }} />
 
       }
       <CustomToast props={{ data: showToast, setShowToast: setShowToast }} />

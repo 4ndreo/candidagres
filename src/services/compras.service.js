@@ -1,4 +1,4 @@
-const url = "http://localhost:2025/";
+const url = process.env.REACT_APP_API_URL
 
 async function find() {
     return fetch(url + "api/compras", {
