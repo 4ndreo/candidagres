@@ -1,12 +1,3 @@
-// import "./AdminClasses.css";
-
-// import React, { useEffect, useState, useContext } from "react";
-// import { Link, useNavigate } from "react-router-dom";
-// import * as classesService from "../../../services/classes.service";
-// import { AuthContext } from "../../../App";
-// import * as inscripcionesService from "../../../services/inscripciones.service";
-// import { useQuery } from "react-query";
-
 // Styles
 import "./AdminClasses.css";
 import "../css/AdminTable.css";
@@ -83,15 +74,15 @@ export default function AdminClasses() {
       request.filter.push({ field, value })
     }
 
-    setRequest({ ...request });
+    setRequest({ ...request, page: 0 });
   }
 
   function handleSort(field) {
     const parsedSort = request.sort
     if (parsedSort.field === field) {
-      setRequest({ ...request, sort: { field, direction: parsedSort.direction === 1 ? -1 : 1 } });
+      setRequest({ ...request, page: 0, sort: { field, direction: parsedSort.direction === 1 ? -1 : 1 } });
     } else {
-      setRequest({ ...request, sort: { field, direction: 1 } });
+      setRequest({ ...request, page: 0, sort: { field, direction: 1 } });
     }
   }
 

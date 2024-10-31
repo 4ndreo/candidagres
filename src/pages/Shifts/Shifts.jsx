@@ -1,24 +1,14 @@
 import "./Shifts.css";
 
-import React, { useEffect, useState } from "react";
-import { useNavigate, useParams, Link } from "react-router-dom";
-import * as turnosService from "../../services/shifts.service";
+import React, { useState } from "react";
+import { useParams } from "react-router-dom";
 import * as classesService from "../../services/classes.service";
-// import * as shiftsService from "../../services/shifts.service";
-import * as inscripcionesService from "../../services/enrollments.service";
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
-import { useContext } from "react";
-import { AuthContext } from "../../App";
-import LoaderMini from "../../components/basics/LoaderMini";
 import Loader from "../../components/basics/Loader";
 import TarjetaTurno from "../../components/tarjeta-turno/TarjetaTurno";
 import { useQuery } from "react-query";
 import { weekdays } from "../../utils/utils";
 
 export function ShiftsPage() {
-  let navigate = useNavigate();
-  // const value = useContext(AuthContext);
   const params = useParams();
 
   const fetchShifts = async () => {

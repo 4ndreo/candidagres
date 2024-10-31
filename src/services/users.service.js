@@ -1,7 +1,7 @@
-const url = "http://localhost:2025/";
+const url = process.env.REACT_APP_API_URL
 
 async function find() {
-  return fetch(url + "api/users", {
+  return fetch(url + "users", {
     headers: {
       'auth-token': localStorage.getItem('token')
     }
@@ -10,7 +10,7 @@ async function find() {
 }
 
 async function findById(idUser) {
-  return fetch(url + "api/users/" + idUser, {
+  return fetch(url + "users/" + idUser, {
     headers: {
       'auth-token': localStorage.getItem('token')
     }
@@ -20,7 +20,7 @@ async function findById(idUser) {
 }
 
 async function create(user) {
-  return fetch(url + "api/users/user", {
+  return fetch(url + "users/user", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -31,7 +31,7 @@ async function create(user) {
 }
 
 async function remove(idUser) {
-  return fetch(url + "api/users/" + idUser, {
+  return fetch(url + "users/" + idUser, {
     method: "DELETE",
     headers: {
       'auth-token': localStorage.getItem('token')
@@ -41,7 +41,7 @@ async function remove(idUser) {
 
 async function update(idUser, user) {
   console.log(user)
-  return fetch(url + "api/users/" + idUser, {
+  return fetch(url + "users/" + idUser, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
@@ -53,7 +53,7 @@ async function update(idUser, user) {
 
 async function updateProfile(idUser, user) {
   console.log(user)
-  return fetch(url + "api/profile/" + idUser, {
+  return fetch(url + "profile/" + idUser, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",

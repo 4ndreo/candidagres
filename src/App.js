@@ -45,6 +45,7 @@ import { VerPerfil } from "./components/perfil/ver/VerPerfil";
 import { EditarPerfil } from "./components/perfil/editar/EditarPerfil";
 import ClassesPage from "./pages/Classes/Classes";
 import { ShiftsPage } from "./pages/Shifts/Shifts";
+import AdminEnrollments from "./pages/admin/AdminEnrollments/AdminEnrollments";
 
 export const AuthContext = createContext();
 
@@ -91,7 +92,7 @@ function App() {
 
 
           {/* Rutas de Inscripciones */}
-          <Route path="/inscripciones" element={<Inscripciones />} />
+          {/* <Route path="/inscripciones" element={<Inscripciones />} /> */}
           {/*<Route*/}
           {/*  path="/inscripciones/inscripcion"*/}
           {/*  element={<CreateInscripcion title={"Inscripción"} />}*/}
@@ -136,7 +137,7 @@ function App() {
               element={<FormClass props={{ title: "Clase" }} />}
             />
 
-            {/* Rutas de turnos */}
+            {/* Rutas de comisiones */}
 
             <Route path="shifts" element={<AdminShifts />} />
             <Route
@@ -147,6 +148,18 @@ function App() {
               path="shifts/:id"
               element={<FormShift props={{ title: "Comisión" }} />}
             />
+
+            {/* Rutas de inscripciones */}
+
+            <Route path="enrollments" element={<AdminEnrollments />} />
+            {/* <Route
+              path="shifts/new"
+              element={<FormShift props={{ title: "Comisión" }} />}
+            />
+            <Route
+              path="shifts/:id"
+              element={<FormShift props={{ title: "Comisión" }} />}
+            /> */}
           </Route>
 
           {/* Rutas de Tienda */}

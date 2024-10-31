@@ -73,7 +73,7 @@ export default function Header() {
                             <NavDropdown.Item href="/admin/shifts">
                               Comisiones
                             </NavDropdown.Item>
-                            <NavDropdown.Item href="/Inscripciones">
+                            <NavDropdown.Item href="/admin/enrollments">
                               Inscripciones
                             </NavDropdown.Item>
                             <NavDropdown.Item href="/Dashboard">

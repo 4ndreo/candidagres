@@ -1,14 +1,13 @@
-import { useContext, useState } from 'react';
-import './AdminProductRow.css';
+import { useState } from 'react';
+import './AdminEnrollmentRow.css';
 import { Modal } from "react-bootstrap";
 import { Link } from 'react-router-dom';
-import * as productosService from "../../services/productos.service";
+import * as shiftsService from "../../services/shifts.service";
 import * as mediaService from "../../services/media.service";
-import { AuthContext } from '../../App';
+import { getNestedProperty, weekdays } from '../../utils/utils';
 
-export default function AdminProductRow({ props }) {
+export default function AdminEnrollmentRow({ props }) {
   const SERVER_URL = process.env.REACT_APP_SERVER_URL;
-  const value = useContext(AuthContext);
 
   const [deleting, setDeleting] = useState();
   const [show, setShow] = useState(false);
@@ -23,19 +22,18 @@ export default function AdminProductRow({ props }) {
 
   async function handleConfirmDelete(item) {
     try {
-      await productosService.remove(item._id)
-      await mediaService.removeImage(item.img)
-      props.setShowToast({ show: true, title: 'Éxito', message: 'El producto se ha eliminado', variant: 'success', position: 'top-end' });
+      await shiftsService.remove(item._id)
+      props.setShowToast({ show: true, title: 'Éxito', message: 'La comisión se ha eliminado', variant: 'success', position: 'top-end' });
       props.refetch();
     } catch (err) {
-      props.setShowToast({ show: true, title: 'Error al eliminar el producto', message: 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end' });
+      props.setShowToast({ show: true, title: 'Error al eliminar la comisión', message: 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end' });
 
     }
   }
 
   return (
     <>
-      <tr className="cont-admin-products-row">
+      <tr className="cont-admin-enrollments-row">
         {props.cols.map((col, index) => {
           switch (col.type) {
             case 'actions':
@@ -61,13 +59,15 @@ export default function AdminProductRow({ props }) {
               return <td key={index} className="text-center">{parseInt(props.item[col.field])}</td>
             case 'currency':
               return <td key={index} className="text-center">${parseInt(props.item[col.field])}</td>
-            case 'created_by':
+            case 'days':
               return (
-                value.currentUser?.role === 1 &&
-                <td key={index} className="text-center">{props.item.user.email}</td>
+                <td key={index} className="text-center">{weekdays.filter(day => props.item[col.field].includes(day.id)).map(day => day.name).join(', ')}</td>
               )
             case 'image':
               return (<td key={index} className="text-center"><img src={SERVER_URL + "uploads/" + props.item[col.field]} className="img-fluid rounded" alt={props.item.descripcion} /></td>)
+            case 'relation':
+              // return <td key={index}>{JSON.stringify(getNestedProperty(props.item, col.field) ? getNestedProperty(props.item, col.field): null)}</td>
+              return ( <td key={index} className="text-center">{getNestedProperty(props.item, col.field) ? getNestedProperty(props.item, col.field) : null}</td>)
             // case 'date':
             default:
               return (<td key={index} className="text-center">{props.item[col.field]}</td>)

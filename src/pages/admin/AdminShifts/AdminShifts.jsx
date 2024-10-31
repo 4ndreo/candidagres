@@ -83,15 +83,15 @@ export default function AdminShifts() {
       request.filter.push({ field, value })
     }
 
-    setRequest({ ...request });
+    setRequest({ ...request, page: 0 });
   }
 
   function handleSort(field) {
     const parsedSort = request.sort
     if (parsedSort.field === field) {
-      setRequest({ ...request, sort: { field, direction: parsedSort.direction === 1 ? -1 : 1 } });
+      setRequest({ ...request, page: 0, sort: { field, direction: parsedSort.direction === 1 ? -1 : 1 } });
     } else {
-      setRequest({ ...request, sort: { field, direction: 1 } });
+      setRequest({ ...request, page: 0, sort: { field, direction: 1 } });
     }
   }
 
