@@ -1,12 +1,13 @@
 const url = process.env.REACT_APP_API_URL
 
-async function find() {
+async function find(signal) {
   return fetch(url + "users", {
     headers: {
       'auth-token': localStorage.getItem('token')
-    }
+    },
+    signal
   }).then((response) => response.json())
-  .catch((err) => {return err});
+    .catch((err) => { return err });
 }
 
 async function findById(idUser) {

@@ -1,7 +1,7 @@
 const url = process.env.REACT_APP_API_URL
 
 async function find() {
-    return fetch(url + "api/compras", {
+    return fetch(url + "compras", {
         headers: {
             'auth-token': localStorage.getItem('token')
         }
@@ -10,7 +10,7 @@ async function find() {
 }
 
 async function findById(idCompra) {
-    return fetch(url + "api/compras/" + idCompra, {
+    return fetch(url + "compras/" + idCompra, {
         headers: {
             'auth-token': localStorage.getItem('token')
         }
@@ -20,7 +20,7 @@ async function findById(idCompra) {
 }
 
 async function findByIdUser(idUser) {
-    return fetch(url + "api/compras/user/" + idUser, {
+    return fetch(url + "compras/user/" + idUser, {
         headers: {
             'auth-token': localStorage.getItem('token')
         }
@@ -30,7 +30,7 @@ async function findByIdUser(idUser) {
 }
 
 async function create(data) {
-    return fetch(url + "api/compras/compra", {
+    return fetch(url + "compras/compra", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -42,7 +42,7 @@ async function create(data) {
 }
 
 async function remove(idCompra) {
-    return fetch(url + "api/compras/" + idCompra, {
+    return fetch(url + "compras/" + idCompra, {
         method: "DELETE",
         headers: {
             'auth-token': localStorage.getItem('token')
@@ -53,7 +53,7 @@ async function remove(idCompra) {
 
 async function update(compra) {
     console.log("service.compra", compra)
-    return fetch(url + "api/compras/" + compra._id, {
+    return fetch(url + "compras/" + compra._id, {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json",
@@ -65,7 +65,7 @@ async function update(compra) {
 }
 
 // async function savePurchase(data) {
-//     return fetch(url + "api/compras/" + data._id, {
+//     return fetch(url + "compras/" + data._id, {
 //         method: "PATCH",
 //         headers: {
 //             "Content-Type": "application/json",

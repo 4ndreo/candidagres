@@ -1,7 +1,7 @@
 const url = process.env.REACT_APP_API_URL
 
 async function find() {
-    return fetch(url + "api/carrito", {
+    return fetch(url + "carrito", {
         headers: {
             'auth-token': localStorage.getItem('token')
         }
@@ -11,7 +11,7 @@ async function find() {
 }
 
 async function findById(idCarrito) {
-    return fetch(url + "api/carrito/" + idCarrito, {
+    return fetch(url + "carrito/" + idCarrito, {
         headers: {
             'auth-token': localStorage.getItem('token')
         }
@@ -21,7 +21,7 @@ async function findById(idCarrito) {
 }
 
 async function findByIdUser(idUser) {
-    return fetch(url + "api/carrito/user/" + idUser, {
+    return fetch(url + "carrito/user/" + idUser, {
         headers: {
             'auth-token': localStorage.getItem('token')
         }
@@ -31,7 +31,7 @@ async function findByIdUser(idUser) {
 }
 
 async function findByIdUserFinalizado(idUser) {
-    return fetch(url + "api/carrito/user/finalizado/" + idUser, {
+    return fetch(url + "carrito/user/finalizado/" + idUser, {
         headers: {
             'auth-token': localStorage.getItem('token')
         }
@@ -41,7 +41,7 @@ async function findByIdUserFinalizado(idUser) {
 }
 
 async function create(usuarioId) {
-    return fetch(url + "api/carrito/carrito", {
+    return fetch(url + "carrito/carrito", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -53,7 +53,7 @@ async function create(usuarioId) {
 }
 
 async function remove(idCarrito) {
-    return fetch(url + "api/carrito/" + idCarrito, {
+    return fetch(url + "carrito/" + idCarrito, {
         method: "DELETE",
         headers: {
             'auth-token': localStorage.getItem('token')
@@ -64,7 +64,7 @@ async function remove(idCarrito) {
 
 async function update(carrito) {
     console.log("service.carrito", carrito)
-    return fetch(url + "api/carrito/" + carrito._id, {
+    return fetch(url + "carrito/" + carrito._id, {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json",
@@ -76,7 +76,7 @@ async function update(carrito) {
 }
 async function updateElimiarProducto(idCarrito, total, productoEnCarrito) {
 
-    return fetch(url + "api/carrito/user/" + idCarrito, {
+    return fetch(url + "carrito/user/" + idCarrito, {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json",
@@ -87,7 +87,7 @@ async function updateElimiarProducto(idCarrito, total, productoEnCarrito) {
 }
 
 async function createPreference(preference) {
-    return fetch(url + "api/create_preference", {
+    return fetch(url + "create_preference", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -99,7 +99,7 @@ async function createPreference(preference) {
 }
 
 async function addToCart(idUser, data) {
-    return fetch(url + "api/carrito/" + idUser + "/addToCart", {
+    return fetch(url + "carrito/" + idUser + "/addToCart", {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json",
@@ -111,7 +111,7 @@ async function addToCart(idUser, data) {
 }
 
 async function substractToCart(idUser, data) {
-    return fetch(url + "api/carrito/" + idUser + "/substractToCart", {
+    return fetch(url + "carrito/" + idUser + "/substractToCart", {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json",

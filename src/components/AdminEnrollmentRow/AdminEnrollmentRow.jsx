@@ -2,13 +2,10 @@ import { useState } from 'react';
 import './AdminEnrollmentRow.css';
 import { Modal } from "react-bootstrap";
 import { Link } from 'react-router-dom';
-import * as shiftsService from "../../services/shifts.service";
-import * as mediaService from "../../services/media.service";
+import * as enrollmentsService from "../../services/enrollments.service";
 import { getNestedProperty, weekdays } from '../../utils/utils';
 
 export default function AdminEnrollmentRow({ props }) {
-  const SERVER_URL = process.env.REACT_APP_SERVER_URL;
-
   const [deleting, setDeleting] = useState();
   const [show, setShow] = useState(false);
 
@@ -22,11 +19,11 @@ export default function AdminEnrollmentRow({ props }) {
 
   async function handleConfirmDelete(item) {
     try {
-      await shiftsService.remove(item._id)
-      props.setShowToast({ show: true, title: 'Éxito', message: 'La comisión se ha eliminado', variant: 'success', position: 'top-end' });
+      await enrollmentsService.remove(item._id)
+      props.setShowToast({ show: true, title: 'Éxito', message: 'La inscripción se ha eliminado', variant: 'success', position: 'top-end' });
       props.refetch();
     } catch (err) {
-      props.setShowToast({ show: true, title: 'Error al eliminar la comisión', message: 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end' });
+      props.setShowToast({ show: true, title: 'Error al eliminar la inscripción', message: 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end' });
 
     }
   }
@@ -63,11 +60,9 @@ export default function AdminEnrollmentRow({ props }) {
               return (
                 <td key={index} className="text-center">{weekdays.filter(day => props.item[col.field].includes(day.id)).map(day => day.name).join(', ')}</td>
               )
-            case 'image':
-              return (<td key={index} className="text-center"><img src={SERVER_URL + "uploads/" + props.item[col.field]} className="img-fluid rounded" alt={props.item.descripcion} /></td>)
             case 'relation':
               // return <td key={index}>{JSON.stringify(getNestedProperty(props.item, col.field) ? getNestedProperty(props.item, col.field): null)}</td>
-              return ( <td key={index} className="text-center">{getNestedProperty(props.item, col.field) ? getNestedProperty(props.item, col.field) : null}</td>)
+              return (<td key={index} className="text-center">{getNestedProperty(props.item, col.field) ? getNestedProperty(props.item, col.field) : null}</td>)
             // case 'date':
             default:
               return (<td key={index} className="text-center">{props.item[col.field]}</td>)
