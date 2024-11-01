@@ -1,4 +1,3 @@
-
 // Styles 
 import "./Classes.css";
 
@@ -25,14 +24,14 @@ export default function ClassesPage() {
     sort: { field: 'undefined', direction: 1 },
   });
 
-  const fetchProducts = async (request) => {
-    const result = await classesService.findQuery({ ...request, filter: JSON.stringify(request.filter), sort: JSON.stringify(request.sort) });
+  const fetchProducts = async (request, signal) => {
+    const result = await classesService.findQuery({ ...request, filter: JSON.stringify(request.filter), sort: JSON.stringify(request.sort) }, signal);
     return result[0];
   }
 
   const { data: classesData, isLoading, isError, error, refetch } = useQuery(
     'classesData',
-    () => fetchProducts(request),
+    async ({signal}) => fetchProducts(request, signal),
     {
       staleTime: Infinity,
       retry: 2,
@@ -74,13 +73,16 @@ export default function ClassesPage() {
         {isError ?
           renderError() :
           <ul className="classes-list">
-            {classesData?.data.map((item, index) => {
-              return (
-                <li key={index} className="">
-                  <ClassPreview props={{ item }}></ClassPreview>
-                </li>
-              );
-            })}
+            {classesData?.data.length > 0 ?
+              classesData?.data.map((item, index) => {
+                return (
+                  <li key={index} className="">
+                    <ClassPreview props={{ item }}></ClassPreview>
+                  </li>
+                );
+              }) :
+              <p>No hay clases disponibles.</p>
+            }
           </ul>}
       </div>
       {classesData?.data.length > 0 &&

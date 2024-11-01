@@ -26,18 +26,18 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode, Pagination } from "swiper";
 
 export default function Header() {
-  const [cursos, setCursos] = useState([]);
+  // const [cursos, setCursos] = useState([]);
 
   const value = useContext(AuthContext);
 
   let navigate = useNavigate();
 
-  useEffect(() => {
-    classesService.find().then((data) => {
-      setCursos(data);
-    });
-  }, []);
-  if (cursos.length > 0) {
+  // useEffect(() => {
+  //   classesService.find().then((data) => {
+  //     setCursos(data);
+  //   });
+  // }, []);
+  // if (cursos.length > 0) {
     return (
       <main className="container main">
         <div className="cont-home">
@@ -178,13 +178,13 @@ export default function Header() {
         </div>
       </main>
     );
-  } else {
-    return (
-      <main className="container main">
-        <Loader></Loader>
-      </main>
-    );
-  }
+  // } else {
+  //   return (
+  //     <main className="container main">
+  //       <Loader></Loader>
+  //     </main>
+  //   );
+  // }
 }
 
 // export default Header;

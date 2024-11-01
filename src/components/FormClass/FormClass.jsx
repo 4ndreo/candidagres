@@ -192,7 +192,7 @@ export default function FormClass({ props }) {
 
             </div>
             <div className="w-100">
-              <label htmlFor="price" className="form-label">Precio</label>
+              <label htmlFor="price" className="form-label">Valor de la cuota mensual</label>
               <div className="input-group">
                 <div className="input-group-prepend">
                   <span className="input-group-text">$</span>

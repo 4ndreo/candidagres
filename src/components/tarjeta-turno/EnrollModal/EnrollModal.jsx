@@ -90,7 +90,7 @@ export default function EnrollModal({ props }) {
           <span> de {props.shift.start_time}hs a {props.shift.end_time}hs</span>
         </p>
         <p><span className="negritas">Docente:</span> {props.classData.teacher.charAt(0).toUpperCase() + props.classData.teacher.slice(1)}</p>
-        <p><span className="negritas">Precio:</span> ${props.classData.price}</p>
+        <p><span className="negritas">Cuota mensual:</span> ${props.classData.price}</p>
       </Modal.Body>
       <Modal.Footer>
         {renderEnrollmentButton()}
