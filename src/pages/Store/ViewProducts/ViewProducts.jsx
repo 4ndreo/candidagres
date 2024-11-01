@@ -1,14 +1,14 @@
-import "./VerTienda.css";
+import "./ViewProducts.css";
 
 import React, { useEffect, useState } from "react";
-import * as productosService from "../../services/productos.service";
+import * as productosService from "../../../services/productos.service";
 
 import { useQuery } from "react-query";
-import Loader from "../../components/basics/Loader";
-import { StoreProduct } from "../../components/StoreProduct/StoreProduct";
+import Loader from "../../../components/basics/Loader";
+import { StoreProduct } from "../../../components/StoreProduct/StoreProduct";
 
 
-export function VerTienda() {
+export function ViewProducts() {
     const fetchProducts = async () => {
         const result = await productosService.find();
         return result;

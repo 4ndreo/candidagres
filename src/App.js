@@ -22,14 +22,10 @@ import AdminProducts from "./pages/admin/AdminProducts/AdminProducts";
 import FormProduct from "./components/FormProduct/FormProduct";
 import AdminShifts from "./pages/admin/AdminShifts/AdminShifts";
 import FormShift from "./components/FormShift/FormShift";
-import Inscripciones from "./pages/admin/Inscripciones";
-import { CreateInscripcion } from "./components/inscripcion/CreateInscripcion";
-import { CreateInscripcionUser } from "./components/inscripcion/CreateInscripcionUser";
-import { EditInscripcion } from "./components/inscripcion/EditInscripcion";
 
 // Store
-import { VerTienda } from "./pages/Store/VerTienda";
-import { ViewProduct } from "./pages/Store/ViewProducto/ViewProduct";
+import { ViewProducts } from "./pages/Store/ViewProducts/ViewProducts";
+import { ViewProduct } from "./pages/Store/ViewProduct/ViewProduct";
 import StorePage from "./pages/Store";
 import { Cart } from "./pages/Store/Cart/Cart";
 
@@ -165,7 +161,7 @@ function App() {
           {/* Rutas de Tienda */}
           <Route path="/store" element={<StorePage />}>
 
-            <Route path="" element={<VerTienda />} title={"Tienda"} />
+            <Route path="" element={<ViewProducts />} title={"Tienda"} />
             <Route path="item/:id" element={<ViewProduct />} />
             {/* Rutas de Carrito de Compras */}
 

@@ -60,7 +60,7 @@ export function ShiftsPage() {
                   <h2> {weekday.name}</h2>
                   <ul className="cont-TarjetaTurnos">
                     {classData?.shifts.map((shift) => {
-                      if (shift.days.some((day) => day === weekday.id)) {
+                      if (shift?.days?.some((day) => day === weekday.id)) {
                         return (
                           <TarjetaTurno
                             key={shift._id}
