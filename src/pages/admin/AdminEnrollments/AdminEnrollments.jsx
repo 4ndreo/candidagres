@@ -3,7 +3,6 @@ import "./AdminEnrollments.css";
 import "../css/AdminTable.css";
 
 // React
-import { Link } from "react-router-dom";
 import { useQuery } from "react-query";
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../App";
@@ -16,28 +15,21 @@ import * as usersService from "../../../services/users.service";
 
 // Components
 import Loader from "../../../components/basics/Loader";
-import AdminShiftRow from "../../../components/AdminShiftRow/AdminShiftRow";
 import Paginator from "../../../components/Paginator/Paginator";
 import CustomToast from "../../../components/basics/CustomToast/CustomToast";
+import AdminEnrollmentRow from "../../../components/AdminEnrollmentRow/AdminEnrollmentRow";
 
 // External Libraries
 import { Button, ButtonGroup, Dropdown, Form } from "react-bootstrap";
-import AdminEnrollmentRow from "../../../components/AdminEnrollmentRow/AdminEnrollmentRow";
 
 export default function AdminEnrollments() {
   const value = useContext(AuthContext);
 
   const cols = [
     { field: 'actions', header: 'Acciones', type: 'actions' },
-    // { field: 'title', header: 'Título', type: 'string' },
-    // { field: 'description', header: 'Descripción', type: 'string' },
     { field: 'shift.class.title', header: 'Clase', type: 'relation', relationField: 'shift.id_class', relationTable: 'classes' },
     { field: 'shift.title', header: 'Comisión', type: 'relation', relationField: 'id_shift', relationTable: 'shifts' },
     { field: 'user.email', header: 'Usuario', type: 'relation', relationField: 'id_user', relationTable: 'users' },
-    // { field: 'start_time', header: 'Inicio', type: 'string' },
-    // { field: 'end_time', header: 'Fin', type: 'string' },
-    // { field: 'max_places', header: 'Cupos', type: 'number' },
-    // { field: 'days', header: 'Días', type: 'days' },
   ]
 
   const [showToast, setShowToast] = useState(null);
@@ -48,29 +40,29 @@ export default function AdminEnrollments() {
     sort: { field: 'undefined', direction: 1 },
   });
 
-  const fetchEnrollments = async (request) => {
-    const result = await enrollmentsService.findQuery(request);
+  const fetchEnrollments = async (request, signal) => {
+    const result = await enrollmentsService.findQuery(request, signal);
     return result[0];
   }
 
-  const fetchShifts = async (request) => {
-    const result = await shiftsService.findQuery(request);
+  const fetchShifts = async (request, signal) => {
+    const result = await shiftsService.findQuery(request, signal);
     return result[0];
   }
 
-  const fetchClasses = async () => {
-    const result = await classesService.find();
+  const fetchClasses = async (signal) => {
+    const result = await classesService.find(signal);
     return result;
   }
 
-  const fetchUsers = async () => {
-    const result = await usersService.find();
+  const fetchUsers = async (signal) => {
+    const result = await usersService.find(signal);
     return result;
   }
 
   const { data: enrollments, isLoading, isError, error, refetch } = useQuery(
     'enrollments',
-    () => fetchEnrollments({ ...request, filter: JSON.stringify(request.filter), sort: JSON.stringify(request.sort) }),
+    async ({ signal }) => fetchEnrollments({ ...request, filter: JSON.stringify(request.filter), sort: JSON.stringify(request.sort)}, signal ),
     {
       staleTime: Infinity,
       retry: 2,
@@ -79,7 +71,7 @@ export default function AdminEnrollments() {
 
   const { data: shifts, refetch: refetchShifts } = useQuery(
     'shifts',
-    () => fetchShifts(request.filter.filter(x => x.field === 'shift.id_class').length > 0 ? { filter: JSON.stringify([{ field: "id_class", value: request.filter.filter(x => x.field === 'shift.id_class')[0].value }]) } : { filter: JSON.stringify([{ "field": "undefined", "value": "undefined" }]) }),
+    async ({signal}) => fetchShifts(request.filter.filter(x => x.field === 'shift.id_class').length > 0 ? { filter: JSON.stringify([{ field: "id_class", value: request.filter.filter(x => x.field === 'shift.id_class')[0].value }]) } : { filter: JSON.stringify([{ "field": "undefined", "value": "undefined" }]) }, signal),
     {
       staleTime: Infinity,
       retry: 2,
@@ -88,7 +80,7 @@ export default function AdminEnrollments() {
 
   const { data: classes } = useQuery(
     'classes',
-    fetchClasses,
+    async ({signal}) => fetchClasses(signal),
     {
       staleTime: Infinity,
       retry: 2,
@@ -97,7 +89,7 @@ export default function AdminEnrollments() {
 
   const { data: users } = useQuery(
     'users',
-    fetchUsers,
+    async ({signal}) => fetchUsers(signal),
     {
       staleTime: Infinity,
       retry: 2,
@@ -215,7 +207,7 @@ export default function AdminEnrollments() {
                     {col.relationTable === 'users' && (
                       users?.map((x) => (
                         <option key={x._id} value={x._id}>{x.email}</option>
-                      )) ?? <option key={0} disabled>No hay comisiones...</option>
+                      )) ?? <option key={0} disabled>No hay usuarios...</option>
                     )}
                     {/* {col.relationTable === 'classes' ? (
                       classes?.map((x) => (

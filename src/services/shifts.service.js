@@ -9,7 +9,7 @@ async function find() {
         .catch((err) => { return err });
 }
 
-async function findQuery(request) {
+async function findQuery(request, signal) {
     // Construct the full URL
     const fullUrl = new URL(url + "shifts");
 
@@ -26,6 +26,7 @@ async function findQuery(request) {
         headers: {
             'auth-token': localStorage.getItem('token')
         },
+        signal
     }).then((response) => response.json()
     ).catch(() => { throw new Error('Error: no se pudieron obtener los registros. Inténtelo de nuevo más tarde') });
 }
