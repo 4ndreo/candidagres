@@ -9,7 +9,7 @@ import { Purchase } from "../../../components/Purchase/Purchase";
 
 
 
-export function Purchases() {
+export default function Purchases() {
     const params = useParams();
 
     const fetchPurchases = async () => {

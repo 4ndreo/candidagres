@@ -1,4 +1,3 @@
-import logo from "./logo.svg";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import React, { createContext, useEffect, useState } from "react";
@@ -16,32 +15,34 @@ import Register from "./components/Register/Register";
 
 // Admin
 import Admin from "./pages/admin/Admin";
-import AdminClasses from "./pages/admin/AdminClasses/AdminClasses";
-import FormClass from "./components/FormClass/FormClass";
 import AdminProducts from "./pages/admin/AdminProducts/AdminProducts";
 import FormProduct from "./components/FormProduct/FormProduct";
+import AdminClasses from "./pages/admin/AdminClasses/AdminClasses";
+import FormClass from "./components/FormClass/FormClass";
 import AdminShifts from "./pages/admin/AdminShifts/AdminShifts";
 import FormShift from "./components/FormShift/FormShift";
+import AdminEnrollments from "./pages/admin/AdminEnrollments/AdminEnrollments";
 
 // Store
-import { ViewProducts } from "./pages/Store/ViewProducts/ViewProducts";
-import { ViewProduct } from "./pages/Store/ViewProduct/ViewProduct";
+import ViewProducts from "./pages/Store/ViewProducts/ViewProducts";
+import ViewProduct from "./pages/Store/ViewProduct/ViewProduct";
 import StorePage from "./pages/Store";
-import { Cart } from "./pages/Store/Cart/Cart";
+import Cart from "./pages/Store/Cart/Cart";
+import Purchases from "./pages/Store/Purchases/Purchases"
 
+// Classes
+import ClassesPage from "./pages/Classes/Classes";
+import { ShiftsPage } from "./pages/Shifts/Shifts";
 
-import Perfil from "./pages/Perfil";
-import { PerfilTurnos } from "./components/perfil/PerfilTurnos";
+// Profile
+import ProfilePage from "./pages/Profile/Profile";
+import { PerfilTurnos } from "./components/Profile/PerfilTurnos";
+import ViewProfileCard from "./components/Profile/ViewProfileCard/ViewProfileCard";
+import EditProfileCard from "./components/Profile/EditProfileCard/EditProfileCard";
 
-import { Purchases } from "./pages/Store/Purchases/Purchases"
 
 import { Dashboard } from "./components/dashboard/Dashboard"
 import MisClases from "./pages/MisClases";
-import { VerPerfil } from "./components/perfil/ver/VerPerfil";
-import { EditarPerfil } from "./components/perfil/editar/EditarPerfil";
-import ClassesPage from "./pages/Classes/Classes";
-import { ShiftsPage } from "./pages/Shifts/Shifts";
-import AdminEnrollments from "./pages/admin/AdminEnrollments/AdminEnrollments";
 
 export const AuthContext = createContext();
 
@@ -70,16 +71,8 @@ function App() {
         <Routes>
           <Route path="/auth" element={<AuthPage />}>
             <Route path="login" element={<Login />} />
-            <Route
-              path="register"
-              element={<Register />}
-            />
+            <Route path="register" element={<Register />} />
           </Route>
-          {/* <Route path="/login" element={<LoginPage onLogin={onLogin} />} />
-          <Route
-            path="/register"
-            element={<RegisterPage onLogin={onLogin} />}
-          /> */}
 
           <Route path="*" element={<Home />} />
 
@@ -171,9 +164,9 @@ function App() {
           </Route>
 
           {/* Rutas Perfil */}
-          <Route path="perfil" element={<Perfil />} >
-            <Route path="" element={<VerPerfil data={currentUser} />} title={"Tienda"} />
-            <Route path="editar/:id" element={<EditarPerfil data={currentUser} />} title={"Tienda"} />
+          <Route path="profile" element={<ProfilePage />}>
+            <Route path="" element={<ViewProfileCard props={{ data: currentUser }} />} />
+            <Route path="edit" element={<EditProfileCard props={{ data: currentUser }} />} />
           </Route>
           <Route path="/perfil/clases" element={<MisClases />} />
 

@@ -1,4 +1,4 @@
-import "../../pages/css/Perfil.css";
+import "../../pages/Profile/Profile.css";
 
 import React, { useEffect, useState } from "react";
 import * as inscripcionesService from "../../services/enrollments.service";

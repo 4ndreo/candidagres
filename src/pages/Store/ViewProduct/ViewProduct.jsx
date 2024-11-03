@@ -9,7 +9,7 @@ import { useParams } from "react-router-dom";
 
 
 
-export function ViewProduct(props) {
+export default function ViewProduct(props) {
   const SERVER_URL = process.env.REACT_APP_SERVER_URL;
   const context = useContext(AuthContext);
   const params = useParams();

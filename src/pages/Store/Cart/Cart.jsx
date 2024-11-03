@@ -20,7 +20,7 @@ import { Button, Card } from "react-bootstrap";
 import { initMercadoPago } from '@mercadopago/sdk-react'
 
 
-export function Cart() {
+export default function Cart() {
     const params = useParams();
 
     const [initPoint, setInitPoint] = useState(null);
