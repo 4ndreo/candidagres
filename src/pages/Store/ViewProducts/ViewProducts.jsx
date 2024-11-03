@@ -8,7 +8,7 @@ import Loader from "../../../components/basics/Loader";
 import { StoreProduct } from "../../../components/StoreProduct/StoreProduct";
 
 
-export function ViewProducts() {
+export default function ViewProducts() {
     const fetchProducts = async () => {
         const result = await productosService.find();
         return result;

@@ -6,6 +6,13 @@
   background: var(--main-blue);
 }
 
+.navbar-base-offcanvas {
+  display: flex;
+  color: white;
+  box-shadow: 0 8px 20px -15px rgba(0, 0, 0, 0.5);
+  background: var(--main-blue);
+}
+
 .brand {
   text-decoration: none;
   color: inherit;

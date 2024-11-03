@@ -1,4 +1,4 @@
-import "./EditarPerfil.css";
+import "./EditProfileCard.css";
 
 import UserImg from "../../../img/user.svg";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -9,16 +9,15 @@ import { AuthContext } from "../../../App";
 
 const imageMimeType = /image\/(png|jpg|jpeg)/i;
 
-export function EditarPerfil(data) {
+export default function EditProfileCard({props}) {
     const SERVER_URL = process.env.REACT_APP_SERVER_URL;
     let navigate = useNavigate();
-    const params = useParams();
     const value = useContext(AuthContext);
 
     const [user, setUser] = useState({
-        name: data.data.name,
-        email: data.data.email,
-        imagen: data.data.imagen
+        name: props.data.name,
+        email: props.data.email,
+        imagen: props.data.imagen
     });
     const [imageError, setImageError] = useState(null);
     const [file, setFile] = useState(null);
@@ -53,13 +52,13 @@ export function EditarPerfil(data) {
         //         navigate("/perfil", { replace: true });
         //     });
         usersService
-            .updateProfile(params?.id, { name: user.name, imagen: user.imagen })
+            .updateProfile(props.data.id, { name: user.name, imagen: user.imagen })
             .then((data) => {
                 console.log('user', value.currentUser)
                 if (file) {
                     return mediaService.uploadImagen(file).then((nombreImg) => {
                         console.log("nombreImg", nombreImg);
-                        usersService.update(params?.id, { imagen: nombreImg }).then((data) => {
+                        usersService.update(props.data?.id, { imagen: nombreImg }).then((data) => {
                             console.log('nombreImg', nombreImg)
                             localStorage.setItem("user", JSON.stringify({ ...value.currentUser, name: user.name, imagen: nombreImg }));
                             value.setCurrentUser({ ...value.currentUser, name: user.name, imagen: nombreImg });
@@ -92,7 +91,7 @@ export function EditarPerfil(data) {
 
     return (
         <div className="card card-editar-perfil-container">
-            <Link to="/perfil" className="btn btn-link back-btn btn-icon"><span className="pi pi-angle-left"></span>Volver</Link>
+            <Link to="/profile" className="btn btn-link back-btn btn-icon"><span className="pi pi-angle-left"></span>Volver</Link>
             <img className="avatar-img" src={fileDataURL ? fileDataURL : (user.imagen ? SERVER_URL + "uploads/" + user.imagen : UserImg)} alt="Imagen de perfil del usuario" />
             <form onSubmit={handleSubmit} className="form">
                 <div className="mb-3">
