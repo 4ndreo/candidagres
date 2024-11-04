@@ -32,104 +32,108 @@ export default function Header() {
 
   let navigate = useNavigate();
 
-  // useEffect(() => {
-  //   classesService.find().then((data) => {
-  //     setCursos(data);
-  //   });
-  // }, []);
+  useEffect(() => {
+    console.log(window.innerWidth)
+    console.log(window.innerWidth / 700)
+  }, []);
   // if (cursos.length > 0) {
-    return (
-      <main className="container main">
-        <div className="cont-home">
-          <section className="bnida-cont">
-            <h1 className="bnida-title">
-              ¡Bienvenidas y bienvenidos a Cándida Gres!
-            </h1>
-            <p className="bnida-bajada">Tu imaginación, en tus manos.</p>
-          </section>
-          <section className="taller d-flex">
-            <div className="taller-data">
-              <h2>Taller</h2>
-              <p>
-                En el taller se pretende crear un espacio para la práctica del
-                hacer cerámico, la decoración y la ornamentación de las
-                creaciones propias, pudiendo con esto desarrollar la autonomía y
-                puesta en práctica de las capacidades adquiridas.
-              </p>
-              <p>
-                El universo cerámico es muy amplio. Hay diversas maneras de
-                construir y en nuestro taller, acompañamos la libre exploración
-                sobre las diversas técnicas de trabajo del material. Hay quienes
-                dan sus primeros pasos en el torno y quienes se están
-                perfeccionando.
-              </p>
-              <p>
-                {" "}
-                Permanecemos en constante búsqueda de creaciones innovadoras
-                para que tengas siempre algo nuevo y diferente. ¡Animate!
-              </p>
-            </div>
+  return (
+    <main className="container main">
+      <div className="cont-home">
+        <section className="bnida-cont">
+          <h1 className="bnida-title">
+            ¡Bienvenidas y bienvenidos a Cándida Gres!
+          </h1>
+          <p className="bnida-bajada">Tu imaginación, en tus manos.</p>
+        </section>
+        <section className="row justify-content-between g-4">
+          <div className="taller-data col-12 col-md-5">
+            <h2>Taller</h2>
+            <p>
+              En el taller se pretende crear un espacio para la práctica del
+              hacer cerámico, la decoración y la ornamentación de las
+              creaciones propias, pudiendo con esto desarrollar la autonomía y
+              puesta en práctica de las capacidades adquiridas.
+            </p>
+            <p>
+              El universo cerámico es muy amplio. Hay diversas maneras de
+              construir y en nuestro taller, acompañamos la libre exploración
+              sobre las diversas técnicas de trabajo del material. Hay quienes
+              dan sus primeros pasos en el torno y quienes se están
+              perfeccionando.
+            </p>
+            <p>
+              {" "}
+              Permanecemos en constante búsqueda de creaciones innovadoras
+              para que tengas siempre algo nuevo y diferente. ¡Animate!
+            </p>
+          </div>
+          <div className="col-12 col-md-6">
+
             <img
-              className="img-bnida"
+              className="img-bnida w-100"
               src={Taller_Img}
               alt="Taller donde se imparten las clases en Cándida Gres."
             />
-          </section>
-          <section className="clases d-flex">
-            <div className="taller-data">
-              <h2>Clases</h2>
-              <p>
-                Las clases de cerámica se plantean como una actividad donde
-                quienes deseen participar podrán adquirir destrezas y
-                competencias que podrán aplicar en situaciones propias del hacer
-                cerámico. Los participantes serán capaces de conocer el proceso
-                de elaboración de la pasta cerámica, amasarla, centrarla en el
-                torno, ahuecarla, estirarla verticalmente, tornear y retornear,
-                ornamentar y decorar.
-              </p>
-              <p>
-                El objetivo de este taller es el de crear un ámbito de
-                conocimiento, aprendizaje y expresión a través de la cerámica.
-                La arcilla es un material de potencialidades únicas, y al
-                trabajar con ella conectamos con algo ancestral, que ha
-                acompañado a todas las culturas humanas desde sus inicios.
-              </p>
-              <p>
-                la clase está dirigido a adultos con o sin experiencia previa.
-                La modalidad de trabajo es una guía personalizada en la
-                concepción y desarrollo de proyectos personales, incluyendo a
-                quienes –a pesar de contar con conocimientos anteriores- deseen
-                profundizar determinadas temáticas o técnicas específicas.
-              </p>
-            </div>
-            <img
-              className="img-bnida"
-              src={Clases_Img}
-              alt="Taller donde se imparten las clases en Cándida Gres."
-            />
-          </section>
-          <section className="alumnos ">
-            <div className="taller-data mb-5">
-              <h2>Alumnas y alumnos</h2>
-              <p>
-                A continuación te mostramos algunas de las cosas que podés hacer
-                en el taller. Desde vasijas hasta platos y decoraciones, vas a
-                aprender a expresarte a través de la cerámica para sacar a
-                bailar toda tu imaginación y tus ideas. Estas piezas son de
-                alumnos que no tenían experiencia previa antes de asistir al
-                taller, y ahora pueden decorar, utilizar, vender y regalar sus
-                creaciones. ¡Vos también podes ser parte de este aprendizaje!
-              </p>
-            </div>
+          </div>
+        </section>
+        <section className="classes-row row justify-content-between g-4">
+          <div className="taller-data col-12 col-md-5">
+            <h2>Clases</h2>
+            <p>
+              Las clases de cerámica se plantean como una actividad donde
+              quienes deseen participar podrán adquirir destrezas y
+              competencias que podrán aplicar en situaciones propias del hacer
+              cerámico. Los participantes serán capaces de conocer el proceso
+              de elaboración de la pasta cerámica, amasarla, centrarla en el
+              torno, ahuecarla, estirarla verticalmente, tornear y retornear,
+              ornamentar y decorar.
+            </p>
+            <p>
+              El objetivo de este taller es el de crear un ámbito de
+              conocimiento, aprendizaje y expresión a través de la cerámica.
+              La arcilla es un material de potencialidades únicas, y al
+              trabajar con ella conectamos con algo ancestral, que ha
+              acompañado a todas las culturas humanas desde sus inicios.
+            </p>
+            <p>
+              la clase está dirigido a adultos con o sin experiencia previa.
+              La modalidad de trabajo es una guía personalizada en la
+              concepción y desarrollo de proyectos personales, incluyendo a
+              quienes –a pesar de contar con conocimientos anteriores- deseen
+              profundizar determinadas temáticas o técnicas específicas.
+            </p>
+          </div>
+          <img
+            className="img-bnida col-12 col-md-6"
+            src={Clases_Img}
+            alt="Taller donde se imparten las clases en Cándida Gres."
+          />
+        </section>
+        <section className="alumnos ">
+          <div className="taller-data mb-5">
+            <h2>Alumnas y alumnos</h2>
+            <p>
+              A continuación te mostramos algunas de las cosas que podés hacer
+              en el taller. Desde vasijas hasta platos y decoraciones, vas a
+              aprender a expresarte a través de la cerámica para sacar a
+              bailar toda tu imaginación y tus ideas. Estas piezas son de
+              alumnos que no tenían experiencia previa antes de asistir al
+              taller, y ahora pueden decorar, utilizar, vender y regalar sus
+              creaciones. ¡Vos también podes ser parte de este aprendizaje!
+            </p>
+          </div>
+          <div className="container overflow-hidden row d-grid">
+
             <Swiper
-              slidesPerView={3.5}
+              slidesPerView={window.innerWidth < 500 ? 1.5 : 3.5}
               spaceBetween={30}
               freeMode={true}
               // pagination={{
               //   clickable: true,
               // }}
               modules={[FreeMode, Pagination]}
-              className="mySwiper"
+              className="mySwipe col-12"
             >
               <SwiperSlide>
                 <img
@@ -174,10 +178,12 @@ export default function Header() {
                 />
               </SwiperSlide>
             </Swiper>
-          </section>
-        </div>
-      </main>
-    );
+          </div>
+
+        </section>
+      </div>
+    </main>
+  );
   // } else {
   //   return (
   //     <main className="container main">

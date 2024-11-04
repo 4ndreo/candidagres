@@ -13,7 +13,7 @@
     margin: 0;
 }
 .cont-home section:not(:first-child) {
-    gap: 10rem;
+    /* gap: 10rem; */
     margin-bottom: 4rem;
 }
 .cont-home h2 {
@@ -24,8 +24,8 @@
     color: var(--main-blue);
 }
 .cont-home img:not(.img-bnida-swiper) {
-    max-width: 50%;
-    max-height: 600px;
+    /* max-width: 50%; */
+    max-height: 550px;
     border-radius: 1rem;
     object-fit: cover;
 }
@@ -33,6 +33,7 @@
     border-radius: 1rem;
     object-fit: cover;
     max-width: 100%;
+    /* min-width: 200px; */
     max-height: 600px;
     -webkit-user-select:none;
         -webkit-touch-callout:none;
@@ -41,6 +42,6 @@
              user-select:none; 
 }
 
-.clases {
+.classes-row {
     flex-direction: row-reverse;
 }
