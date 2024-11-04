@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Header.css";
 
@@ -6,12 +6,12 @@ import { Navbar, Container, Nav, NavDropdown, Button, OverlayTrigger, Popover, D
 import { useEffect, useContext } from "react";
 import { AuthContext } from "../../App";
 
-import UserImg from "../../img/user.svg";
 
 export default function Header() {
   const value = useContext(AuthContext);
 
   const [showProfile, setShowProfile] = useState(false);
+  const [showOffcanvas, setShowOffcanvas] = useState(false);
 
   let navigate = useNavigate();
   useEffect(() => {
@@ -33,6 +33,18 @@ export default function Header() {
     setShowProfile(!showProfile);
   }
 
+  const offcanvasRef = useRef(null);
+
+  const handleLinkClick = () => {
+    console.log(offcanvasRef )
+    const offcanvasElement = offcanvasRef.current;
+    if (offcanvasElement) {
+      const bsOffcanvas = new Offcanvas(offcanvasElement);
+      bsOffcanvas.hide();
+    }
+  };
+
+
 
 
   if ((!value.token && !value.currentUser) || value.currentUser) {
@@ -43,29 +55,29 @@ export default function Header() {
             <Link className="brand" to="/">
               Cándida Gres
             </Link>
-            <Navbar.Toggle aria-controls="menu-nav" />
-            <Navbar.Offcanvas id="menu-nav" placement="end">
-              <Offcanvas.Header className="navbar-base-offcanvas" closeButton closeVariant="white">
+            <Navbar.Toggle aria-controls="menu-nav" onClick={() => setShowOffcanvas(prev => !prev)} />
+            <Navbar.Offcanvas id="menu-nav" placement="end"  ref={offcanvasRef} show={showOffcanvas}>
+              <Offcanvas.Header className="navbar-base-offcanvas" closeButton closeVariant="white" onHide={() => setShowOffcanvas(prev => !prev)}>
                 <Offcanvas.Title>
                     Cándida Gres
                 </Offcanvas.Title>
               </Offcanvas.Header>
               <Offcanvas.Body className="me-auto me-lg-0 ms-lg-auto">
                 <Nav className="nav-menu align-items-start align-items-lg-center">
-                  <Link to="/">Inicio</Link>
+                  <Link to="/" onClick={() => setShowOffcanvas(prev => !prev)}>Inicio</Link>
                   {!value.token ? (
                     <>
-                      <Link to="/auth/login">Ingresar</Link>
+                      <Link to="/auth/login" onClick={() => setShowOffcanvas(prev => !prev)}>Ingresar</Link>
                     </>
                   ) : (
                     <>
-                      <Link to="/classes">Clases</Link>
+                      <Link to="/classes" onClick={() => setShowOffcanvas(prev => !prev)}>Clases</Link>
                       <NavDropdown title="Tienda" className="panel-ddown">
-                        <NavDropdown.Item href="/store" className="dropdown-item"><span className="pi pi-box"></span>Productos</NavDropdown.Item>
-                        <NavDropdown.Item href={'/store/cart/' + value.currentUser._id} className="dropdown-item">
+                        <NavDropdown.Item as={Link} to="/store" onClick={() => setShowOffcanvas(prev => !prev)} className="dropdown-item"><span className="pi pi-box"></span>Productos</NavDropdown.Item>
+                        <NavDropdown.Item as={Link} to={'/store/cart/' + value.currentUser._id} onClick={() => setShowOffcanvas(prev => !prev)} className="dropdown-item">
                           <span className="pi pi-shopping-cart"></span>Carrito
                         </NavDropdown.Item>
-                        <NavDropdown.Item href={'/store/purchases/' + value.currentUser._id} className="dropdown-item">
+                        <NavDropdown.Item as={Link} to={'/store/purchases/' + value.currentUser._id} onClick={() => setShowOffcanvas(prev => !prev)} className="dropdown-item">
                           <span className="pi pi-history"></span>Historial
                         </NavDropdown.Item>
                       </NavDropdown>
@@ -73,21 +85,21 @@ export default function Header() {
                         <NavDropdown title="Panel" className="panel-ddown">
                           {value.currentUser.role === 1 && (
                             <>
-                              <NavDropdown.Item href="/admin/classes">
+                              <NavDropdown.Item as={Link} to="/admin/classes" onClick={() => setShowOffcanvas(prev => !prev)}>
                                 Clases
                               </NavDropdown.Item>
-                              <NavDropdown.Item href="/admin/shifts">
+                              <NavDropdown.Item as={Link} to="/admin/shifts" onClick={() => setShowOffcanvas(prev => !prev)}>
                                 Comisiones
                               </NavDropdown.Item>
-                              <NavDropdown.Item href="/admin/enrollments">
+                              <NavDropdown.Item as={Link} to="/admin/enrollments" onClick={() => setShowOffcanvas(prev => !prev)}>
                                 Inscripciones
                               </NavDropdown.Item>
-                              <NavDropdown.Item href="/Dashboard">
+                              <NavDropdown.Item as={Link} to="/Dashboard" onClick={() => setShowOffcanvas(prev => !prev)}>
                                 Dashboard
                               </NavDropdown.Item>
                             </>
                           )}
-                          <NavDropdown.Item href="/admin/products">
+                          <NavDropdown.Item as={Link} to="/admin/products" onClick={() => setShowOffcanvas(prev => !prev)}>
                             Productos
                           </NavDropdown.Item>
                         </NavDropdown>
@@ -98,9 +110,9 @@ export default function Header() {
                         </Dropdown.Toggle>
 
                         <Dropdown.Menu>
-                          <Dropdown.Item href="/profile" className="">Perfil</Dropdown.Item>
-                          <Dropdown.Item href="/perfil/clases" className="">Mis clases</Dropdown.Item>
-                          <Dropdown.Item variant="link" className="" onClick={logOut}>
+                          <Dropdown.Item as={Link} to="/profile" onClick={() => setShowOffcanvas(prev => !prev)}>Perfil</Dropdown.Item>
+                          <Dropdown.Item as={Link} to="/perfil/clases" onClick={() => setShowOffcanvas(prev => !prev)}>Mis clases</Dropdown.Item>
+                          <Dropdown.Item variant="link" onClick={() => {logOut(); setShowOffcanvas(prev => !prev)}} >
                             Cerrar sesión
                           </Dropdown.Item>
                         </Dropdown.Menu>

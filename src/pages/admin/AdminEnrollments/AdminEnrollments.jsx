@@ -79,7 +79,7 @@ export default function AdminEnrollments() {
   );
 
   const { data: classes } = useQuery(
-    'classes',
+    'classesAll',
     async ({signal}) => fetchClasses(signal),
     {
       staleTime: Infinity,

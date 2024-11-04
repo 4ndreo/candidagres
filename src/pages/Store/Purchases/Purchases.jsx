@@ -43,13 +43,17 @@ export default function Purchases() {
             <h1 className="mb-4">Historial de compras</h1>
             {isError ?
                renderError() :
+
+                purchases.length > 0 ? 
                 <ul className="cont-purchases">
                     {purchases.map((compra, index) => (
                         <li key={index}>
                             <Purchase props={{compra: compra, index: index}}></Purchase>
                         </li>
                     ))}
-                </ul>
+                </ul> 
+                : <p>Aún no hiciste ninguna compra.</p>
+            
             }
         </>
     );
