@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import * as classesService from "../../services/classes.service";
 import Loader from "../../components/basics/Loader";
-import TarjetaTurno from "../../components/tarjeta-turno/TarjetaTurno";
+import ShiftCard from "../../components/tarjeta-turno/ShiftCard";
 import { useQuery } from "react-query";
 import { weekdays } from "../../utils/utils";
 
@@ -58,15 +58,17 @@ export function ShiftsPage() {
               return (
                 <li key={weekday.id} className="item-dia">
                   <h2> {weekday.name}</h2>
-                  <ul className="cont-TarjetaTurnos">
+                  <ul className="cont-shift-card">
                     {classData?.shifts.map((shift) => {
                       if (shift?.days?.some((day) => day === weekday.id)) {
                         return (
-                          <TarjetaTurno
+                          <ShiftCard
                             key={shift._id}
                             props={{ shift, classData, weekdays, handleMouseOver, handleMouseLeave, hoveredTurno, refetch }}
                           />
                         );
+                      } else {
+                        return null;
                       }
                     })}
                   </ul>

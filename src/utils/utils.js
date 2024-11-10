@@ -35,7 +35,7 @@ export function calculateTotalQuantity(items) {
 export function calculateDelay(items) {
     let total = 0;
     if (items.length > 0) {
-        total = items.map((x) => x.demora_producto).reduce((a, b) => a > b ? a : b)
+        total = items.map((x) => x.estimated_delay).reduce((a, b) => a > b ? a : b)
         items.forEach(producto => {
             total += producto.quantity
         })

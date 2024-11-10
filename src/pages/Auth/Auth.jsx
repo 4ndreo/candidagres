@@ -6,7 +6,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 export default function AuthPage() {
   const navigate = useNavigate();
   const [showToast, setShowToast] = useState(null);
-  const [token, setToken] = useState(localStorage.getItem("token"));
+  const [token] = useState(localStorage.getItem("token"));
 
   function handleShowToast(msg) {
     setShowToast({ show: true, title: 'Error', message: msg ?? 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end' });

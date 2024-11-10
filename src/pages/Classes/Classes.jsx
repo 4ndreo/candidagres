@@ -40,7 +40,7 @@ export default function ClassesPage() {
 
   useEffect(() => {
     refetch();
-  }, [request]);
+  }, [request, refetch]);
 
   function handlePaginate(page) {
     setRequest({ ...request, page: request.limit * page });

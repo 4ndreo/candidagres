@@ -43,28 +43,28 @@ export default function AdminShifts() {
     sort: { field: 'undefined', direction: 1 },
   });
 
-  const fetchShifts = async (request) => {
-    const result = await shiftsService.findQuery({ ...request, filter: JSON.stringify(request.filter), sort: JSON.stringify(request.sort) });
+  const fetchShifts = async (request, signal) => {
+    const result = await shiftsService.findQuery({ ...request, filter: JSON.stringify(request.filter), sort: JSON.stringify(request.sort) }, signal);
     return result[0];
   }
 
-  const fetchClasses = async () => {
-    const result = await classesService.find();
+  const fetchClasses = async (signal) => {
+    const result = await classesService.find(signal);
     return result;
   }
 
   const { data: shifts, isLoading, isError, error, refetch } = useQuery(
     'shifts',
-    () => fetchShifts(request),
+    async ({signal}) => fetchShifts(request, signal),
     {
       staleTime: Infinity,
       retry: 2,
     }
   );
 
-  const { data: classes, isLoadingClasses, isErrorClasses, errorClasses, refetchClasses } = useQuery(
+  const { data: classes } = useQuery(
     'classes',
-    fetchClasses,
+    async ({ signal }) => fetchClasses(signal),
     {
       staleTime: Infinity,
       retry: 2,
@@ -73,7 +73,7 @@ export default function AdminShifts() {
 
   useEffect(() => {
     refetch();
-  }, [request]);
+  }, [request, refetch]);
 
 
   function handleFilter(field, value) {

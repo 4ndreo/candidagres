@@ -1,15 +1,13 @@
-import "./TarjetaTurno.css";
+import "./ShiftCard.css";
 
-import React, { useContext, useEffect, useState } from "react";
-import { DateTime, Duration } from "luxon";
-import { useNavigate, useParams, Link } from "react-router-dom";
+import React, { useCallback, useContext, useEffect, useState } from "react";
+import { DateTime } from "luxon";
 import CustomBadge from "./CustomBadge/CustomBadge";
-import { Modal } from "react-bootstrap";
 import EnrollModal from "./EnrollModal/EnrollModal";
 import { AuthContext } from '../../App';
 
 
-export default function TarjetaTurno({ props }) {
+export default function ShiftCard({ props }) {
   const factor = 70;
 
   const context = useContext(AuthContext);
@@ -28,13 +26,18 @@ export default function TarjetaTurno({ props }) {
     return parseInt(horas) + parseFloat(minutos) / 60;
   }
 
+  const verifyEnrollment = useCallback(() => {
+    return props.shift.enrollments.filter((x) => context.currentUser._id === x.id_user && x.deleted === false);
+  }, [props.shift.enrollments, context.currentUser._id]);
+  
   useEffect(() => {
     setUserEnrollment(verifyEnrollment()[0]?._id ?? null)
-  }, [props.classData])
+  }, [props.classData, verifyEnrollment])
 
-  function verifyEnrollment() {
-    return props.shift.enrollments.filter((x) => context.currentUser._id === x.id_user && x.deleted === false)
-  }
+  // function verifyEnrollment() {
+  //   return props.shift.enrollments.filter((x) => context.currentUser._id === x.id_user && x.deleted === false)
+  // }
+
 
   const renderBadge = () => {
     if (userEnrollment) return <CustomBadge props={{ label: "Inscripto", icon: "check-circle" }} />;

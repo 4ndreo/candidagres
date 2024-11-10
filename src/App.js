@@ -1,6 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useState } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
 
 // Basics
@@ -47,7 +47,6 @@ import MisClases from "./pages/MisClases";
 export const AuthContext = createContext();
 
 function App() {
-  let navigate = useNavigate();
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [currentUser, setCurrentUser] = useState(
     JSON.parse(localStorage.getItem("user"))
