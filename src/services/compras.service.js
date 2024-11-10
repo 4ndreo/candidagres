@@ -1,36 +1,32 @@
+import { fetchWithInterceptor } from "../interceptors/auth";
+
 const url = process.env.REACT_APP_API_URL
 
-async function find() {
-    return fetch(url + "compras", {
-        headers: {
-            'auth-token': localStorage.getItem('token')
-        }
+async function find(signal) {
+    return fetchWithInterceptor(url + "compras", {
+        signal
     }).then((response) => response.json()
     ).catch(() => { throw new Error('Error: no se pudo traer el historial. Inténtelo de nuevo más tarde') });
 }
 
-async function findById(idCompra) {
-    return fetch(url + "compras/" + idCompra, {
-        headers: {
-            'auth-token': localStorage.getItem('token')
-        }
+async function findById(idCompra, signal) {
+    return fetchWithInterceptor(url + "compras/" + idCompra, {
+        signal
     }).then((response) =>
         response.json()
     ).catch(() => { throw new Error('Error: no se pudo traer el historial. Inténtelo de nuevo más tarde') });
 }
 
-async function findByIdUser(idUser) {
-    return fetch(url + "compras/user/" + idUser, {
-        headers: {
-            'auth-token': localStorage.getItem('token')
-        }
+async function findByIdUser(idUser, signal) {
+    return fetchWithInterceptor(url + "compras/user/" + idUser, {
+        signal
     }).then((response) =>
         response.json()
     ).catch(() => { throw new Error('Error: no se pudo traer el historial. Inténtelo de nuevo más tarde') });
 }
 
 async function create(data) {
-    return fetch(url + "compras/compra", {
+    return fetchWithInterceptor(url + "compras/compra", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -42,7 +38,7 @@ async function create(data) {
 }
 
 async function remove(idCompra) {
-    return fetch(url + "compras/" + idCompra, {
+    return fetchWithInterceptor(url + "compras/" + idCompra, {
         method: "DELETE",
         headers: {
             'auth-token': localStorage.getItem('token')
@@ -53,7 +49,7 @@ async function remove(idCompra) {
 
 async function update(compra) {
     console.log("service.compra", compra)
-    return fetch(url + "compras/" + compra._id, {
+    return fetchWithInterceptor(url + "compras/" + compra._id, {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json",
@@ -65,7 +61,7 @@ async function update(compra) {
 }
 
 // async function savePurchase(data) {
-//     return fetch(url + "compras/" + data._id, {
+//     return fetchWithInterceptor(url + "compras/" + data._id, {
 //         method: "PATCH",
 //         headers: {
 //             "Content-Type": "application/json",

@@ -1,10 +1,9 @@
+import { fetchWithInterceptor } from "../interceptors/auth";
+
 const url = process.env.REACT_APP_API_URL
 
 async function find(signal) {
-    return fetch(url + "classesAll", {
-        headers: {
-            'auth-token': localStorage.getItem('token')
-        },
+    return fetchWithInterceptor(url + "classesAll", {
         signal
     }).then((response) => response.json())
         .catch((err) => { return err });
@@ -23,62 +22,40 @@ async function findQuery(request, signal) {
         }
     });
 
-    return fetch(fullUrl, {
-        headers: {
-            'auth-token': localStorage.getItem('token')
-        },
+    return fetchWithInterceptor(fullUrl, {
         signal
     }).then((response) => response.json()
     ).catch(() => { throw new Error('Error: no se pudieron obtener los registros. Inténtelo de nuevo más tarde') });
 }
 
 async function findById(id) {
-    return fetch(url + "classes/" + id, {
-        headers: {
-            'auth-token': localStorage.getItem('token')
-        }
-    }).then((response) =>
+    return fetchWithInterceptor(url + "classes/" + id).then((response) =>
         response.json()
     ).catch(() => { throw new Error('Error: no se pudieron obtener los registros. Inténtelo de nuevo más tarde') });
 }
 
 async function findOneWithShifts(id) {
-    return fetch(url + "classes/" + id + "/shifts", {
-        headers: {
-            'auth-token': localStorage.getItem('token')
-        }
-    }).then((response) =>
+    return fetchWithInterceptor(url + "classes/" + id + "/shifts").then((response) =>
         response.json()
     ).catch(() => { throw new Error('Error: no se pudieron obtener los registros. Inténtelo de nuevo más tarde') });
 }
 
 async function create(curso) {
-    return fetch(url + "classes", {
+    return fetchWithInterceptor(url + "classes", {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            'auth-token': localStorage.getItem('token')
-        },
         body: JSON.stringify(curso),
     }).then((response) => response.json());
 }
 
 async function remove(id) {
-    return fetch(url + "classes/" + id, {
-        method: "DELETE",
-        headers: {
-            'auth-token': localStorage.getItem('token')
-        }
+    return fetchWithInterceptor(url + "classes/" + id, {
+        method: "DELETE"
     }).then((response) => response.json());
 }
 
 async function update(id, data) {
-    return fetch(url + "classes/" + id, {
+    return fetchWithInterceptor(url + "classes/" + id, {
         method: "PATCH",
-        headers: {
-            "Content-Type": "application/json",
-            'auth-token': localStorage.getItem('token')
-        },
         body: JSON.stringify(data),
     }).then((response) => response.json());
 }

@@ -1,122 +1,74 @@
+import { fetchWithInterceptor } from "../interceptors/auth";
+
 const url = process.env.REACT_APP_API_URL
 
-async function find() {
-    return fetch(url + "carrito", {
-        headers: {
-            'auth-token': localStorage.getItem('token')
-        }
+async function find(signal) {
+    return fetchWithInterceptor(url + "carrito", {
+        signal
     }).then((response) => response.json()
     ).catch(() => { throw new Error('Error: no se pudieron obtener los carritos. Inténtelo de nuevo más tarde') });
-    
+
 }
 
-async function findById(idCarrito) {
-    return fetch(url + "carrito/" + idCarrito, {
-        headers: {
-            'auth-token': localStorage.getItem('token')
-        }
+async function findById(idCarrito, signal) {
+    return fetchWithInterceptor(url + "carrito/" + idCarrito, {
+        signal
     }).then((response) =>
         response.json()
     ).catch(() => { throw new Error('Error: no se pudo obtener el carrito. Inténtelo de nuevo más tarde') });
 }
 
-async function findByIdUser(idUser) {
-    return fetch(url + "carrito/user/" + idUser, {
-        headers: {
-            'auth-token': localStorage.getItem('token')
-        }
+async function findByIdUser(idUser, signal) {
+    return fetchWithInterceptor(url + "carrito/user/" + idUser, {
+        signal
     }).then((response) =>
         response.json()
     ).catch(() => { throw new Error('Error: no se pudo obtener el carrito. Inténtelo de nuevo más tarde') });
 }
 
-async function findByIdUserFinalizado(idUser) {
-    return fetch(url + "carrito/user/finalizado/" + idUser, {
-        headers: {
-            'auth-token': localStorage.getItem('token')
-        }
-    }).then((response) =>
-        response.json()
-    ).catch(() => { throw new Error('Error: no se pudo obtener el carrito. Inténtelo de nuevo más tarde') });
-}
 
 async function create(usuarioId) {
-    return fetch(url + "carrito/carrito", {
+    return fetchWithInterceptor(url + "carrito/carrito", {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            'auth-token': localStorage.getItem('token')
-        },
         body: JSON.stringify({ usuarioId: usuarioId }),
     }).then((response) => response.json()
     ).catch(() => { throw new Error('Error: no se pudo crear el carrito. Inténtelo de nuevo más tarde') });
 }
 
 async function remove(idCarrito) {
-    return fetch(url + "carrito/" + idCarrito, {
-        method: "DELETE",
-        headers: {
-            'auth-token': localStorage.getItem('token')
-        }
+    return fetchWithInterceptor(url + "carrito/" + idCarrito, {
+        method: "DELETE"
     }).then((response) => response.json()
     ).catch(() => { throw new Error('Error: no se pudo eliminar el carrito. Inténtelo de nuevo más tarde') });
 }
 
 async function update(carrito) {
-    console.log("service.carrito", carrito)
-    return fetch(url + "carrito/" + carrito._id, {
+    return fetchWithInterceptor(url + "carrito/" + carrito._id, {
         method: "PATCH",
-        headers: {
-            "Content-Type": "application/json",
-            'auth-token': localStorage.getItem('token')
-        },
         body: JSON.stringify({ productos: carrito.productos }),
     }).then((response) => true
     ).catch(() => { throw new Error('Error: no se pudo modificar el carrito. Inténtelo de nuevo más tarde') });
 }
-async function updateElimiarProducto(idCarrito, total, productoEnCarrito) {
-
-    return fetch(url + "carrito/user/" + idCarrito, {
-        method: "PATCH",
-        headers: {
-            "Content-Type": "application/json",
-            'auth-token': localStorage.getItem('token')
-        },
-        body: JSON.stringify({ total, productosComprar: productoEnCarrito }),
-    }).then((response) => response.json());
-}
 
 async function createPreference(preference) {
-    return fetch(url + "create_preference", {
+    return fetchWithInterceptor(url + "create_preference", {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            'auth-token': localStorage.getItem('token')
-        },
         body: JSON.stringify(preference),
     }).then((response) => response.json()
     ).catch(() => { throw new Error('Error: no se pudo crear la preferencia. Inténtelo de nuevo más tarde') });
 }
 
 async function addToCart(idUser, data) {
-    return fetch(url + "carrito/" + idUser + "/addToCart", {
+    return fetchWithInterceptor(url + "carrito/" + idUser + "/addToCart", {
         method: "PATCH",
-        headers: {
-            "Content-Type": "application/json",
-            'auth-token': localStorage.getItem('token')
-        },
         body: JSON.stringify({ item: data }),
     }).then((response) => response.json()
     ).catch(() => { throw new Error('Error: no se pudo agregar el producto al carrito. Inténtelo de nuevo más tarde') });
 }
 
 async function substractToCart(idUser, data) {
-    return fetch(url + "carrito/" + idUser + "/substractToCart", {
+    return fetchWithInterceptor(url + "carrito/" + idUser + "/substractToCart", {
         method: "PATCH",
-        headers: {
-            "Content-Type": "application/json",
-            'auth-token': localStorage.getItem('token')
-        },
         body: JSON.stringify({ item: data }),
     }).then((response) => response.json()
     ).catch(() => { throw new Error('Error: no se pudo eliminar el producto del carrito. Inténtelo de nuevo más tarde') });
@@ -127,11 +79,9 @@ export {
     find,
     findById,
     findByIdUser,
-    findByIdUserFinalizado,
     create,
     remove,
     update,
-    updateElimiarProducto,
     createPreference,
     addToCart,
     substractToCart,

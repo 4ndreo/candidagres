@@ -44,14 +44,14 @@ export default function AdminClasses() {
     sort: { field: 'undefined', direction: 1 },
   });
 
-  const fetchClasses = async (request) => {
-    const result = await classesService.findQuery({ ...request, filter: JSON.stringify(request.filter), sort: JSON.stringify(request.sort) });
+  const fetchClasses = async (request, signal) => {
+    const result = await classesService.findQuery({ ...request, filter: JSON.stringify(request.filter), sort: JSON.stringify(request.sort) }, signal);
     return result[0];
   }
 
   const { data: classes, isLoading, isError, error, refetch } = useQuery(
     'classes',
-    () => fetchClasses(request),
+    async ({signal}) => fetchClasses(request, signal),
     {
       staleTime: Infinity,
       retry: 2,

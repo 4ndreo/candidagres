@@ -12,14 +12,14 @@ import { Purchase } from "../../../components/Purchase/Purchase";
 export default function Purchases() {
     const params = useParams();
 
-    const fetchPurchases = async () => {
-        const result = await comprasService.findByIdUser(params?.idUsuario);
+    const fetchPurchases = async (request, signal) => {
+        const result = await comprasService.findByIdUser(request, signal);
         return result;
     }
 
-    const { data: purchases, isLoading, isError, error, refetch } = useQuery(
+    const { data: purchases, isLoading, isError, error } = useQuery(
         'purchases',
-        fetchPurchases,
+        async ({signal}) => fetchPurchases(params?.idUsuario, signal),
         {
             staleTime: 1000,
             retry: 2,
