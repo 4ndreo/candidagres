@@ -65,7 +65,7 @@ export default function AdminClasses() {
 
   useEffect(() => {
     refetch();
-  }, [request]);
+  }, [request, refetch]);
 
   function handleFilter(field, value) {
     if (request.filter.some(x => x.field === field)) {

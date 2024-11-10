@@ -1,28 +1,19 @@
 import './Dashboard.css';
 
-import React, {useContext, useEffect, useState} from 'react';
-import {Link, useNavigate, useParams} from 'react-router-dom';
-import * as carritoService from '../../services/carrito.service';
+import React, { useContext, useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import Loader from '../basics/Loader';
-import {
-	Col,
-	Container,
-	Nav,
-	Row,
-	Button,
-	Modal,
-	ListGroup,
-} from 'react-bootstrap';
+
 import * as classesService from '../../services/classes.service';
 import * as userService from '../../services/users.service';
 import * as turnosService from '../../services/shifts.service';
 import * as inscripcionesService from '../../services/enrollments.service';
-import {AuthContext} from '../../App';
-import {Swiper, SwiperSlide} from 'swiper/react';
-import {FreeMode, Pagination} from 'swiper';
+import { AuthContext } from '../../App';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { FreeMode, Pagination } from 'swiper';
 
-export function Dashboard({title}) {
+export function Dashboard({ title }) {
 	let navigate = useNavigate();
 	const params = useParams();
 
@@ -49,7 +40,7 @@ export function Dashboard({title}) {
 		loadData();
 
 		if (value.currentUser.role !== 1) {
-			navigate('/', {replace: true});
+			navigate('/', { replace: true });
 		}
 	}, []);
 
@@ -202,7 +193,7 @@ export function Dashboard({title}) {
 
 					<p>Información de Usuarios anotados a las Clases</p>
 					{Object.keys(informacion).map((idCurso) => {
-						const {curso, turnos, users} = informacion[idCurso];
+						const { curso, turnos, users } = informacion[idCurso];
 
 						return (
 							<div key={idCurso} className='cont-curso'>
@@ -217,7 +208,7 @@ export function Dashboard({title}) {
 									modules={[FreeMode, Pagination]}
 									className='mySwiper'>
 									{Object.keys(turnos).map((idTurno) => {
-										const {turno, users: usersPorTurno} = turnos[idTurno];
+										const { turno, users: usersPorTurno } = turnos[idTurno];
 
 										return (
 											<SwiperSlide key={idTurno}>

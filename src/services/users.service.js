@@ -1,14 +1,16 @@
+import { fetchWithInterceptor } from "../interceptors/auth";
+
 const url = process.env.REACT_APP_API_URL
 
 async function find(signal) {
-  return fetch(url + "users", {
+  return fetchWithInterceptor(url + "users", {
     signal
   }).then((response) => response.json())
     .catch((err) => { return err });
 }
 
 async function findById(idUser, signal) {
-  return fetch(url + "users/" + idUser, {
+  return fetchWithInterceptor(url + "users/" + idUser, {
     signal
   }).then((response) =>
     response.json()
@@ -16,21 +18,21 @@ async function findById(idUser, signal) {
 }
 
 async function create(user) {
-  return fetch(url + "users/user", {
+  return fetchWithInterceptor(url + "users/user", {
     method: "POST",
     body: JSON.stringify(user),
   }).then((response) => response.json());
 }
 
 async function remove(idUser) {
-  return fetch(url + "users/" + idUser, {
+  return fetchWithInterceptor(url + "users/" + idUser, {
     method: "DELETE",
   }).then((response) => response.json());
 }
 
 async function update(idUser, user) {
   console.log(user)
-  return fetch(url + "users/" + idUser, {
+  return fetchWithInterceptor(url + "users/" + idUser, {
     method: "PATCH",
     body: JSON.stringify(user),
   }).then((response) => response.json());
@@ -38,7 +40,7 @@ async function update(idUser, user) {
 
 async function updateProfile(idUser, user) {
   console.log(user)
-  return fetch(url + "profile/" + idUser, {
+  return fetchWithInterceptor(url + "profile/" + idUser, {
     method: "PATCH",
     body: JSON.stringify(user),
   }).then((response) => response.json());

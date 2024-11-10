@@ -62,7 +62,7 @@ export default function AdminEnrollments() {
 
   const { data: enrollments, isLoading, isError, error, refetch } = useQuery(
     'enrollments',
-    async ({ signal }) => fetchEnrollments({ ...request, filter: JSON.stringify(request.filter), sort: JSON.stringify(request.sort)}, signal ),
+    async ({ signal }) => fetchEnrollments({ ...request, filter: JSON.stringify(request.filter), sort: JSON.stringify(request.sort) }, signal),
     {
       staleTime: Infinity,
       retry: 2,
@@ -71,7 +71,7 @@ export default function AdminEnrollments() {
 
   const { data: shifts, refetch: refetchShifts } = useQuery(
     'shifts',
-    async ({signal}) => fetchShifts(request.filter.filter(x => x.field === 'shift.id_class').length > 0 ? { filter: JSON.stringify([{ field: "id_class", value: request.filter.filter(x => x.field === 'shift.id_class')[0].value }]) } : { filter: JSON.stringify([{ "field": "undefined", "value": "undefined" }]) }, signal),
+    async ({ signal }) => fetchShifts(request.filter.filter(x => x.field === 'shift.id_class').length > 0 ? { filter: JSON.stringify([{ field: "id_class", value: request.filter.filter(x => x.field === 'shift.id_class')[0].value }]) } : { filter: JSON.stringify([{ "field": "undefined", "value": "undefined" }]) }, signal),
     {
       staleTime: Infinity,
       retry: 2,
@@ -80,7 +80,7 @@ export default function AdminEnrollments() {
 
   const { data: classes } = useQuery(
     'classesAll',
-    async ({signal}) => fetchClasses(signal),
+    async ({ signal }) => fetchClasses(signal),
     {
       staleTime: Infinity,
       retry: 2,
@@ -89,7 +89,7 @@ export default function AdminEnrollments() {
 
   const { data: users } = useQuery(
     'users',
-    async ({signal}) => fetchUsers(signal),
+    async ({ signal }) => fetchUsers(signal),
     {
       staleTime: Infinity,
       retry: 2,
@@ -99,7 +99,7 @@ export default function AdminEnrollments() {
   useEffect(() => {
     refetch();
     refetchShifts();
-  }, [request]);
+  }, [request, refetch, refetchShifts]);
 
 
   function handleFilter(field, value) {

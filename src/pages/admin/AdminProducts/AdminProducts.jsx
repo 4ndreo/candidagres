@@ -59,7 +59,7 @@ export default function AdminProducts() {
 
     useEffect(() => {
         refetch();
-    }, [request]);
+    }, [request, refetch]);
 
 
     function handleFilter(field, value) {

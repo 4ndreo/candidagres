@@ -1,9 +1,8 @@
 import './EnrollModal.css'
 
-import { useContext, useEffect, useState } from "react"
+import { useState } from "react"
 import { Modal } from "react-bootstrap"
 import * as enrollmentsService from '../../../services/enrollments.service'
-import { AuthContext } from "../../../App";
 import LoaderMini from "../../basics/LoaderMini";
 
 
@@ -19,14 +18,14 @@ export default function EnrollModal({ props }) {
     setSavingEnrollment(true)
     enrollmentsService.create({ id_shift: props.shift._id })
       .then(() => props.refetch())
-      .finally(() => {setSavingEnrollment(false); setHovered(false)});
+      .finally(() => { setSavingEnrollment(false); setHovered(false) });
   }
 
   function removeEnrollment() {
     setSavingEnrollment(true)
     enrollmentsService.remove(props.userEnrollment)
       .then(() => props.refetch())
-      .finally(() => {setSavingEnrollment(false); setHovered(false)});
+      .finally(() => { setSavingEnrollment(false); setHovered(false) });
   }
 
   const renderEnrollmentButton = () => {

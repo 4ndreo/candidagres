@@ -4,10 +4,7 @@ import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/pagination";
 
-import React, { Component } from "react";
-import { useState, useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../App";
+// import React, { Component } from "react";
 import Taller_Img from "../img/taller.jpeg";
 import Clases_Img from "../img/clases.jpeg";
 import Cuenco_Azul from "../img/cuenco-azul.jpeg";
@@ -17,26 +14,13 @@ import Plato_Blanco from "../img/plato-blanco.jpeg";
 import Pote_Blanco from "../img/pote-blanco.jpeg";
 import Torno from "../img/torno.jpeg";
 
-import * as classesService from "../services/classes.service";
-import Loader from "../components/basics/Loader";
-
 import { Swiper, SwiperSlide } from "swiper/react";
 
 // import required modules
 import { FreeMode, Pagination } from "swiper";
 
 export default function Header() {
-  // const [cursos, setCursos] = useState([]);
 
-  const value = useContext(AuthContext);
-
-  let navigate = useNavigate();
-
-  useEffect(() => {
-    console.log(window.innerWidth)
-    console.log(window.innerWidth / 700)
-  }, []);
-  // if (cursos.length > 0) {
   return (
     <main className="container main">
       <div className="cont-home">

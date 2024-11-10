@@ -1,6 +1,6 @@
 import "./ViewProducts.css";
 
-import React, { useEffect, useState } from "react";
+// import React, { useEffect, useState } from "react";
 import * as productosService from "../../../services/productos.service";
 
 import { useQuery } from "react-query";

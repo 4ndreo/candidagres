@@ -100,7 +100,7 @@ export default function Cart() {
 
     const renderMPButton = () => {
         if (!initPoint) return (
-            <a className="d-block">
+            <span className="d-block">
                 <Button
                     className="w-100"
                     variant="primary"
@@ -108,7 +108,7 @@ export default function Cart() {
                     disabled
                 > Ir a pagar
                 </Button>
-            </a>
+            </span>
         )
 
         return (
