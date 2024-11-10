@@ -10,17 +10,10 @@ import { AuthContext } from "../../App";
 export default function Header() {
   const value = useContext(AuthContext);
 
-  const [showProfile, setShowProfile] = useState(false);
+  // const [showProfile, setShowProfile] = useState(false);
   const [showOffcanvas, setShowOffcanvas] = useState(false);
 
   let navigate = useNavigate();
-  useEffect(() => {
-    value.setCurrentUser(JSON.parse(localStorage.getItem("user")));
-    if (!value.token) {
-      navigate("/login", { replace: true });
-    }
-    console.log(value.currentUser)
-  }, []);
 
   function logOut() {
     localStorage.clear();
@@ -29,20 +22,20 @@ export default function Header() {
     navigate("/auth/login", { replace: true });
   }
 
-  function handleShowProfile() {
-    setShowProfile(!showProfile);
-  }
+  // function handleShowProfile() {
+  //   setShowProfile(!showProfile);
+  // }
 
   const offcanvasRef = useRef(null);
 
-  const handleLinkClick = () => {
-    console.log(offcanvasRef )
-    const offcanvasElement = offcanvasRef.current;
-    if (offcanvasElement) {
-      const bsOffcanvas = new Offcanvas(offcanvasElement);
-      bsOffcanvas.hide();
-    }
-  };
+  // const handleLinkClick = () => {
+  //   console.log(offcanvasRef )
+  //   const offcanvasElement = offcanvasRef.current;
+  //   if (offcanvasElement) {
+  //     const bsOffcanvas = new Offcanvas(offcanvasElement);
+  //     bsOffcanvas.hide();
+  //   }
+  // };
 
 
 
@@ -64,20 +57,20 @@ export default function Header() {
               </Offcanvas.Header>
               <Offcanvas.Body className="me-auto me-lg-0 ms-lg-auto">
                 <Nav className="nav-menu align-items-start align-items-lg-center">
-                  <Link to="/" onClick={() => setShowOffcanvas(prev => !prev)}>Inicio</Link>
+                  <Link to="/" onClick={() => setShowOffcanvas(false)}>Inicio</Link>
                   {!value.token ? (
                     <>
-                      <Link to="/auth/login" onClick={() => setShowOffcanvas(prev => !prev)}>Ingresar</Link>
+                      <Link to="/auth/login" onClick={() => setShowOffcanvas(false)}>Ingresar</Link>
                     </>
                   ) : (
                     <>
-                      <Link to="/classes" onClick={() => setShowOffcanvas(prev => !prev)}>Clases</Link>
+                      <Link to="/classes" onClick={() => setShowOffcanvas(false)}>Clases</Link>
                       <NavDropdown title="Tienda" className="panel-ddown">
-                        <NavDropdown.Item as={Link} to="/store" onClick={() => setShowOffcanvas(prev => !prev)} className="dropdown-item"><span className="pi pi-box"></span>Productos</NavDropdown.Item>
-                        <NavDropdown.Item as={Link} to={'/store/cart/' + value.currentUser._id} onClick={() => setShowOffcanvas(prev => !prev)} className="dropdown-item">
+                        <NavDropdown.Item as={Link} to="/store" onClick={() => setShowOffcanvas(false)} className="dropdown-item"><span className="pi pi-box"></span>Productos</NavDropdown.Item>
+                        <NavDropdown.Item as={Link} to={'/store/cart/' + value.currentUser._id} onClick={() => setShowOffcanvas(false)} className="dropdown-item">
                           <span className="pi pi-shopping-cart"></span>Carrito
                         </NavDropdown.Item>
-                        <NavDropdown.Item as={Link} to={'/store/purchases/' + value.currentUser._id} onClick={() => setShowOffcanvas(prev => !prev)} className="dropdown-item">
+                        <NavDropdown.Item as={Link} to={'/store/purchases/' + value.currentUser._id} onClick={() => setShowOffcanvas(false)} className="dropdown-item">
                           <span className="pi pi-history"></span>Historial
                         </NavDropdown.Item>
                       </NavDropdown>
@@ -85,21 +78,21 @@ export default function Header() {
                         <NavDropdown title="Panel" className="panel-ddown">
                           {value.currentUser.role === 1 && (
                             <>
-                              <NavDropdown.Item as={Link} to="/admin/classes" onClick={() => setShowOffcanvas(prev => !prev)}>
+                              <NavDropdown.Item as={Link} to="/admin/classes" onClick={() => setShowOffcanvas(false)}>
                                 Clases
                               </NavDropdown.Item>
-                              <NavDropdown.Item as={Link} to="/admin/shifts" onClick={() => setShowOffcanvas(prev => !prev)}>
+                              <NavDropdown.Item as={Link} to="/admin/shifts" onClick={() => setShowOffcanvas(false)}>
                                 Comisiones
                               </NavDropdown.Item>
-                              <NavDropdown.Item as={Link} to="/admin/enrollments" onClick={() => setShowOffcanvas(prev => !prev)}>
+                              <NavDropdown.Item as={Link} to="/admin/enrollments" onClick={() => setShowOffcanvas(false)}>
                                 Inscripciones
                               </NavDropdown.Item>
-                              <NavDropdown.Item as={Link} to="/Dashboard" onClick={() => setShowOffcanvas(prev => !prev)}>
+                              <NavDropdown.Item as={Link} to="/Dashboard" onClick={() => setShowOffcanvas(false)}>
                                 Dashboard
                               </NavDropdown.Item>
                             </>
                           )}
-                          <NavDropdown.Item as={Link} to="/admin/products" onClick={() => setShowOffcanvas(prev => !prev)}>
+                          <NavDropdown.Item as={Link} to="/admin/products" onClick={() => setShowOffcanvas(false)}>
                             Productos
                           </NavDropdown.Item>
                         </NavDropdown>
@@ -110,9 +103,9 @@ export default function Header() {
                         </Dropdown.Toggle>
 
                         <Dropdown.Menu>
-                          <Dropdown.Item as={Link} to="/profile" onClick={() => setShowOffcanvas(prev => !prev)}>Perfil</Dropdown.Item>
-                          <Dropdown.Item as={Link} to="/perfil/clases" onClick={() => setShowOffcanvas(prev => !prev)}>Mis clases</Dropdown.Item>
-                          <Dropdown.Item variant="link" onClick={() => {logOut(); setShowOffcanvas(prev => !prev)}} >
+                          <Dropdown.Item as={Link} to="/profile" onClick={() => setShowOffcanvas(false)}>Perfil</Dropdown.Item>
+                          <Dropdown.Item as={Link} to="/perfil/clases" onClick={() => setShowOffcanvas(false)}>Mis clases</Dropdown.Item>
+                          <Dropdown.Item variant="link" onClick={() => {logOut(); setShowOffcanvas(false)}} >
                             Cerrar sesión
                           </Dropdown.Item>
                         </Dropdown.Menu>

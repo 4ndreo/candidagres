@@ -1,10 +1,10 @@
+import { fetchWithInterceptor } from "../interceptors/auth";
+
 const url = process.env.REACT_APP_API_URL
 
-async function find() {
-    return fetch(url + "shifts", {
-        headers: {
-            'auth-token': localStorage.getItem('token')
-        }
+async function find(signal) {
+    return fetchWithInterceptor(url + "shifts", {
+        signal
     }).then((response) => response.json())
         .catch((err) => { return err });
 }
@@ -22,85 +22,67 @@ async function findQuery(request, signal) {
         }
     });
 
-    return fetch(fullUrl, {
-        headers: {
-            'auth-token': localStorage.getItem('token')
-        },
+    return fetchWithInterceptor(fullUrl, {
         signal
     }).then((response) => response.json()
     ).catch(() => { throw new Error('Error: no se pudieron obtener los registros. Inténtelo de nuevo más tarde') });
 }
 
-
-async function filter(id) {
-    return fetch(url + "shifts/" + id, {
-        headers: {
-            'auth-token': localStorage.getItem('token')
-        }
+async function findById(id, signal) {
+    return fetchWithInterceptor(url + "shifts/" + id, {
+        signal
     }).then((response) =>
         response.json()
     ).catch(() => { throw new Error('Error: no se pudieron obtener los registros. Inténtelo de nuevo más tarde') });
 }
 
-async function findById(id) {
-    return fetch(url + "shifts/" + id, {
-        headers: {
-            'auth-token': localStorage.getItem('token')
-        }
-    }).then((response) =>
-        response.json()
-    ).catch(() => { throw new Error('Error: no se pudieron obtener los registros. Inténtelo de nuevo más tarde') });
-}
+// async function findOneWithEnrollments(id) {
+//     return fetchWithInterceptor(url + "shifts/" + id + "/enrollments", {
+//         headers: {
+//             'auth-token': localStorage.getItem('token')
+//         }
+//     }).then((response) =>
+//         response.json()
+//     ).catch(() => { throw new Error('Error: no se pudieron obtener los registros. Inténtelo de nuevo más tarde') });
+// }
 
-async function findOneWithEnrollments(id) {
-    return fetch(url + "shifts/" + id + "/enrollments", {
-        headers: {
-            'auth-token': localStorage.getItem('token')
-        }
-    }).then((response) =>
-        response.json()
-    ).catch(() => { throw new Error('Error: no se pudieron obtener los registros. Inténtelo de nuevo más tarde') });
-}
-
-async function findByCurso(id) {
-    return fetch(url + "shifts/curso/" + id, {
-        headers: {
-            'auth-token': localStorage.getItem('token')
-        }
-    }).then((response) =>
-        response.json()
-    );
-}
+// async function findByCurso(id) {
+//     return fetchWithInterceptor(url + "shifts/curso/" + id, {
+//         headers: {
+//             'auth-token': localStorage.getItem('token')
+//         }
+//     }).then((response) =>
+//         response.json()
+//     );
+// }
 
 async function create(data) {
-    return fetch(url + "shifts", {
+    return fetchWithInterceptor(url + "shifts", {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            'auth-token': localStorage.getItem('token')
-        },
         body: JSON.stringify(data),
     }).then((response) => response.json());
 }
 
 async function remove(id) {
-    return fetch(url + "shifts/" + id, {
+    return fetchWithInterceptor(url + "shifts/" + id, {
         method: "DELETE",
-        headers: {
-            'auth-token': localStorage.getItem('token')
-        }
     }).then((response) => response.json());
 }
 
 async function update(id, data) {
-    return fetch(url + "shifts/" + id, {
+    return fetchWithInterceptor(url + "shifts/" + id, {
         method: "PATCH",
-        headers: {
-            "Content-Type": "application/json",
-            'auth-token': localStorage.getItem('token')
-        },
         body: JSON.stringify(data),
     }).then((response) => response.json());
 }
 
-export { find, findQuery, findById, findOneWithEnrollments, findByCurso, create, remove, update };
+export {
+    find,
+    findQuery,
+    findById,
+    // findOneWithEnrollments,
+    // findByCurso,
+    create,
+    remove,
+    update
+};

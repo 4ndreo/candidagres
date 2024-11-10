@@ -1,5 +1,9 @@
+import { fetchWithInterceptor } from "../interceptors/auth";
+
+const url = process.env.REACT_APP_API_URL
+
 async function login(email, password) {
-    return fetch('http://localhost:2025/api/users/login', {
+    return fetch(url + 'users/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -16,13 +20,29 @@ async function login(email, password) {
     // })
 }
 
+// async function auth(user) {
+//     return fetch('http://localhost:2025/api/users/auth', {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json',
+//             'auth-token': localStorage.getItem('token')
+//         },
+//         body: user
+//     })
+//         .then(response => {
+//             if (response.status === 200) {
+//                 return response.json()
+//             }
+//             throw new Error('Error de autenticación')
+//         })
+// }
 async function auth(user) {
-    return fetch('http://localhost:2025/api/users/auth', {
+    return fetchWithInterceptor(url + 'users/auth', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'auth-token': localStorage.getItem('token')
-        },
+        // headers: {
+        //     'Content-Type': 'application/json',
+        //     'auth-token': localStorage.getItem('token')
+        // },
         body: user
     })
         .then(response => {

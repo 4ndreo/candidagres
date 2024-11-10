@@ -53,11 +53,11 @@ function App() {
     JSON.parse(localStorage.getItem("user"))
   );
 
-  useEffect(() => {
-    if (!token) {
-      navigate("auth/login", { replace: true });
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!token) {
+  //     navigate("auth/login", { replace: true });
+  //   }
+  // }, []);
 
 
 

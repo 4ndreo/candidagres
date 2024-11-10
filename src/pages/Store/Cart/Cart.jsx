@@ -28,8 +28,8 @@ export default function Cart() {
 
     initMercadoPago(process.env.REACT_APP_MP_PUBLIC_KEY, { locale: 'es-AR' });
 
-    const fetchCart = async () => {
-        const res = await carritoService.findByIdUser(params?.idUsuario);
+    const fetchCart = async (request, signal) => {
+        const res = await carritoService.findByIdUser(request, signal);
         const result = {
             ...res,
             totalCost: calculateTotalCost(res?.items),
@@ -41,7 +41,7 @@ export default function Cart() {
 
     const { data: cart, isLoading, isError, error, refetch } = useQuery(
         'cart',
-        fetchCart,
+        async ({ signal }) => fetchCart(params?.idUsuario, signal),
         {
             staleTime: 0,
             retry: 2,

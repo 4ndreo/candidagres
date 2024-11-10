@@ -9,14 +9,14 @@ import { StoreProduct } from "../../../components/StoreProduct/StoreProduct";
 
 
 export default function ViewProducts() {
-    const fetchProducts = async () => {
-        const result = await productosService.find();
+    const fetchProducts = async (signal) => {
+        const result = await productosService.find(signal);
         return result;
     }
 
-    const { data: products, isLoading, isError, refetch } = useQuery(
+    const { data: products, isLoading, isError } = useQuery(
         'products',
-        fetchProducts,
+        async ({signal}) => fetchProducts(signal),
         {
             staleTime: 10000,
             retry: 2,

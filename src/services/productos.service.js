@@ -1,15 +1,15 @@
+import { fetchWithInterceptor } from "../interceptors/auth";
+
 const url = process.env.REACT_APP_API_URL
 
-async function find() {
-    return fetch(url + "productsAll", {
-        headers: {
-            'auth-token': localStorage.getItem('token')
-        }
+async function find(signal) {
+    return fetchWithInterceptor(url + "productsAll", {
+        signal
     }).then((response) => response.json()
     ).catch(() => { throw new Error('Error: no se pudieron obtener los registros. Inténtelo de nuevo más tarde') });
 }
 
-async function findQuery(request) {
+async function findQuery(request, signal) {
     // Construct the full URL
     const fullUrl = new URL(url + "products");
 
@@ -22,53 +22,38 @@ async function findQuery(request) {
         }
     });
 
-    return fetch(fullUrl, {
-        headers: {
-            'auth-token': localStorage.getItem('token')
-        },
+    return fetchWithInterceptor(fullUrl, {
+        signal
     }).then((response) => response.json()
     ).catch(() => { throw new Error('Error: no se pudieron obtener los registros. Inténtelo de nuevo más tarde') });
 }
 
-async function findById(id) {
-    return fetch(url + "products/" + id, {
-        headers: {
-            'auth-token': localStorage.getItem('token')
-        }
+async function findById(id, signal) {
+    return fetchWithInterceptor(url + "products/" + id, {
+        signal
     }).then((response) =>
         response.json()
     ).catch(() => { throw new Error('Error: no se pudo obtener el producto. Inténtelo de nuevo más tarde') });
 }
 
 async function create(producto) {
-    return fetch(url + "products", {
+    return fetchWithInterceptor(url + "products", {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            'auth-token': localStorage.getItem('token')
-        },
         body: JSON.stringify(producto),
     }).then((response) => response.json()
     ).catch(() => { throw new Error('Error: no se pudo crear. Inténtelo de nuevo más tarde') });
 }
 
 async function remove(idProductos) {
-    return fetch(url + "products/" + idProductos, {
+    return fetchWithInterceptor(url + "products/" + idProductos, {
         method: "DELETE",
-        headers: {
-            'auth-token': localStorage.getItem('token')
-        }
     }).then((response) => response.json()
     ).catch(() => { throw new Error('Error: no se pudo eliminar. Inténtelo de nuevo más tarde') });
 }
 
 async function update(idProductos, producto) {
-    return fetch(url + "products/" + idProductos, {
+    return fetchWithInterceptor(url + "products/" + idProductos, {
         method: "PATCH",
-        headers: {
-            "Content-Type": "application/json",
-            'auth-token': localStorage.getItem('token')
-        },
         body: JSON.stringify(producto),
     }).then((response) => response.json()
     ).catch(() => { throw new Error('Error: no se pudo modificar. Inténtelo de nuevo más tarde') });
@@ -78,11 +63,8 @@ async function uploadImagen(imagen) {
     const formData = new FormData();
     formData.append('imagenProducto', imagen);
 
-    return fetch(url + "products/imagenes", {
+    return fetchWithInterceptor(url + "products/imagenes", {
         method: "POST",
-        headers: {
-            'auth-token': localStorage.getItem('token')
-        },
         body: formData,
     }).then((response) => response.json());
 }

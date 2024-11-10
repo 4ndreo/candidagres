@@ -11,14 +11,8 @@ export default function ProfilePage() {
   const value = useContext(AuthContext);
 
 
-  let navigate = useNavigate();
-
   useEffect(() => {
     value.setCurrentUser(JSON.parse(localStorage.getItem("user")));
-    console.log(value.currentUser);
-    if (!value.token) {
-      navigate("/login", { replace: true });
-    }
 
     // loadData();
 

@@ -45,13 +45,9 @@ export default function MisClases() {
     },
   ];
 
-  let navigate = useNavigate();
 
   useEffect(() => {
     value.setCurrentUser(JSON.parse(localStorage.getItem("user")));
-    if (!value.token) {
-      navigate("/login", { replace: true });
-    }
 
     loadData();
 
