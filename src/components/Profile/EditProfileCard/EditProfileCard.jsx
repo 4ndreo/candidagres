@@ -1,7 +1,7 @@
 import "./EditProfileCard.css";
 
 import UserImg from "../../../img/user.svg";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import * as usersService from "../../../services/users.service";
 import * as mediaService from "../../../services/media.service";

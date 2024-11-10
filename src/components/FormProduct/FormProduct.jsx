@@ -6,11 +6,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../basics/Loader";
 import CustomToast from "../basics/CustomToast/CustomToast";
 
-const imageMimeType = /image\/(png|jpg|jpeg)/i;
+// const imageMimeType = /image\/(png|jpg|jpeg)/i;
 
 export default function FormProduct({ props }) {
   const SERVER_URL = process.env.REACT_APP_SERVER_URL;
-  const [imageError, setImageError] = useState(null);
+  // const [imageError, setImageError] = useState(null);
   const [file, setFile] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [fileDataURL, setFileDataURL] = useState(null);
@@ -48,7 +48,7 @@ export default function FormProduct({ props }) {
     if (params?.id) {
       fetchProduct(params?.id);
     }
-  }, []);
+  }, [params?.id]);
 
   useEffect(() => {
     let fileReader, isCancel = false;

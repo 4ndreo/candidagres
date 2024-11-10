@@ -20,7 +20,7 @@ import Paginator from "../../../components/Paginator/Paginator";
 import { Button, ButtonGroup, Dropdown, Form } from "react-bootstrap";
 import CustomToast from "../../../components/basics/CustomToast/CustomToast";
 
-export default function AdminClasses() {
+export default function AdminClasses({props}) {
   const value = useContext(AuthContext);
 
   const cols = [
@@ -34,8 +34,8 @@ export default function AdminClasses() {
 
   const location = useLocation({});
   const navigate = useNavigate();
-
-  const [showToast, setShowToast] = useState(null);
+console.log('props', props)
+  // const [showToast, setShowToast] = useState(null);
   // const [filterInput, setFilterInput] = useState(undefined)
   const [request, setRequest] = useState({
     page: 0,
@@ -51,17 +51,17 @@ export default function AdminClasses() {
 
   const { data: classes, isLoading, isError, error, refetch } = useQuery(
     'classes',
-    async ({signal}) => fetchClasses(request, signal),
+    async ({ signal }) => fetchClasses(request, signal),
     {
       staleTime: Infinity,
       retry: 2,
     }
   );
 
-  useEffect(() => {
-    setShowToast(location.state || 'No hay mensaje');
-    navigate(location.pathname, { replace: true });
-  }, []);
+  // useEffect(() => {
+  //   setShowToast(location?.state || { show: false, title: 'Vacío', message: 'No hay mensajes que mostrar.', variant: 'success', position: 'top-end' });
+  //   navigate(location.pathname, { replace: true });
+  // }, [ location.pathname, navigate]);
 
   useEffect(() => {
     refetch();
@@ -221,7 +221,7 @@ export default function AdminClasses() {
               <tbody>
                 {classes?.data.length > 0 ?
                   classes?.data?.map((item) => {
-                    return <AdminClassRow props={{ item: item, refetch: refetch, cols: cols, showEdit: true, showDelete: true, setShowToast: setShowToast }} key={item._id} />
+                    return <AdminClassRow props={{ item: item, refetch: refetch, cols: cols, showEdit: true, showDelete: true, setShowToast: props.setShowToast }} key={item._id} />
                   })
                   :
                   <tr>
@@ -237,7 +237,7 @@ export default function AdminClasses() {
         <Paginator props={{ pages: classes?.pages ?? 0, count: classes?.count ?? 0, page: request.page, limit: request.limit, handlePaginate: handlePaginate, handlePaginateNext: handlePaginateNext, handlePaginatePrevious: handlePaginatePrevious }} />
 
       }
-      <CustomToast props={{ data: showToast, setShowToast: setShowToast }} />
+      {/* <CustomToast props={{ data: props.showToast, setShowToast: setShowToast }} /> */}
 
     </div>
   );

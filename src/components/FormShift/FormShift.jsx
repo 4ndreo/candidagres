@@ -53,7 +53,7 @@ export default function FormShift({ props }) {
     if (params?.id) {
       fetchProduct(params?.id);
     }
-  }, []);
+  }, [params?.id]);
 
   const fetchClasses = async () => {
     const result = await classesService.find();

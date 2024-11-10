@@ -3,15 +3,12 @@ import React, { useState } from "react";
 import * as authService from "../../services/auth.service";
 import { useContext } from "react";
 import { AuthContext } from "../../App";
-import CustomToast from "../basics/CustomToast/CustomToast";
-import { Link, useNavigate, useOutletContext } from "react-router-dom";
-import { validateEmail, validatePassword } from "../../utils/validators";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Login() {
 
   let navigate = useNavigate();
   const value = useContext(AuthContext);
-  const handleShowToast = useOutletContext();
 
   const [form, setForm] = useState({});
   const [showPassword, setShowPassword] = useState(false);

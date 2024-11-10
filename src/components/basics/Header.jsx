@@ -2,15 +2,14 @@ import React, { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Header.css";
 
-import { Navbar, Container, Nav, NavDropdown, Button, OverlayTrigger, Popover, Dropdown, Offcanvas } from "react-bootstrap";
-import { useEffect, useContext } from "react";
+import { Navbar, Container, Nav, NavDropdown, Dropdown, Offcanvas } from "react-bootstrap";
+import { useContext } from "react";
 import { AuthContext } from "../../App";
 
 
 export default function Header() {
   const value = useContext(AuthContext);
 
-  // const [showProfile, setShowProfile] = useState(false);
   const [showOffcanvas, setShowOffcanvas] = useState(false);
 
   let navigate = useNavigate();

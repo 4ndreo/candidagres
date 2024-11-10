@@ -1,7 +1,6 @@
 import "./css/Turnos.css";
 
-import React, { useEffect, useState, useContext, useRef } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import React, { useEffect, useState, useContext } from "react";
 import * as inscripcionesService from "../services/enrollments.service";
 import * as classesService from "../services/classes.service";
 import * as turnosService from "../services/shifts.service";
@@ -14,10 +13,7 @@ export default function MisClases() {
   let turnos = [];
   const [groupedInscripciones, setGroupedInscripciones] = useState([]);
 
-  const [nombre, setNombre] = useState("");
   const [inscripciones, setInscripciones] = useState([]);
-  const [idUser, setIdUser] = useState("");
-  const [inscripcionesUsuario, setInscripcionesUsuario] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const value = useContext(AuthContext);
@@ -45,13 +41,13 @@ export default function MisClases() {
     },
   ];
 
+  value.setCurrentUser(JSON.parse(localStorage.getItem("user")));
 
   useEffect(() => {
-    value.setCurrentUser(JSON.parse(localStorage.getItem("user")));
 
     loadData();
 
-  }, []);
+  }, [loadData]);
 
   useEffect(() => {
     // let groupedInscripciones = inscripciones.reduce((insc, { nombre_curso, ...inscripciones }) => {

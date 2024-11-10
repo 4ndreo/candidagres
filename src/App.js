@@ -43,6 +43,7 @@ import EditProfileCard from "./components/Profile/EditProfileCard/EditProfileCar
 
 import { Dashboard } from "./components/dashboard/Dashboard"
 import MisClases from "./pages/MisClases";
+import CustomToast from "./components/basics/CustomToast/CustomToast";
 
 export const AuthContext = createContext();
 
@@ -51,6 +52,9 @@ function App() {
   const [currentUser, setCurrentUser] = useState(
     JSON.parse(localStorage.getItem("user"))
   );
+
+  const [showToast, setShowToast] = useState(null);
+
 
   // useEffect(() => {
   //   if (!token) {
@@ -115,14 +119,14 @@ function App() {
             />
 
             {/* Rutas de cursos */}
-            <Route path="classes" element={<AdminClasses />} />
+            <Route path="classes" element={<AdminClasses props={{ setShowToast }} />} />
             <Route
               path="classes/new"
-              element={<FormClass props={{ title: "Clase" }} />}
+              element={<FormClass props={{ title: "Clase", setShowToast }} />}
             />
             <Route
               path="classes/:id"
-              element={<FormClass props={{ title: "Clase" }} />}
+              element={<FormClass props={{ title: "Clase", setShowToast }} />}
             />
 
             {/* Rutas de comisiones */}
@@ -186,6 +190,8 @@ function App() {
 
 
         <Footer></Footer>
+        <CustomToast props={{ data: showToast, setShowToast: setShowToast }} />
+
       </AuthContext.Provider>
     </>
   );

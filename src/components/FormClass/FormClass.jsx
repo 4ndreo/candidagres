@@ -1,12 +1,12 @@
 import "./FormClass.css";
 import React, { useEffect, useState } from "react";
 import * as classesService from "../../services/classes.service";
-import * as mediaService from "../../services/media.service";
+// import * as mediaService from "../../services/media.service";
 import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../basics/Loader";
 import CustomToast from "../basics/CustomToast/CustomToast";
 
-const imageMimeType = /image\/(png|jpg|jpeg)/i;
+// const imageMimeType = /image\/(png|jpg|jpeg)/i;
 
 export default function FormClass({ props }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -41,7 +41,7 @@ export default function FormClass({ props }) {
     if (params?.id) {
       fetchClass(params?.id);
     }
-  }, []);
+  }, [params?.id]);
 
 
   const [errors, setErrors] = useState({});
@@ -71,7 +71,8 @@ export default function FormClass({ props }) {
         })
         .then((resp) => {
           if (!resp.err) {
-            navigate("/admin/classes", { replace: true, state: { show: true, title: 'Éxito', message: 'La clase ha sido modificada.', variant: 'success', position: 'top-end' }});
+            props.setShowToast({ show: true, title: 'Éxito', message: 'La clase ha sido modificada.', variant: 'success', position: 'top-end' });
+            navigate("/admin/classes");
           } else {
             setErrors(resp.err);
           }
@@ -88,7 +89,8 @@ export default function FormClass({ props }) {
         })
         .then((resp) => {
           if (!resp.err) {
-            navigate("/admin/classes", { replace: true, state: { show: true, title: 'Éxito', message: 'La clase ha sido creada.', variant: 'success', position: 'top-end' }});
+            props.setShowToast({ show: true, title: 'Éxito', message: 'La clase ha sido creada.', variant: 'success', position: 'top-end' });
+            navigate("/admin/classes");
           } else {
             setErrors(resp.err);
           }
