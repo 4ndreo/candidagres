@@ -2,7 +2,6 @@ import "./ViewProfileCard.css";
 
 import UserImg from "../../../img/user.svg";
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
 
 export default function ViewProfileCard({ props }) {
     const SERVER_URL = process.env.REACT_APP_SERVER_URL;

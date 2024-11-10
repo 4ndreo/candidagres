@@ -4,7 +4,6 @@ import * as UsersService from "../../services/users.service";
 import * as authService from "../../services/auth.service";
 import { AuthContext } from "../../App";
 import { Link, useNavigate, useOutletContext } from "react-router-dom";
-import { validateCUIL, validateDNI, validateEmail, validatePassport, validatePassword } from "../../utils/validators";
 
 export default function Register({ onLogin }) {
   let navigate = useNavigate();
@@ -124,14 +123,14 @@ export default function Register({ onLogin }) {
                 {errors.id_document}
               </small>
               :
-              (form.document_type === "DNI" &&
+              ((form.document_type === "DNI" &&
                 <small className="form-text text-muted">
                   Puede tener 7 u 8 números.
-                </small> ||
-                form.document_type === "CUIL" &&
+                </small>) ||
+                (form.document_type === "CUIL" &&
                 <small className="form-text text-muted">
                   Debe tener el formato XX-XXXXXXXX-X.
-                </small>)
+                </small>))
             }
 
           </div>

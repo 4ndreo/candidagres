@@ -1,22 +1,17 @@
 import "./Profile.css";
 
 import React, { useEffect, useState, useContext } from "react";
-import { Outlet, useNavigate, useParams } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { AuthContext } from "../../App";
 
 
 export default function ProfilePage() {
-  const [loading, setLoading] = useState(true);
+  const [loading] = useState(true);
 
   const value = useContext(AuthContext);
 
+  value.setCurrentUser(JSON.parse(localStorage.getItem("user")));
 
-  useEffect(() => {
-    value.setCurrentUser(JSON.parse(localStorage.getItem("user")));
-
-    // loadData();
-
-  }, []);
 
   if ((value.currentUser.email.length === 0 && loading) || value.currentUser.email.length > 0) {
     return (
