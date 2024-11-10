@@ -2,7 +2,6 @@ import "../../pages/Profile/Profile.css";
 
 import React, { useEffect, useState } from "react";
 import * as inscripcionesService from "../../services/enrollments.service";
-import * as classesService from "../../services/classes.service";
 import * as turnosService from "../../services/shifts.service";
 
 import { useNavigate, useParams } from "react-router-dom";
@@ -10,7 +9,6 @@ import { useNavigate, useParams } from "react-router-dom";
 export function PerfilTurnos({ title }) {
   let navigate = useNavigate();
   const [inscripcionesUsuario, setInscripcionesUsuario] = useState([]);
-  const [turnos, setTurnos] = useState([]);
   const [idInscripcion, setIdInscripcion] = useState("");
   const params = useParams();
 
@@ -37,7 +35,7 @@ export function PerfilTurnos({ title }) {
     setIdInscripcion(params?.idInscripcion);
 
     fn(turnoId);
-  }, []);
+  }, [params?.idInscripcion, params?.idTurno]);
 
   function handleDeleteElement(id) {
     window.confirm("¿Estas seguro que queres eliminar tu inscripción?");

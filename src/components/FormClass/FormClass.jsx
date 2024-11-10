@@ -4,7 +4,6 @@ import * as classesService from "../../services/classes.service";
 // import * as mediaService from "../../services/media.service";
 import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../basics/Loader";
-import CustomToast from "../basics/CustomToast/CustomToast";
 
 // const imageMimeType = /image\/(png|jpg|jpeg)/i;
 
@@ -21,7 +20,6 @@ export default function FormClass({ props }) {
     price: 0,
     min_age: 0,
   });
-  const [showToast, setShowToast] = useState(null);
   const [error, setError] = useState(null);
 
   async function fetchClass(id) {
@@ -76,7 +74,7 @@ export default function FormClass({ props }) {
           } else {
             setErrors(resp.err);
           }
-        }).catch((err) => setShowToast({ show: true, title: 'Error al modificar el clase', message: 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end' }));
+        }).catch((err) => props.setShowToast({ show: true, title: 'Error al modificar el clase', message: 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end' }));
 
     } else {
       classesService
@@ -94,7 +92,7 @@ export default function FormClass({ props }) {
           } else {
             setErrors(resp.err);
           }
-        }).catch((err) => setShowToast({ show: true, title: 'Error al crear el clase', message: 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end' }));
+        }).catch((err) => props.setShowToast({ show: true, title: 'Error al crear el clase', message: 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end' }));
     }
   }
 
@@ -111,7 +109,7 @@ export default function FormClass({ props }) {
 
   // if (class) {
   return (
-    <main className="container cont-admin-form-classes">
+    <div className="container cont-admin-form-classes">
       <h1>{params?.id ? 'Editar' : 'Crear'} - {props.title}</h1>
       {error ? renderError() :
         <form onSubmit={handleSubmit} noValidate>
@@ -223,9 +221,7 @@ export default function FormClass({ props }) {
           </button>
         </form>
       }
-      <CustomToast props={{ data: showToast, setShowToast: setShowToast }} />
-
-    </main>
+    </div>
   );
   // }
 }

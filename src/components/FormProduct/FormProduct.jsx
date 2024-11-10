@@ -4,7 +4,6 @@ import * as productosService from "../../services/productos.service";
 import * as mediaService from "../../services/media.service";
 import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../basics/Loader";
-import CustomToast from "../basics/CustomToast/CustomToast";
 
 // const imageMimeType = /image\/(png|jpg|jpeg)/i;
 
@@ -26,7 +25,6 @@ export default function FormProduct({ props }) {
     material: "",
     img: "",
   });
-  const [showToast, setShowToast] = useState(null);
   const [error, setError] = useState(null);
   const [errors, setErrors] = useState({});
 
@@ -88,19 +86,21 @@ export default function FormProduct({ props }) {
               return mediaService.uploadImagen(file).then((imgName) => {
                 if (!imgName.err) {
                   productosService.update(params?.id, { img: imgName }).then(() => {
-                    navigate("/admin/products", { replace: true, state: { show: true, title: 'Éxito', message: 'El producto se ha creado.', variant: 'success', position: 'top-end' } });
-                  }).catch((err) => setShowToast({ show: true, title: 'Error al agregar la imagen', message: 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end' }));
+                    props.setShowToast({ show: true, title: 'Éxito', message: 'El producto se ha modificado.', variant: 'success', position: 'top-end' });
+                    navigate("/admin/products");
+                  }).catch((err) => props.setShowToast({ show: true, title: 'Error al agregar la imagen', message: 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end' }));
                 } else {
                   setErrors(imgName.err);
                 }
               })
             } else {
-              navigate("/admin/products", { replace: true, state: { show: true, title: 'Éxito', message: 'El producto se ha creado.', variant: 'success', position: 'top-end' } });
+              props.setShowToast({ show: true, title: 'Éxito', message: 'El producto se ha modificado.', variant: 'success', position: 'top-end' });
+              navigate("/admin/products");
             }
           } else {
             setErrors(resp.err);
           }
-        }).catch((err) => setShowToast({ show: true, title: 'Error al modificar el producto', message: 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end' }));
+        }).catch((err) => props.setShowToast({ show: true, title: 'Error al modificar el producto', message: 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end' }));
 
     } else {
       productosService
@@ -118,8 +118,9 @@ export default function FormProduct({ props }) {
             return mediaService.uploadImagen(file).then((imgName) => {
               if (!imgName.err) {
                 productosService.update(resp._id, { img: imgName }).then((data) => {
-                  navigate("/admin/products", { replace: true, state: { show: true, title: 'Éxito', message: 'El producto se ha modificado.', variant: 'success', position: 'top-end' } });
-                }).catch((err) => setShowToast({ show: true, title: 'Error al modificar la imagen', message: 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end' }));
+                  props.setShowToast({ show: true, title: 'Éxito', message: 'El producto se ha creado.', variant: 'success', position: 'top-end' });
+                  navigate("/admin/products");
+                }).catch((err) => props.setShowToast({ show: true, title: 'Error al modificar la imagen', message: 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end' }));
 
               } else {
                 setErrors(imgName.err);
@@ -131,7 +132,7 @@ export default function FormProduct({ props }) {
           } else {
             setErrors(resp.err);
           }
-        }).catch((err) => setShowToast({ show: true, title: 'Error al crear el producto', message: 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end' }));
+        }).catch((err) => props.setShowToast({ show: true, title: 'Error al crear el producto', message: 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end' }));
     }
   }
 
@@ -171,7 +172,7 @@ export default function FormProduct({ props }) {
 
   // if (product) {
   return (
-    <main className="container cont-admin-form-products">
+    <div className="container cont-admin-form-products">
       <h1>{params?.id ? 'Editar' : 'Crear'} - {props.title}</h1>
       {error ? renderError() :
         <form onSubmit={handleSubmit} noValidate>
@@ -308,9 +309,7 @@ export default function FormProduct({ props }) {
           </button>
         </form>
       }
-      <CustomToast props={{ data: showToast, setShowToast: setShowToast }} />
-
-    </main>
+    </div>
   );
   // }
 }

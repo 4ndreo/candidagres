@@ -16,12 +16,11 @@ import * as classesService from "../../../services/classes.service";
 import Loader from "../../../components/basics/Loader";
 import AdminShiftRow from "../../../components/AdminShiftRow/AdminShiftRow";
 import Paginator from "../../../components/Paginator/Paginator";
-import CustomToast from "../../../components/basics/CustomToast/CustomToast";
 
 // External Libraries
 import { Button, ButtonGroup, Dropdown, Form } from "react-bootstrap";
 
-export default function AdminShifts() {
+export default function AdminShifts({ props }) {
   const value = useContext(AuthContext);
 
   const cols = [
@@ -35,7 +34,6 @@ export default function AdminShifts() {
     { field: 'days', header: 'Días', type: 'days' },
   ]
 
-  const [showToast, setShowToast] = useState(null);
   const [request, setRequest] = useState({
     page: 0,
     limit: 10,
@@ -55,7 +53,7 @@ export default function AdminShifts() {
 
   const { data: shifts, isLoading, isError, error, refetch } = useQuery(
     'shifts',
-    async ({signal}) => fetchShifts(request, signal),
+    async ({ signal }) => fetchShifts(request, signal),
     {
       staleTime: Infinity,
       retry: 2,
@@ -63,7 +61,7 @@ export default function AdminShifts() {
   );
 
   const { data: classes } = useQuery(
-    'classes',
+    'classesShifts',
     async ({ signal }) => fetchClasses(signal),
     {
       staleTime: Infinity,
@@ -252,7 +250,7 @@ export default function AdminShifts() {
               <tbody>
                 {shifts?.data.length > 0 ?
                   shifts?.data?.map((item) => {
-                    return <AdminShiftRow props={{ item: item, refetch: refetch, cols: cols, showEdit: true, showDelete: true, setShowToast: setShowToast }} key={item._id} />
+                    return <AdminShiftRow props={{ item: item, refetch: refetch, cols: cols, showEdit: true, showDelete: true, setShowToast: props.setShowToast }} key={item._id} />
                   })
                   :
                   <tr>
@@ -266,9 +264,7 @@ export default function AdminShifts() {
       }
       {shifts?.data.length > 0 &&
         <Paginator props={{ pages: shifts?.pages ?? 0, count: shifts?.count ?? 0, page: request.page, limit: request.limit, handlePaginate: handlePaginate, handlePaginateNext: handlePaginateNext, handlePaginatePrevious: handlePaginatePrevious }} />
-
       }
-      <CustomToast props={{ data: showToast, setShowToast: setShowToast }} />
 
     </div>
   );

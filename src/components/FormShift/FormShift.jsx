@@ -12,7 +12,6 @@ import * as classesService from "../../services/classes.service";
 
 // Components
 import Loader from "../basics/Loader";
-import CustomToast from "../basics/CustomToast/CustomToast";
 import { weekdays } from "../../utils/utils";
 
 // External Libraries
@@ -33,7 +32,6 @@ export default function FormShift({ props }) {
     max_places: 0,
     days: [],
   });
-  const [showToast, setShowToast] = useState(null);
   const [error, setError] = useState(null);
 
   async function fetchProduct(id) {
@@ -61,7 +59,7 @@ export default function FormShift({ props }) {
     return result;
   }
   const { data: classes } = useQuery(
-    'classes',
+    'classesShiftForm',
     fetchClasses,
     {
       staleTime: Infinity,
@@ -107,11 +105,12 @@ export default function FormShift({ props }) {
         })
         .then((resp) => {
           if (!resp.err) {
-            navigate("/admin/shifts", { replace: true, state: { show: true, title: 'Éxito', message: 'La comisión ha sido modificada.', variant: 'success', position: 'top-end' } });
+            props.setShowToast({ show: true, title: 'Éxito', message: 'La comisión ha sido modificada.', variant: 'success', position: 'top-end' });
+            navigate("/admin/shifts");
           } else {
             setErrors(resp.err);
           }
-        }).catch((err) => setShowToast({ show: true, title: 'Error al modificar la comisión', message: 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end' }));
+        }).catch((err) => props.setShowToast({ show: true, title: 'Error al modificar la comisión', message: 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end' }));
 
     } else {
       shiftsService
@@ -126,11 +125,12 @@ export default function FormShift({ props }) {
         })
         .then((resp) => {
           if (!resp.err) {
-            navigate("/admin/shifts", { replace: true, state: { show: true, title: 'Éxito', message: 'La comisión ha sido creada.', variant: 'success', position: 'top-end' } });
+            props.setShowToast({ show: true, title: 'Éxito', message: 'La comisión ha sido creada.', variant: 'success', position: 'top-end' });
+            navigate("/admin/shifts");
           } else {
             setErrors(resp.err);
           }
-        }).catch((err) => setShowToast({ show: true, title: 'Error al crear la comisión', message: 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end' }));
+        }).catch((err) => props.setShowToast({ show: true, title: 'Error al crear la comisión', message: 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end' }));
     }
   }
 
@@ -146,7 +146,7 @@ export default function FormShift({ props }) {
   }
 
   return (
-    <main className="container cont-admin-form-shifts">
+    <div className="container cont-admin-form-shifts">
       <h1>{params?.id ? 'Editar' : 'Crear'} - {props.title}</h1>
       {error ? renderError() :
         <form onSubmit={handleSubmit} noValidate>
@@ -301,8 +301,6 @@ export default function FormShift({ props }) {
           </button>
         </form>
       }
-      <CustomToast props={{ data: showToast, setShowToast: setShowToast }} />
-
-    </main>
+    </div>
   );
 }

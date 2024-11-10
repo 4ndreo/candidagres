@@ -1,7 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import React, { createContext, useState } from "react";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 // Basics
 import Header from "./components/basics/Header";
@@ -41,7 +41,7 @@ import ViewProfileCard from "./components/Profile/ViewProfileCard/ViewProfileCar
 import EditProfileCard from "./components/Profile/EditProfileCard/EditProfileCard";
 
 
-import { Dashboard } from "./components/dashboard/Dashboard"
+// import { Dashboard } from "./components/dashboard/Dashboard"
 import MisClases from "./pages/MisClases";
 import CustomToast from "./components/basics/CustomToast/CustomToast";
 
@@ -108,14 +108,14 @@ function App() {
           <Route path="/admin" element={<Admin />}>
 
             {/* Rutas de Productos */}
-            <Route path="products" element={<AdminProducts />} />
+            <Route path="products" element={<AdminProducts props={{ setShowToast }} />} />
             <Route
               path="products/new"
-              element={<FormProduct props={{ title: "Producto" }} />}
+              element={<FormProduct props={{ title: "Producto", setShowToast }} />}
             />
             <Route
               path="products/:id"
-              element={<FormProduct props={{ title: "Producto" }} />}
+              element={<FormProduct props={{ title: "Producto", setShowToast }} />}
             />
 
             {/* Rutas de cursos */}
@@ -131,19 +131,19 @@ function App() {
 
             {/* Rutas de comisiones */}
 
-            <Route path="shifts" element={<AdminShifts />} />
+            <Route path="shifts" element={<AdminShifts props={{ setShowToast }} />} />
             <Route
               path="shifts/new"
-              element={<FormShift props={{ title: "Comisión" }} />}
+              element={<FormShift props={{ title: "Comisión", setShowToast }} />}
             />
             <Route
               path="shifts/:id"
-              element={<FormShift props={{ title: "Comisión" }} />}
+              element={<FormShift props={{ title: "Comisión", setShowToast }} />}
             />
 
             {/* Rutas de inscripciones */}
 
-            <Route path="enrollments" element={<AdminEnrollments />} />
+            <Route path="enrollments" element={<AdminEnrollments props={{ setShowToast }} />} />
             {/* <Route
               path="shifts/new"
               element={<FormShift props={{ title: "Comisión" }} />}
@@ -182,7 +182,7 @@ function App() {
 
           {/* Rutas Dashboard */}
 
-          <Route path="/Dashboard" element={<Dashboard />} title={"Dashboard"} />
+          {/* <Route path="/Dashboard" element={<Dashboard />} title={"Dashboard"} /> */}
 
         </Routes>
 
