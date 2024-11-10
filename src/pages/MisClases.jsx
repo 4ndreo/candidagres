@@ -2,18 +2,18 @@ import "./css/Turnos.css";
 
 import React, { useEffect, useState, useContext } from "react";
 import * as inscripcionesService from "../services/enrollments.service";
-import * as classesService from "../services/classes.service";
-import * as turnosService from "../services/shifts.service";
+// import * as classesService from "../services/classes.service";
+// import * as turnosService from "../services/shifts.service";
 import { AuthContext } from "../App";
 import Loader from "../components/basics/Loader";
 
 export default function MisClases() {
   // let inscripciones = [];
-  let cursos = [];
-  let turnos = [];
+  // let cursos = [];
+  // let turnos = [];
   const [groupedInscripciones, setGroupedInscripciones] = useState([]);
 
-  const [inscripciones, setInscripciones] = useState([]);
+  const [inscripciones] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const value = useContext(AuthContext);
@@ -43,11 +43,35 @@ export default function MisClases() {
 
   value.setCurrentUser(JSON.parse(localStorage.getItem("user")));
 
-  useEffect(() => {
+  // const loadData = useCallback(() => {
+  //   return new Promise((resolve, reject) => {
+  //     getCursos().then(() => {
+  //       getTurnos().then(() => {
+  //         getInscripcionesByUser()
+  //           .then((data) => {
+  //             let inscripcionesArr = data;
+  //             console.log('inscripcionesArr', inscripcionesArr)
+  //             inscripcionesArr.forEach(async (inscripcion, index) => {
+  //               let curso = cursos.find(curso => curso._id === inscripcion.idCurso)
+  //               inscripcionesArr[index] = { ...inscripcionesArr[index], ...curso, _idCurso: curso._id, _id: inscripcion._id, nombre_curso: curso.nombre };
 
-    loadData();
+  //               let turno = turnos.find(turno => turno._id === inscripcion.idTurno)
+  //               inscripcionesArr[index] = { ...inscripcionesArr[index], ...turno, _idTurno: turno._id, _id: inscripcion._id, nombre_turno: turno.nombre };
 
-  }, [loadData]);
+  //             })
+  //             setInscripciones(inscripcionesArr);
+  //             resolve();
+  //           })
+  //       })
+  //     })
+  //   })
+  // }, [cursos, turnos, getCursos, getTurnos, getInscripcionesByUser]);
+
+  // useEffect(() => {
+
+  //   loadData();
+
+  // }, [loadData]);
 
   useEffect(() => {
     // let groupedInscripciones = inscripciones.reduce((insc, { nombre_curso, ...inscripciones }) => {
@@ -69,77 +93,55 @@ export default function MisClases() {
 
   }, [groupedInscripciones])
 
-  function getInscripcionesByUser() {
-    return new Promise((resolve, reject) => {
-      inscripcionesService.findByUser(value.currentUser._id)
-        .then((data) => {
-          setLoading(false);
-          resolve(data);
-        })
-        .catch((err) => {
-          reject(err);
-        });
+  // function getInscripcionesByUser() {
+  //   return new Promise((resolve, reject) => {
+  //     inscripcionesService.findByUser(value.currentUser._id)
+  //       .then((data) => {
+  //         setLoading(false);
+  //         resolve(data);
+  //       })
+  //       .catch((err) => {
+  //         reject(err);
+  //       });
 
-    })
-  }
+  //   })
+  // }
 
-  function getCursos() {
-    return new Promise((resolve, reject) => {
-      classesService.find()
-        .then((data) => {
-          cursos = data;
-          resolve(data);
-        })
-        .catch((err) => {
-          console.log(err)
-          reject(err);
-        });
+  // function getCursos() {
+  //   return new Promise((resolve, reject) => {
+  //     classesService.find()
+  //       .then((data) => {
+  //         cursos = data;
+  //         resolve(data);
+  //       })
+  //       .catch((err) => {
+  //         console.log(err)
+  //         reject(err);
+  //       });
 
-    })
-  }
+  //   })
+  // }
 
-  function getTurnos() {
-    return new Promise((resolve, reject) => {
-      turnosService.find()
-        .then((data) => {
-          turnos = data;
-          resolve(data);
-        })
-        .catch((err) => {
-          console.log(err)
-          reject(err);
-        });
+  // function getTurnos() {
+  //   return new Promise((resolve, reject) => {
+  //     turnosService.find()
+  //       .then((data) => {
+  //         turnos = data;
+  //         resolve(data);
+  //       })
+  //       .catch((err) => {
+  //         console.log(err)
+  //         reject(err);
+  //       });
 
-    })
-  }
-  const loadData = () => {
-    return new Promise((resolve, reject) => {
-      getCursos().then(() => {
-        getTurnos().then(() => {
-          getInscripcionesByUser()
-            .then((data) => {
-              let inscripcionesArr = data;
-              console.log('inscripcionesArr', inscripcionesArr)
-              inscripcionesArr.forEach(async (inscripcion, index) => {
-                let curso = cursos.find(curso => curso._id === inscripcion.idCurso)
-                inscripcionesArr[index] = { ...inscripcionesArr[index], ...curso, _idCurso: curso._id, _id: inscripcion._id, nombre_curso: curso.nombre };
+  //   })
+  // }
 
-                let turno = turnos.find(turno => turno._id === inscripcion.idTurno)
-                inscripcionesArr[index] = { ...inscripcionesArr[index], ...turno, _idTurno: turno._id, _id: inscripcion._id, nombre_turno: turno.nombre };
-
-              })
-              setInscripciones(inscripcionesArr);
-              resolve();
-            })
-        })
-      })
-    })
-  }
   function handleDeleteElement(id) {
     if (window.confirm("¿Estas seguro que queres eliminar tu inscripción?")) {
       inscripcionesService.remove(id).then((inscripcion) => {
         setLoading(true);
-        loadData();
+        // loadData();
         // navigate("/perfil", { replace: true });
       });
     }

@@ -8,6 +8,9 @@ async function uploadImagen(imagen) {
 
     return fetchWithInterceptor(url + "media", {
         method: "POST",
+        headers: {
+            'X-Type': 'image',
+        },
         body: formData,
     }).then((response) => response.json());
 }

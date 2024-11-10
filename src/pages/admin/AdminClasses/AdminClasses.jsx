@@ -3,7 +3,7 @@ import "./AdminClasses.css";
 import "../css/AdminTable.css";
 
 // React
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useQuery } from "react-query";
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../App";
@@ -18,9 +18,8 @@ import Paginator from "../../../components/Paginator/Paginator";
 
 // External Libraries
 import { Button, ButtonGroup, Dropdown, Form } from "react-bootstrap";
-import CustomToast from "../../../components/basics/CustomToast/CustomToast";
 
-export default function AdminClasses({props}) {
+export default function AdminClasses({ props }) {
   const value = useContext(AuthContext);
 
   const cols = [
@@ -32,11 +31,6 @@ export default function AdminClasses({props}) {
     { field: 'min_age', header: 'Edad mínima', type: 'number' },
   ]
 
-  const location = useLocation({});
-  const navigate = useNavigate();
-console.log('props', props)
-  // const [showToast, setShowToast] = useState(null);
-  // const [filterInput, setFilterInput] = useState(undefined)
   const [request, setRequest] = useState({
     page: 0,
     limit: 10,

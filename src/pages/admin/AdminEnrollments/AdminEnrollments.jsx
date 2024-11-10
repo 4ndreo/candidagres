@@ -16,13 +16,12 @@ import * as usersService from "../../../services/users.service";
 // Components
 import Loader from "../../../components/basics/Loader";
 import Paginator from "../../../components/Paginator/Paginator";
-import CustomToast from "../../../components/basics/CustomToast/CustomToast";
 import AdminEnrollmentRow from "../../../components/AdminEnrollmentRow/AdminEnrollmentRow";
 
 // External Libraries
 import { Button, ButtonGroup, Dropdown, Form } from "react-bootstrap";
 
-export default function AdminEnrollments() {
+export default function AdminEnrollments({ props }) {
   const value = useContext(AuthContext);
 
   const cols = [
@@ -32,7 +31,6 @@ export default function AdminEnrollments() {
     { field: 'user.email', header: 'Usuario', type: 'relation', relationField: 'id_user', relationTable: 'users' },
   ]
 
-  const [showToast, setShowToast] = useState(null);
   const [request, setRequest] = useState({
     page: 0,
     limit: 10,
@@ -79,7 +77,7 @@ export default function AdminEnrollments() {
   );
 
   const { data: classes } = useQuery(
-    'classesAll',
+    'classesEnrollments',
     async ({ signal }) => fetchClasses(signal),
     {
       staleTime: Infinity,
@@ -297,7 +295,7 @@ export default function AdminEnrollments() {
               <tbody>
                 {enrollments?.data.length > 0 ?
                   enrollments?.data?.map((item) => {
-                    return <AdminEnrollmentRow props={{ item: item, refetch: refetch, cols: cols, showEdit: false, showDelete: true, setShowToast: setShowToast }} key={item._id} />
+                    return <AdminEnrollmentRow props={{ item: item, refetch: refetch, cols: cols, showEdit: false, showDelete: true, setShowToast: props.setShowToast }} key={item._id} />
                   })
                   :
                   <tr>
@@ -313,8 +311,6 @@ export default function AdminEnrollments() {
         <Paginator props={{ pages: enrollments?.pages ?? 0, count: enrollments?.count ?? 0, page: request.page, limit: request.limit, handlePaginate: handlePaginate, handlePaginateNext: handlePaginateNext, handlePaginatePrevious: handlePaginatePrevious }} />
 
       }
-      <CustomToast props={{ data: showToast, setShowToast: setShowToast }} />
-
     </div>
   );
 }

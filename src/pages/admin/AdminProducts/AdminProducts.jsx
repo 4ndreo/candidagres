@@ -18,10 +18,8 @@ import Paginator from "../../../components/Paginator/Paginator";
 
 // External Libraries
 import { Button, ButtonGroup, Dropdown, Form } from "react-bootstrap";
-import CustomToast from "../../../components/basics/CustomToast/CustomToast";
 
-
-export default function AdminProducts() {
+export default function AdminProducts({ props }) {
     const value = useContext(AuthContext);
 
     const cols = [
@@ -35,7 +33,7 @@ export default function AdminProducts() {
         { field: 'created_by', header: 'Creado por', type: 'created_by' },
     ]
 
-    const [showToast, setShowToast] = useState(null);
+    // const [showToast, setShowToast] = useState(null);
     const [request, setRequest] = useState({
         page: 0,
         limit: 10,
@@ -216,7 +214,7 @@ export default function AdminProducts() {
                             <tbody>
                                 {products?.data.length > 0 ?
                                     products?.data?.map((item) => {
-                                        return <AdminProductRow props={{ item: item, refetch: refetch, cols: cols, showEdit: true, showDelete: true, setShowToast: setShowToast }} key={item._id} />
+                                        return <AdminProductRow props={{ item: item, refetch: refetch, cols: cols, showEdit: true, showDelete: true, setShowToast: props.setShowToast }} key={item._id} />
                                     })
                                     :
                                     <tr>
@@ -232,7 +230,7 @@ export default function AdminProducts() {
                 <Paginator props={{ pages: products?.pages ?? 0, count: products?.count ?? 0, page: request.page, limit: request.limit, handlePaginate: handlePaginate, handlePaginateNext: handlePaginateNext, handlePaginatePrevious: handlePaginatePrevious }} />
 
             }
-            <CustomToast props={{ data: showToast, setShowToast: setShowToast }} />
+            {/* <CustomToast props={{ data: showToast, setShowToast: setShowToast }} /> */}
 
         </div>
     );

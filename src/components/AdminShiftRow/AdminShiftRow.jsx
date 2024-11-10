@@ -3,7 +3,6 @@ import './AdminShiftRow.css';
 import { Modal } from "react-bootstrap";
 import { Link } from 'react-router-dom';
 import * as shiftsService from "../../services/shifts.service";
-import * as mediaService from "../../services/media.service";
 import { weekdays } from '../../utils/utils';
 
 export default function AdminShiftRow({ props }) {
