@@ -41,7 +41,7 @@ export default function MisClases() {
     },
   ];
 
-  value.setCurrentUser(JSON.parse(localStorage.getItem("user")));
+  // value.setCurrentUser(JSON.parse(localStorage.getItem("user")));
 
   // const loadData = useCallback(() => {
   //   return new Promise((resolve, reject) => {
