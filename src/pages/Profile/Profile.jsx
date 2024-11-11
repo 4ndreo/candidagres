@@ -10,7 +10,7 @@ export default function ProfilePage() {
 
   const value = useContext(AuthContext);
 
-  value.setCurrentUser(JSON.parse(localStorage.getItem("user")));
+  // value.setCurrentUser(JSON.parse(localStorage.getItem("user")));
 
 
   if ((value.currentUser.email.length === 0 && loading) || value.currentUser.email.length > 0) {
