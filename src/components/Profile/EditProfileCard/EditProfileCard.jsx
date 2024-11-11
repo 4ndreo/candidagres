@@ -6,18 +6,28 @@ import { useContext, useEffect, useState } from "react";
 import * as usersService from "../../../services/users.service";
 import * as mediaService from "../../../services/media.service";
 import { AuthContext } from "../../../App";
+import { Cloudinary } from "@cloudinary/url-gen";
+import { auto } from "@cloudinary/url-gen/actions/resize";
+import { autoGravity } from "@cloudinary/url-gen/qualifiers/gravity";
+import { AdvancedImage } from "@cloudinary/react";
 
 const imageMimeType = /image\/(png|jpg|jpeg)/i;
 
-export default function EditProfileCard({props}) {
-    const SERVER_URL = process.env.REACT_APP_SERVER_URL;
+export default function EditProfileCard({ props }) {
+    const cld = new Cloudinary({ cloud: { cloudName: process.env.REACT_APP_CLOUDINARY_CLOUD_NAME } });
+    const img = cld
+        .image(`profile/${props.data.image}`)
+        .format('auto')
+        .quality('auto')
+        .resize(auto().gravity(autoGravity()));
+
     let navigate = useNavigate();
     const value = useContext(AuthContext);
 
     const [user, setUser] = useState({
         name: props.data.name,
         email: props.data.email,
-        imagen: props.data.imagen
+        image: props.data.image
     });
     const [imageError, setImageError] = useState(null);
     const [file, setFile] = useState(null);
@@ -52,16 +62,14 @@ export default function EditProfileCard({props}) {
         //         navigate("/perfil", { replace: true });
         //     });
         usersService
-            .updateProfile(props.data.id, { name: user.name, imagen: user.imagen })
+            .updateProfile(props.data._id, { name: user.name, image: user.image })
             .then((data) => {
                 console.log('user', value.currentUser)
                 if (file) {
-                    return mediaService.uploadImagen(file).then((nombreImg) => {
-                        console.log("nombreImg", nombreImg);
-                        usersService.update(props.data?.id, { imagen: nombreImg }).then((data) => {
-                            console.log('nombreImg', nombreImg)
-                            localStorage.setItem("user", JSON.stringify({ ...value.currentUser, name: user.name, imagen: nombreImg }));
-                            value.setCurrentUser({ ...value.currentUser, name: user.name, imagen: nombreImg });
+                    return mediaService.uploadImagen(file).then((res) => {
+                        usersService.update(props.data?.id, { image: res.result.display_name }).then((data) => {
+                            localStorage.setItem("user", JSON.stringify({ ...value.currentUser, name: user.name, image: res.result.display_name }));
+                            value.setCurrentUser({ ...value.currentUser, name: user.name, image: res.result.display_name });
                             navigate("/perfil", { replace: true });
 
                         });
@@ -92,7 +100,7 @@ export default function EditProfileCard({props}) {
     return (
         <div className="card card-editar-perfil-container">
             <Link to="/profile" className="btn btn-link back-btn btn-icon"><span className="pi pi-angle-left"></span>Volver</Link>
-            <img className="avatar-img" src={fileDataURL ? fileDataURL : (user.imagen ? SERVER_URL + "uploads/" + user.imagen : UserImg)} alt="Imagen de perfil del usuario" />
+            <AdvancedImage className="avatar-img" cldImg={img} alt="Imagen de perfil del usuario" />
             <form onSubmit={handleSubmit} className="form">
                 <div className="mb-3">
                     <label className="form-label">Nombre y apellido</label>
