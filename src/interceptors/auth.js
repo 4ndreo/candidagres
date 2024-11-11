@@ -2,8 +2,6 @@ export const fetchWithInterceptor = async (url, options = {}) => {
     // Agregar el token a los encabezados
     const token = localStorage.getItem('token');
     if (token) {
-        console.log('PRUEBA');
-        // console.log(JSON.stringify(options.headers !== undefined ? options.headers['Content-Type'] : 'NAD'));
         if (options.headers === undefined) {
             options.headers = {
                 ...options.headers,
@@ -16,7 +14,7 @@ export const fetchWithInterceptor = async (url, options = {}) => {
                 // 'Content-Type': undefined,
                 'auth-token': token
             };
-            
+
         }
     }
 
@@ -26,6 +24,7 @@ export const fetchWithInterceptor = async (url, options = {}) => {
         // Manejar respuestas
         if (response.status === 401) {
             // Manejar el error de autenticación, por ejemplo, redirigir al login
+            localStorage.clear();
             window.location.href = '/auth/login';
         }
 
