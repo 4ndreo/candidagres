@@ -39,7 +39,10 @@ async function findById(id, signal) {
 async function create(producto) {
     return fetchWithInterceptor(url + "products", {
         method: "POST",
-        body: JSON.stringify(producto),
+        headers: {
+            'X-Type': 'form',
+        },
+        body: producto,
     }).then((response) => response.json()
     ).catch(() => { throw new Error('Error: no se pudo crear. Inténtelo de nuevo más tarde') });
 }
@@ -54,7 +57,10 @@ async function remove(idProductos) {
 async function update(idProductos, producto) {
     return fetchWithInterceptor(url + "products/" + idProductos, {
         method: "PATCH",
-        body: JSON.stringify(producto),
+        headers: {
+            'X-Type': 'form',
+        },
+        body: producto,
     }).then((response) => response.json()
     ).catch(() => { throw new Error('Error: no se pudo modificar. Inténtelo de nuevo más tarde') });
 }

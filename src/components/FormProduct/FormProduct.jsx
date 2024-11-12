@@ -5,11 +5,19 @@ import * as mediaService from "../../services/media.service";
 import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../basics/Loader";
 
+// Cloudinary
+import { AdvancedImage } from "@cloudinary/react";
+import { Cloudinary } from "@cloudinary/url-gen";
+import { auto } from "@cloudinary/url-gen/actions/resize";
+import { autoGravity } from "@cloudinary/url-gen/qualifiers/gravity";
+
 // const imageMimeType = /image\/(png|jpg|jpeg)/i;
 
 export default function FormProduct({ props }) {
-  const SERVER_URL = process.env.REACT_APP_SERVER_URL;
-  // const [imageError, setImageError] = useState(null);
+
+  // const [imgName, setImgName] = useState('');
+
+
   const [file, setFile] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [fileDataURL, setFileDataURL] = useState(null);
@@ -17,14 +25,8 @@ export default function FormProduct({ props }) {
   let navigate = useNavigate();
   const params = useParams();
 
-  const [form, setForm] = useState({
-    title: "",
-    description: "",
-    estimated_delay: 0,
-    price: 0,
-    material: "",
-    img: "",
-  });
+  const [initialForm, setInitialForm] = useState();
+  const [form, setForm] = useState({});
   const [error, setError] = useState(null);
   const [errors, setErrors] = useState({});
 
@@ -32,14 +34,14 @@ export default function FormProduct({ props }) {
   async function fetchProduct(id) {
     setIsLoading(true);
 
-    productosService
+    await productosService
       .findById(id)
       .then((producto) => {
         delete producto._id
-        setForm(producto);
+        setInitialForm(producto);
+        setIsLoading(false)
       })
-      .catch((err) => setError(err))
-      .finally(() => setIsLoading(false));
+      .catch((err) => setError(err));
   }
 
   useEffect(() => {
@@ -71,32 +73,18 @@ export default function FormProduct({ props }) {
 
   function handleSubmit(e) {
     e.preventDefault();
+    let body = new FormData();
+    Object.entries(form).forEach(([key, value]) => {
+      body.append(key, value);
+    });
+    if (file) body.append('file', file);
     if (params?.id) {
       productosService
-        .update(params?.id, {
-          title: form.title,
-          description: form.description,
-          estimated_delay: parseInt(form.estimated_delay),
-          price: parseInt(form.price),
-          material: form.material,
-        })
+        .update(params?.id, body)
         .then((resp) => {
           if (!resp.err) {
-            if (file) {
-              return mediaService.uploadImagen(file).then((imgName) => {
-                if (!imgName.err) {
-                  productosService.update(params?.id, { img: imgName }).then(() => {
-                    props.setShowToast({ show: true, title: 'Éxito', message: 'El producto se ha modificado.', variant: 'success', position: 'top-end' });
-                    navigate("/admin/products");
-                  }).catch((err) => props.setShowToast({ show: true, title: 'Error al agregar la imagen', message: 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end' }));
-                } else {
-                  setErrors(imgName.err);
-                }
-              })
-            } else {
-              props.setShowToast({ show: true, title: 'Éxito', message: 'El producto se ha modificado.', variant: 'success', position: 'top-end' });
-              navigate("/admin/products");
-            }
+            props.setShowToast({ show: true, title: 'Éxito', message: 'El producto se ha modificado.', variant: 'success', position: 'top-end' });
+            navigate("/admin/products");
           } else {
             setErrors(resp.err);
           }
@@ -104,31 +92,11 @@ export default function FormProduct({ props }) {
 
     } else {
       productosService
-        .create({
-          title: form.title,
-          description: form.description,
-          estimated_delay: parseInt(form.estimated_delay),
-          price: parseInt(form.price),
-          material: form.material,
-        })
+        .create(body)
         .then((resp) => {
           if (!resp.err) {
-
-            // if (file) {
-            return mediaService.uploadImagen(file).then((imgName) => {
-              if (!imgName.err) {
-                productosService.update(resp._id, { img: imgName }).then((data) => {
-                  props.setShowToast({ show: true, title: 'Éxito', message: 'El producto se ha creado.', variant: 'success', position: 'top-end' });
-                  navigate("/admin/products");
-                }).catch((err) => props.setShowToast({ show: true, title: 'Error al modificar la imagen', message: 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end' }));
-
-              } else {
-                setErrors(imgName.err);
-              }
-            })
-            // } else {
-            //   navigate("/admin/products", { replace: true, state: { show: true, title: 'Éxito', message: 'El producto se ha modificado.', variant: 'success', position: 'top-end' } });
-            // }
+            props.setShowToast({ show: true, title: 'Éxito', message: 'El producto se ha creado.', variant: 'success', position: 'top-end' });
+            navigate("/admin/products");
           } else {
             setErrors(resp.err);
           }
@@ -166,6 +134,19 @@ export default function FormProduct({ props }) {
       </div>
     )
   }
+
+  const renderImage = () => {
+    const cld = new Cloudinary({ cloud: { cloudName: process.env.REACT_APP_CLOUDINARY_CLOUD_NAME } });
+    const img = cld
+      .image(`products/${initialForm?.img}`)
+      .format('auto')
+      .quality('auto')
+      .resize(auto().gravity(autoGravity()));
+    return (
+      <AdvancedImage cldImg={img} className="product-image img-fluid rounded-3" alt={initialForm?.description} />
+    )
+  }
+
   if (isLoading) {
     return <Loader></Loader>
   }
@@ -184,7 +165,7 @@ export default function FormProduct({ props }) {
               id="title"
               name="title"
               placeholder="Elegí un título llamativo"
-              defaultValue={form.title}
+              defaultValue={initialForm?.title}
               required
               onChange={(e) => handleChange(e)}
             />
@@ -201,9 +182,9 @@ export default function FormProduct({ props }) {
               type="text"
               name="description"
               placeholder="Redactá una descripción detallada sobre tu producto. Podés incluir detalles de uso, materiales, etc."
-              defaultValue={form.description}
+              defaultValue={initialForm?.description}
               required
-              onChange={(e) => handleChange(e)}
+              onChange={handleChange}
             ></textarea>
             <small className="form-text text-danger">
               {errors.description}
@@ -217,11 +198,13 @@ export default function FormProduct({ props }) {
                 <input
                   className={"form-control " + (errors.estimated_delay ? 'is-invalid' : '')}
                   id="estimated_delay"
-                  type="number"
                   name="estimated_delay"
-                  value={parseInt(form.estimated_delay)}
+                  type="number"
+                  min={1}
+                  defaultValue={parseInt(initialForm?.estimated_delay)}
                   required
-                  onChange={(e) => handleChange(e)}
+                  onChange={handleChange}
+
                 />
                 <div className="input-group-append">
                   <span className="input-group-text">días</span>
@@ -243,7 +226,7 @@ export default function FormProduct({ props }) {
                   name="price"
                   type="number"
                   min={0}
-                  defaultValue={parseInt(form.price)}
+                  defaultValue={parseInt(initialForm?.price)}
                   onChange={handleChange}
                   required
                 />
@@ -262,7 +245,7 @@ export default function FormProduct({ props }) {
                 id="material"
                 type="text"
                 name="material"
-                defaultValue={form.material}
+                defaultValue={initialForm?.material}
                 required
                 onChange={handleChange}
               />
@@ -290,14 +273,17 @@ export default function FormProduct({ props }) {
               {fileDataURL ?
                 <>
                   <label className="form-label d-block">Nueva imagen:</label>
-                  <img src={fileDataURL} className="product-image img-fluid rounded-3" alt={form.description} />
+                  <img src={fileDataURL} className="product-image img-fluid rounded-3" alt={initialForm?.description} />
                 </>
                 :
 
                 params?.id &&
                 <>
                   <label className="form-label d-block">Imagen actual:</label>
-                  <img src={SERVER_URL + "uploads/" + form.img} className="product-image img-fluid rounded-3" alt={form.description} />
+                  {initialForm &&
+                    renderImage()
+                  }
+                  {/* <img src={SERVER_URL + "uploads/" + initialForm?.img} className="product-image img-fluid rounded-3" alt={initialForm?.description} /> */}
                 </>
 
               }

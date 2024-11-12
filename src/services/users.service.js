@@ -31,7 +31,6 @@ async function remove(idUser) {
 }
 
 async function update(idUser, user) {
-  console.log(user)
   return fetchWithInterceptor(url + "users/" + idUser, {
     method: "PATCH",
     body: JSON.stringify(user),
@@ -39,11 +38,15 @@ async function update(idUser, user) {
 }
 
 async function updateProfile(idUser, user) {
-  console.log(user)
+
   return fetchWithInterceptor(url + "profile/" + idUser, {
     method: "PATCH",
-    body: JSON.stringify(user),
-  }).then((response) => response.json());
+    headers: {
+      'X-Type': 'image',
+    },
+    body: user,
+  }).then((response) => response.json())
+    .catch(() => { throw new Error('Error: no se pudo modificar. Inténtelo de nuevo más tarde') });
 }
 
 export { find, findById, create, remove, update, updateProfile };

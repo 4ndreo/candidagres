@@ -1,11 +1,11 @@
 import "./ViewProfileCard.css";
 
-import UserImg from "../../../img/user.svg";
 import { Link } from "react-router-dom";
 import { Cloudinary } from "@cloudinary/url-gen";
 import { auto } from "@cloudinary/url-gen/actions/resize";
 import { autoGravity } from "@cloudinary/url-gen/qualifiers/gravity";
 import { AdvancedImage } from "@cloudinary/react";
+import { DateTime } from "luxon";
 
 export default function ViewProfileCard({ props }) {
     const cld = new Cloudinary({ cloud: { cloudName: process.env.REACT_APP_CLOUDINARY_CLOUD_NAME } });
@@ -24,6 +24,7 @@ export default function ViewProfileCard({ props }) {
                     <h1>{props.data.first_name} {props.data.last_name}</h1>
                     <p>{props.data.email}</p>
                     <p>{props.data.document_type}: {props.data.id_document}</p>
+                    <p>Fecha de nacimiento: {DateTime.fromISO(props.data.birth_date).toFormat('dd-MM-yyyy')}</p>
                 </div>
             </div>
         </div>

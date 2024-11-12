@@ -55,7 +55,6 @@ export default function FormShift({ props }) {
 
   const fetchClasses = async () => {
     const result = await classesService.find();
-    console.log(result)
     return result;
   }
   const { data: classes } = useQuery(
@@ -81,7 +80,6 @@ export default function FormShift({ props }) {
   }
 
   function handleDays(e) {
-    console.log(e.target.checked)
     if (e.target.checked) {
       setForm(prev => ({ ...prev, days: [...prev.days, e.target.value] }))
     } else {

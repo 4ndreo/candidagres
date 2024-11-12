@@ -13,7 +13,6 @@ export default function AdminEnrollmentRow({ props }) {
   const handleShow = (selected) => { setShow(true); setDeleting(selected) };
 
   function handleSelectedDelete(item) {
-    console.log(item)
     setDeleting(item);
   }
 

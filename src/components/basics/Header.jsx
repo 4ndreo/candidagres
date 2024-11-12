@@ -21,23 +21,7 @@ export default function Header() {
     navigate("/auth/login", { replace: true });
   }
 
-  // function handleShowProfile() {
-  //   setShowProfile(!showProfile);
-  // }
-
   const offcanvasRef = useRef(null);
-
-  // const handleLinkClick = () => {
-  //   console.log(offcanvasRef )
-  //   const offcanvasElement = offcanvasRef.current;
-  //   if (offcanvasElement) {
-  //     const bsOffcanvas = new Offcanvas(offcanvasElement);
-  //     bsOffcanvas.hide();
-  //   }
-  // };
-
-
-
 
   if ((!value.token && !value.currentUser) || value.currentUser) {
     return (

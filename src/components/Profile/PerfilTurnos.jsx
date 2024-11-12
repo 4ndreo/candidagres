@@ -15,12 +15,6 @@ export function PerfilTurnos({ title }) {
   const fn = async (idTurno) => {
     const [turnos] = await Promise.all([turnosService.find()]);
 
-    console.log(idTurno);
-    console.log("turnos: ", turnos);
-    // const user = JSON.parse(window.localStorage.getItem('user'));
-    // setNombre(user.email)
-    // setIdUser(user._id)
-
     let inscripcionesDelUsuario = turnos
       .filter((turno) => turno._id === idTurno)
       .map((turno) => ({
@@ -40,10 +34,8 @@ export function PerfilTurnos({ title }) {
   function handleDeleteElement(id) {
     window.confirm("¿Estas seguro que queres eliminar tu inscripción?");
     inscripcionesService.remove(id).then((inscripcion) => {
-      console.log(inscripcion);
       navigate("/perfil", { replace: true });
     });
-    //console.log(id)
   }
 
   return (
