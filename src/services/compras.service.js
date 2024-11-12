@@ -48,7 +48,6 @@ async function remove(idCompra) {
 }
 
 async function update(compra) {
-    console.log("service.compra", compra)
     return fetchWithInterceptor(url + "compras/" + compra._id, {
         method: "PATCH",
         headers: {

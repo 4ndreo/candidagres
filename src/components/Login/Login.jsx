@@ -32,7 +32,6 @@ export default function Login() {
       .login(form.email, form.password)
       .then((resp) => {
         if (!resp.err) {
-          // console.log(resp.userData);
           value.setToken(resp.token);
           value.setCurrentUser(resp.userData);
           localStorage.setItem("user", JSON.stringify(resp.userData));

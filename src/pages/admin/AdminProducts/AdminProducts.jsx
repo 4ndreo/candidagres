@@ -47,7 +47,7 @@ export default function AdminProducts({ props }) {
     }
 
     const { data: products, isLoading, isError, error, refetch } = useQuery(
-        'products',
+        'productsAdmin',
         () => fetchProducts(request),
         {
             staleTime: Infinity,

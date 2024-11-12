@@ -14,7 +14,6 @@ export default function ViewProduct(props) {
   const context = useContext(AuthContext);
   const params = useParams();
   const productId = params.id
-  console.log(productId)
 
   const [errorAdding, setErrorAdding] = useState();
   const [adding, setAdding] = useState();

@@ -6,6 +6,12 @@ import * as productosService from "../../services/productos.service";
 import * as mediaService from "../../services/media.service";
 import { AuthContext } from '../../App';
 
+// Cloudinary
+import { AdvancedImage } from "@cloudinary/react";
+import { Cloudinary } from "@cloudinary/url-gen";
+import { auto } from "@cloudinary/url-gen/actions/resize";
+import { autoGravity } from "@cloudinary/url-gen/qualifiers/gravity";
+
 export default function AdminProductRow({ props }) {
   const SERVER_URL = process.env.REACT_APP_SERVER_URL;
   const value = useContext(AuthContext);
@@ -17,7 +23,6 @@ export default function AdminProductRow({ props }) {
   const handleShow = (selected) => { setShow(true); setDeleting(selected) };
 
   function handleSelectedDelete(item) {
-    console.log(item)
     setDeleting(item);
   }
 
@@ -31,6 +36,18 @@ export default function AdminProductRow({ props }) {
       props.setShowToast({ show: true, title: 'Error al eliminar el producto', message: 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end' });
 
     }
+  }
+
+  const renderImage = (item) => {
+    const cld = new Cloudinary({ cloud: { cloudName: process.env.REACT_APP_CLOUDINARY_CLOUD_NAME } });
+    const img = cld
+      .image(`products/${item.img}`)
+      .format('auto')
+      .quality('auto')
+      .resize(auto().gravity(autoGravity()));
+    return (
+      <AdvancedImage cldImg={img} className="product-image img-fluid rounded-3" alt={item?.description} />
+    )
   }
 
   return (
@@ -67,7 +84,9 @@ export default function AdminProductRow({ props }) {
                 <td key={index} className="text-center">{props.item.user.email}</td>
               )
             case 'image':
-              return (<td key={index} className="text-center"><img src={SERVER_URL + "uploads/" + props.item[col.field]} className="img-fluid rounded" alt={props.item.descripcion} /></td>)
+              return (<td key={index} className="text-center">
+                {renderImage(props.item)}
+              </td>)
             // case 'date':
             default:
               return (<td key={index} className="text-center">{props.item[col.field]}</td>)
