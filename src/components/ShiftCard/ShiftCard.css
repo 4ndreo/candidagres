@@ -1,0 +1,35 @@
+.shift-card-cont {
+  border: 1px solid white;
+  width: 100%;
+  position: absolute;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.shift-card-cont .item-turno {
+  height: 100%;
+  font-size: 0.875rem;
+  border-radius: 6px;
+  padding: 0.5rem;
+  transition: 0.15s ease-in-out all;
+}
+
+.shift-card-cont .item-turno:hover {
+  cursor: pointer;
+}
+
+.shift-card-cont .item-turno h3 {
+  font-size: 1rem;
+  display: inline-block;
+  margin-bottom: 0;
+}
+
+
+.shift-card-cont .inscripto {
+  filter: contrast(30%);
+}
+
+.shift-card-cont .inscripto h3 {
+  color: var(--main-gray);
+
+}
