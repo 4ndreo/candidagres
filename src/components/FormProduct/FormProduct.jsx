@@ -1,7 +1,6 @@
 import "./FormProduct.css";
 import React, { useEffect, useState } from "react";
 import * as productosService from "../../services/productos.service";
-import * as mediaService from "../../services/media.service";
 import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../basics/Loader";
 
@@ -11,12 +10,7 @@ import { Cloudinary } from "@cloudinary/url-gen";
 import { auto } from "@cloudinary/url-gen/actions/resize";
 import { autoGravity } from "@cloudinary/url-gen/qualifiers/gravity";
 
-// const imageMimeType = /image\/(png|jpg|jpeg)/i;
-
 export default function FormProduct({ props }) {
-
-  // const [imgName, setImgName] = useState('');
-
 
   const [file, setFile] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -29,7 +23,6 @@ export default function FormProduct({ props }) {
   const [form, setForm] = useState({});
   const [error, setError] = useState(null);
   const [errors, setErrors] = useState({});
-
 
   async function fetchProduct(id) {
     setIsLoading(true);
