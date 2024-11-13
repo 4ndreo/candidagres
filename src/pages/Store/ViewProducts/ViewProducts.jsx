@@ -50,6 +50,8 @@ export default function ViewProducts() {
                         );
                     })}
                 </ul>
+
+                // TODO: Add paginator and filters
             }
         </div>
 

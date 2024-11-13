@@ -183,6 +183,8 @@ export default function Register({ onLogin }) {
           </small>
         </div>
 
+         {/* TODO: Add loader when register is in progress */}
+
         <button className="btn submit-btn" type="submit" disabled={Object.values(form).length === 0}>Registrarse</button>
       </form>
       <Link className=" d-block text-center mt-4" to="/auth/login">¿Ya tenés una cuenta? Ingresá acá.</Link>

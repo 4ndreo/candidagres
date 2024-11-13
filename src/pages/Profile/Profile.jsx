@@ -11,5 +11,7 @@ export default function ProfilePage() {
         </div>
       </div>
     </main>
+
+    // TODO: Add user's enrollments
   );
 }
