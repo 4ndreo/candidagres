@@ -7,10 +7,14 @@ import { useQuery } from "react-query";
 import Loader from "../../../components/basics/Loader";
 import { useParams } from "react-router-dom";
 
+// Cloudinary
+import { AdvancedImage } from "@cloudinary/react";
+import { Cloudinary } from "@cloudinary/url-gen";
+import { auto } from "@cloudinary/url-gen/actions/resize";
+import { autoGravity } from "@cloudinary/url-gen/qualifiers/gravity";
 
 
 export default function ViewProduct(props) {
-  const SERVER_URL = process.env.REACT_APP_SERVER_URL;
   const context = useContext(AuthContext);
   const params = useParams();
   const productId = params.id
@@ -95,6 +99,18 @@ export default function ViewProduct(props) {
     )
   }
 
+  const renderImage = (item) => {
+    const cld = new Cloudinary({ cloud: { cloudName: process.env.REACT_APP_CLOUDINARY_CLOUD_NAME } });
+    const img = cld
+      .image(`products/${item.img}`)
+      .format('auto')
+      .quality('auto')
+      .resize(auto().gravity(autoGravity()));
+    return (
+      <AdvancedImage cldImg={img} className="product-image img-fluid rounded-3" alt={item?.description} />
+    )
+  }
+
   if (isLoading) {
     return <Loader></Loader>
   }
@@ -106,7 +122,8 @@ export default function ViewProduct(props) {
         :
         <>
           <div className="col-md-6">
-            <img src={SERVER_URL + "uploads/" + product.img} className="product-image img-fluid rounded-3" alt={product.descripcion} />
+            {renderImage(product)}
+            {/* <img src={SERVER_URL + "uploads/" + product.img} className="product-image img-fluid rounded-3" alt={product.descripcion} /> */}
           </div>
           <div className="col-md-6">
             <div className="row g-0 h-100 align-content-between">
