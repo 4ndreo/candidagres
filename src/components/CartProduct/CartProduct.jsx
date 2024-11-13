@@ -3,9 +3,13 @@ import React, { useEffect, useState } from "react";
 import * as carritoService from "../../services/carrito.service";
 import { Button } from "react-bootstrap";
 
+// Cloudinary
+import { AdvancedImage } from "@cloudinary/react";
+import { Cloudinary } from "@cloudinary/url-gen";
+import { auto } from "@cloudinary/url-gen/actions/resize";
+import { autoGravity } from "@cloudinary/url-gen/qualifiers/gravity";
+
 export function CartProduct({ props }) {
-  const SERVER_URL = process.env.REACT_APP_SERVER_URL;
-  // const [loadingQuantities, setLoadingQuantities] = useState(false);
   const [quantity, setQuantity] = useState();
   const item = props.item;
 
@@ -27,7 +31,6 @@ export function CartProduct({ props }) {
 
   const handleSubtractToCart = async (item) => {
     try {
-      // props.item.quantity--
       setQuantity(prev => prev - 1);
       await carritoService.substractToCart(props.idUser, { id: item._id, quantity: props.item.quantity });
       props.refetch();
@@ -37,22 +40,31 @@ export function CartProduct({ props }) {
   }
 
   const renderQuantity = () => {
-    // return loadingQuantities ?
-    // <LoaderMini className="loader-mini" /> :
     return (
       <>
         <Button variant="danger" onClick={() => handleSubtractToCart(props.item)}>-</Button>
-
         {quantity || 0}
-
         <Button variant="success" onClick={() => handleAddToCart(props.item)}>+</Button >
       </>)
+  }
+
+  const renderImage = (item) => {
+    const cld = new Cloudinary({ cloud: { cloudName: process.env.REACT_APP_CLOUDINARY_CLOUD_NAME } });
+    const img = cld
+      .image(`products/${item.img}`)
+      .format('auto')
+      .quality('auto')
+      .resize(auto().gravity(autoGravity()));
+    return (
+      <AdvancedImage cldImg={img} className="img-fluid rounded" alt={item?.description} />
+    )
   }
 
   return (
     <div className="cart-product-cont row g-0 position-relative">
       <div className="img-cont col-2">
-        <img src={SERVER_URL + "uploads/" + item.img} className="img-fluid rounded" alt={item.description} />
+        {renderImage(item)}
+        {/* <img src={SERVER_URL + "uploads/" + item.img} className="img-fluid rounded" alt={item.description} /> */}
       </div>
       <div className="col-10">
         <div className="row g-0 h-100">
