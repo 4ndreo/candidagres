@@ -24,14 +24,14 @@ export default function ClassesPage() {
     sort: { field: 'undefined', direction: 1 },
   });
 
-  const fetchProducts = async (request, signal) => {
+  const fetchClasses = async (request, signal) => {
     const result = await classesService.findQuery({ ...request, filter: JSON.stringify(request.filter), sort: JSON.stringify(request.sort) }, signal);
     return result[0];
   }
 
   const { data: classesData, isLoading, isError, error, refetch } = useQuery(
     'classesData',
-    async ({signal}) => fetchProducts(request, signal),
+    async ({signal}) => fetchClasses(request, signal),
     {
       staleTime: Infinity,
       retry: 2,
