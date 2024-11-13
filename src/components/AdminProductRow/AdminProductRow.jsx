@@ -13,7 +13,6 @@ import { auto } from "@cloudinary/url-gen/actions/resize";
 import { autoGravity } from "@cloudinary/url-gen/qualifiers/gravity";
 
 export default function AdminProductRow({ props }) {
-  const SERVER_URL = process.env.REACT_APP_SERVER_URL;
   const value = useContext(AuthContext);
 
   const [deleting, setDeleting] = useState();
