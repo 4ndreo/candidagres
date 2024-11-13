@@ -81,6 +81,7 @@ export default function Login() {
           </small>
         </div>
         <button className="btn submit-btn" type="submit" disabled={Object.values(form).length === 0 || Object.values(form)[0].length === 0}>Iniciar sesión</button>
+         {/* TODO: Add loader when login is in progress */}
       </form>
       {/* TODO: OLvidé mi contraseña */}
       <Link className=" d-block text-center mt-4" to="/auth/register">¿Aún no tenés una cuenta? Registrate acá.</Link>

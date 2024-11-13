@@ -24,9 +24,9 @@ import FormShift from "./components/FormShift/FormShift";
 import AdminEnrollments from "./pages/admin/AdminEnrollments/AdminEnrollments";
 
 // Store
+import StorePage from "./pages/Store/Store";
 import ViewProducts from "./pages/Store/ViewProducts/ViewProducts";
 import ViewProduct from "./pages/Store/ViewProduct/ViewProduct";
-import StorePage from "./pages/Store";
 import Cart from "./pages/Store/Cart/Cart";
 import Purchases from "./pages/Store/Purchases/Purchases"
 
