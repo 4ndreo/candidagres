@@ -61,8 +61,8 @@ export default function Cart() {
             carritoId: cart._id,
             state: "pending",
             items: cart.items.map((product) => ({
-                title: product.nombre,
-                description: product.descripcion,
+                title: product.title,
+                description: product.description,
                 unit_price: product.price,
                 quantity: product.quantity,
                 material: product.material
@@ -78,7 +78,7 @@ export default function Cart() {
             return error
         }
     }
-
+    –
     const renderItems = (cart) => {
         if (cart.items.length === 0) {
             return <p>Tu carrito se encuentra vacío.</p>
