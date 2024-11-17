@@ -18,7 +18,7 @@ async function findById(idUser, signal) {
 }
 
 async function create(user) {
-  return fetchWithInterceptor(url + "users/user", {
+  return fetchWithInterceptor(url + "users", {
     method: "POST",
     body: JSON.stringify(user),
   }).then((response) => response.json());

@@ -16,14 +16,16 @@ export const fetchWithInterceptor = async (url, options = {}) => {
             };
 
         }
+    } else {
+        options.headers = {
+            ...options.headers,
+            'Content-Type': 'application/json',
+        };
     }
 
     try {
         const response = await fetch(url, options);
-
-        // Manejar respuestas
         if (response.status === 401) {
-            // Manejar el error de autenticación, por ejemplo, redirigir al login
             localStorage.clear();
             window.location.href = '/auth/login';
         }

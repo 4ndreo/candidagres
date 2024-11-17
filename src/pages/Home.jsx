@@ -41,7 +41,7 @@ export default function Header() {
             </p>
             <p>
               El universo cerámico es muy amplio. Hay diversas maneras de
-              construir y en nuestro taller, acompañamos la libre exploración
+              construir y, en nuestro taller, acompañamos la libre exploración
               sobre las diversas técnicas de trabajo del material. Hay quienes
               dan sus primeros pasos en el torno y quienes se están
               perfeccionando.
@@ -81,10 +81,10 @@ export default function Header() {
               acompañado a todas las culturas humanas desde sus inicios.
             </p>
             <p>
-              la clase está dirigido a adultos con o sin experiencia previa.
+              La clase está dirigida a adultos con o sin experiencia previa.
               La modalidad de trabajo es una guía personalizada en la
               concepción y desarrollo de proyectos personales, incluyendo a
-              quienes –a pesar de contar con conocimientos anteriores- deseen
+              quienes –a pesar de contar con conocimientos anteriores– deseen
               profundizar determinadas temáticas o técnicas específicas.
             </p>
           </div>
