@@ -4,6 +4,7 @@ import * as authService from "../../services/auth.service";
 import { useContext } from "react";
 import { AuthContext } from "../../App";
 import { Link, useNavigate } from "react-router-dom";
+import LoaderMini from "../basics/LoaderMini";
 
 export default function Login() {
 
@@ -13,6 +14,8 @@ export default function Login() {
   const [form, setForm] = useState({});
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
+
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -27,6 +30,7 @@ export default function Login() {
   }
 
   async function handleSubmit(e) {
+    setLoading(true);
     e.preventDefault();
     await authService
       .login(form.email, form.password)
@@ -40,6 +44,7 @@ export default function Login() {
         } else {
           setErrors(resp.err);
         }
+        setLoading(false);
       })
   }
 
@@ -80,8 +85,10 @@ export default function Login() {
             {errors.password}
           </small>
         </div>
-        <button className="btn submit-btn" type="submit" disabled={Object.values(form).length === 0 || Object.values(form)[0].length === 0}>Iniciar sesión</button>
-         {/* TODO: Add loader when login is in progress */}
+        <button className="btn submit-btn d-flex justify-content-center" type="submit" disabled={Object.values(form).length === 0 || Object.values(form)[0].length === 0 || loading}>{loading ? <span className='mini-loader-cont'>
+          <LoaderMini></LoaderMini>
+        </span> : 'Iniciar sesión'}</button>
+        {/* TODO: Add loader when login is in progress */}
       </form>
       {/* TODO: OLvidé mi contraseña */}
       <Link className=" d-block text-center mt-4" to="/auth/register">¿Aún no tenés una cuenta? Registrate acá.</Link>
