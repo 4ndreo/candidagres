@@ -4,6 +4,7 @@ import * as UsersService from "../../services/users.service";
 import * as authService from "../../services/auth.service";
 import { AuthContext } from "../../App";
 import { Link, useNavigate, useOutletContext } from "react-router-dom";
+import LoaderMini from "../basics/LoaderMini";
 
 export default function Register({ onLogin }) {
   let navigate = useNavigate();
@@ -13,7 +14,7 @@ export default function Register({ onLogin }) {
   const [form, setForm] = useState({});
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
-
+  const [loading, setLoading] = useState(false);
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -28,6 +29,7 @@ export default function Register({ onLogin }) {
   }
 
   function handleSubmit(e) {
+    setLoading(true);
     e.preventDefault();
     UsersService.create(form)
       .then((resp) => {
@@ -45,6 +47,7 @@ export default function Register({ onLogin }) {
         } else {
           setErrors(resp.err);
         }
+        setLoading(false);
       });
   }
 
@@ -185,7 +188,9 @@ export default function Register({ onLogin }) {
 
          {/* TODO: Add loader when register is in progress */}
 
-        <button className="btn submit-btn" type="submit" disabled={Object.values(form).length === 0}>Registrarse</button>
+        <button className="btn submit-btn d-flex justify-content-center" type="submit" disabled={Object.values(form).length === 0 || loading}>{loading ? <span className='mini-loader-cont'>
+          <LoaderMini></LoaderMini>
+        </span> : 'Registrarse'}</button>
       </form>
       <Link className=" d-block text-center mt-4" to="/auth/login">¿Ya tenés una cuenta? Ingresá acá.</Link>
     </div>
