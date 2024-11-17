@@ -78,7 +78,6 @@ export default function Cart() {
             return error
         }
     }
-    –
     const renderItems = (cart) => {
         if (cart.items.length === 0) {
             return <p>Tu carrito se encuentra vacío.</p>
