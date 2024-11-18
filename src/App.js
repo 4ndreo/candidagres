@@ -44,30 +44,25 @@ import EditProfileCard from "./components/Profile/EditProfileCard/EditProfileCar
 // import { Dashboard } from "./components/dashboard/Dashboard"
 import MisClases from "./pages/MisClases";
 import CustomToast from "./components/basics/CustomToast/CustomToast";
+import ForgotPassword from "./components/ForgotPassword/ForgotPassword";
+import VerifyEmail from "./components/VerifyEmail/VerifyEmail";
+import ChangePassword from "./components/ChangePassword/ChangePassword";
 
 export const AuthContext = createContext();
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem("token"));
+  const [verifyEmailCode, setVerifyEmailCode] = useState(null);
   const [currentUser, setCurrentUser] = useState(
     JSON.parse(localStorage.getItem("user"))
   );
 
   const [showToast, setShowToast] = useState(null);
 
-
-  // useEffect(() => {
-  //   if (!token) {
-  //     navigate("auth/login", { replace: true });
-  //   }
-  // }, []);
-
-
-
   return (
     <>
       <AuthContext.Provider
-        value={{ token, currentUser, setToken, setCurrentUser }}
+        value={{ token, currentUser, setToken, setCurrentUser, verifyEmailCode, setVerifyEmailCode }}
       >
         <Header></Header>
 
@@ -75,6 +70,9 @@ function App() {
           <Route path="/auth" element={<AuthPage />}>
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
+            <Route path="forgot-password" element={<ForgotPassword props={{ setShowToast }} />} />
+            <Route path="verify-email/:id" element={<VerifyEmail props={{ setShowToast }} />} />
+            <Route path="change-password/:id" element={<ChangePassword props={{ setShowToast }} />} />
           </Route>
 
           <Route path="*" element={<Home />} />

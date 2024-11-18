@@ -1,15 +1,16 @@
-import "./Login.css";
+import "./ChangePassword.css";
 import React, { useState } from "react";
 import * as authService from "../../services/auth.service";
 import { useContext } from "react";
 import { AuthContext } from "../../App";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import LoaderMini from "../basics/LoaderMini";
 
-export default function Login() {
+export default function ChangePassword({ props }) {
 
   let navigate = useNavigate();
   const value = useContext(AuthContext);
+  const params = useParams();
 
   const [form, setForm] = useState({});
   const [showPassword, setShowPassword] = useState(false);
@@ -33,44 +34,29 @@ export default function Login() {
     setLoading(true);
     e.preventDefault();
     await authService
-      .login(form.email, form.password)
+      .changePassword(params.id, value.verifyEmailCode, { password: form.password, confirm_password: form.confirm_password })
       .then((resp) => {
         if (!resp.err) {
-          value.setToken(resp.token);
-          value.setCurrentUser(resp.userData);
-          localStorage.setItem("user", JSON.stringify(resp.userData));
-          localStorage.setItem("token", resp.token);
-          navigate("/", { replace: true });
+          value.setVerifyEmailCode(null);
+          props.setShowToast({ show: true, title: 'Éxito', message: 'Cambiaste tu contraseña.', variant: 'success', position: 'top-end' });
+          navigate(`/auth/login`);
         } else {
           setErrors(resp.err);
         }
         setLoading(false);
       })
+      .finally(() => {
+        setLoading(false);
+      })
   }
 
   return (
-    <div className="login-cont w-100">
-      <h1 className="pb-4">Ingresá</h1>
+    <div className="forgot-password-cont w-100">
+      <h1 className="pb-4">Cambiá tu contraseña</h1>
+      <p>Ingresá una nueva contraseña para tu cuenta.</p>
       <form onSubmit={handleSubmit} noValidate>
         <div className="d-flex flex-column">
-
-          <label htmlFor="email">Email</label>
-          <input
-            className={"form-control w-100 " + (errors.email ? 'is-invalid' : '')}
-            id="email"
-            name="email"
-            type="email"
-            placeholder="tunombre@email.com"
-            onChange={handleChange}
-            required
-          />
-          <small className="form-text text-danger">
-            {errors.email}
-          </small>
-        </div>
-
-        <div className="d-flex flex-column">
-          <label htmlFor="password">Contraseña</label>
+          <label htmlFor="password">Nueva contraseña</label>
           <div className="d-flex align-items-center">
             <input
               className={"form-control mb-0 w-100 " + (errors.password ? 'is-invalid' : '')}
@@ -86,14 +72,32 @@ export default function Login() {
           <small className="form-text text-danger">
             {errors.password}
           </small>
-          <small>¿Olvidaste tu contraseña? <Link to="/auth/forgot-password">Recuperala.</Link></small>
         </div>
+        <div className="d-flex flex-column">
+          <label htmlFor="confirm_password">Confirmar contraseña</label>
+          <div className="d-flex align-items-center">
+            <input
+              className={"form-control mb-0 w-100 " + (errors.confirm_password ? 'is-invalid' : '')}
+              id="confirm_password"
+              name="confirm_password"
+              type={showPassword ? 'text' : "password"}
+              placeholder="********"
+              onChange={handleChange}
+              required
+            />
+            <button className="btn btn-link pe-0" type="button" onClick={() => setShowPassword(prev => !prev)}><span className={showPassword ? 'pi pi-eye' : 'pi pi-eye-slash'}></span></button>
+          </div>
+          <small className="form-text text-danger">
+            {errors.confirm_password}
+          </small>
+        </div>
+        {errors.verification_code && <small className="form-text text-danger">
+          {errors.verification_code} <Link to="/auth/forgot-password">Hacé click acá para recibir uno nuevo.</Link>
+        </small>}
         <button className="btn submit-btn d-flex justify-content-center" type="submit" disabled={Object.values(form).length === 0 || Object.values(form)[0].length === 0 || loading}>{loading ? <span className='mini-loader-cont'>
           <LoaderMini></LoaderMini>
-        </span> : 'Iniciar sesión'}</button>
+        </span> : 'Cambiar contraseña'}</button>
       </form>
-      {/* TODO: OLvidé mi contraseña */}
-      <Link className=" d-block text-center mt-4" to="/auth/register">¿Aún no tenés una cuenta? Registrate acá.</Link>
     </div>
   );
 }

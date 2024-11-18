@@ -13,6 +13,39 @@ async function login(email, password) {
 
 }
 
+async function restorePassword(email) {
+    return fetch(url + 'auth/restorePassword', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email })
+    }).then((response) => response.json());
+
+}
+
+async function verifyEmail(id, verificationCode) {
+    return fetch(url + 'auth/verifyEmailCode', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id, verificationCode })
+    }).then((response) => response.json());
+
+}
+
+async function changePassword(id, verificationCode, data) {
+    return fetch(url + 'auth/changePassword', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id, verificationCode, password: data.password, confirm_password: data.confirm_password })
+    }).then((response) => response.json());
+
+}
+
 async function auth(user) {
     return fetchWithInterceptor(url + 'users/auth', {
         method: 'POST',
@@ -32,5 +65,8 @@ async function auth(user) {
 
 export {
     login,
+    restorePassword,
+    verifyEmail,
+    changePassword,
     auth
 }
