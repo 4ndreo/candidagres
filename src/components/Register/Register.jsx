@@ -131,9 +131,9 @@ export default function Register({ onLogin }) {
                   Puede tener 7 u 8 números.
                 </small>) ||
                 (form.document_type === "CUIL" &&
-                <small className="form-text text-muted">
-                  Debe tener el formato XX-XXXXXXXX-X.
-                </small>))
+                  <small className="form-text text-muted">
+                    Debe tener el formato XX-XXXXXXXX-X.
+                  </small>))
             }
 
           </div>
@@ -185,9 +185,6 @@ export default function Register({ onLogin }) {
             {errors.password}
           </small>
         </div>
-
-         {/* TODO: Add loader when register is in progress */}
-
         <button className="btn submit-btn d-flex justify-content-center" type="submit" disabled={Object.values(form).length === 0 || loading}>{loading ? <span className='mini-loader-cont'>
           <LoaderMini></LoaderMini>
         </span> : 'Registrarse'}</button>

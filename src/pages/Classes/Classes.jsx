@@ -33,7 +33,7 @@ export default function ClassesPage() {
     'classesData',
     async ({signal}) => fetchClasses(request, signal),
     {
-      staleTime: Infinity,
+      staleTime: 60000,
       retry: 2,
     }
   );
