@@ -98,7 +98,7 @@ export default function FormShift({ props }) {
           description: form.description,
           start_time: form.start_time,
           end_time: form.end_time,
-          max_places: parseInt(form.max_places),
+          max_places: form.max_places,
           days: form.days,
         })
         .then((resp) => {
@@ -118,7 +118,7 @@ export default function FormShift({ props }) {
           description: form.description,
           start_time: form.start_time,
           end_time: form.end_time,
-          max_places: parseInt(form.max_places),
+          max_places: form.max_places,
           days: form.days,
         })
         .then((resp) => {

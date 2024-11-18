@@ -64,8 +64,8 @@ export default function FormClass({ props }) {
           title: form.title,
           teacher: form.teacher,
           description: form.description,
-          price: parseInt(form.price),
-          min_age: parseInt(form.min_age),
+          price: form.price,
+          min_age: form.min_age,
         })
         .then((resp) => {
           if (!resp.err) {
@@ -82,8 +82,8 @@ export default function FormClass({ props }) {
           title: form.title,
           teacher: form.teacher,
           description: form.description,
-          price: parseInt(form.price),
-          min_age: parseInt(form.min_age),
+          price: form.price,
+          min_age: form.min_age,
         })
         .then((resp) => {
           if (!resp.err) {
