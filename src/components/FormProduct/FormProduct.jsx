@@ -110,6 +110,7 @@ export default function FormProduct({ props }) {
   }
 
   const changeHandler = (e) => {
+    console.log(e.target.name);
     const { name } = e.target;
 
     setErrors({
@@ -263,20 +264,18 @@ export default function FormProduct({ props }) {
           </div>
           <div>
             <div className="img-preview-wrapper">
-              {fileDataURL ?
+              {fileDataURL && file ?
                 <>
                   <label className="form-label d-block">Nueva imagen:</label>
                   <img src={fileDataURL} className="product-image img-fluid rounded-3" alt={initialForm?.description} />
                 </>
                 :
-
                 params?.id &&
                 <>
                   <label className="form-label d-block">Imagen actual:</label>
                   {initialForm &&
                     renderImage()
                   }
-                  {/* <img src={SERVER_URL + "uploads/" + initialForm?.img} className="product-image img-fluid rounded-3" alt={initialForm?.description} /> */}
                 </>
 
               }

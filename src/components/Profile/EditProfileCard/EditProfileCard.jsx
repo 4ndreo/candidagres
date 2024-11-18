@@ -246,7 +246,7 @@ export default function EditProfileCard({ props }) {
                 </div>
                 <div>
                     <div className="img-preview-wrapper">
-                        {fileDataURL ?
+                        {fileDataURL && file ?
                             <>
                                 <label className="form-label d-block">Nueva imagen:</label>
                                 <img src={fileDataURL} className="preview-image img-fluid rounded-3" alt={form.description} />

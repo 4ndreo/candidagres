@@ -12,11 +12,12 @@ export function ShiftsPage() {
   const params = useParams();
 
   const fetchShifts = async () => {
+    console.log('fetching')
     const result = await classesService.findOneWithShifts(params.id);
     return result;
   }
 
-  const { data: classData, isLoading, isError, error, refetch } = useQuery(
+  const { data: classData, isFetching, isError, error, refetch } = useQuery(
     'classData',
     fetchShifts,
     {
@@ -35,7 +36,7 @@ export function ShiftsPage() {
     setHoveredTurno('');
   }
 
-  if (isLoading) {
+  if (isFetching) {
     return <Loader></Loader>
   }
 
