@@ -1,0 +1,38 @@
+.login-cont form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem
+}
+
+.login-cont .submit-btn {
+  margin-top: 2rem;
+  background: #4361ee;
+  color: white;
+  border: 1px solid #4361ee;
+  padding: 0.5rem 0;
+  transition: all ease 0.3s;
+}
+
+.login-cont .submit-btn:hover {
+  margin-top: 2rem;
+  background: white;
+  color: #4361ee;
+  padding: 0.5rem 0;
+}
+
+.login-cont input {
+  margin-bottom: 0;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  border: 1px solid grey;
+}
+
+.login-cont .mini-loader-cont {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.login-cont .mini-loader-cont .loader {
+  width: 100%;
+  height: 100%;
+}
