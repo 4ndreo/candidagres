@@ -59,7 +59,7 @@ export function CartProduct({ props }) {
       <AdvancedImage cldImg={img} className="img-fluid rounded" alt={item?.description} />
     )
   }
-
+  if (quantity < 1) return null
   return (
     <div className="cart-product-cont row g-0 position-relative">
       <div className="img-cont col-2">
