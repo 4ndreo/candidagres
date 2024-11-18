@@ -39,7 +39,7 @@ export default function Cart() {
         return result;
     }
 
-    const { data: cart, isLoading, isError, error, refetch } = useQuery(
+    const { data: cart, isLoading, isFetching, isError, error, refetch } = useQuery(
         'cart',
         async ({ signal }) => fetchCart(params?.idUsuario, signal),
         {
@@ -98,7 +98,7 @@ export default function Cart() {
     }
 
     const renderMPButton = () => {
-        if (!initPoint) return (
+        if (!initPoint || isFetching) return (
             <span className="d-block">
                 <Button
                     className="w-100"
