@@ -92,7 +92,6 @@ export default function Login() {
           <LoaderMini></LoaderMini>
         </span> : 'Iniciar sesión'}</button>
       </form>
-      {/* TODO: OLvidé mi contraseña */}
       <Link className=" d-block text-center mt-4" to="/auth/register">¿Aún no tenés una cuenta? Registrate acá.</Link>
     </div>
   );

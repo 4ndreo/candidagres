@@ -1,20 +1,16 @@
 import "./ForgotPassword.css";
 import React, { useState } from "react";
 import * as authService from "../../services/auth.service";
-import { useContext } from "react";
-import { AuthContext } from "../../App";
 import { Link, useNavigate } from "react-router-dom";
 import LoaderMini from "../basics/LoaderMini";
 
 export default function ForgotPassword({ props }) {
 
   let navigate = useNavigate();
-  const value = useContext(AuthContext);
 
   const [form, setForm] = useState({});
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
-
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -71,9 +67,7 @@ export default function ForgotPassword({ props }) {
         <button className="btn submit-btn d-flex justify-content-center" type="submit" disabled={Object.values(form).length === 0 || Object.values(form)[0].length === 0 || loading}>{loading ? <span className='mini-loader-cont'>
           <LoaderMini></LoaderMini>
         </span> : 'Restaurar contraseña'}</button>
-        {/* TODO: Add loader when login is in progress */}
       </form>
-      {/* TODO: OLvidé mi contraseña */}
       <Link className=" d-block text-center mt-4" to="/auth/login">¿Recordaste tu contraseña? Ingresá acá.</Link>
     </div>
   );
