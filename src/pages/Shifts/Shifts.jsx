@@ -12,16 +12,15 @@ export function ShiftsPage() {
   const params = useParams();
 
   const fetchShifts = async () => {
-    console.log('fetching')
     const result = await classesService.findOneWithShifts(params.id);
     return result;
   }
 
-  const { data: classData, isFetching, isError, error, refetch } = useQuery(
-    'classData',
+  const { data: classData, isLoading, isError, error, refetch } = useQuery(
+    'classData_' + params.id,
     fetchShifts,
     {
-      staleTime: 0,
+      staleTime: 60000,
       retry: 2,
     }
   );
@@ -36,7 +35,7 @@ export function ShiftsPage() {
     setHoveredTurno('');
   }
 
-  if (isFetching) {
+  if (isLoading) {
     return <Loader></Loader>
   }
 
@@ -52,34 +51,34 @@ export function ShiftsPage() {
 
   return (
 
-    <main className="container main">
+    <main className="container main d-grid">
       <div className="shift-cont d-grid">
         <h1>Horarios disponibles{classData?.title ? " para " + classData?.title : ""}</h1>
         {isError ?
           renderError() :
-            <ul className="cont-listado-dias">
-              {weekdays.map((weekday) => {
-                return (
-                  <li key={weekday.id} className="item-dia">
-                    <h2> {weekday.name}</h2>
-                    <div className="cont-shift-card">
-                      {classData?.shifts.map((shift) => {
-                        if (shift?.days?.some((day) => day === weekday.id)) {
-                          return (
-                            <ShiftCard
-                              key={shift._id}
-                              props={{ shift, classData, weekdays, handleMouseOver, handleMouseLeave, hoveredTurno, refetch }}
-                            />
-                          );
-                        } else {
-                          return null;
-                        }
-                      })}
-                    </div>
-                  </li>
-                );
-              })}
-            </ul>
+          <ul className="cont-listado-dias">
+            {weekdays.map((weekday) => {
+              return (
+                <li key={weekday.id} className="item-dia">
+                  <h2> {weekday.name}</h2>
+                  <div className="cont-shift-card">
+                    {classData?.shifts.map((shift) => {
+                      if (shift?.days?.some((day) => day === weekday.id)) {
+                        return (
+                          <ShiftCard
+                            key={shift._id}
+                            props={{ shift, classData, weekdays, handleMouseOver, handleMouseLeave, hoveredTurno, refetch }}
+                          />
+                        );
+                      } else {
+                        return null;
+                      }
+                    })}
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
         }
       </div>
     </main>

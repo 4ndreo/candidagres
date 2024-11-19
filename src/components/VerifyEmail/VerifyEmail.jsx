@@ -51,7 +51,7 @@ export default function VerifyEmail({ props }) {
   }
 
   return (
-    <div className="login-cont w-100">
+    <div className="verify-email-cont w-100">
       <h1 className="pb-4">Validá tu email</h1>
       <p>Por favor, ingresá el código de verificación que enviamos a tu email. Si luego de unos minutos no ves el correo, verificá tu casilla de spam o <Link to='/auth/forgot-password'>volvé a intentar.</Link></p>
       <form onSubmit={handleSubmit} noValidate>

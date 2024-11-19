@@ -51,7 +51,7 @@ export default function ChangePassword({ props }) {
   }
 
   return (
-    <div className="forgot-password-cont w-100">
+    <div className="change-password-cont w-100">
       <h1 className="pb-4">Cambiá tu contraseña</h1>
       <p>Ingresá una nueva contraseña para tu cuenta.</p>
       <form onSubmit={handleSubmit} noValidate>
