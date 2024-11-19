@@ -44,8 +44,10 @@ export default function Login() {
         } else {
           setErrors(resp.err);
         }
-        setLoading(false);
       })
+      .finally(() => {
+        setLoading(false);
+      });
   }
 
   return (
