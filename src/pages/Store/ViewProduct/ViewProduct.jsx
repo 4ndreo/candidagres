@@ -31,7 +31,7 @@ export default function ViewProduct(props) {
   }
 
   const { data: product, isLoading, isError } = useQuery(
-    'product',
+    'product_' + productId,
     () => fetchProduct(productId),
     {
       staleTime: 0,
