@@ -34,7 +34,7 @@ export default function Header() {
             <Navbar.Toggle aria-controls="menu-nav" onClick={() => setShowOffcanvas(prev => !prev)} />
             <Navbar.Offcanvas id="menu-nav" placement="end"  ref={offcanvasRef} show={showOffcanvas}>
               <Offcanvas.Header className="navbar-base-offcanvas" closeButton closeVariant="white" onHide={() => setShowOffcanvas(prev => !prev)}>
-                <Offcanvas.Title>
+                <Offcanvas.Title className="brand">
                     Cándida Gres
                 </Offcanvas.Title>
               </Offcanvas.Header>
