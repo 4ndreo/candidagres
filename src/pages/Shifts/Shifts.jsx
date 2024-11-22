@@ -46,11 +46,8 @@ export function ShiftsPage() {
       </div>
     )
   }
-  // TODO: cambiar por Swiper para mostrar dias de la semana. Esto va a hacer que la funcionalidad sea responsive
-
 
   return (
-
     <main className="container main d-grid">
       <div className="shift-cont d-grid">
         <h1>Horarios disponibles{classData?.title ? " para " + classData?.title : ""}</h1>

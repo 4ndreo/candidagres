@@ -16,8 +16,8 @@
 .brand {
   text-decoration: none;
   color: inherit;
-  background: url('/public/assets/logo-cgres-blanco.svg') no-repeat left center;
-  padding: 0.5rem 0;
+  background: url('/public/assets/logo-cgres-completo-blanco.svg') no-repeat left center;
+  background-size: contain;
   text-indent: 100%;
   white-space: nowrap;
   overflow: hidden;
