@@ -10,14 +10,16 @@ import { Cloudinary } from "@cloudinary/url-gen";
 import { auto } from "@cloudinary/url-gen/actions/resize";
 import { autoGravity } from "@cloudinary/url-gen/qualifiers/gravity";
 import { AdvancedImage } from "@cloudinary/react";
+import { defaultImage } from "@cloudinary/url-gen/actions/delivery";
 
 export default function EditProfileCard({ props }) {
     const cld = new Cloudinary({ cloud: { cloudName: process.env.REACT_APP_CLOUDINARY_CLOUD_NAME } });
     const img = cld
-        .image(`profile/${props.data.image}`)
+        .image(props?.data?.image ? `profile/${props.data.image}` : 'placeholder-image')
         .format('auto')
         .quality('auto')
-        .resize(auto().gravity(autoGravity()));
+        .resize(auto().gravity(autoGravity()))
+        .delivery(defaultImage("placeholder-image.jpg"));
 
     let navigate = useNavigate();
     const value = useContext(AuthContext);
