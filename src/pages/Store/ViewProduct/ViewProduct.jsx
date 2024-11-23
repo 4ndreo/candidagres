@@ -114,7 +114,6 @@ export default function ViewProduct(props) {
       .quality('auto')
       .resize(auto().gravity(autoGravity()))
       .delivery(defaultImage("placeholder-image.jpg"));
-    console.log(img)
     return (
       <AdvancedImage cldImg={img} className="product-image img-fluid rounded-3" alt={item?.description} />
     )

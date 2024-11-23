@@ -111,7 +111,6 @@ export default function FormProduct({ props }) {
   }
 
   const changeHandler = (e) => {
-    console.log(e.target.name);
     const { name } = e.target;
 
     setErrors({

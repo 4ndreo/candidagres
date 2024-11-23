@@ -49,7 +49,7 @@ export function ShiftsPage() {
 
   return (
     <main className="container main d-grid">
-      <div className="shift-cont d-grid">
+      <div className="shift-cont">
         <h1>Horarios disponibles{classData?.title ? " para " + classData?.title : ""}</h1>
         {isError ?
           renderError() :
