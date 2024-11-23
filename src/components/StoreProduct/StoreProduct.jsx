@@ -7,6 +7,7 @@ import { AdvancedImage } from "@cloudinary/react";
 import { Cloudinary } from "@cloudinary/url-gen";
 import { auto } from "@cloudinary/url-gen/actions/resize";
 import { autoGravity } from "@cloudinary/url-gen/qualifiers/gravity";
+import { defaultImage } from "@cloudinary/url-gen/actions/delivery";
 
 export default function StoreProduct({ props }) {
   const item = props.item;
@@ -14,10 +15,11 @@ export default function StoreProduct({ props }) {
   const renderImage = (item) => {
     const cld = new Cloudinary({ cloud: { cloudName: process.env.REACT_APP_CLOUDINARY_CLOUD_NAME } });
     const img = cld
-      .image(`products/${item.img}`)
+      .image(item?.img ? `products/${item?.img}` : 'placeholder-image')
       .format('auto')
       .quality('auto')
-      .resize(auto().gravity(autoGravity()));
+      .resize(auto().gravity(autoGravity()))
+      .delivery(defaultImage("placeholder-image.jpg"));
     return (
       <AdvancedImage cldImg={img} className="card-img" alt={item?.description} />
     )
