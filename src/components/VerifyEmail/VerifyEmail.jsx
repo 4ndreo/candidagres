@@ -36,7 +36,6 @@ export default function VerifyEmail({ props }) {
       .verifyEmail(params.id, form.verificationCode)
       .then((resp) => {
         if (!resp.err) {
-          console.log('resp', resp);
           value.setVerifyEmailCode(form.verificationCode);
           props.setShowToast({ show: true, title: 'Éxito', message: 'Código válido', variant: 'success', position: 'top-end' });
           navigate(`/auth/change-password/${params.id}`);

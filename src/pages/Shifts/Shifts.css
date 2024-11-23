@@ -1,11 +1,12 @@
 .shift-cont {
   /* overflow: hidden; */
   max-width: 100%;
-  overflow: auto;
+  overflow: hidden;
 }
 
 .shift-cont ul {
   padding-left: 0;
+  overflow: auto;
 }
 
 .shift-cont ul li {
@@ -47,7 +48,7 @@
 .item-dia {
   /* width: auto; */
   width: 100%;
-  height: 100vh;
+  height: calc(70px * 15 + 45px);
   padding: 0.15rem;
 }
 

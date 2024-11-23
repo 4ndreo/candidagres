@@ -1,7 +1,7 @@
 .shift-card-cont {
   border: 1px solid white;
   width: 100%;
-  position: absolute;
+  /* position: absolute; */
   border-radius: 6px;
   overflow: hidden;
 }
@@ -12,6 +12,9 @@
   border-radius: 6px;
   padding: 0.5rem;
   transition: 0.15s ease-in-out all;
+  position: absolute;
+  overflow: hidden;
+  left: 0;
 }
 
 .shift-card-cont .item-turno:hover {
