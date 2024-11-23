@@ -64,7 +64,7 @@ export default function ForgotPassword({ props }) {
             {errors.email}
           </small>
         </div>
-        <button className="btn submit-btn d-flex justify-content-center" type="submit" disabled={Object.values(form).length === 0 || Object.values(form)[0].length === 0 || loading}>{loading ? <span className='mini-loader-cont'>
+        <button className="btn btn-primary submit-btn d-flex justify-content-center" type="submit" disabled={Object.values(form).length === 0 || Object.values(form)[0].length === 0 || loading}>{loading ? <span className='mini-loader-cont'>
           <LoaderMini></LoaderMini>
         </span> : 'Restaurar contraseña'}</button>
       </form>
