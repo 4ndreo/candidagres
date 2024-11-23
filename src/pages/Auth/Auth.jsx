@@ -21,6 +21,11 @@ export default function AuthPage() {
         <div className="col-lg-6 auth-card-img">
         </div>
         <div className="col-lg-6 auth-card-body p-5">
+
+
+          <span className="brand">
+            Cándida Gres
+          </span>
           <Outlet context={handleShowToast} />
         </div>
       </div>

@@ -94,7 +94,7 @@ export default function ChangePassword({ props }) {
         {errors.verification_code && <small className="form-text text-danger">
           {errors.verification_code} <Link to="/auth/forgot-password">Hacé click acá para recibir uno nuevo.</Link>
         </small>}
-        <button className="btn submit-btn d-flex justify-content-center" type="submit" disabled={Object.values(form).length === 0 || Object.values(form)[0].length === 0 || loading}>{loading ? <span className='mini-loader-cont'>
+        <button className="btn btn-primary submit-btn d-flex justify-content-center" type="submit" disabled={Object.values(form).length === 0 || Object.values(form)[0].length === 0 || loading}>{loading ? <span className='mini-loader-cont'>
           <LoaderMini></LoaderMini>
         </span> : 'Cambiar contraseña'}</button>
       </form>

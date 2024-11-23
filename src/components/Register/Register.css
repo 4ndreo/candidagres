@@ -6,17 +6,10 @@
 
 .register-cont .submit-btn {
   margin-top: 2rem;
-  background: #4361ee;
-  color: white;
-  border: 1px solid #4361ee;
   padding: 0.5rem 0;
   transition: all ease 0.3s;
 }
 
-.register-cont .submit-btn:hover {
-  background: white;
-  color: #4361ee;
-}
 
 .register-cont input, .register-cont select {
   margin-bottom: 0;

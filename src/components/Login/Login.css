@@ -6,18 +6,8 @@
 
 .login-cont .submit-btn {
   margin-top: 2rem;
-  background: #4361ee;
-  color: white;
-  border: 1px solid #4361ee;
   padding: 0.5rem 0;
   transition: all ease 0.3s;
-}
-
-.login-cont .submit-btn:hover {
-  margin-top: 2rem;
-  background: white;
-  color: #4361ee;
-  padding: 0.5rem 0;
 }
 
 .login-cont input {
