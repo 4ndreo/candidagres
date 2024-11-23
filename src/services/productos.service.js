@@ -28,6 +28,25 @@ async function findQuery(request, signal) {
     ).catch(() => { throw new Error('Error: no se pudieron obtener los registros. Inténtelo de nuevo más tarde') });
 }
 
+async function findOwn(request, signal) {
+    // Construct the full URL
+    const fullUrl = new URL(url + "adminProducts");
+
+    // Add query parameters to the URL
+    Object.entries(request).forEach(([key, value]) => {
+        if (Array.isArray(value)) {
+            value.forEach(v => fullUrl.searchParams.append(key, v));
+        } else {
+            fullUrl.searchParams.append(key, value);
+        }
+    });
+
+    return fetchWithInterceptor(fullUrl, {
+        signal
+    }).then((response) => response.json()
+    ).catch(() => { throw new Error('Error: no se pudieron obtener los registros. Inténtelo de nuevo más tarde') });
+}
+
 async function findById(id, signal) {
     return fetchWithInterceptor(url + "products/" + id, {
         signal
@@ -75,4 +94,4 @@ async function uploadImagen(imagen) {
     }).then((response) => response.json());
 }
 
-export { find, findQuery, findById, create, remove, update, uploadImagen };
+export { find, findQuery, findOwn, findById, create, remove, update, uploadImagen };

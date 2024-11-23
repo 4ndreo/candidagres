@@ -42,7 +42,7 @@ export default function AdminProducts({ props }) {
     });
 
     const fetchProducts = async (request) => {
-        const result = await productosService.findQuery({ ...request, filter: JSON.stringify(request.filter), sort: JSON.stringify(request.sort) });
+        const result = await productosService.findOwn({ ...request, filter: JSON.stringify(request.filter), sort: JSON.stringify(request.sort) });
         return result[0];
     }
 

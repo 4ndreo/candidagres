@@ -39,7 +39,7 @@ export default function AdminClasses({ props }) {
   });
 
   const fetchClasses = async (request, signal) => {
-    const result = await classesService.findQuery({ ...request, filter: JSON.stringify(request.filter), sort: JSON.stringify(request.sort) }, signal);
+    const result = await classesService.findOwn({ ...request, filter: JSON.stringify(request.filter), sort: JSON.stringify(request.sort) }, signal);
     return result[0];
   }
 
