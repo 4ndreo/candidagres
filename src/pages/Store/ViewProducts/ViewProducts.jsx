@@ -1,14 +1,17 @@
+// Styles
 import "./ViewProducts.css";
 
-// import React, { useEffect, useState } from "react";
+// React
+import { useEffect, useState } from "react";
+import { useQuery } from "react-query";
+
+// Services
 import * as productosService from "../../../services/productos.service";
 
-import { useQuery } from "react-query";
+// Components
 import Loader from "../../../components/basics/Loader";
-import { StoreProduct } from "../../../components/StoreProduct/StoreProduct";
+import StoreProduct from "../../../components/StoreProduct/StoreProduct";
 import Paginator from "../../../components/Paginator/Paginator";
-import { useEffect, useState } from "react";
-
 
 export default function ViewProducts() {
 

@@ -8,7 +8,7 @@ import { Cloudinary } from "@cloudinary/url-gen";
 import { auto } from "@cloudinary/url-gen/actions/resize";
 import { autoGravity } from "@cloudinary/url-gen/qualifiers/gravity";
 
-export function StoreProduct({ props }) {
+export default function StoreProduct({ props }) {
   const item = props.item;
 
   const renderImage = (item) => {

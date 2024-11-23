@@ -1,11 +1,17 @@
+// Styles
 import "./ViewProduct.css";
-import React, { useContext, useState } from "react";
-import * as carritoService from "../../../services/carrito.service";
-import * as productosService from "../../../services/productos.service";
+
+// React
+import { useContext, useState } from "react";
 import { AuthContext } from "../../../App";
 import { useQuery } from "react-query";
-import Loader from "../../../components/basics/Loader";
 import { useParams } from "react-router-dom";
+
+// Services
+import * as carritoService from "../../../services/carrito.service";
+import * as productosService from "../../../services/productos.service";
+// Components
+import Loader from "../../../components/basics/Loader";
 
 // Cloudinary
 import { AdvancedImage } from "@cloudinary/react";
@@ -34,7 +40,7 @@ export default function ViewProduct(props) {
     'product_' + productId,
     () => fetchProduct(productId),
     {
-      staleTime: 0,
+      staleTime: 60000,
       retry: 2,
       onError: (err) => [setError(err || 'Ha habido un error. Inténtalo de nuevo más tarde.')],
     }
@@ -123,7 +129,6 @@ export default function ViewProduct(props) {
         <>
           <div className="col-md-6">
             {renderImage(product)}
-            {/* <img src={SERVER_URL + "uploads/" + product.img} className="product-image img-fluid rounded-3" alt={product.descripcion} /> */}
           </div>
           <div className="col-md-6">
             <div className="row g-0 h-100 align-content-between">
@@ -134,13 +139,9 @@ export default function ViewProduct(props) {
                 <p className="negritas">Lo que deberías saber de este artículo:</p>
                 <p className="card-text">{product.description}</p>
                 <p>Material: <span className="badge text-bg-primary">{product.material}</span></p>
+                <p>Artesano: <span className="negritas">{product.user.first_name} {product.user.last_name}</span></p>
               </div>
-
               {renderButtons()}
-              {/* <button type="submit" className="btn btn-outline-primary d-flex align-items-center justify-content-center gap-2" onClick={handleAddToCart}>
-            <span className="pi pi-shopping-cart"></span>
-            <span>Agregar al carrito</span>
-          </button> */}
             </div>
           </div>
         </>
