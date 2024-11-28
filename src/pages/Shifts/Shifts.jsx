@@ -6,7 +6,7 @@ import * as classesService from "../../services/classes.service";
 import Loader from "../../components/basics/Loader";
 import ShiftCard from "../../components/ShiftCard/ShiftCard";
 import { useQuery } from "react-query";
-import { weekdays } from "../../utils/utils";
+import { weekdays } from '../../data/shifts';
 
 export function ShiftsPage() {
   const params = useParams();

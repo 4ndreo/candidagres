@@ -12,7 +12,7 @@ import * as classesService from "../../services/classes.service";
 
 // Components
 import Loader from "../basics/Loader";
-import { weekdays } from "../../utils/utils";
+import { weekdays } from '../../data/shifts';
 
 // External Libraries
 import { Dropdown } from "react-bootstrap";
@@ -34,7 +34,7 @@ export default function FormShift({ props }) {
   });
   const [error, setError] = useState(null);
 
-  async function fetchProduct(id) {
+  async function fetchShift(id) {
     setIsLoading(true);
 
     shiftsService
@@ -49,7 +49,7 @@ export default function FormShift({ props }) {
 
   useEffect(() => {
     if (params?.id) {
-      fetchProduct(params?.id);
+      fetchShift(params?.id);
     }
   }, [params?.id]);
 

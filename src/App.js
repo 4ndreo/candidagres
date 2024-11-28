@@ -47,6 +47,8 @@ import CustomToast from "./components/basics/CustomToast/CustomToast";
 import ForgotPassword from "./components/ForgotPassword/ForgotPassword";
 import VerifyEmail from "./components/VerifyEmail/VerifyEmail";
 import ChangePassword from "./components/ChangePassword/ChangePassword";
+import AdminUsers from "./pages/admin/AdminUsers/AdminUsers";
+import FormUser from "./components/FormUser/FormUser";
 
 export const AuthContext = createContext();
 
@@ -68,8 +70,8 @@ function App() {
 
         <Routes>
           <Route path="/auth" element={<AuthPage />}>
-            <Route path="login" element={<Login />} />
-            <Route path="register" element={<Register />} />
+            <Route path="login" element={<Login props={{ setShowToast }}/>} />
+            <Route path="register" element={<Register props={{ setShowToast }}/>} />
             <Route path="forgot-password" element={<ForgotPassword props={{ setShowToast }} />} />
             <Route path="verify-email/:id" element={<VerifyEmail props={{ setShowToast }} />} />
             <Route path="change-password/:id" element={<ChangePassword props={{ setShowToast }} />} />
@@ -77,25 +79,6 @@ function App() {
 
           <Route path="*" element={<Home />} />
 
-
-
-
-
-          {/* Rutas de Inscripciones */}
-          {/* <Route path="/inscripciones" element={<Inscripciones />} /> */}
-          {/*<Route*/}
-          {/*  path="/inscripciones/inscripcion"*/}
-          {/*  element={<CreateInscripcion title={"Inscripción"} />}*/}
-          {/*/>*/}
-          {/*<Route*/}
-          {/*  path="/inscripciones/inscripcion/id-:idInscripcion"*/}
-          {/*  element={<EditInscripcion title={"Inscripción"} />}*/}
-          {/*/>*/}
-
-          {/*<Route*/}
-          {/*  path="/id-:idTurnos/curso/id-:idCurso"*/}
-          {/*  element={<CreateInscripcionUser title={"Inscripción"} />}*/}
-          {/*/>*/}
 
           {/* --------------- / ---------------- */}
           <Route path="classes" element={<ClassesPage />} />
@@ -105,7 +88,7 @@ function App() {
 
           <Route path="/admin" element={<Admin />}>
 
-            {/* Rutas de Productos */}
+            {/* Products */}
             <Route path="products" element={<AdminProducts props={{ setShowToast }} />} />
             <Route
               path="products/new"
@@ -116,7 +99,18 @@ function App() {
               element={<FormProduct props={{ title: "Producto", setShowToast }} />}
             />
 
-            {/* Rutas de cursos */}
+            {/* User */}
+            <Route path="users" element={<AdminUsers props={{ setShowToast }} />} />
+            <Route
+              path="users/new"
+              element={<FormUser props={{ title: "Usuario", setShowToast }} />}
+            />
+            <Route
+              path="users/:id"
+              element={<FormUser props={{ title: "Usuario", setShowToast }} />}
+            />
+
+            {/* Classes */}
             <Route path="classes" element={<AdminClasses props={{ setShowToast }} />} />
             <Route
               path="classes/new"
@@ -127,7 +121,7 @@ function App() {
               element={<FormClass props={{ title: "Clase", setShowToast }} />}
             />
 
-            {/* Rutas de comisiones */}
+            {/* Shifts */}
 
             <Route path="shifts" element={<AdminShifts props={{ setShowToast }} />} />
             <Route
@@ -139,32 +133,27 @@ function App() {
               element={<FormShift props={{ title: "Comisión", setShowToast }} />}
             />
 
-            {/* Rutas de inscripciones */}
+            {/* Enrollments */}
 
             <Route path="enrollments" element={<AdminEnrollments props={{ setShowToast }} />} />
-            {/* <Route
-              path="shifts/new"
-              element={<FormShift props={{ title: "Comisión" }} />}
-            />
-            <Route
-              path="shifts/:id"
-              element={<FormShift props={{ title: "Comisión" }} />}
-            /> */}
+
           </Route>
 
-          {/* Rutas de Tienda */}
+
+          {/* Store */}
+
           <Route path="/store" element={<StorePage />}>
 
             <Route path="" element={<ViewProducts />} title={"Tienda"} />
             <Route path="item/:id" element={<ViewProduct />} />
-            {/* Rutas de Carrito de Compras */}
-
             <Route path="cart/:idUsuario" element={<Cart />} title={"Compras"} />
-
             <Route path="purchases/:idUsuario" element={<Purchases />} title={"Historial"} />
+
           </Route>
 
-          {/* Rutas Perfil */}
+
+          {/* Profile */}
+
           <Route path="profile" element={<ProfilePage />}>
             <Route path="" element={<ViewProfileCard props={{ data: currentUser }} />} />
             <Route path="edit" element={<EditProfileCard props={{ data: currentUser }} />} />

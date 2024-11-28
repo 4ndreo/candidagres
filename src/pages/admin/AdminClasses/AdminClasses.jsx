@@ -109,7 +109,7 @@ export default function AdminClasses({ props }) {
     switch (col.type) {
       case 'string':
         return (
-          <th className="col-header" scope="col" key={col.field}>
+          <th className="col-header align-middle" scope="col" key={col.field}>
             <Dropdown as={ButtonGroup}>
               <Button className="col-label" variant="link" onClick={(e) => { e.preventDefault(); handleSort(col.field) }}>
                 <span>{col.header}</span>
@@ -134,7 +134,7 @@ export default function AdminClasses({ props }) {
       case 'number':
       case 'currency':
         return (
-          <th className="col-header" scope="col" key={col.field}>
+          <th className="col-header align-middle" scope="col" key={col.field}>
             <Dropdown as={ButtonGroup}>
               <Button className="col-label" variant="link" onClick={(e) => { e.preventDefault(); handleSort(col.field) }}>
                 <span>{col.header}</span>
@@ -147,11 +147,11 @@ export default function AdminClasses({ props }) {
       case 'created_by':
         return (
           value.currentUser?.role === 1 &&
-          <th scope="col" key={col.field}>{col.header}</th>
+          <th scope="col" className="col-header align-middle" key={col.field}>{col.header}</th>
         )
       default:
         return (
-          <th scope="col" key={col.field}>{col.header}</th>
+          <th className="col-header align-middle" scope="col" key={col.field}>{col.header}</th>
         )
 
     }

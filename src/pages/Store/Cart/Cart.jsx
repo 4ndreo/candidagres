@@ -57,7 +57,7 @@ export default function Cart() {
 
     async function handleCreatePreference(cart) {
         const preferences = {
-            usuarioId: cart.usuarioId,
+            id_user: cart.id_user,
             carritoId: cart._id,
             state: "pending",
             items: cart.items.map((product) => ({

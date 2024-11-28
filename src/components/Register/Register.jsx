@@ -1,6 +1,5 @@
 import "./Register.css";
 import React, { useContext, useState } from "react";
-import * as UsersService from "../../services/users.service";
 import * as authService from "../../services/auth.service";
 import { AuthContext } from "../../App";
 import { Link, useNavigate, useOutletContext } from "react-router-dom";
@@ -31,7 +30,7 @@ export default function Register({ onLogin }) {
   function handleSubmit(e) {
     setLoading(true);
     e.preventDefault();
-    UsersService.create(form)
+    authService.register(form)
       .then((resp) => {
         if (!resp.err) {
           authService

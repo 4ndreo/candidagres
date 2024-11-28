@@ -27,10 +27,10 @@ async function findByIdUser(idUser, signal) {
 }
 
 
-async function create(usuarioId) {
+async function create(id_user) {
     return fetchWithInterceptor(url + "carrito/carrito", {
         method: "POST",
-        body: JSON.stringify({ usuarioId: usuarioId }),
+        body: JSON.stringify({ id_user: id_user }),
     }).then((response) => response.json()
     ).catch(() => { throw new Error('Error: no se pudo crear el carrito. Inténtelo de nuevo más tarde') });
 }
