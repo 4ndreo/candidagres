@@ -2,7 +2,7 @@ import "./EditProfileCard.css";
 
 import { Link, useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
-import * as usersService from "../../../services/users.service";
+import * as authService from "../../../services/auth.service";
 import { AuthContext } from "../../../App";
 
 // Cloudinary
@@ -29,6 +29,7 @@ export default function EditProfileCard({ props }) {
 
     const [form, setForm] = useState({});
     const [errors, setErrors] = useState({});
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         let fileReader, isCancel = false;
@@ -52,13 +53,14 @@ export default function EditProfileCard({ props }) {
     }, [file]);
 
     function handleSubmit(e) {
+        setLoading(true);
         e.preventDefault();
         let body = new FormData();
         Object.entries(form).forEach(([key, value]) => {
             body.append(key, value);
         });
         if (file) body.append('file', file);
-        usersService
+        authService
             .updateProfile(props.data._id, body)
             .then((resp) => {
                 if (!resp.err) {
@@ -68,6 +70,9 @@ export default function EditProfileCard({ props }) {
                 } else {
                     setErrors(resp.err);
                 }
+            })
+            .finally(() => {
+                setLoading(false);
             });
     }
 
@@ -197,41 +202,6 @@ export default function EditProfileCard({ props }) {
                         {errors.birth_date}
                     </small>
                 </div>
-                {/* <div className="mb-3">
-                    <label className="form-label">Nombre y apellido</label>
-                    <input
-                        type="text"
-                        name="name"
-                        value={user.name}
-                        onChange={(e) => handleChange(e)}
-                        required
-                        className="form-control"
-                    />
-                </div>
-                <div className="mb-3">
-                    <label className="form-label">Email</label>
-                    <input
-                        type="email"
-                        name="email"
-                        value={user.email}
-                        onChange={(e) => handleChange(e)}
-                        disabled
-                        className="form-control"
-                    />
-                </div> */}
-                {/* <div className="mb-3">
-                    <label className="form-label">Subir Imagen:</label>
-                    <input
-                        type="file"
-                        accept='.png, .jpg, .jpeg'
-                        onChange={changeHandler}
-                        // onChange={handleImagenChange}
-                        className="form-control"
-                        name="imagenProducto"
-                        id="imagenProducto"
-                    />
-                    {imageError && <p>{imageError}</p>}
-                </div> */}
                 <div>
                     <label htmlFor="img" className="form-label">Cambiar Imagen:</label>
                     <input
@@ -254,14 +224,12 @@ export default function EditProfileCard({ props }) {
                                 <img src={fileDataURL} className="preview-image img-fluid rounded-3" alt={form.description} />
                             </>
                             :
-
                             null
-
                         }
                     </div>
                 </div>
-                <button type="submit" className="btn btn-primary">
-                    Guardar cambios
+                <button type="submit" className={"btn btn-primary " + (!!loading ? 'disabled' : '')}>
+                    {loading ? <span className="d-flex align-items-center justify-content-center gap-2"><span className="pi pi-spinner pi-spin"></span>Guardando...</span> : 'Guardar cambios'}
                 </button>
             </form>
         </div>

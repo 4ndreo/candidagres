@@ -3,7 +3,8 @@ import './AdminEnrollmentRow.css';
 import { Modal } from "react-bootstrap";
 import { Link } from 'react-router-dom';
 import * as enrollmentsService from "../../services/enrollments.service";
-import { getNestedProperty, weekdays } from '../../utils/utils';
+import { getNestedProperty } from '../../utils/utils';
+import { weekdays } from '../../data/shifts';
 
 export default function AdminEnrollmentRow({ props }) {
   const [deleting, setDeleting] = useState();

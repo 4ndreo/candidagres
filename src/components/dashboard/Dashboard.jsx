@@ -247,8 +247,8 @@
 // 	//                         <div className="sidebar-sticky">
 // 	//                             <Nav className="flex-column">
 // 	//                                 <Nav.Link href="/tienda" className="nav-link active">Tienda</Nav.Link>
-// 	//                                 <Nav.Link href={`/carrito/id-${usuarioId}`} className="nav-link">Carrito de Compras</Nav.Link>
-// 	//                                 <Nav.Link href={`/carrito/historial/id-${usuarioId}`} className="nav-link">Historial</Nav.Link>
+// 	//                                 <Nav.Link href={`/carrito/id-${id_user}`} className="nav-link">Carrito de Compras</Nav.Link>
+// 	//                                 <Nav.Link href={`/carrito/historial/id-${id_user}`} className="nav-link">Historial</Nav.Link>
 // 	//                             </Nav>
 // 	//                         </div>
 // 	//                     </Col>

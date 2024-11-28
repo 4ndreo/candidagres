@@ -148,7 +148,7 @@ export default function AdminEnrollments({ props }) {
     switch (col.type) {
       case 'string':
         return (
-          <th className="col-header" scope="col" key={col.relationTable}>
+          <th className="col-header align-middle" scope="col" key={col.relationTable}>
             <Dropdown as={ButtonGroup}>
               <Button className="col-label" variant="link" onClick={(e) => { e.preventDefault(); handleSort(col.field) }}>
                 <span>{col.header}</span>
@@ -173,7 +173,7 @@ export default function AdminEnrollments({ props }) {
       case 'number':
       case 'currency':
         return (
-          <th className="col-header" scope="col" key={col.field}>
+          <th className="col-header align-middle" scope="col" key={col.field}>
             <Dropdown as={ButtonGroup}>
               <Button className="col-label" variant="link" onClick={(e) => { e.preventDefault(); handleSort(col.field) }}>
                 <span>{col.header}</span>
@@ -184,7 +184,7 @@ export default function AdminEnrollments({ props }) {
         )
       case 'relation':
         return (
-          <th className="col-header" scope="col" key={col.field}>
+          <th className="col-header align-middle" scope="col" key={col.field}>
             <Dropdown as={ButtonGroup}>
               <span>{col.header}</span>
               <Dropdown.Toggle split as={request.filter.some(x => x.field === col.relationField) ? renderSelectedFilterMenu : renderFilterMenu} />
@@ -230,11 +230,11 @@ export default function AdminEnrollments({ props }) {
       case 'created_by':
         return (
           value.currentUser?.role === 1 &&
-          <th scope="col" key={col.field}>{col.header}</th>
+          <th scope="col" className="col-header align-middle" key={col.field}>{col.header}</th>
         )
       default:
         return (
-          <th scope="col" key={col.field}>{col.header}</th>
+          <th scope="col" className="col-header align-middle" key={col.field}>{col.header}</th>
         )
 
     }

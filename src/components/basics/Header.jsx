@@ -70,9 +70,12 @@ export default function Header() {
                               <NavDropdown.Item as={Link} to="/admin/enrollments" onClick={() => setShowOffcanvas(false)} className="dropdown-item submenu-item">
                                 Inscripciones
                               </NavDropdown.Item>
-                              <NavDropdown.Item as={Link} to="/Dashboard" onClick={() => setShowOffcanvas(false)} className="dropdown-item submenu-item">
-                                Dashboard
+                              <NavDropdown.Item as={Link} to="/admin/users" onClick={() => setShowOffcanvas(false)} className="dropdown-item submenu-item">
+                                Usuarios
                               </NavDropdown.Item>
+                              {/* <NavDropdown.Item as={Link} to="/Dashboard" onClick={() => setShowOffcanvas(false)} className="dropdown-item submenu-item">
+                                Dashboard
+                              </NavDropdown.Item> */}
                             </>
                           )}
                           <NavDropdown.Item as={Link} to="/admin/products" onClick={() => setShowOffcanvas(false)} className="dropdown-item submenu-item">

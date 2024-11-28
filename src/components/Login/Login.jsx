@@ -6,7 +6,7 @@ import { AuthContext } from "../../App";
 import { Link, useNavigate } from "react-router-dom";
 import LoaderMini from "../basics/LoaderMini";
 
-export default function Login() {
+export default function Login({ props }) {
 
   let navigate = useNavigate();
   const value = useContext(AuthContext);
@@ -35,6 +35,7 @@ export default function Login() {
     await authService
       .login(form.email, form.password)
       .then((resp) => {
+        console.log(resp)
         if (!resp.err) {
           value.setToken(resp.token);
           value.setCurrentUser(resp.userData);
@@ -42,6 +43,7 @@ export default function Login() {
           localStorage.setItem("token", resp.token);
           navigate("/", { replace: true });
         } else {
+          props.setShowToast({ show: true, title: 'Error', message: resp.message, variant: 'danger', position: 'top-end' });
           setErrors(resp.err);
         }
       })

@@ -1,5 +1,5 @@
 // Styles
-import "./AdminProducts.css";
+import "./AdminUsers.css";
 import "../css/AdminTable.css";
 
 // React
@@ -9,28 +9,29 @@ import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../App";
 
 // Services
-import * as productosService from "../../../services/productos.service";
+import * as usersService from "../../../services/users.service";
 
 // Components
 import Loader from "../../../components/basics/Loader";
-import AdminProductRow from "../../../components/AdminProductRow/AdminProductRow";
+import AdminUserRow from "../../../components/AdminUserRow/AdminUserRow";
 import Paginator from "../../../components/Paginator/Paginator";
 
 // External Libraries
 import { Button, ButtonGroup, Dropdown, Form } from "react-bootstrap";
 
-export default function AdminProducts({ props }) {
+export default function AdminUsers({ props }) {
     const value = useContext(AuthContext);
 
     const cols = [
         { field: 'actions', header: 'Acciones', type: 'actions' },
-        { field: 'img', header: 'Imagen', type: 'image' },
-        { field: 'title', header: 'Título', type: 'string' },
-        { field: 'description', header: 'Descripción', type: 'string' },
-        { field: 'material', header: 'Material', type: 'string' },
-        { field: 'price', header: 'Precio', type: 'currency' },
-        { field: 'estimated_delay', header: 'Demora', type: 'number' },
-        { field: 'created_by', header: 'Creado por', type: 'created_by' },
+        { field: 'image', header: 'Imagen', type: 'image' },
+        { field: 'first_name', header: 'Nombre', type: 'string' },
+        { field: 'last_name', header: 'Apellido', type: 'string' },
+        { field: 'email', header: 'Email', type: 'string' },
+        { field: 'document_type', header: 'Tipo de documento', type: 'string' },
+        { field: 'id_document', header: 'N° Documento', type: 'string' },
+        { field: 'role', header: 'Rol', type: 'role' },
+        { field: 'birth_date', header: 'Nacimiento', type: 'date' },
     ]
 
     // const [showToast, setShowToast] = useState(null);
@@ -41,14 +42,14 @@ export default function AdminProducts({ props }) {
         sort: { field: 'undefined', direction: 1 },
     });
 
-    const fetchProducts = async (request) => {
-        const result = await productosService.findOwn({ ...request, filter: JSON.stringify(request.filter), sort: JSON.stringify(request.sort) });
+    const fetchUsers = async (request) => {
+        const result = await usersService.findQuery({ ...request, filter: JSON.stringify(request.filter), sort: JSON.stringify(request.sort) });
         return result[0];
     }
 
-    const { data: products, isLoading, isError, error, refetch } = useQuery(
-        'productsAdmin',
-        () => fetchProducts(request),
+    const { data: users, isLoading, isError, error, refetch } = useQuery(
+        'usersAdmin',
+        () => fetchUsers(request),
         {
             staleTime: Infinity,
             retry: 2,
@@ -190,12 +191,12 @@ export default function AdminProducts({ props }) {
     ));
 
     return (
-        <div className="cont-admin-products admin-table">
+        <div className="cont-admin-users admin-table">
             <div className="d-md-flex justify-content-between align-items-center mb-3">
 
-                <h1>Administrar Productos</h1>
+                <h1>Administrar Usuarios</h1>
                 <Link to="new" className="btn btn-primary btn-icon">
-                    <span className="pi pi-plus"></span>Crear un Producto
+                    <span className="pi pi-plus"></span>Crear un Usuario
                 </Link>
             </div>
             {isError ?
@@ -212,9 +213,9 @@ export default function AdminProducts({ props }) {
                                 </tr>
                             </thead>
                             <tbody>
-                                {products?.data.length > 0 ?
-                                    products?.data?.map((item) => {
-                                        return <AdminProductRow props={{ item: item, refetch: refetch, cols: cols, showEdit: true, showDelete: true, setShowToast: props.setShowToast }} key={item._id} />
+                                {users?.data.length > 0 ?
+                                    users?.data?.map((item) => {
+                                        return <AdminUserRow props={{ item: item, refetch: refetch, cols: cols, showEdit: true, showDelete: true, setShowToast: props.setShowToast }} key={item._id} />
                                     })
                                     :
                                     <tr>
@@ -226,8 +227,8 @@ export default function AdminProducts({ props }) {
                     </div>
                 </div>
             }
-            {products?.data.length > 0 &&
-                <Paginator props={{ pages: products?.pages ?? 0, count: products?.count ?? 0, page: request.page, limit: request.limit, handlePaginate: handlePaginate, handlePaginateNext: handlePaginateNext, handlePaginatePrevious: handlePaginatePrevious }} />
+            {users?.data.length > 0 &&
+                <Paginator props={{ pages: users?.pages ?? 0, count: users?.count ?? 0, page: request.page, limit: request.limit, handlePaginate: handlePaginate, handlePaginateNext: handlePaginateNext, handlePaginatePrevious: handlePaginatePrevious }} />
 
             }
             {/* <CustomToast props={{ data: showToast, setShowToast: setShowToast }} /> */}

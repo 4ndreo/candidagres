@@ -9,6 +9,26 @@ async function find(signal) {
     .catch((err) => { return err });
 }
 
+
+async function findQuery(request, signal) {
+  // Construct the full URL
+  const fullUrl = new URL(url + "users");
+
+  // Add query parameters to the URL
+  Object.entries(request).forEach(([key, value]) => {
+    if (Array.isArray(value)) {
+      value.forEach(v => fullUrl.searchParams.append(key, v));
+    } else {
+      fullUrl.searchParams.append(key, value);
+    }
+  });
+
+  return fetchWithInterceptor(fullUrl, {
+    signal
+  }).then((response) => response.json()
+  ).catch(() => { throw new Error('Error: no se pudieron obtener los registros. Inténtelo de nuevo más tarde') });
+}
+
 async function findById(idUser, signal) {
   return fetchWithInterceptor(url + "users/" + idUser, {
     signal
@@ -37,16 +57,5 @@ async function update(idUser, user) {
   }).then((response) => response.json());
 }
 
-async function updateProfile(idUser, user) {
 
-  return fetchWithInterceptor(url + "profile/" + idUser, {
-    method: "PATCH",
-    headers: {
-      'X-Type': 'image',
-    },
-    body: user,
-  }).then((response) => response.json())
-    .catch(() => { throw new Error('Error: no se pudo modificar. Inténtelo de nuevo más tarde') });
-}
-
-export { find, findById, create, remove, update, updateProfile };
+export { find, findQuery, findById, create, remove, update };

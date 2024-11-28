@@ -1,10 +1,18 @@
+// Styles
+import './AdminUserRow.css';
+
+// React
 import { useContext, useState } from 'react';
-import './AdminProductRow.css';
 import { Modal } from "react-bootstrap";
 import { Link } from 'react-router-dom';
-import * as productosService from "../../services/productos.service";
-import * as mediaService from "../../services/media.service";
 import { AuthContext } from '../../App';
+
+// Services
+import * as usersService from "../../services/users.service";
+import * as mediaService from "../../services/media.service";
+
+// External Libraries
+import { DateTime } from 'luxon';
 
 // Cloudinary
 import { AdvancedImage } from "@cloudinary/react";
@@ -13,7 +21,7 @@ import { auto } from "@cloudinary/url-gen/actions/resize";
 import { autoGravity } from "@cloudinary/url-gen/qualifiers/gravity";
 import { defaultImage } from '@cloudinary/url-gen/actions/delivery';
 
-export default function AdminProductRow({ props }) {
+export default function AdminUserRow({ props }) {
   const value = useContext(AuthContext);
 
   const [deleting, setDeleting] = useState();
@@ -28,12 +36,12 @@ export default function AdminProductRow({ props }) {
 
   async function handleConfirmDelete(item) {
     try {
-      await productosService.remove(item._id)
+      await usersService.remove(item._id)
       await mediaService.removeImage(item.img)
-      props.setShowToast({ show: true, title: 'Éxito', message: 'El producto se ha eliminado', variant: 'success', position: 'top-end' });
+      props.setShowToast({ show: true, title: 'Éxito', message: 'El usuario se ha eliminado', variant: 'success', position: 'top-end' });
       props.refetch();
     } catch (err) {
-      props.setShowToast({ show: true, title: 'Error al eliminar el producto', message: 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end' });
+      props.setShowToast({ show: true, title: 'Error al eliminar el usuario', message: 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end' });
 
     }
   }
@@ -41,19 +49,19 @@ export default function AdminProductRow({ props }) {
   const renderImage = (item) => {
     const cld = new Cloudinary({ cloud: { cloudName: process.env.REACT_APP_CLOUDINARY_CLOUD_NAME } });
     const img = cld
-      .image(item?.img ? `products/${item?.img}` : 'placeholder-image')
+      .image(item?.image ? `profile/${item?.image}` : 'placeholder-image')
       .format('auto')
       .quality('auto')
       .resize(auto().gravity(autoGravity()))
       .delivery(defaultImage("placeholder-image.jpg"));
     return (
-      <AdvancedImage cldImg={img} className="product-image img-fluid rounded-3" alt={item?.description} />
+      <AdvancedImage cldImg={img} className="user-image img-fluid rounded-3" alt={item?.description} />
     )
   }
 
   return (
     <>
-      <tr className="cont-admin-products-row">
+      <tr className="cont-admin-users-row">
         {props.cols.map((col, index) => {
           switch (col.type) {
             case 'actions':
@@ -79,16 +87,14 @@ export default function AdminProductRow({ props }) {
               return <td key={index} className="text-center">{parseInt(props.item[col.field])}</td>
             case 'currency':
               return <td key={index} className="text-center">${parseInt(props.item[col.field])}</td>
-            case 'created_by':
-              return (
-                value.currentUser?.role === 1 &&
-                <td key={index} className="text-center">{props.item.user?.email}</td>
-              )
             case 'image':
               return (<td key={index} className="text-center">
                 {renderImage(props.item)}
               </td>)
-            // case 'date':
+            case 'date':
+              return <td key={index} className="text-left"><span className="d-flex justify-content-center">{DateTime.fromISO(props.item[col.field]).toFormat('dd-MM-yyyy')}</span></td>
+            case 'role':
+              return <td key={index} className="text-left"><span className="d-flex justify-content-center">{props.item[col.field] === 1 ? 'Administrador' : 'Usuario final'}</span></td>
             default:
               return (<td key={index} className="text-center">{props.item[col.field]}</td>)
           }
