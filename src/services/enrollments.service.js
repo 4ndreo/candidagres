@@ -3,7 +3,7 @@ import { fetchWithInterceptor } from "../interceptors/auth";
 const url = process.env.REACT_APP_API_URL
 
 async function find(signal) {
-  return fetchWithInterceptor(url + "inscripciones", {
+  return fetchWithInterceptor(url + "enrollments", {
     signal
   }).then((response) => response.json())
     .catch((err) => { return err });
@@ -29,21 +29,21 @@ async function findQuery(request, signal) {
 }
 
 async function findById(idInscripciones, signal) {
-  return fetchWithInterceptor(url + "inscripciones/" + idInscripciones, {
+  return fetchWithInterceptor(url + "enrollments/" + idInscripciones, {
     signal
   }).then((response) => response.json());
 }
 
 async function findByUser(idUser, signal) {
-  return fetchWithInterceptor(url + "inscripciones/user/" + idUser, {
+  return fetchWithInterceptor(url + "enrollments/user/" + idUser, {
     signal
   }).then((response) => response.json());
 }
 
-async function create(inscripcion) {
+async function create(enrollment) {
   return fetchWithInterceptor(url + "enrollments", {
     method: "POST",
-    body: JSON.stringify(inscripcion),
+    body: JSON.stringify(enrollment),
   }).then((response) => response.json());
 }
 
@@ -53,12 +53,12 @@ async function remove(id) {
   }).then((response) => response.json());
 }
 
-async function update(idInscripciones, inscripcion) {
-  return fetchWithInterceptor(url + "inscripciones/" + idInscripciones, {
-    method: "PATCH",
-    body: JSON.stringify(inscripcion),
-  }).then((response) => response.json());
-}
+// async function update(idInscripciones, enrollment) {
+//   return fetchWithInterceptor(url + "enrollments/" + idInscripciones, {
+//     method: "PATCH",
+//     body: JSON.stringify(enrollment),
+//   }).then((response) => response.json());
+// }
 
 export {
   find,
@@ -67,5 +67,5 @@ export {
   findByUser,
   create,
   remove,
-  update
+  // update
 };

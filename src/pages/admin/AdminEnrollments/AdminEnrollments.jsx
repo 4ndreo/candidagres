@@ -86,7 +86,7 @@ export default function AdminEnrollments({ props }) {
   );
 
   const { data: users } = useQuery(
-    'users',
+    'usersEnrollments',
     async ({ signal }) => fetchUsers(signal),
     {
       staleTime: Infinity,

@@ -3,7 +3,7 @@ import { fetchWithInterceptor } from "../interceptors/auth";
 const url = process.env.REACT_APP_API_URL
 
 async function find(signal) {
-  return fetchWithInterceptor(url + "users", {
+  return fetchWithInterceptor(url + "usersAll", {
     signal
   }).then((response) => response.json())
     .catch((err) => { return err });
