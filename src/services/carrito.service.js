@@ -3,7 +3,7 @@ import { fetchWithInterceptor } from "../interceptors/auth";
 const url = process.env.REACT_APP_API_URL
 
 async function find(signal) {
-    return fetchWithInterceptor(url + "carrito", {
+    return fetchWithInterceptor(url + "carts", {
         signal
     }).then((response) => response.json()
     ).catch(() => { throw new Error('Error: no se pudieron obtener los carritos. Inténtelo de nuevo más tarde') });
@@ -11,7 +11,7 @@ async function find(signal) {
 }
 
 async function findById(idCarrito, signal) {
-    return fetchWithInterceptor(url + "carrito/" + idCarrito, {
+    return fetchWithInterceptor(url + "carts/" + idCarrito, {
         signal
     }).then((response) =>
         response.json()
@@ -19,7 +19,7 @@ async function findById(idCarrito, signal) {
 }
 
 async function findByIdUser(idUser, signal) {
-    return fetchWithInterceptor(url + "carrito/user/" + idUser, {
+    return fetchWithInterceptor(url + "carts/user/" + idUser, {
         signal
     }).then((response) =>
         response.json()
@@ -27,25 +27,25 @@ async function findByIdUser(idUser, signal) {
 }
 
 
-async function create(id_user) {
-    return fetchWithInterceptor(url + "carrito/carrito", {
+async function create(data) {
+    return fetchWithInterceptor(url + "carts", {
         method: "POST",
-        body: JSON.stringify({ id_user: id_user }),
+        body: JSON.stringify(data),
     }).then((response) => response.json()
     ).catch(() => { throw new Error('Error: no se pudo crear el carrito. Inténtelo de nuevo más tarde') });
 }
 
 async function remove(idCarrito) {
-    return fetchWithInterceptor(url + "carrito/" + idCarrito, {
+    return fetchWithInterceptor(url + "carts/" + idCarrito, {
         method: "DELETE"
     }).then((response) => response.json()
     ).catch(() => { throw new Error('Error: no se pudo eliminar el carrito. Inténtelo de nuevo más tarde') });
 }
 
-async function update(carrito) {
-    return fetchWithInterceptor(url + "carrito/" + carrito._id, {
+async function update(data) {
+    return fetchWithInterceptor(url + "carts/" + data._id, {
         method: "PATCH",
-        body: JSON.stringify({ productos: carrito.productos }),
+        body: JSON.stringify(data),
     }).then((response) => true
     ).catch(() => { throw new Error('Error: no se pudo modificar el carrito. Inténtelo de nuevo más tarde') });
 }
@@ -59,7 +59,8 @@ async function createPreference(preference) {
 }
 
 async function addToCart(idUser, data) {
-    return fetchWithInterceptor(url + "carrito/" + idUser + "/addToCart", {
+    console.log('data', data)
+    return fetchWithInterceptor(url + "carts/" + idUser + "/addToCart", {
         method: "PATCH",
         body: JSON.stringify({ item: data }),
     }).then((response) => response.json()
@@ -67,7 +68,7 @@ async function addToCart(idUser, data) {
 }
 
 async function substractToCart(idUser, data) {
-    return fetchWithInterceptor(url + "carrito/" + idUser + "/substractToCart", {
+    return fetchWithInterceptor(url + "carts/" + idUser + "/substractToCart", {
         method: "PATCH",
         body: JSON.stringify({ item: data }),
     }).then((response) => response.json()
