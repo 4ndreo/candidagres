@@ -9,7 +9,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../App";
 
 // Services
-import * as productosService from "../../../services/productos.service";
+import * as productsService from "../../../services/products.service";
 
 // Components
 import Loader from "../../../components/basics/Loader";
@@ -42,7 +42,7 @@ export default function AdminProducts({ props }) {
     });
 
     const fetchProducts = async (request) => {
-        const result = await productosService.findOwn({ ...request, filter: JSON.stringify(request.filter), sort: JSON.stringify(request.sort) });
+        const result = await productsService.findOwn({ ...request, filter: JSON.stringify(request.filter), sort: JSON.stringify(request.sort) });
         return result[0];
     }
 

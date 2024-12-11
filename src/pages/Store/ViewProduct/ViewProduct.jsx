@@ -8,8 +8,8 @@ import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 
 // Services
-import * as carritoService from "../../../services/carrito.service";
-import * as productosService from "../../../services/productos.service";
+import * as cartsService from "../../../services/carts.service";
+import * as productsService from "../../../services/products.service";
 // Components
 import Loader from "../../../components/basics/Loader";
 
@@ -33,7 +33,7 @@ export default function ViewProduct(props) {
 
 
   const fetchProduct = async (id) => {
-    const result = await productosService.findById(id);
+    const result = await productsService.findById(id);
     return JSON.parse(JSON.stringify(result));
   }
 
@@ -50,7 +50,7 @@ export default function ViewProduct(props) {
   const handleAddToCart = async () => {
     try {
       setAdding(true);
-      await carritoService.addToCart(context.currentUser._id, { id: product._id, quantity: 1 }).then((cart) => {
+      await cartsService.addToCart(context.currentUser._id, { id: product._id, quantity: 1 }).then((cart) => {
         setAdded(true);
         setTimeout(() => setAdded(false), 1500);
       });

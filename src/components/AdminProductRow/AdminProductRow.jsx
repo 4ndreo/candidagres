@@ -2,7 +2,7 @@ import { useContext, useState } from 'react';
 import './AdminProductRow.css';
 import { Modal } from "react-bootstrap";
 import { Link } from 'react-router-dom';
-import * as productosService from "../../services/productos.service";
+import * as productsService from "../../services/products.service";
 import * as mediaService from "../../services/media.service";
 import { AuthContext } from '../../App';
 
@@ -28,7 +28,7 @@ export default function AdminProductRow({ props }) {
 
   async function handleConfirmDelete(item) {
     try {
-      await productosService.remove(item._id)
+      await productsService.remove(item._id)
       await mediaService.removeImage(item.img)
       props.setShowToast({ show: true, title: 'Éxito', message: 'El producto se ha eliminado', variant: 'success', position: 'top-end' });
       props.refetch();

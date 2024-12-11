@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 
 // Services
-import * as carritoService from "../../../services/carrito.service";
+import * as cartsService from "../../../services/carts.service";
 
 // Components
 import Loader from "../../../components/basics/Loader";
@@ -29,7 +29,7 @@ export default function Cart() {
     initMercadoPago(process.env.REACT_APP_MP_PUBLIC_KEY, { locale: 'es-AR' });
 
     const fetchCart = async (request, signal) => {
-        const res = await carritoService.findByIdUser(request, signal);
+        const res = await cartsService.findByIdUser(request, signal);
         const result = {
             ...res,
             totalCost: calculateTotalCost(res?.items),
@@ -72,7 +72,7 @@ export default function Cart() {
             totalDelay: cart.totalDelay,
         }
         try {
-            const preference = await carritoService.createPreference(preferences)
+            const preference = await cartsService.createPreference(preferences)
             setInitPoint(preference.init_point)
         } catch (error) {
             return error
