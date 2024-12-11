@@ -64,8 +64,9 @@ export default function EditProfileCard({ props }) {
             .updateProfile(props.data._id, body)
             .then((resp) => {
                 if (!resp.err) {
-                    localStorage.setItem("user", JSON.stringify(resp[0]));
-                    value.setCurrentUser(resp[0]);
+                    localStorage.setItem("user", JSON.stringify(resp));
+                    // console.log(resp)
+                    value.setCurrentUser(resp);
                     navigate("/profile", { replace: true });
                 } else {
                     setErrors(resp.err);

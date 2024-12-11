@@ -8,7 +8,7 @@ import ShiftCard from "../../components/ShiftCard/ShiftCard";
 import { useQuery } from "react-query";
 import { weekdays } from '../../data/shifts';
 
-export function ShiftsPage() {
+export default function ShiftsPage() {
   const params = useParams();
 
   const fetchShifts = async () => {
