@@ -1,6 +1,6 @@
 import "./FormProduct.css";
 import React, { useEffect, useState } from "react";
-import * as productosService from "../../services/productos.service";
+import * as productsService from "../../services/products.service";
 import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../basics/Loader";
 
@@ -28,7 +28,7 @@ export default function FormProduct({ props }) {
   async function fetchProduct(id) {
     setIsLoading(true);
 
-    await productosService
+    await productsService
       .findById(id)
       .then((producto) => {
         delete producto._id
@@ -73,7 +73,7 @@ export default function FormProduct({ props }) {
     });
     if (file) body.append('file', file);
     if (params?.id) {
-      productosService
+      productsService
         .update(params?.id, body)
         .then((resp) => {
           if (!resp.err) {
@@ -85,7 +85,7 @@ export default function FormProduct({ props }) {
         }).catch((err) => props.setShowToast({ show: true, title: 'Error al modificar el producto', message: 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end' }));
 
     } else {
-      productosService
+      productsService
         .create(body)
         .then((resp) => {
           if (!resp.err) {

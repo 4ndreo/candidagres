@@ -1,7 +1,7 @@
 import "./Purchase.css";
 import { DateTime } from "luxon";
 
-export function Purchase({ props }) {
+export default function Purchase({ props }) {
   return (
     <div className="cont-purchase">
       <p className="purchase-date">{DateTime.fromISO(props.compra.created_at).toLocaleString(DateTime.DATETIME_FULL)}</p> 

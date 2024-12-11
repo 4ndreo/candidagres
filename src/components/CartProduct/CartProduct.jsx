@@ -1,6 +1,6 @@
 import "./CartProduct.css";
 import React, { useEffect, useState } from "react";
-import * as carritoService from "../../services/carrito.service";
+import * as cartsService from "../../services/carts.service";
 import { Button } from "react-bootstrap";
 
 // Cloudinary
@@ -21,7 +21,7 @@ export function CartProduct({ props }) {
   const handleAddToCart = async (item) => {
     try {
       setQuantity(prev => prev + 1);
-      await carritoService.addToCart(props.idUser, { id: item._id, quantity: props.item.quantity });
+      await cartsService.addToCart(props.idUser, { id: item._id, quantity: props.item.quantity });
       props.refetch();
     } catch (err) {
       props.setShowToast({ show: true, title: 'Error al agregar al carrito', message: 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end' });
@@ -33,7 +33,7 @@ export function CartProduct({ props }) {
   const handleSubtractToCart = async (item) => {
     try {
       setQuantity(prev => prev - 1);
-      await carritoService.substractToCart(props.idUser, { id: item._id, quantity: props.item.quantity });
+      await cartsService.substractToCart(props.idUser, { id: item._id, quantity: props.item.quantity });
       props.refetch();
     } catch (err) {
       console.error(err);

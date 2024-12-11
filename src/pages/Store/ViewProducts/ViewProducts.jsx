@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 
 // Services
-import * as productosService from "../../../services/productos.service";
+import * as productsService from "../../../services/products.service";
 
 // Components
 import Loader from "../../../components/basics/Loader";
@@ -23,7 +23,7 @@ export default function ViewProducts() {
     });
 
     const fetchProducts = async (request, signal) => {
-        const result = await productosService.findQuery({ ...request, filter: JSON.stringify(request.filter), sort: JSON.stringify(request.sort) }, signal);
+        const result = await productsService.findQuery({ ...request, filter: JSON.stringify(request.filter), sort: JSON.stringify(request.sort) }, signal);
         return result[0];
     }
 
