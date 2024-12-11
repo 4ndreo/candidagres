@@ -32,10 +32,10 @@ export default function Header() {
               Cándida Gres
             </Link>
             <Navbar.Toggle aria-controls="menu-nav" onClick={() => setShowOffcanvas(prev => !prev)} />
-            <Navbar.Offcanvas id="menu-nav" placement="end"  ref={offcanvasRef} show={showOffcanvas}>
+            <Navbar.Offcanvas id="menu-nav" placement="end" ref={offcanvasRef} show={showOffcanvas}>
               <Offcanvas.Header className="navbar-base-offcanvas" closeButton closeVariant="white" onHide={() => setShowOffcanvas(prev => !prev)}>
                 <Offcanvas.Title className="brand">
-                    Cándida Gres
+                  Cándida Gres
                 </Offcanvas.Title>
               </Offcanvas.Header>
               <Offcanvas.Body className="me-auto me-lg-0 ms-lg-auto">
@@ -57,27 +57,23 @@ export default function Header() {
                           <span className="pi pi-history"></span>Historial
                         </NavDropdown.Item>
                       </NavDropdown>
-                      {value.currentUser.role <= 2 && (
+                      {value.currentUser.role === 1 && (
                         <NavDropdown title="Panel" className="panel-ddown">
-                          {value.currentUser.role === 1 && (
-                            <>
-                              <NavDropdown.Item as={Link} to="/admin/classes" onClick={() => setShowOffcanvas(false)} className="dropdown-item submenu-item">
-                                Clases
-                              </NavDropdown.Item>
-                              <NavDropdown.Item as={Link} to="/admin/shifts" onClick={() => setShowOffcanvas(false)} className="dropdown-item submenu-item">
-                                Comisiones
-                              </NavDropdown.Item>
-                              <NavDropdown.Item as={Link} to="/admin/enrollments" onClick={() => setShowOffcanvas(false)} className="dropdown-item submenu-item">
-                                Inscripciones
-                              </NavDropdown.Item>
-                              <NavDropdown.Item as={Link} to="/admin/users" onClick={() => setShowOffcanvas(false)} className="dropdown-item submenu-item">
-                                Usuarios
-                              </NavDropdown.Item>
-                              {/* <NavDropdown.Item as={Link} to="/Dashboard" onClick={() => setShowOffcanvas(false)} className="dropdown-item submenu-item">
+                          <NavDropdown.Item as={Link} to="/admin/classes" onClick={() => setShowOffcanvas(false)} className="dropdown-item submenu-item">
+                            Clases
+                          </NavDropdown.Item>
+                          <NavDropdown.Item as={Link} to="/admin/shifts" onClick={() => setShowOffcanvas(false)} className="dropdown-item submenu-item">
+                            Comisiones
+                          </NavDropdown.Item>
+                          <NavDropdown.Item as={Link} to="/admin/enrollments" onClick={() => setShowOffcanvas(false)} className="dropdown-item submenu-item">
+                            Inscripciones
+                          </NavDropdown.Item>
+                          <NavDropdown.Item as={Link} to="/admin/users" onClick={() => setShowOffcanvas(false)} className="dropdown-item submenu-item">
+                            Usuarios
+                          </NavDropdown.Item>
+                          {/* <NavDropdown.Item as={Link} to="/Dashboard" onClick={() => setShowOffcanvas(false)} className="dropdown-item submenu-item">
                                 Dashboard
                               </NavDropdown.Item> */}
-                            </>
-                          )}
                           <NavDropdown.Item as={Link} to="/admin/products" onClick={() => setShowOffcanvas(false)} className="dropdown-item submenu-item">
                             Productos
                           </NavDropdown.Item>
@@ -91,7 +87,7 @@ export default function Header() {
                         <Dropdown.Menu>
                           <Dropdown.Item as={Link} to="/profile" onClick={() => setShowOffcanvas(false)} className="dropdown-item submenu-item">Perfil</Dropdown.Item>
                           <Dropdown.Item as={Link} to="/perfil/clases" onClick={() => setShowOffcanvas(false)} className="dropdown-item submenu-item">Mis clases</Dropdown.Item>
-                          <Dropdown.Item variant="link" onClick={() => {logOut(); setShowOffcanvas(false)}} className="dropdown-item submenu-item">
+                          <Dropdown.Item variant="link" onClick={() => { logOut(); setShowOffcanvas(false) }} className="dropdown-item submenu-item">
                             Cerrar sesión
                           </Dropdown.Item>
                         </Dropdown.Menu>
