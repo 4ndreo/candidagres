@@ -6,7 +6,7 @@
   overflow: hidden;
 }
 
-.shift-card-cont .item-turno {
+.shift-card-cont .item-shift {
   height: 100%;
   font-size: 0.875rem;
   border-radius: 6px;
@@ -17,11 +17,11 @@
   left: 0;
 }
 
-.shift-card-cont .item-turno:hover {
+.shift-card-cont .item-shift:hover {
   cursor: pointer;
 }
 
-.shift-card-cont .item-turno h3 {
+.shift-card-cont .item-shift h3 {
   font-size: 1rem;
   display: inline-block;
   margin-bottom: 0;

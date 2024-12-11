@@ -49,14 +49,13 @@ export default function ShiftCard({ props }) {
       <div className="shift-card-cont border-display">
 
         <div
-          className={userEnrollment || (props.shift.enrollmentsCount === props.shift.max_places) ? "item-turno w-100 inscripto" : "item-turno w-100"}
+          className={userEnrollment || (props.shift.enrollmentsCount === props.shift.max_places) ? "item-shift w-100 inscripto" : "item-shift w-100"}
           style={{
             height: (getDistancia(props.shift.start_time, props.shift.end_time) * factor > factor ? getDistancia(props.shift.start_time, props.shift.end_time) * factor : factor) + "px",
             top: getDistancia("09:00", props.shift.start_time) * factor + "px",
-            // border: "2px solid " + props.hoveredTurno === props.shift._id ? "hsl(220 50% 70% / 1)" : "#e6e6e6",
-            backgroundColor: props.hoveredTurno === props.shift._id ? "hsl(220 50% 70% / 1)" : "#e6e6e6",
+            // border: "2px solid " + props.hoveredShift === props.shift._id ? "hsl(220 50% 70% / 1)" : "#e6e6e6",
+            backgroundColor: props.hoveredShift === props.shift._id ? "hsl(220 50% 70% / 1)" : "#e6e6e6",
           }}
-          // onClick={() => {handleSelectedTurno(turno); handleCloseTooltip(true);}}
           onClick={() => setShow(true)}
           onMouseEnter={() => props.handleMouseOver(props.shift._id)}
           onMouseLeave={() => props.handleMouseLeave(props.shift._id)}

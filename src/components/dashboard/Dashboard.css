@@ -40,22 +40,3 @@
     margin-bottom: 0.25rem;
 }
 
-/*Esto es de inscripciones.jsx*/
-/*TODO mover esto al css de inscripciones y que ese archivo lo tome*/
-
-.alumnos-lista {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
-.alumno-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 0;
-    border-bottom: 1px solid #ccc;
-}
-.alumno-item:last-child {
-    border-bottom: none;
-}
-

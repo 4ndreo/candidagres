@@ -25,14 +25,14 @@ export default function ShiftsPage() {
     }
   );
 
-  const [hoveredTurno, setHoveredTurno] = useState("");
+  const [hoveredShift, setHoveredShift] = useState("");
 
   function handleMouseOver(id) {
-    setHoveredTurno(id);
+    setHoveredShift(id);
   }
 
   function handleMouseLeave() {
-    setHoveredTurno('');
+    setHoveredShift('');
   }
 
   if (isLoading) {
@@ -64,7 +64,7 @@ export default function ShiftsPage() {
                         return (
                           <ShiftCard
                             key={shift._id}
-                            props={{ shift, classData, weekdays, handleMouseOver, handleMouseLeave, hoveredTurno, refetch }}
+                            props={{ shift, classData, weekdays, handleMouseOver, handleMouseLeave, hoveredShift, refetch }}
                           />
                         );
                       } else {
