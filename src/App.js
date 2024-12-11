@@ -32,7 +32,7 @@ import Purchases from "./pages/Store/Purchases/Purchases"
 
 // Classes
 import ClassesPage from "./pages/Classes/Classes";
-import { ShiftsPage } from "./pages/Shifts/Shifts";
+import ShiftsPage from "./pages/Shifts/Shifts";
 
 // Profile
 import ProfilePage from "./pages/Profile/Profile";
