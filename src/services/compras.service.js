@@ -3,14 +3,14 @@ import { fetchWithInterceptor } from "../interceptors/auth";
 const url = process.env.REACT_APP_API_URL
 
 async function find(signal) {
-    return fetchWithInterceptor(url + "compras", {
+    return fetchWithInterceptor(url + "purchases", {
         signal
     }).then((response) => response.json()
     ).catch(() => { throw new Error('Error: no se pudo traer el historial. Inténtelo de nuevo más tarde') });
 }
 
 async function findById(idCompra, signal) {
-    return fetchWithInterceptor(url + "compras/" + idCompra, {
+    return fetchWithInterceptor(url + "purchases/" + idCompra, {
         signal
     }).then((response) =>
         response.json()
@@ -18,7 +18,7 @@ async function findById(idCompra, signal) {
 }
 
 async function findByIdUser(idUser, signal) {
-    return fetchWithInterceptor(url + "compras/user/" + idUser, {
+    return fetchWithInterceptor(url + "purchases/user/" + idUser, {
         signal
     }).then((response) =>
         response.json()
@@ -26,7 +26,7 @@ async function findByIdUser(idUser, signal) {
 }
 
 async function create(data) {
-    return fetchWithInterceptor(url + "compras/compra", {
+    return fetchWithInterceptor(url + "purchases", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -37,8 +37,8 @@ async function create(data) {
     ).catch(() => { throw new Error('Error: no se pudo crear la compra. Inténtelo de nuevo más tarde') });
 }
 
-async function remove(idCompra) {
-    return fetchWithInterceptor(url + "compras/" + idCompra, {
+async function remove(id) {
+    return fetchWithInterceptor(url + "purchases/" + id, {
         method: "DELETE",
         headers: {
             'auth-token': localStorage.getItem('token')
@@ -48,7 +48,7 @@ async function remove(idCompra) {
 }
 
 async function update(compra) {
-    return fetchWithInterceptor(url + "compras/" + compra._id, {
+    return fetchWithInterceptor(url + "purchases/" + compra._id, {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json",

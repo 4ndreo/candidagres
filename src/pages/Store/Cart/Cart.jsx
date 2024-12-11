@@ -58,8 +58,8 @@ export default function Cart() {
     async function handleCreatePreference(cart) {
         const preferences = {
             id_user: cart.id_user,
-            carritoId: cart._id,
-            state: "pending",
+            id_cart: cart._id,
+            // state: "pending",
             items: cart.items.map((product) => ({
                 title: product.title,
                 description: product.description,
@@ -98,7 +98,7 @@ export default function Cart() {
     }
 
     const renderMPButton = () => {
-        if (!initPoint || isFetching) return (
+        if (!initPoint || initPoint === undefined || initPoint.length < 1 || isFetching) return (
             <span className="d-block">
                 <Button
                     className="w-100"
