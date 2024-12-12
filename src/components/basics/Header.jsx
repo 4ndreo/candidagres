@@ -86,7 +86,6 @@ export default function Header() {
 
                         <Dropdown.Menu>
                           <Dropdown.Item as={Link} to="/profile" onClick={() => setShowOffcanvas(false)} className="dropdown-item submenu-item">Perfil</Dropdown.Item>
-                          <Dropdown.Item as={Link} to="/perfil/clases" onClick={() => setShowOffcanvas(false)} className="dropdown-item submenu-item">Mis clases</Dropdown.Item>
                           <Dropdown.Item variant="link" onClick={() => { logOut(); setShowOffcanvas(false) }} className="dropdown-item submenu-item">
                             Cerrar sesión
                           </Dropdown.Item>

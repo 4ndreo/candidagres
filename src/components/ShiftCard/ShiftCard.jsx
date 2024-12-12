@@ -72,7 +72,7 @@ export default function ShiftCard({ props }) {
         </div>
       </div>
       {show && <EnrollModal props={{
-        show, setShow, classData: props.classData, shift: props.shift, weekdays: props.weekdays, userEnrollment, refetch: props.refetch
+        show, setShow, classData: props.classData, shift: props.shift, weekdays: props.weekdays, userEnrollment, refetch: props.refetch, setShowToast: props.setShowToast
       }} />}
     </>
   );

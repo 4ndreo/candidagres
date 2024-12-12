@@ -17,7 +17,7 @@ export default function ViewProfileCard({ props }) {
         .resize(auto().gravity(autoGravity()))
         .delivery(defaultImage("placeholder-image.jpg"));
     return (
-        <div className="card card-ver-perfil-container">
+        <div className="card card-view-profile-container">
             <Link to={"edit"} className="btn btn-primary edit-btn"><span className="pi pi-pen-to-square"></span></Link>
             <div className="user-card">
                 <AdvancedImage className="avatar-img" cldImg={img} alt="Imagen de perfil del usuario" />

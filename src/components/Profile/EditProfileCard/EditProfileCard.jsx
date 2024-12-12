@@ -65,7 +65,6 @@ export default function EditProfileCard({ props }) {
             .then((resp) => {
                 if (!resp.err) {
                     localStorage.setItem("user", JSON.stringify(resp));
-                    // console.log(resp)
                     value.setCurrentUser(resp);
                     navigate("/profile", { replace: true });
                 } else {

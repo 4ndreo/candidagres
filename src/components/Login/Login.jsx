@@ -35,7 +35,6 @@ export default function Login({ props }) {
     await authService
       .login(form.email, form.password)
       .then((resp) => {
-        console.log(resp)
         if (!resp.err) {
           value.setToken(resp.token);
           value.setCurrentUser(resp.userData);

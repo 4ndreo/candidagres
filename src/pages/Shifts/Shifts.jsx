@@ -8,7 +8,7 @@ import ShiftCard from "../../components/ShiftCard/ShiftCard";
 import { useQuery } from "react-query";
 import { weekdays } from '../../data/shifts';
 
-export default function ShiftsPage() {
+export default function ShiftsPage({ props }) {
   const params = useParams();
 
   const fetchShifts = async () => {
@@ -64,7 +64,7 @@ export default function ShiftsPage() {
                         return (
                           <ShiftCard
                             key={shift._id}
-                            props={{ shift, classData, weekdays, handleMouseOver, handleMouseLeave, hoveredShift, refetch }}
+                            props={{ shift, classData, weekdays, handleMouseOver, handleMouseLeave, hoveredShift, refetch, setShowToast: props.setShowToast }}
                           />
                         );
                       } else {

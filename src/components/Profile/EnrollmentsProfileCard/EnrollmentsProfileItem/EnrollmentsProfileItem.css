@@ -1,0 +1,9 @@
+.enrollment-profile-item-cont {
+    text-align: left;
+    padding: 0.5rem 1rem;
+}
+
+.enrollment-profile-item-cont .class-title {
+    font-weight: 700;
+    color: var(--main-blue);
+}

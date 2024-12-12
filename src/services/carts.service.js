@@ -59,7 +59,6 @@ async function createPreference(preference) {
 }
 
 async function addToCart(idUser, data) {
-    console.log('data', data)
     return fetchWithInterceptor(url + "carts/" + idUser + "/addToCart", {
         method: "PATCH",
         body: JSON.stringify({ item: data }),
