@@ -36,13 +36,11 @@ import ShiftsPage from "./pages/Shifts/Shifts";
 
 // Profile
 import ProfilePage from "./pages/Profile/Profile";
-import { PerfilTurnos } from "./components/Profile/PerfilTurnos";
 import ViewProfileCard from "./components/Profile/ViewProfileCard/ViewProfileCard";
 import EditProfileCard from "./components/Profile/EditProfileCard/EditProfileCard";
 
 
 // import { Dashboard } from "./components/dashboard/Dashboard"
-import MisClases from "./pages/MisClases";
 import CustomToast from "./components/basics/CustomToast/CustomToast";
 import ForgotPassword from "./components/ForgotPassword/ForgotPassword";
 import VerifyEmail from "./components/VerifyEmail/VerifyEmail";
@@ -70,8 +68,8 @@ function App() {
 
         <Routes>
           <Route path="/auth" element={<AuthPage />}>
-            <Route path="login" element={<Login props={{ setShowToast }}/>} />
-            <Route path="register" element={<Register props={{ setShowToast }}/>} />
+            <Route path="login" element={<Login props={{ setShowToast }} />} />
+            <Route path="register" element={<Register props={{ setShowToast }} />} />
             <Route path="forgot-password" element={<ForgotPassword props={{ setShowToast }} />} />
             <Route path="verify-email/:id" element={<VerifyEmail props={{ setShowToast }} />} />
             <Route path="change-password/:id" element={<ChangePassword props={{ setShowToast }} />} />
@@ -79,13 +77,11 @@ function App() {
 
           <Route path="*" element={<Home />} />
 
-
-          {/* --------------- / ---------------- */}
+          {/* Classes */}
           <Route path="classes" element={<ClassesPage />} />
-          <Route path="classes/:id/shifts" element={<ShiftsPage />} />
-          {/* <Route path="classes/shifts/:id" element={<ShiftsPage title={"Comisiones"} />} /> */}
+          <Route path="classes/:id/shifts" element={<ShiftsPage props={{ setShowToast }} />} />
 
-
+          {/* Admin */}
           <Route path="/admin" element={<Admin />}>
 
             {/* Products */}
@@ -122,7 +118,6 @@ function App() {
             />
 
             {/* Shifts */}
-
             <Route path="shifts" element={<AdminShifts props={{ setShowToast }} />} />
             <Route
               path="shifts/new"
@@ -134,47 +129,31 @@ function App() {
             />
 
             {/* Enrollments */}
-
             <Route path="enrollments" element={<AdminEnrollments props={{ setShowToast }} />} />
 
           </Route>
 
 
           {/* Store */}
-
           <Route path="/store" element={<StorePage />}>
-
             <Route path="" element={<ViewProducts />} title={"Tienda"} />
             <Route path="item/:id" element={<ViewProduct />} />
             <Route path="cart/:idUsuario" element={<Cart />} title={"Compras"} />
             <Route path="purchases/:idUsuario" element={<Purchases />} title={"Historial"} />
-
           </Route>
 
 
           {/* Profile */}
-
-          <Route path="profile" element={<ProfilePage />}>
+          <Route path="profile" element={<ProfilePage props={{ data: currentUser, setShowToast }} />}>
             <Route path="" element={<ViewProfileCard props={{ data: currentUser }} />} />
             <Route path="edit" element={<EditProfileCard props={{ data: currentUser }} />} />
           </Route>
-          <Route path="/perfil/clases" element={<MisClases />} />
-
-          <Route
-            path="perfil/turno/id-:idTurno/inscripcion/id-:idInscripcion"
-            element={<PerfilTurnos title={"Turnos"} />}
-          />
-
-
 
           {/* Rutas Dashboard */}
 
           {/* <Route path="/Dashboard" element={<Dashboard />} title={"Dashboard"} /> */}
 
         </Routes>
-
-
-
 
         <Footer></Footer>
         <CustomToast props={{ data: showToast, setShowToast: setShowToast }} />

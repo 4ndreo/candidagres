@@ -1,6 +1,6 @@
 import './EnrollModal.css'
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Modal } from "react-bootstrap"
 import * as enrollmentsService from '../../../services/enrollments.service'
 import LoaderMini from "../../basics/LoaderMini";
@@ -10,14 +10,27 @@ import LoaderMini from "../../basics/LoaderMini";
 export default function EnrollModal({ props }) {
   const [savingEnrollment, setSavingEnrollment] = useState(false);
   const [hovered, setHovered] = useState(false);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setError(null)
+    }, 5000)
+  }, [error])
 
   const handleMouseEnter = () => setHovered(true);
   const handleMouseLeave = () => setHovered(false);
 
-  function createEnrollment() {
+  async function createEnrollment() {
     setSavingEnrollment(true)
-    enrollmentsService.create({ id_shift: props.shift._id })
-      .then(() => props.refetch())
+    await enrollmentsService.create({ id_shift: props.shift._id })
+      .then((resp) => {
+        if (resp.err) {
+          setError(Object.values(resp.err)[0] ?? 'Error al eliminar la inscripción')
+        } else {
+          props.refetch()
+        }
+      })
       .finally(() => { setSavingEnrollment(false); setHovered(false) });
   }
 
@@ -92,6 +105,7 @@ export default function EnrollModal({ props }) {
         <p><span className="negritas">Cuota mensual:</span> ${props.classData.price}</p>
       </Modal.Body>
       <Modal.Footer>
+        {error && <p className="text-danger">{error}</p>}
         {renderEnrollmentButton()}
       </Modal.Footer>
     </Modal>

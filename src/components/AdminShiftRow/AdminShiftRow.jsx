@@ -78,7 +78,7 @@ export default function AdminShiftRow({ props }) {
           <Modal.Title className="negritas">¿Seguro querés eliminar "{deleting?.title}"?</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p><span className="negritas">Esta acción es irreversible</span></p>
+          <p>Eliminar la comisión <span className="negritas">eliminará también las inscripciones asociadas. <span className="negritas text-danger">Esta acción es irreversible</span></span></p>
         </Modal.Body>
         <Modal.Footer>
           <button
