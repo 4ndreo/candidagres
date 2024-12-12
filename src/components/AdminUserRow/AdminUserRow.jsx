@@ -2,10 +2,9 @@
 import './AdminUserRow.css';
 
 // React
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { Modal } from "react-bootstrap";
 import { Link } from 'react-router-dom';
-import { AuthContext } from '../../App';
 
 // Services
 import * as usersService from "../../services/users.service";
@@ -22,8 +21,6 @@ import { autoGravity } from "@cloudinary/url-gen/qualifiers/gravity";
 import { defaultImage } from '@cloudinary/url-gen/actions/delivery';
 
 export default function AdminUserRow({ props }) {
-  const value = useContext(AuthContext);
-
   const [deleting, setDeleting] = useState();
   const [show, setShow] = useState(false);
 

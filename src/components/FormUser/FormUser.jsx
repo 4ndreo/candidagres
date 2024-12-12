@@ -12,9 +12,6 @@ import { roles } from "../../data/roles";
 // Components
 import Loader from "../basics/Loader";
 
-// External Libraries
-import { Form } from "react-bootstrap";
-
 // Cloudinary
 import { Cloudinary } from "@cloudinary/url-gen";
 import { auto } from "@cloudinary/url-gen/actions/resize";
@@ -30,14 +27,7 @@ export default function FormUser({ props }) {
 
   const [isLoading, setIsLoading] = useState(false);
   const [initialForm, setInitialForm] = useState();
-  const [form, setForm] = useState({
-    // first_name: '',
-    // last_name: '',
-    // document_type: '',
-    // id_document: '',
-    // role: 2,
-    // birth_date: '1900-01-01',
-  });
+  const [form, setForm] = useState({});
   const [showPassword, setShowPassword] = useState(false);
 
   const [error, setError] = useState(null);
