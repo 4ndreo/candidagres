@@ -47,6 +47,7 @@ import VerifyEmail from "./components/VerifyEmail/VerifyEmail";
 import ChangePassword from "./components/ChangePassword/ChangePassword";
 import AdminUsers from "./pages/admin/AdminUsers/AdminUsers";
 import FormUser from "./components/FormUser/FormUser";
+import AdminPurchases from "./pages/admin/AdminPurchases/AdminPurchases";
 
 export const AuthContext = createContext();
 
@@ -83,6 +84,9 @@ function App() {
 
           {/* Admin */}
           <Route path="/admin" element={<Admin />}>
+
+            {/* Purchases */}
+            <Route path="purchases" element={<AdminPurchases props={{ setShowToast }} />} />
 
             {/* Products */}
             <Route path="products" element={<AdminProducts props={{ setShowToast }} />} />
