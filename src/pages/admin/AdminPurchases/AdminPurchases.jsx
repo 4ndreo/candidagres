@@ -5,8 +5,7 @@ import "../css/AdminTable.css";
 // React
 import { Link } from "react-router-dom";
 import { useQuery } from "react-query";
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { AuthContext } from "../../../App";
+import React, { useEffect, useRef, useState } from "react";
 
 // Services
 import * as purchasesService from "../../../services/purchases.service";
@@ -21,8 +20,6 @@ import { Button, ButtonGroup, Dropdown, Form } from "react-bootstrap";
 import { DateTime } from "luxon";
 
 export default function AdminPurchases({ props }) {
-    const value = useContext(AuthContext);
-
     const cols = [
         { field: 'actions', header: 'Acciones', type: 'actions' },
         { field: 'user', header: 'Usuario', type: 'relation', relationField: 'email', relationTable: 'users' },
