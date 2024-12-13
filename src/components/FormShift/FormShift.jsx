@@ -3,7 +3,7 @@ import "./FormShift.css";
 
 // React
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import { useQuery } from "react-query";
 
 // Services
@@ -146,6 +146,14 @@ export default function FormShift({ props }) {
   return (
     <div className="container cont-admin-form-shifts">
       <h1>{params?.id ? 'Editar' : 'Crear'} - {props.title}</h1>
+
+      <Link to="/admin/shifts"
+            className="btn btn-link back-btn btn-icon px-0"
+            style={{ textDecoration: "none" }}
+      >
+        <span className="pi pi-angle-left"></span>Volver
+      </Link>
+
       {error ? renderError() :
         <form onSubmit={handleSubmit} noValidate>
           <div className="d-flex flex-column flex-sm-row justify-content-between gap-3">
