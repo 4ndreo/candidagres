@@ -77,6 +77,9 @@ export default function Header() {
                           <NavDropdown.Item as={Link} to="/admin/products" onClick={() => setShowOffcanvas(false)} className="dropdown-item submenu-item">
                             Productos
                           </NavDropdown.Item>
+                          <NavDropdown.Item as={Link} to="/admin/purchases" onClick={() => setShowOffcanvas(false)} className="dropdown-item submenu-item">
+                            Compras
+                          </NavDropdown.Item>
                         </NavDropdown>
                       )}
                       <Dropdown align="end">
