@@ -37,7 +37,7 @@ export default function AdminPurchases({ props }) {
     const [request, setRequest] = useState({
         page: 0,
         limit: 10,
-        filter: [{ "field": "created_at", "value": { "date_from": DateTime.fromJSDate(new Date()).minus({month: 1}).toFormat('yyyy-MM-dd'), "date_to": DateTime.fromJSDate(new Date()).toFormat('yyyy-MM-dd') } }],
+        filter: [{ "field": "created_at", "value": { "date_from": DateTime.fromJSDate(new Date()).minus({ month: 1 }).toFormat('yyyy-MM-dd'), "date_to": DateTime.fromJSDate(new Date()).toFormat('yyyy-MM-dd') } }],
         sort: { field: 'undefined', direction: 1 },
     });
 
@@ -117,7 +117,6 @@ export default function AdminPurchases({ props }) {
     const dropdownMenuRef = useRef(null);
 
     const toggleDropdown = () => {
-        console.log('dropdownMenuRef.current', dropdownMenuRef);
         if (dropdownMenuRef.current) {
             const isShown = dropdownMenuRef.current.classList.contains('show');
             if (isShown) {
@@ -168,7 +167,7 @@ export default function AdminPurchases({ props }) {
                             <Dropdown.Menu className="cont-search" ref={dropdownMenuRef}>
                                 <Form onSubmit={(e) => { e.preventDefault(); handleFilterDate(col.field, e.target); toggleDropdown() }}>
                                     <small>Fecha desde:</small>
-                                    <Form.Control type="date" defaultValue={DateTime.fromJSDate(new Date()).minus({month: 1}).toFormat('yyyy-MM-dd')} name="date_from" autoFocus placeholder="Fecha desde" className="mb-1" />
+                                    <Form.Control type="date" defaultValue={DateTime.fromJSDate(new Date()).minus({ month: 1 }).toFormat('yyyy-MM-dd')} name="date_from" autoFocus placeholder="Fecha desde" className="mb-1" />
                                     <small>Fecha hasta:</small>
                                     <Form.Control type="date" defaultValue={DateTime.fromJSDate(new Date()).toFormat('yyyy-MM-dd')} name="date_to" autoFocus placeholder="Fecha desde" />
                                     <div className="d-flex mt-2 justify-content-end gap-2">
