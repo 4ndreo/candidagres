@@ -61,12 +61,12 @@ export default function EnrollmentsProfileCard({ props }) {
 
 
     const renderTotalCost = () => {
-        const total = enrollments.data?.reduce((acc, enrollment) => {
+        const total = enrollments?.data?.reduce((acc, enrollment) => {
             return acc + enrollment.shift.class.price;
         }, 0)
         console.log(total)
         return (
-            <p className="mb-0 align-self-start">
+            <p className="mb-0 text-start">
                 <span className="negritas">Total de cuotas mensuales:</span> ${total}
             </p>
         )
@@ -83,15 +83,13 @@ export default function EnrollmentsProfileCard({ props }) {
                 <div className="card border-0 card-view-profile-enrollments-container">
                     <div className="enrollment-card" id="myEnrollmentsList">
                         <h2> Mis inscripciones</h2>
-                        {renderTotalCost()}
-
                         {enrollments?.data?.length > 0 ?
-
-                            enrollments?.data?.map((enrollment, index) => (
-                                <div key={index} className="w-100">
-                                    <EnrollmentsProfileItem props={{ enrollment, refetch, setShowToast: props.setShowToast, resetPagination }} />
-                                </div>
-                            ))
+                            <div className="w-100">
+                                {renderTotalCost()}
+                                {enrollments?.data?.map((enrollment, index) => (
+                                    <EnrollmentsProfileItem key={index} props={{ enrollment, refetch, setShowToast: props.setShowToast, resetPagination }} />
+                                ))}
+                            </div>
 
                             : <p>No estás inscripto a ninguna clase. Podés ver las clases disponibles <Link to={`/classes`} className="class-title" >acá</Link> </p>}
                         <Paginator props={{ pages: enrollments?.pages ?? 0, count: enrollments?.count ?? 0, page: request.page, limit: request.limit, handlePaginate: handlePaginate, handlePaginateNext: handlePaginateNext, handlePaginatePrevious: handlePaginatePrevious }} />
