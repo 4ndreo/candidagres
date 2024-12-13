@@ -13,7 +13,7 @@ async function login(email, password) {
 }
 
 async function register(user) {
-    return fetchWithInterceptor(url + "users", {
+    return fetchWithInterceptor(url + "auth/register", {
         method: "POST",
         body: JSON.stringify(user),
     }).then((response) => response.json());
