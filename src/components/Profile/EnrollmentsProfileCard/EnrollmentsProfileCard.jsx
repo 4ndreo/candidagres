@@ -66,7 +66,7 @@ export default function EnrollmentsProfileCard({ props }) {
             isError ?
                 renderError() :
                 <div className="card border-0 card-view-profile-enrollments-container">
-                    <div className="enrollment-card">
+                    <div className="enrollment-card" id="myEnrollmentsList">
                         <h2> Mis inscripciones</h2>
                         {enrollments?.data?.length > 0 ?
 
