@@ -1,7 +1,7 @@
 import "./FormProduct.css";
 import React, { useEffect, useState } from "react";
 import * as productsService from "../../services/products.service";
-import { useNavigate, useParams } from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import Loader from "../basics/Loader";
 
 // Cloudinary
@@ -150,6 +150,13 @@ export default function FormProduct({ props }) {
   return (
     <div className="container cont-admin-form-products">
       <h1>{params?.id ? 'Editar' : 'Crear'} - {props.title}</h1>
+      {/*<Link className="btn btn-primary mt-4 mb-4" to="/admin/products" >Volver</Link>*/}
+      <Link to="/admin/products"
+            className="btn btn-link back-btn btn-icon px-0"
+            style={{ textDecoration: "none" }}
+      >
+        <span className="pi pi-angle-left"></span>Volver
+      </Link>
       {error ? renderError() :
         <form onSubmit={handleSubmit} noValidate>
           <div>

@@ -1,7 +1,7 @@
 import "./Shifts.css";
 
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import * as classesService from "../../services/classes.service";
 import Loader from "../../components/basics/Loader";
 import ShiftCard from "../../components/ShiftCard/ShiftCard";
@@ -51,6 +51,14 @@ export default function ShiftsPage({ props }) {
     <main className="container main d-grid">
       <div className="shift-cont">
         <h1>Horarios disponibles{classData?.title ? " para " + classData?.title : ""}</h1>
+
+        <Link to="/classes"
+              className="btn btn-link back-btn btn-icon px-0"
+              style={{ textDecoration: "none" }}
+        >
+          <span className="pi pi-angle-left"></span>Volver
+        </Link>
+
         {isError ?
           renderError() :
           <ul className="cont-listado-dias">

@@ -2,10 +2,10 @@
 import "./ViewProduct.css";
 
 // React
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { AuthContext } from "../../../App";
 import { useQuery } from "react-query";
-import { useParams } from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 
 // Services
 import * as cartsService from "../../../services/carts.service";
@@ -135,6 +135,13 @@ export default function ViewProduct(props) {
           <div className="col-md-6">
             <div className="row g-0 h-100 align-content-between">
               <div>
+
+                <Link to="/store"
+                      className="btn btn-link back-btn btn-icon px-0"
+                      style={{ textDecoration: "none" }}
+                >
+                  <span className="pi pi-angle-left"></span>Volver
+                </Link>
                 <p className="text-body-secondary">Demora estimada: {product.estimated_delay} días</p>
                 <h1 className="card-title">{product.title}</h1>
                 <p className="card-price">${product.price}</p>

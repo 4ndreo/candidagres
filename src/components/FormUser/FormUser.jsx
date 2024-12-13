@@ -3,7 +3,7 @@ import "./FormUser.css";
 
 // React
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 
 // Services
 import * as usersService from "../../services/users.service";
@@ -123,6 +123,15 @@ export default function FormUser({ props }) {
   return (
     <div className="container cont-admin-form-users">
       <h1>{params?.id ? 'Editar' : 'Crear'} - {props.title}</h1>
+
+      <Link to="/admin/users"
+            className="btn btn-link back-btn btn-icon px-0"
+            style={{ textDecoration: "none" }}
+      >
+        <span className="pi pi-angle-left"></span>Volver
+      </Link>
+
+
       {error ? renderError() :
         <>
           {renderImage()}
