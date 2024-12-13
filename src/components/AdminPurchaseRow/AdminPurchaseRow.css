@@ -8,3 +8,23 @@
     object-fit: cover;
     max-width: 50px;
 }
+
+
+.modal-view .purchase-items,.modal-deliver .purchase-items {
+    flex-grow: 1;
+}
+
+.modal-view .purchase-items ul,.modal-deliver .purchase-items ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0;
+}
+
+.modal-view .purchase-items li,.modal-deliver .purchase-items li {
+    border: 1px solid lightgray;
+    list-style-type: none;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: white;
+}

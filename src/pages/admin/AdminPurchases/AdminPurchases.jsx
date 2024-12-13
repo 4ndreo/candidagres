@@ -24,10 +24,10 @@ export default function AdminPurchases({ props }) {
         { field: 'actions', header: 'Acciones', type: 'actions' },
         { field: 'user', header: 'Usuario', type: 'relation', relationField: 'email', relationTable: 'users' },
         { field: 'totalCost', header: 'Importe total', type: 'number' },
-        { field: 'totalQuantity', header: 'Cantidad Items', type: 'number' },
+        { field: 'totalQuantity', header: 'Cantidad items', type: 'number' },
         { field: 'totalDelay', header: 'Demora estimada (días)', type: 'number' },
         { field: 'created_at', header: 'Fecha compra', type: 'date' },
-        { field: 'delivery_date', header: 'Fecha entrega', type: 'date' },
+        { field: 'delivered_at', header: 'Fecha entrega', type: 'date' },
     ]
 
     // const [showToast, setShowToast] = useState(null);
@@ -166,7 +166,7 @@ export default function AdminPurchases({ props }) {
                                     <small>Fecha desde:</small>
                                     <Form.Control type="date" defaultValue={DateTime.fromJSDate(new Date()).minus({ month: 1 }).toFormat('yyyy-MM-dd')} name="date_from" autoFocus placeholder="Fecha desde" className="mb-1" />
                                     <small>Fecha hasta:</small>
-                                    <Form.Control type="date" defaultValue={DateTime.fromJSDate(new Date()).toFormat('yyyy-MM-dd')} name="date_to" autoFocus placeholder="Fecha desde" />
+                                    <Form.Control type="date" defaultValue={DateTime.fromJSDate(new Date()).toFormat('yyyy-MM-dd')} name="date_to" placeholder="Fecha desde" />
                                     <div className="d-flex mt-2 justify-content-end gap-2">
                                         <Button variant="primary" type="submit">Aplicar</Button>
                                     </div>
@@ -229,12 +229,13 @@ export default function AdminPurchases({ props }) {
 
     return (
         <div className="cont-admin-purchases admin-table">
-            <div className="d-md-flex justify-content-between align-items-center mb-3">
+            <div className="d-md-flex justify-content-between align-items-baseline mb-3">
 
-                <h1>Administrar Compras</h1>
-                <Link to="new" className="btn btn-primary btn-icon">
-                    <span className="pi pi-plus"></span>Crear una Compra
-                </Link>
+                <div>
+
+                    <h1>Administrar Compras</h1>
+                    <p>Para confirmar la entrega de un pedido, hacé click en el icono de "Confirmar entrega" de la columna "Acciones".</p>
+                </div>
             </div>
             {isError ?
                 renderError() :
@@ -252,7 +253,7 @@ export default function AdminPurchases({ props }) {
                             <tbody>
                                 {purchases?.data.length > 0 ?
                                     purchases?.data?.map((item) => {
-                                        return <AdminPurchaseRow props={{ item: item, refetch: refetch, cols: cols, showEdit: true, showDelete: true, setShowToast: props.setShowToast }} key={item._id} />
+                                        return <AdminPurchaseRow props={{ item: item, refetch: refetch, cols: cols, showDelivered: true, showView: true, setShowToast: props.setShowToast }} key={item._id} />
                                     })
                                     :
                                     <tr>

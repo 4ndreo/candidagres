@@ -66,29 +66,25 @@ async function remove(id) {
     ).catch(() => { throw new Error('Error: no se pudo eliminar la compra. Inténtelo de nuevo más tarde') });
 }
 
-async function update(compra) {
-    return fetchWithInterceptor(url + "purchases/" + compra._id, {
+async function update(data) {
+    return fetchWithInterceptor(url + "purchases/" + data._id, {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json",
             'auth-token': localStorage.getItem('token')
         },
-        body: JSON.stringify({ productos: compra.productos }),
-    }).then((response) => true
-    ).catch(() => { throw new Error('Error: no se pudo modificar la compra. Inténtelo de nuevo más tarde') });
+        body: JSON.stringify({ productos: data.productos }),
+    }).then((response) => response.json()
+    ).catch(() => { throw new Error('Error: no se pudo modificar la data. Inténtelo de nuevo más tarde') });
 }
 
-// async function savePurchase(data) {
-//     return fetchWithInterceptor(url + "compras/" + data._id, {
-//         method: "PATCH",
-//         headers: {
-//             "Content-Type": "application/json",
-//             'auth-token': localStorage.getItem('token')
-//         },
-//         body: JSON.stringify({ productos: data.productos }),
-//     }).then((response) => true
-//     ).catch(() => { throw new Error('Error: no se pudo actualizar la compra. Inténtelo de nuevo más tarde') });
-// }
+async function setDelivered(data) {
+    return fetchWithInterceptor(url + "purchases/" + data._id + '/deliver', {
+        method: "PATCH",
+        body: JSON.stringify(data),
+    }).then((response) => response.json()
+    ).catch(() => { throw new Error('Error: no se pudo modificar la compra. Inténtelo de nuevo más tarde') });
+}
 
 export {
     find,
@@ -98,5 +94,5 @@ export {
     create,
     remove,
     update,
-    // savePurchase,
+    setDelivered,
 };
