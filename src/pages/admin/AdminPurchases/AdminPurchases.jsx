@@ -3,7 +3,6 @@ import "./AdminPurchases.css";
 import "../css/AdminTable.css";
 
 // React
-import { Link } from "react-router-dom";
 import { useQuery } from "react-query";
 import React, { useEffect, useRef, useState } from "react";
 
