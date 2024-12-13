@@ -30,6 +30,7 @@ export default function EnrollmentsProfileCard({ props }) {
         }
     );
 
+
     function handlePaginate(page) {
         setRequest({ ...request, page: request.limit * page });
     }
@@ -58,9 +59,23 @@ export default function EnrollmentsProfileCard({ props }) {
         )
     }
 
+
+    const renderTotalCost = () => {
+        const total = enrollments.data?.reduce((acc, enrollment) => {
+            return acc + enrollment.shift.class.price;
+        }, 0)
+        console.log(total)
+        return (
+            <p className="mb-0 align-self-start">
+                <span className="negritas">Total de cuotas mensuales:</span> ${total}
+            </p>
+        )
+    }
+
     if (isLoading) {
         return <Loader></Loader>
     }
+
     return (
         (
             isError ?
@@ -68,6 +83,8 @@ export default function EnrollmentsProfileCard({ props }) {
                 <div className="card border-0 card-view-profile-enrollments-container">
                     <div className="enrollment-card" id="myEnrollmentsList">
                         <h2> Mis inscripciones</h2>
+                        {renderTotalCost()}
+
                         {enrollments?.data?.length > 0 ?
 
                             enrollments?.data?.map((enrollment, index) => (
