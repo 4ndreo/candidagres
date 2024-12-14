@@ -11,6 +11,7 @@ import { auto } from "@cloudinary/url-gen/actions/resize";
 import { autoGravity } from "@cloudinary/url-gen/qualifiers/gravity";
 import { AdvancedImage } from "@cloudinary/react";
 import { defaultImage } from "@cloudinary/url-gen/actions/delivery";
+import BackBtn from "../../BackBtn/BackBtn";
 
 export default function EditProfileCard({ props }) {
     const cld = new Cloudinary({ cloud: { cloudName: process.env.REACT_APP_CLOUDINARY_CLOUD_NAME } });
@@ -101,7 +102,7 @@ export default function EditProfileCard({ props }) {
 
     return (
         <div className="card cont-edit-profile-card">
-            <Link to="/profile" className="btn btn-link back-btn btn-icon"><span className="pi pi-angle-left"></span>Volver</Link>
+            <BackBtn props={{url: '/profile', customClass: 'position-absolute'}} />
             <AdvancedImage className="avatar-img" cldImg={img} alt="Imagen de perfil del usuario" />
             <form onSubmit={handleSubmit} noValidate>
                 <div className="d-flex flex-column flex-sm-row justify-content-between gap-3">

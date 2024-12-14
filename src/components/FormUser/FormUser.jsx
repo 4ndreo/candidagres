@@ -18,6 +18,7 @@ import { auto } from "@cloudinary/url-gen/actions/resize";
 import { autoGravity } from "@cloudinary/url-gen/qualifiers/gravity";
 import { AdvancedImage } from "@cloudinary/react";
 import { defaultImage } from "@cloudinary/url-gen/actions/delivery";
+import BackBtn from "../BackBtn/BackBtn";
 
 
 export default function FormUser({ props }) {
@@ -122,15 +123,8 @@ export default function FormUser({ props }) {
 
   return (
     <div className="container cont-admin-form-users">
+      <BackBtn props={{ url: '/admin/users' }} />
       <h1>{params?.id ? 'Editar' : 'Crear'} - {props.title}</h1>
-
-      <Link to="/admin/users"
-            className="btn btn-link back-btn btn-icon px-0"
-            style={{ textDecoration: "none" }}
-      >
-        <span className="pi pi-angle-left"></span>Volver
-      </Link>
-
 
       {error ? renderError() :
         <>
