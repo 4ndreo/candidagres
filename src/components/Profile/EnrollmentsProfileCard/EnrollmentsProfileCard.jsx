@@ -61,15 +61,7 @@ export default function EnrollmentsProfileCard({ props }) {
 
 
     const renderTotalCost = () => {
-        const total = enrollments?.data?.reduce((acc, enrollment) => {
-            return acc + enrollment.shift.class.price;
-        }, 0)
-        console.log(total)
-        return (
-            <p className="mb-0 text-start">
-                <span className="negritas">Total de cuotas mensuales:</span> ${total}
-            </p>
-        )
+        return <p className="mb-0 text-start"><span className="negritas">Total de cuotas mensuales:</span> ${enrollments?.totalAmount}</p>
     }
 
     if (isLoading) {
@@ -89,10 +81,10 @@ export default function EnrollmentsProfileCard({ props }) {
                                 {enrollments?.data?.map((enrollment, index) => (
                                     <EnrollmentsProfileItem key={index} props={{ enrollment, refetch, setShowToast: props.setShowToast, resetPagination }} />
                                 ))}
+                                <Paginator props={{ pages: enrollments?.pages ?? 0, count: enrollments?.count ?? 0, page: request.page, limit: request.limit, handlePaginate: handlePaginate, handlePaginateNext: handlePaginateNext, handlePaginatePrevious: handlePaginatePrevious }} />
                             </div>
 
                             : <p>No estás inscripto a ninguna clase. Podés ver las clases disponibles <Link to={`/classes`} className="class-title" >acá</Link> </p>}
-                        <Paginator props={{ pages: enrollments?.pages ?? 0, count: enrollments?.count ?? 0, page: request.page, limit: request.limit, handlePaginate: handlePaginate, handlePaginateNext: handlePaginateNext, handlePaginatePrevious: handlePaginatePrevious }} />
 
                     </div >
                 </div >
