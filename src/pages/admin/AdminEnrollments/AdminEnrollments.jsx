@@ -20,6 +20,8 @@ import AdminEnrollmentRow from "../../../components/AdminEnrollmentRow/AdminEnro
 
 // External Libraries
 import { Button, ButtonGroup, Dropdown, Form } from "react-bootstrap";
+import * as ExcelJS from 'exceljs';
+import * as FileSaver from 'file-saver';
 
 export default function AdminEnrollments({ props }) {
   const value = useContext(AuthContext);
@@ -31,6 +33,7 @@ export default function AdminEnrollments({ props }) {
     { field: 'user.email', header: 'Usuario', type: 'relation', relationField: 'id_user', relationTable: 'users' },
   ]
 
+  const [exporting, setExporting] = useState(false)
   const [request, setRequest] = useState({
     page: 0,
     limit: 10,
@@ -99,6 +102,18 @@ export default function AdminEnrollments({ props }) {
     refetchShifts();
   }, [request, refetch, refetchShifts]);
 
+  async function fetchEnrollmentsExcel() {
+    const result = await enrollmentsService.findQuery(
+      {
+        page: 0,
+        limit: 999999,
+        filter: JSON.stringify(request.filter),
+        sort: JSON.stringify(request.sort)
+      }
+    )
+    return result[0];
+
+  }
 
   function handleFilter(field, value) {
     if (request.filter.some(x => x.field === field)) {
@@ -240,6 +255,10 @@ export default function AdminEnrollments({ props }) {
     }
   }
 
+  const renderTotalCost = () => {
+    return <p className="mb-0 text-start"><span className="negritas">Total de cuotas mensuales:</span> ${enrollments?.totalAmount}</p>
+  }
+
   if (isLoading) {
     return <Loader></Loader>
   }
@@ -273,12 +292,138 @@ export default function AdminEnrollments({ props }) {
     </Button>
   ));
 
+  async function exportToExcel() {
+    setExporting(true);
+    const tabs = [
+      { label: 'Inscriptos', column: 'N° Documento' },
+    ]
+
+    const workbook = new ExcelJS.Workbook();
+
+    const promises = tabs.map(async tab => {
+      const enrollmentsExcel = await fetchEnrollmentsExcel();
+      let key = '';
+      let total = 0;
+      let subtotalRow = {};
+      const subtotalData = [];
+      const subtotalRowsIndex = [];
+
+      // Orders array by user
+      const items = enrollmentsExcel.data.sort(function (a, b) {
+        if (a.user.id_document < b.user.id_document) {
+          return -1;
+        }
+        return 1
+      });
+
+      items.forEach(row => {
+
+        // Verifies if it's watching a new user and pushes and resets the subtotalRow if so
+        if (key !== row.user.id_document) {
+
+          if (Object.keys(subtotalRow).length !== 0) {
+
+            subtotalData.push(subtotalRow);
+            subtotalRowsIndex.push(subtotalData.length + 1);
+            // subtotalRowsIndex.push(subtotalData.length);
+
+          }
+
+          key = row.user.id_document;
+          total = 0;
+          subtotalRow = {};
+        }
+        total = !isNaN(row.shift.class.price) ? total + Number(row.shift.class.price) : total;
+
+        console.log('row', row)
+        subtotalRow = {
+          Clase: '',
+          Comisión: '',
+          [tab.column]: '',
+          Nombre: '',
+          Apellido: '',
+          'Cuota': total,
+          Pagado: '',
+        }
+
+        Object.entries(row).forEach(([key, value]) => {
+          if (key !== tab.column && key !== 'Cuota') {
+            subtotalRow.Clase = '';
+            subtotalRow.Comisión = '';
+            subtotalRow.Nombre = row.user.first_name;
+            subtotalRow.Apellido = row.user.last_name;
+            subtotalRow.Pagado = '';
+          }
+        });
+
+        // Pushes the non subtotal rows into the array.
+        subtotalData.push(
+          {
+            Clase: row.shift.class.title,
+            Comisión: row.shift.title,
+            [tab.column]: row.user.id_document,
+            Nombre: row.user.first_name,
+            Apellido: row.user.last_name,
+            Cuota: row.shift.class.price,
+            Pagado: ''
+          }
+        );
+      });
+      // Pushes the last subtotal row into the array.
+      subtotalData.push(subtotalRow);
+      subtotalRowsIndex.push(subtotalData.length + 1);
+
+      console.log('subtotalData', subtotalData)
+
+      if (items && items?.length > 0) {
+        const worksheet = workbook.addWorksheet(tab.label);
+        worksheet.addTable({
+          name: `${tab.label}Table`,
+          ref: 'A1',
+          headerRow: true,
+          totalsRow: false,
+          style: {
+            theme: 'TableStyleMedium2',
+            showRowStripes: true,
+          },
+          columns: Object.keys(subtotalData[0]).map(key => ({ name: key, filterButton: true })),
+          rows: subtotalData.map(row => Object.values(row)),
+        });
+
+        worksheet.eachRow((row, rowNumber) => {
+          if (subtotalRowsIndex.includes(rowNumber)) {
+            // Style header row
+            row.eachCell(cell => {
+              cell.font = { bold: true };
+              cell.fill = {
+                type: 'pattern',
+                pattern: 'solid',
+                fgColor: { argb: 'FFFF00' },
+              };
+            });
+          }
+        })
+        console.log('subtotalRowsIndex', subtotalRowsIndex)
+      }
+    });
+
+    await Promise.all(promises);
+    const buffer = await workbook.xlsx.writeBuffer();
+    const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    FileSaver.saveAs(blob, 'Tratamientos.xlsx');
+    setExporting(false);
+
+  }
+
   return (
     <div className="cont-admin-shifts admin-table">
       <div className="d-md-flex justify-content-between align-items-center mb-3">
-
         <h1>Administrar Inscripciones</h1>
+        <Button variant="success" className="btn-icon" onClick={exportToExcel}>
+          <span className={exporting ? 'pi pi-spin pi-spinner' : 'pi pi-file-excel'}></span>{exporting ? 'Exportando...' : 'Exportar'}
+        </Button>
       </div>
+      {renderTotalCost()}
       {isError ?
         renderError() :
         <div className="d-grid">

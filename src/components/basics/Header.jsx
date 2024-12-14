@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { HashLink } from 'react-router-hash-link';
 import "./Header.css";
 
 import { Navbar, Container, Nav, NavDropdown, Dropdown, Offcanvas } from "react-bootstrap";
@@ -47,7 +48,10 @@ export default function Header() {
                     </>
                   ) : (
                     <>
-                      <Link to="/classes" onClick={() => setShowOffcanvas(false)}>Clases</Link>
+                      <NavDropdown title="Clases" className="panel-ddown">
+                        <NavDropdown.Item as={Link} to="/classes" onClick={() => setShowOffcanvas(false)} className="dropdown-item submenu-item">Todas las clases</NavDropdown.Item>
+                        <NavDropdown.Item as={HashLink} to="/profile#myEnrollmentsList" onClick={() => setShowOffcanvas(false)} className="dropdown-item submenu-item">Mis inscripciones</NavDropdown.Item>
+                      </NavDropdown>
                       <NavDropdown title="Tienda" className="panel-ddown">
                         <NavDropdown.Item as={Link} to="/store" onClick={() => setShowOffcanvas(false)} className="dropdown-item submenu-item"><span className="pi pi-box"></span>Productos</NavDropdown.Item>
                         <NavDropdown.Item as={Link} to={'/store/cart/' + value.currentUser._id} onClick={() => setShowOffcanvas(false)} className="dropdown-item submenu-item">
