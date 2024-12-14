@@ -2,7 +2,7 @@
 
 
 # Cándida Gres
-![Website](https://img.shields.io/website?url=https%3A%2F%2Fcandidagres.com&style=for-the-badge)
+![Website][front-url]
 
 
 
@@ -11,9 +11,10 @@
 This site connects Cándida Gres, a pottery workshop, with it's students through a clean and useful interface, where they can enroll to different shifts, preview their fees and even buy some products handmade by the workshop's owner.
 
 ## Stack
-![Static Badge](https://img.shields.io/badge/v18.1-58c4dc?style=for-the-badge&logo=react&label=react)
-![Static Badge](https://img.shields.io/badge/v5.2-6f2cf4?style=for-the-badge&logo=bootstrap&label=bootstrap)
-![Static Badge](https://img.shields.io/badge/v7.0-e0002a?style=for-the-badge&logo=primefaces&label=prime%20icons)
+[![MIT License][license-image]][license]
+![Static Badge][react-image]
+![Static Badge][bootstrap-image]
+![Static Badge][prime-icons-image]
 
 
 
@@ -58,3 +59,16 @@ You don't have to ever use `eject`. The curated feature set is suitable for smal
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+
+[front-url]: https://img.shields.io/website?url=https%3A%2F%2Fcandidagres.com&style=for-the-badge&label=SITE%20STATUS
+
+[license]: LICENSE.md
+[license-image]: https://img.shields.io/badge/license-MIT-blue.svg?style=for-the-badge
+
+[react-image]:https://img.shields.io/badge/v18.1-58c4dc?style=for-the-badge&logo=react&label=react
+
+[bootstrap-image]:https://img.shields.io/badge/v5.2-6f2cf4?style=for-the-badge&logo=bootstrap&label=bootstrap
+
+[prime-icons-image]:https://img.shields.io/badge/v7.0-e0002a?style=for-the-badge&logo=primefaces&label=prime%20icons
