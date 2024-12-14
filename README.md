@@ -1,5 +1,6 @@
-# Getting Started with Create React App
-
+# Cándida Gres
+[![NPM version][npm-version-image]][npm-url]
+## Stack
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
