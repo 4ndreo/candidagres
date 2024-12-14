@@ -31,9 +31,9 @@ export default function FormProduct({ props }) {
 
     await productsService
       .findById(id)
-      .then((producto) => {
-        delete producto._id
-        setInitialForm(producto);
+      .then((data) => {
+        delete data._id
+        setInitialForm(data);
         setIsLoading(false)
       })
       .catch((err) => setError(err));

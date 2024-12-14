@@ -47,8 +47,8 @@ async function findOwn(request, signal) {
   ).catch(() => { throw new Error('Error: no se pudieron obtener los registros. Inténtelo de nuevo más tarde') });
 }
 
-async function findById(idInscripciones, signal) {
-  return fetchWithInterceptor(url + "enrollments/" + idInscripciones, {
+async function findById(id, signal) {
+  return fetchWithInterceptor(url + "enrollments/" + id, {
     signal
   }).then((response) => response.json());
 }
@@ -73,8 +73,8 @@ async function remove(id) {
   }).then((response) => response.json());
 }
 
-// async function update(idInscripciones, enrollment) {
-//   return fetchWithInterceptor(url + "enrollments/" + idInscripciones, {
+// async function update(id, enrollment) {
+//   return fetchWithInterceptor(url + "enrollments/" + id, {
 //     method: "PATCH",
 //     body: JSON.stringify(enrollment),
 //   }).then((response) => response.json());

@@ -46,9 +46,9 @@ export default function Purchases() {
 
                 purchases.length > 0 ?
                     <ul className="cont-purchases">
-                        {purchases.map((compra, index) => (
+                        {purchases.map((purchase, index) => (
                             <li key={index}>
-                                <Purchase props={{ compra: compra, index: index }}></Purchase>
+                                <Purchase props={{ purchase: purchase, index: index }}></Purchase>
                             </li>
                         ))}
                     </ul>

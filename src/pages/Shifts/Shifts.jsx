@@ -55,7 +55,7 @@ export default function ShiftsPage({ props }) {
         <h1>Horarios disponibles{classData?.title ? " para " + classData?.title : ""}</h1>
         {isError ?
           renderError() :
-          <ul className="cont-listado-dias">
+          <ul className="cont-list-days">
             {weekdays.map((weekday) => {
               return (
                 <li key={weekday.id} className="item-dia">

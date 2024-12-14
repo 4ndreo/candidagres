@@ -55,38 +55,38 @@ async function findById(id, signal) {
     ).catch(() => { throw new Error('Error: no se pudo obtener el producto. Inténtelo de nuevo más tarde') });
 }
 
-async function create(producto) {
+async function create(data) {
     return fetchWithInterceptor(url + "products", {
         method: "POST",
         headers: {
             'X-Type': 'form',
         },
-        body: producto,
+        body: data,
     }).then((response) => response.json()
     ).catch(() => { throw new Error('Error: no se pudo crear. Inténtelo de nuevo más tarde') });
 }
 
-async function remove(idProductos) {
-    return fetchWithInterceptor(url + "products/" + idProductos, {
+async function remove(id) {
+    return fetchWithInterceptor(url + "products/" + id, {
         method: "DELETE",
     }).then((response) => response.json()
     ).catch(() => { throw new Error('Error: no se pudo eliminar. Inténtelo de nuevo más tarde') });
 }
 
-async function update(idProductos, producto) {
-    return fetchWithInterceptor(url + "products/" + idProductos, {
+async function update(id, data) {
+    return fetchWithInterceptor(url + "products/" + id, {
         method: "PATCH",
         headers: {
             'X-Type': 'form',
         },
-        body: producto,
+        body: data,
     }).then((response) => response.json()
     ).catch(() => { throw new Error('Error: no se pudo modificar. Inténtelo de nuevo más tarde') });
 }
 
 async function uploadImagen(imagen) {
     const formData = new FormData();
-    formData.append('imagenProducto', imagen);
+    formData.append('productImg', imagen);
 
     return fetchWithInterceptor(url + "products/imagenes", {
         method: "POST",
