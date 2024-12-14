@@ -16,6 +16,7 @@ import { weekdays } from '../../data/shifts';
 
 // External Libraries
 import { Dropdown } from "react-bootstrap";
+import BackBtn from "../BackBtn/BackBtn";
 
 export default function FormShift({ props }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -145,14 +146,8 @@ export default function FormShift({ props }) {
 
   return (
     <div className="container cont-admin-form-shifts">
+      <BackBtn props={{ url: '/admin/shifts' }} />
       <h1>{params?.id ? 'Editar' : 'Crear'} - {props.title}</h1>
-
-      <Link to="/admin/shifts"
-            className="btn btn-link back-btn btn-icon px-0"
-            style={{ textDecoration: "none" }}
-      >
-        <span className="pi pi-angle-left"></span>Volver
-      </Link>
 
       {error ? renderError() :
         <form onSubmit={handleSubmit} noValidate>

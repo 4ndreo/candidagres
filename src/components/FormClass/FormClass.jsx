@@ -2,8 +2,9 @@ import "./FormClass.css";
 import React, { useEffect, useState } from "react";
 import * as classesService from "../../services/classes.service";
 // import * as mediaService from "../../services/media.service";
-import {Link, useNavigate, useParams} from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Loader from "../basics/Loader";
+import BackBtn from "../BackBtn/BackBtn";
 
 // const imageMimeType = /image\/(png|jpg|jpeg)/i;
 
@@ -110,14 +111,9 @@ export default function FormClass({ props }) {
   // if (class) {
   return (
     <div className="container cont-admin-form-classes">
+      <BackBtn props={{ url: '/admin/classes' }} />
       <h1>{params?.id ? 'Editar' : 'Crear'} - {props.title}</h1>
 
-      <Link to="/admin/classes"
-            className="btn btn-link back-btn btn-icon px-0"
-            style={{ textDecoration: "none" }}
-      >
-        <span className="pi pi-angle-left"></span>Volver
-      </Link>
       {error ? renderError() :
         <form onSubmit={handleSubmit} noValidate>
           <div className="d-flex flex-column flex-sm-row justify-content-between gap-3">

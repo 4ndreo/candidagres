@@ -10,6 +10,7 @@ import { Cloudinary } from "@cloudinary/url-gen";
 import { auto } from "@cloudinary/url-gen/actions/resize";
 import { autoGravity } from "@cloudinary/url-gen/qualifiers/gravity";
 import { defaultImage } from "@cloudinary/url-gen/actions/delivery";
+import BackBtn from "../BackBtn/BackBtn";
 
 export default function FormProduct({ props }) {
 
@@ -149,14 +150,8 @@ export default function FormProduct({ props }) {
   // if (product) {
   return (
     <div className="container cont-admin-form-products">
+      <BackBtn props={{ url: '/admin/products' }} />
       <h1>{params?.id ? 'Editar' : 'Crear'} - {props.title}</h1>
-      {/*<Link className="btn btn-primary mt-4 mb-4" to="/admin/products" >Volver</Link>*/}
-      <Link to="/admin/products"
-            className="btn btn-link back-btn btn-icon px-0"
-            style={{ textDecoration: "none" }}
-      >
-        <span className="pi pi-angle-left"></span>Volver
-      </Link>
       {error ? renderError() :
         <form onSubmit={handleSubmit} noValidate>
           <div>
