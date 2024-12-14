@@ -4,7 +4,7 @@ const url = process.env.REACT_APP_API_URL
 
 async function uploadImagen(imagen) {
     const formData = new FormData();
-    formData.append('imagenProducto', imagen);
+    formData.append('productImg', imagen);
 
     return fetchWithInterceptor(url + "media", {
         method: "POST",

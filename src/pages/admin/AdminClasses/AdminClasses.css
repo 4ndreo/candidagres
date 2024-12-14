@@ -9,11 +9,6 @@
     border-radius: 0.5rem;
     list-style-type: none;
 }
-.listado-cursos {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    column-gap: 1.5rem;
-}
 
 .sidebar {
     background-color: #f8f9fa; /* Color de fondo */

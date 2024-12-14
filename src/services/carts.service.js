@@ -10,8 +10,8 @@ async function find(signal) {
 
 }
 
-async function findById(idCarrito, signal) {
-    return fetchWithInterceptor(url + "carts/" + idCarrito, {
+async function findById(id, signal) {
+    return fetchWithInterceptor(url + "carts/" + id, {
         signal
     }).then((response) =>
         response.json()
@@ -35,8 +35,8 @@ async function create(data) {
     ).catch(() => { throw new Error('Error: no se pudo crear el carrito. Inténtelo de nuevo más tarde') });
 }
 
-async function remove(idCarrito) {
-    return fetchWithInterceptor(url + "carts/" + idCarrito, {
+async function remove(id) {
+    return fetchWithInterceptor(url + "carts/" + id, {
         method: "DELETE"
     }).then((response) => response.json()
     ).catch(() => { throw new Error('Error: no se pudo eliminar el carrito. Inténtelo de nuevo más tarde') });

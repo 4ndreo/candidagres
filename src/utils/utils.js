@@ -6,8 +6,8 @@
 */
 export function calculateTotalCost(items) {
     let total = 0
-    items.forEach(producto => {
-        total += producto.price * producto.quantity
+    items.forEach(product => {
+        total += product.price * product.quantity
     })
     return total;
 }
@@ -20,8 +20,8 @@ export function calculateTotalCost(items) {
 */
 export function calculateTotalQuantity(items) {
     let total = 0
-    items.forEach(producto => {
-        total += producto.quantity
+    items.forEach(product => {
+        total += product.quantity
     })
     return total;
 }
@@ -36,8 +36,8 @@ export function calculateDelay(items) {
     let total = 0;
     if (items.length > 0) {
         total = items.map((x) => x.estimated_delay).reduce((a, b) => a > b ? a : b)
-        items.forEach(producto => {
-            total += producto.quantity
+        items.forEach(product => {
+            total += product.quantity
         })
     }
     return total;

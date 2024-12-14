@@ -28,9 +28,9 @@ export default function FormClass({ props }) {
 
     classesService
       .findById(id)
-      .then((clase) => {
-        delete clase._id
-        setForm(clase);
+      .then((data) => {
+        delete data._id
+        setForm(data);
       })
       .catch((err) => setError(err))
       .finally(() => setIsLoading(false));

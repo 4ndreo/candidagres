@@ -71,7 +71,7 @@ export default function ViewProducts() {
                 {isError ?
                     renderError() :
 
-                    <ul className="listado-productos">
+                    <ul>
                         {products?.data?.map((item) => {
                             return (
                                 <li key={item._id}>

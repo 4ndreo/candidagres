@@ -13,14 +13,13 @@
   list-style-type: none;
 }
 
-.cont-listado-dias {
+.cont-list-days {
   display: flex;
   gap: 1rem;
   width: 100%;
-  /* min-width: 1100px; */
 }
 
-.cont-listado-dias li {
+.cont-list-days li {
   border: 1px solid lightgray;
   border-radius: 0.5rem;
 }

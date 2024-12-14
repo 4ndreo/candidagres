@@ -28,8 +28,8 @@ async function findQuery(request, signal) {
     ).catch(() => { throw new Error('Error: no se pudieron obtener los registros. Inténtelo de nuevo más tarde') });
 }
 
-async function findById(idCompra, signal) {
-    return fetchWithInterceptor(url + "purchases/" + idCompra, {
+async function findById(id, signal) {
+    return fetchWithInterceptor(url + "purchases/" + id, {
         signal
     }).then((response) =>
         response.json()
@@ -42,40 +42,6 @@ async function findByIdUser(idUser, signal) {
     }).then((response) =>
         response.json()
     ).catch(() => { throw new Error('Error: no se pudo traer el historial. Inténtelo de nuevo más tarde') });
-}
-
-async function create(data) {
-    return fetchWithInterceptor(url + "purchases", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            'auth-token': localStorage.getItem('token')
-        },
-        body: JSON.stringify(data),
-    }).then((response) => response.json()
-    ).catch(() => { throw new Error('Error: no se pudo crear la compra. Inténtelo de nuevo más tarde') });
-}
-
-async function remove(id) {
-    return fetchWithInterceptor(url + "purchases/" + id, {
-        method: "DELETE",
-        headers: {
-            'auth-token': localStorage.getItem('token')
-        }
-    }).then((response) => response.json()
-    ).catch(() => { throw new Error('Error: no se pudo eliminar la compra. Inténtelo de nuevo más tarde') });
-}
-
-async function update(data) {
-    return fetchWithInterceptor(url + "purchases/" + data._id, {
-        method: "PATCH",
-        headers: {
-            "Content-Type": "application/json",
-            'auth-token': localStorage.getItem('token')
-        },
-        body: JSON.stringify({ productos: data.productos }),
-    }).then((response) => response.json()
-    ).catch(() => { throw new Error('Error: no se pudo modificar la data. Inténtelo de nuevo más tarde') });
 }
 
 async function setDelivered(data) {
@@ -91,8 +57,8 @@ export {
     findQuery,
     findById,
     findByIdUser,
-    create,
-    remove,
-    update,
+    // create, // Removed because is not in use
+    // update, // Removed because is not in use, purchases shouldn't be updated
+    // remove, // Removed because is not in use, purchases shouldn't be deleted
     setDelivered,
 };
