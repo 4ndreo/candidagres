@@ -37,8 +37,8 @@
   },
   "eslintConfig": {
     "extends": [
-      "candidagres-app",
-      "candidagres-app/jest"
+      "react-app",
+      "react-app/jest"
     ]
   },
   "browserslist": {
