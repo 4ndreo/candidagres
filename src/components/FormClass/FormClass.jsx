@@ -2,7 +2,7 @@ import "./FormClass.css";
 import React, { useEffect, useState } from "react";
 import * as classesService from "../../services/classes.service";
 // import * as mediaService from "../../services/media.service";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../basics/Loader";
 import BackBtn from "../BackBtn/BackBtn";
 

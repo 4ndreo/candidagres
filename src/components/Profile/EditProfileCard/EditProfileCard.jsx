@@ -1,6 +1,6 @@
 import "./EditProfileCard.css";
 
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import * as authService from "../../../services/auth.service";
 import { AuthContext } from "../../../App";

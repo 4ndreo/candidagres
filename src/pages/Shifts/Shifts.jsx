@@ -1,7 +1,7 @@
 import "./Shifts.css";
 
 import React, { useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import * as classesService from "../../services/classes.service";
 import Loader from "../../components/basics/Loader";
 import ShiftCard from "../../components/ShiftCard/ShiftCard";

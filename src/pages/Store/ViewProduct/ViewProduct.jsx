@@ -5,7 +5,7 @@ import "./ViewProduct.css";
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../../../App";
 import { useQuery } from "react-query";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 // Services
 import * as cartsService from "../../../services/carts.service";

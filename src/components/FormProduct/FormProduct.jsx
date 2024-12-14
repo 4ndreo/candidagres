@@ -1,7 +1,7 @@
 import "./FormProduct.css";
 import React, { useEffect, useState } from "react";
 import * as productsService from "../../services/products.service";
-import {Link, useNavigate, useParams} from "react-router-dom";
+import { useNavigate, useParams} from "react-router-dom";
 import Loader from "../basics/Loader";
 
 // Cloudinary
