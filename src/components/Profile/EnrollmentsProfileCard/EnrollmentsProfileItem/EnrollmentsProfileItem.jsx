@@ -35,6 +35,7 @@ export default function EnrollmentsProfileItem({ props }) {
                     <Link to={`/classes/${props.enrollment.shift.class._id}/shifts`} className="class-title" >{props.enrollment.shift.class.title}</Link>
                     <span>{weekdays.filter(day => props.enrollment.shift.days.includes(day.id)).map(day => day.name).join(', ')}</span>
                     <span>{props.enrollment.shift.start_time}hs a {props.enrollment.shift.end_time}hs</span>
+                    <span><span className="negritas">Cuota mensual:</span> ${props.enrollment.shift.class.price}</span>
                 </div>
                 <button
                     onClick={() => { handleShow(); handleSelectedDelete(props.enrollment); }}

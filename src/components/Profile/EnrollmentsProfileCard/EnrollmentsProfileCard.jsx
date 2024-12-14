@@ -30,6 +30,7 @@ export default function EnrollmentsProfileCard({ props }) {
         }
     );
 
+
     function handlePaginate(page) {
         setRequest({ ...request, page: request.limit * page });
     }
@@ -58,26 +59,32 @@ export default function EnrollmentsProfileCard({ props }) {
         )
     }
 
+
+    const renderTotalCost = () => {
+        return <p className="mb-0 text-start"><span className="negritas">Total de cuotas mensuales:</span> ${enrollments?.totalAmount}</p>
+    }
+
     if (isLoading) {
         return <Loader></Loader>
     }
+
     return (
         (
             isError ?
                 renderError() :
                 <div className="card border-0 card-view-profile-enrollments-container">
-                    <div className="enrollment-card">
+                    <div className="enrollment-card" id="myEnrollmentsList">
                         <h2> Mis inscripciones</h2>
                         {enrollments?.data?.length > 0 ?
-
-                            enrollments?.data?.map((enrollment, index) => (
-                                <div key={index} className="w-100">
-                                    <EnrollmentsProfileItem props={{ enrollment, refetch, setShowToast: props.setShowToast, resetPagination }} />
-                                </div>
-                            ))
+                            <div className="w-100">
+                                {renderTotalCost()}
+                                {enrollments?.data?.map((enrollment, index) => (
+                                    <EnrollmentsProfileItem key={index} props={{ enrollment, refetch, setShowToast: props.setShowToast, resetPagination }} />
+                                ))}
+                                <Paginator props={{ pages: enrollments?.pages ?? 0, count: enrollments?.count ?? 0, page: request.page, limit: request.limit, handlePaginate: handlePaginate, handlePaginateNext: handlePaginateNext, handlePaginatePrevious: handlePaginatePrevious }} />
+                            </div>
 
                             : <p>No estás inscripto a ninguna clase. Podés ver las clases disponibles <Link to={`/classes`} className="class-title" >acá</Link> </p>}
-                        <Paginator props={{ pages: enrollments?.pages ?? 0, count: enrollments?.count ?? 0, page: request.page, limit: request.limit, handlePaginate: handlePaginate, handlePaginateNext: handlePaginateNext, handlePaginatePrevious: handlePaginatePrevious }} />
 
                     </div >
                 </div >
