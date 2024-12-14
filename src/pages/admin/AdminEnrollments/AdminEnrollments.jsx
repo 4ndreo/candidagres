@@ -22,6 +22,7 @@ import AdminEnrollmentRow from "../../../components/AdminEnrollmentRow/AdminEnro
 import { Button, ButtonGroup, Dropdown, Form } from "react-bootstrap";
 import * as ExcelJS from 'exceljs';
 import * as FileSaver from 'file-saver';
+import { DateTime } from "luxon";
 
 export default function AdminEnrollments({ props }) {
   const value = useContext(AuthContext);
@@ -410,7 +411,7 @@ export default function AdminEnrollments({ props }) {
     await Promise.all(promises);
     const buffer = await workbook.xlsx.writeBuffer();
     const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-    FileSaver.saveAs(blob, 'Tratamientos.xlsx');
+    FileSaver.saveAs(blob, `Inscripciones_${DateTime.now().setZone('America/Buenos_Aires').toFormat('yyyyMM')}.xlsx`);
     setExporting(false);
 
   }

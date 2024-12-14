@@ -1,6 +1,6 @@
 {
-  "name": "myapp",
-  "version": "0.1.0",
+  "name": "candidagres",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@cloudinary/react": "^1.13.1",
@@ -37,8 +37,8 @@
   },
   "eslintConfig": {
     "extends": [
-      "react-app",
-      "react-app/jest"
+      "candidagres-app",
+      "candidagres-app/jest"
     ]
   },
   "browserslist": {
