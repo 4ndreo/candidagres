@@ -11,8 +11,10 @@
 This site connects Cándida Gres, a pottery workshop, with it's students through a clean and useful interface, where they can enroll to different shifts, preview their fees and even buy some products handmade by the workshop's owner.
 
 ## Stack
-![Static Badge](https://img.shields.io/badge/create_react_app-555555?style=for-the-badge&logo=react&labelColor=555555)
-![Static Badge](https://img.shields.io/badge/primeicons-020617?style=for-the-badge&logo=primefaces&labelColor=020617)
+![Static Badge](https://img.shields.io/badge/v18.1-58c4dc?style=for-the-badge&logo=react&label=react)
+![Static Badge](https://img.shields.io/badge/v5.2-6f2cf4?style=for-the-badge&logo=bootstrap&label=bootstrap)
+![Static Badge](https://img.shields.io/badge/v7.0-e0002a?style=for-the-badge&logo=primefaces&label=prime%20icons)
+
 
 
 
