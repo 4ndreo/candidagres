@@ -16,7 +16,11 @@ This site connects Cándida Gres, a pottery workshop, with it's students through
 ![Static Badge][bootstrap-image]
 ![Static Badge][prime-icons-image]
 
+## Setup
 
+### `npm install`
+
+Installs dependencies of the project
 
 
 ## Available Scripts
