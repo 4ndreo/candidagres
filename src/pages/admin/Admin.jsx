@@ -6,5 +6,4 @@ export default function Admin() {
       <Outlet />
     </main>
   );
-  //TODO: Add purchases with "mark deliveried" feature
 }

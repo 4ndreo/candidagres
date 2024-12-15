@@ -4,6 +4,7 @@ import * as authService from "../../services/auth.service";
 import { AuthContext } from "../../App";
 import { Link, useNavigate, useOutletContext } from "react-router-dom";
 import LoaderMini from "../basics/LoaderMini";
+import ReCAPTCHA from "react-google-recaptcha";
 
 export default function Register({ onLogin }) {
   let navigate = useNavigate();
@@ -27,9 +28,32 @@ export default function Register({ onLogin }) {
     });
   }
 
+  function handleRecaptchaChange(e) {
+    if (e) {
+      setForm({
+        ...form,
+        recaptcha: e,
+      });
+      setErrors({
+        ...errors,
+        recaptcha: '',
+      });
+    }
+  }
+
   function handleSubmit(e) {
     setLoading(true);
     e.preventDefault();
+    if (!form.recaptcha) {
+      setLoading(false);
+
+      return setErrors({
+        ...errors,
+        recaptcha: 'Por favor, completá el captcha.',
+      });
+    }
+
+    delete form.recaptcha;
     authService.register(form)
       .then((resp) => {
         if (!resp.err) {
@@ -182,6 +206,16 @@ export default function Register({ onLogin }) {
           </div>
           <small className="form-text text-danger">
             {errors.password}
+          </small>
+        </div>
+        <div className="d-flex flex-column">
+          <ReCAPTCHA
+            name="recaptcha"
+            sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
+            onChange={handleRecaptchaChange}
+          />
+          <small className="form-text text-danger">
+            {errors.recaptcha}
           </small>
         </div>
         <button className="btn btn-primary submit-btn d-flex justify-content-center" type="submit" disabled={Object.values(form).length === 0 || loading}>{loading ? <span className='mini-loader-cont'>
