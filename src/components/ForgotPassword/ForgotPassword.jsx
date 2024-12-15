@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import * as authService from "../../services/auth.service";
 import { Link, useNavigate } from "react-router-dom";
 import LoaderMini from "../basics/LoaderMini";
+import ReCAPTCHA from "react-google-recaptcha";
 
 export default function ForgotPassword({ props }) {
 
@@ -24,9 +25,32 @@ export default function ForgotPassword({ props }) {
     });
   }
 
+  function handleRecaptchaChange(e) {
+    if (e) {
+      setForm({
+        ...form,
+        recaptcha: e,
+      });
+      setErrors({
+        ...errors,
+        recaptcha: '',
+      });
+    }
+  }
+
   async function handleSubmit(e) {
     setLoading(true);
     e.preventDefault();
+    if (!form.recaptcha) {
+      setLoading(false);
+
+      return setErrors({
+        ...errors,
+        recaptcha: 'Por favor, completá el captcha.',
+      });
+    }
+
+    delete form.recaptcha;
     await authService
       .restorePassword(form.email)
       .then((resp) => {
@@ -62,6 +86,16 @@ export default function ForgotPassword({ props }) {
           />
           <small className="form-text text-danger">
             {errors.email}
+          </small>
+        </div>
+        <div className="d-flex flex-column">
+          <ReCAPTCHA
+            name="recaptcha"
+            sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
+            onChange={handleRecaptchaChange}
+          />
+          <small className="form-text text-danger">
+            {errors.recaptcha}
           </small>
         </div>
         <button className="btn btn-primary submit-btn d-flex justify-content-center" type="submit" disabled={Object.values(form).length === 0 || Object.values(form)[0].length === 0 || loading}>{loading ? <span className='mini-loader-cont'>
