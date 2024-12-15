@@ -11,7 +11,7 @@
 This site connects Cándida Gres, a pottery workshop, with it's students through a clean and useful interface, where they can enroll to different shifts, preview their fees and even buy some products handmade by the workshop's owner.
 
 ## Stack
-[![MIT License][license-image]][license]
+![Static Badge][license-image]
 ![Static Badge][react-image]
 ![Static Badge][bootstrap-image]
 ![Static Badge][prime-icons-image]
@@ -64,8 +64,7 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 [front-url]: https://img.shields.io/website?url=https%3A%2F%2Fcandidagres.com&style=for-the-badge&label=SITE%20STATUS
 
-[license]: LICENSE.md
-[license-image]: https://img.shields.io/badge/license-MIT-blue.svg?style=for-the-badge
+[license-image]: https://img.shields.io/badge/unlicensed-blue.svg?style=for-the-badge&label=license
 
 [react-image]:https://img.shields.io/badge/v18.1-58c4dc?style=for-the-badge&logo=react&label=react
 
