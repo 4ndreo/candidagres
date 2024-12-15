@@ -20,7 +20,7 @@ export default function AuthPage() {
       <div className="auth-card row">
         <div className="col-lg-6 auth-card-img">
         </div>
-        <div className="col-lg-6 auth-card-body p-5">
+        <div className="col-lg-6 auth-card-body p-3">
 
 
           <span className="brand">

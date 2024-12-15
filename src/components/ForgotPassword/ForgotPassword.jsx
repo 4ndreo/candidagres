@@ -1,5 +1,5 @@
 import "./ForgotPassword.css";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import * as authService from "../../services/auth.service";
 import { Link, useNavigate } from "react-router-dom";
 import LoaderMini from "../basics/LoaderMini";
@@ -8,6 +8,8 @@ import ReCAPTCHA from "react-google-recaptcha";
 export default function ForgotPassword({ props }) {
 
   let navigate = useNavigate();
+
+  const recaptchaRef = useRef(null);
 
   const [form, setForm] = useState({});
   const [errors, setErrors] = useState({});
@@ -49,6 +51,7 @@ export default function ForgotPassword({ props }) {
           navigate(`/auth/verify-email/${resp.id_user}`);
         } else {
           setErrors(resp.err);
+          recaptchaRef.current.reset();
         }
         setLoading(false);
       })
@@ -80,6 +83,7 @@ export default function ForgotPassword({ props }) {
         </div>
         <div className="d-flex flex-column">
           <ReCAPTCHA
+            ref={recaptchaRef}
             name="recaptcha"
             sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
             onChange={handleRecaptchaChange}
