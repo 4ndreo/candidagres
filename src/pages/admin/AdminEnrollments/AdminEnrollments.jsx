@@ -336,7 +336,6 @@ export default function AdminEnrollments({ props }) {
         }
         total = !isNaN(row.shift.class.price) ? total + Number(row.shift.class.price) : total;
 
-        console.log('row', row)
         subtotalRow = {
           Clase: '',
           Comisión: '',
@@ -374,8 +373,6 @@ export default function AdminEnrollments({ props }) {
       subtotalData.push(subtotalRow);
       subtotalRowsIndex.push(subtotalData.length + 1);
 
-      console.log('subtotalData', subtotalData)
-
       if (items && items?.length > 0) {
         const worksheet = workbook.addWorksheet(tab.label);
         worksheet.addTable({
@@ -404,7 +401,6 @@ export default function AdminEnrollments({ props }) {
             });
           }
         })
-        console.log('subtotalRowsIndex', subtotalRowsIndex)
       }
     });
 
