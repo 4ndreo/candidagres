@@ -41,18 +41,8 @@ export default function ForgotPassword({ props }) {
   async function handleSubmit(e) {
     setLoading(true);
     e.preventDefault();
-    if (!form.recaptcha) {
-      setLoading(false);
-
-      return setErrors({
-        ...errors,
-        recaptcha: 'Por favor, completá el captcha.',
-      });
-    }
-
-    delete form.recaptcha;
     await authService
-      .restorePassword(form.email)
+      .restorePassword(form)
       .then((resp) => {
         if (!resp.err) {
           props.setShowToast({ show: true, title: 'Éxito', message: 'Se envió el correo para restaurar tu contraseña.', variant: 'success', position: 'top-end' });

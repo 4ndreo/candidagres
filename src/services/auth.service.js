@@ -19,13 +19,13 @@ async function register(user) {
     }).then((response) => response.json());
 }
 
-async function restorePassword(email) {
+async function restorePassword(data) {
     return fetch(url + 'auth/restorePassword', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email })
+        body: JSON.stringify( data )
     }).then((response) => response.json());
 
 }

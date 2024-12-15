@@ -44,16 +44,6 @@ export default function Register({ onLogin }) {
   function handleSubmit(e) {
     setLoading(true);
     e.preventDefault();
-    if (!form.recaptcha) {
-      setLoading(false);
-
-      return setErrors({
-        ...errors,
-        recaptcha: 'Por favor, completá el captcha.',
-      });
-    }
-
-    delete form.recaptcha;
     authService.register(form)
       .then((resp) => {
         if (!resp.err) {
