@@ -1,5 +1,5 @@
 import "./Register.css";
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import * as authService from "../../services/auth.service";
 import { AuthContext } from "../../App";
 import { Link, useNavigate, useOutletContext } from "react-router-dom";
@@ -10,6 +10,8 @@ export default function Register({ onLogin }) {
   let navigate = useNavigate();
   const value = useContext(AuthContext);
   const handleShowToast = useOutletContext();
+
+  const recaptchaRef = useRef(null);
 
   const [form, setForm] = useState({});
   const [errors, setErrors] = useState({});
@@ -59,6 +61,7 @@ export default function Register({ onLogin }) {
             .catch((err) => handleShowToast(err.err));
         } else {
           setErrors(resp.err);
+          recaptchaRef.current.reset();
         }
         setLoading(false);
       });
@@ -200,6 +203,7 @@ export default function Register({ onLogin }) {
         </div>
         <div className="d-flex flex-column">
           <ReCAPTCHA
+            ref={recaptchaRef}
             name="recaptcha"
             sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
             onChange={handleRecaptchaChange}
