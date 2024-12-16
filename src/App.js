@@ -48,6 +48,7 @@ import ChangePassword from "./components/ChangePassword/ChangePassword";
 import AdminUsers from "./pages/admin/AdminUsers/AdminUsers";
 import FormUser from "./components/FormUser/FormUser";
 import AdminPurchases from "./pages/admin/AdminPurchases/AdminPurchases";
+import AdminOpenClassEnrollments from "./pages/admin/AdminOpenClassEnrollments/AdminOpenClassEnrollments";
 
 export const AuthContext = createContext();
 
@@ -109,6 +110,9 @@ function App() {
               path="users/:id"
               element={<FormUser props={{ title: "Usuario", setShowToast }} />}
             />
+
+            {/* Open class */}
+            <Route path="open-class" element={<AdminOpenClassEnrollments props={{ setShowToast }} />} />
 
             {/* Classes */}
             <Route path="classes" element={<AdminClasses props={{ setShowToast }} />} />
