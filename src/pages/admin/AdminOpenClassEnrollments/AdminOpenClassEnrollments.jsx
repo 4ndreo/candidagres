@@ -18,7 +18,6 @@ import Paginator from "../../../components/Paginator/Paginator";
 import { Button, ButtonGroup, Dropdown, Form } from "react-bootstrap";
 import * as ExcelJS from 'exceljs';
 import * as FileSaver from 'file-saver';
-import { DateTime } from "luxon";
 import AdminOpenClassEnrollmentRow from "../../../components/AdminOpenClassEnrollmentRow/AdminOpenClassEnrollmentRow";
 
 export default function AdminOpenClassEnrollments({ props }) {
