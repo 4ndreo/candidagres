@@ -3,7 +3,6 @@ import './AdminProductRow.css';
 import { Modal } from "react-bootstrap";
 import { Link } from 'react-router-dom';
 import * as productsService from "../../services/products.service";
-import * as mediaService from "../../services/media.service";
 import { AuthContext } from '../../App';
 
 // Cloudinary

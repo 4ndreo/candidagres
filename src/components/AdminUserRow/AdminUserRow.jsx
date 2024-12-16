@@ -8,7 +8,6 @@ import { Link } from 'react-router-dom';
 
 // Services
 import * as usersService from "../../services/users.service";
-import * as mediaService from "../../services/media.service";
 
 // External Libraries
 import { DateTime } from 'luxon';
