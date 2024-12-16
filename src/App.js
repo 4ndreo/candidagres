@@ -76,7 +76,7 @@ function App() {
             <Route path="change-password/:id" element={<ChangePassword props={{ setShowToast }} />} />
           </Route>
 
-          <Route path="*" element={<Home />} />
+          <Route path="*" element={<Home props={{ setShowToast }} />} />
 
           {/* Classes */}
           <Route path="classes" element={<ClassesPage />} />
