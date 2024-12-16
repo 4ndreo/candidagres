@@ -34,7 +34,6 @@ export default function AdminUserRow({ props }) {
   async function handleConfirmDelete(item) {
     try {
       await usersService.remove(item._id)
-      await mediaService.removeImage(item.img)
       props.setShowToast({ show: true, title: 'Éxito', message: 'El usuario se ha eliminado', variant: 'success', position: 'top-end' });
       props.refetch();
     } catch (err) {
