@@ -29,7 +29,6 @@ export default function AdminProductRow({ props }) {
   async function handleConfirmDelete(item) {
     try {
       await productsService.remove(item._id)
-      await mediaService.removeImage(item.img)
       props.setShowToast({ show: true, title: 'Éxito', message: 'El producto se ha eliminado', variant: 'success', position: 'top-end' });
       props.refetch();
     } catch (err) {
