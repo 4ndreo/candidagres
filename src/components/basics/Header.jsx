@@ -63,6 +63,9 @@ export default function Header() {
                       </NavDropdown>
                       {value.currentUser.role === 1 && (
                         <NavDropdown title="Panel" className="panel-ddown">
+                          <NavDropdown.Item as={Link} to="/admin/open-class" onClick={() => setShowOffcanvas(false)} className="dropdown-item submenu-item">
+                            Clase abierta
+                          </NavDropdown.Item>
                           <NavDropdown.Item as={Link} to="/admin/classes" onClick={() => setShowOffcanvas(false)} className="dropdown-item submenu-item">
                             Clases
                           </NavDropdown.Item>

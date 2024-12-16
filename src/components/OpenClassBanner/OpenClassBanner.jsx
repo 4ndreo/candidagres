@@ -2,7 +2,6 @@ import { useRef, useState } from "react";
 import "./OpenClassBanner.css";
 import * as openClassEnrollmentsService from "../../services/openClassEnrollments.service";
 import LoaderMini from "../basics/LoaderMini";
-import { Dropdown } from "react-bootstrap";
 import { weekenddays } from "../../data/shifts";
 import ReCAPTCHA from "react-google-recaptcha";
 
@@ -57,7 +56,6 @@ export default function OpenClassBanner({ props }) {
         await openClassEnrollmentsService
             .create(form)
             .then((resp) => {
-                console.log(resp);
                 if (!resp.err) {
                     localStorage.setItem("openClass", JSON.stringify(resp))
                     setEnrolled(resp);
