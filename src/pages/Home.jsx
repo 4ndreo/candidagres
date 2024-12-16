@@ -1,4 +1,4 @@
-import "./css/Home.css";
+import "./Home.css";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/free-mode";
@@ -18,17 +18,21 @@ import { Swiper, SwiperSlide } from "swiper/react";
 
 // import required modules
 import { FreeMode, Pagination } from "swiper";
+import OpenClassBanner from "../components/OpenClassBanner/OpenClassBanner";
 
-export default function Header() {
+export default function Home({ props }) {
 
   return (
     <main className="container main">
       <div className="cont-home">
-        <section className="bnida-cont">
-          <h1 className="bnida-title">
+        <section>
+          <OpenClassBanner props={{ setShowToast: props.setShowToast }} />
+        </section>
+        <section className="welcome-cont">
+          <h1 className="title">
             ¡Bienvenidas y bienvenidos a Cándida Gres!
           </h1>
-          <p className="bnida-bajada">Tu imaginación, en tus manos.</p>
+          <p className="slogan">Tu imaginación, en tus manos.</p>
         </section>
         <section className="row justify-content-between g-4">
           <div className="taller-data col-12 col-md-5">
@@ -55,7 +59,7 @@ export default function Header() {
           <div className="col-12 col-md-6">
 
             <img
-              className="img-bnida w-100"
+              className="w-100"
               src={Taller_Img}
               alt="Taller donde se imparten las clases en Cándida Gres."
             />
@@ -89,7 +93,7 @@ export default function Header() {
             </p>
           </div>
           <img
-            className="img-bnida col-12 col-md-6"
+            className="col-12 col-md-6"
             src={Clases_Img}
             alt="Taller donde se imparten las clases en Cándida Gres."
           />
@@ -121,42 +125,42 @@ export default function Header() {
             >
               <SwiperSlide>
                 <img
-                  className="img-bnida-swiper"
+                  className="home-swiper-img"
                   src={Cuenco_Azul}
                   alt="Taller donde se imparten las clases en Cándida Gres."
                 />
               </SwiperSlide>
               <SwiperSlide>
                 <img
-                  className="img-bnida-swiper"
+                  className="home-swiper-img"
                   src={Pote_Blanco}
                   alt="Taller donde se imparten las clases en Cándida Gres."
                 />
               </SwiperSlide>
               <SwiperSlide>
                 <img
-                  className="img-bnida-swiper"
+                  className="home-swiper-img"
                   src={Cuenco_Rosado}
                   alt="Taller donde se imparten las clases en Cándida Gres."
                 />
               </SwiperSlide>
               <SwiperSlide>
                 <img
-                  className="img-bnida-swiper"
+                  className="home-swiper-img"
                   src={Cuenco_Marron}
                   alt="Taller donde se imparten las clases en Cándida Gres."
                 />
               </SwiperSlide>
               <SwiperSlide>
                 <img
-                  className="img-bnida-swiper"
+                  className="home-swiper-img"
                   src={Torno}
                   alt="Taller donde se imparten las clases en Cándida Gres."
                 />
               </SwiperSlide>
               <SwiperSlide>
                 <img
-                  className="img-bnida-swiper"
+                  className="home-swiper-img"
                   src={Plato_Blanco}
                   alt="Taller donde se imparten las clases en Cándida Gres."
                 />
