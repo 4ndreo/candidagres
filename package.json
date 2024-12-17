@@ -2,7 +2,7 @@
   "name": "candidagres-app",
   "version": "1.0.0",
   "author": "Francisco Andreo, Roni Gueiser",
-  "license": "MIT",
+  "license": "UNLICENSED",
   "private": true,
   "dependencies": {
     "@cloudinary/react": "^1.13.1",
