@@ -4,14 +4,17 @@ import { DateTime } from "luxon";
 export default function Purchase({ props }) {
   return (
     <div className="cont-purchase">
-      <p className="purchase-date">{DateTime.fromISO(props.purchase.created_at, { setZone: true }).toLocaleString(DateTime.DATETIME_FULL)}</p> 
+      <p className="purchase-date">{DateTime.fromISO(props.purchase.created_at, { setZone: true }).toLocaleString(DateTime.DATETIME_FULL)}</p>
       <div className="purchase-details">
         <div className="purchase-summary">
           <h2>Resumen</h2>
           <p><span className="negritas">Importe total:</span> ${props.purchase.totalCost}</p>
           <p><span className="negritas">Cantidad total:</span> {props.purchase.totalQuantity} artículos</p>
           <p><span className="negritas">Demora estimada:</span> {props.purchase.totalDelay} días</p>
-          <p><span className="negritas">Fecha de entrega:</span> {props.purchase.delivered_at ? DateTime.fromISO(props.purchase.delivered_at, { setZone: true }).toFormat('dd-MM-yyyy') : 'Pendiente'}</p>
+          {props.purchase.delivered_at ?
+            <p><span className="negritas">Fecha de entrega:</span> {DateTime.fromISO(props.purchase?.delivered_at, { setZone: true }).toFormat('dd-MM-yyyy')}</p> :
+            <p><span className="negritas">Estado de la entrega:</span> En proceso</p>
+          }
         </div>
         <div className="purchase-items">
           <h2>Artículos</h2>

@@ -20,6 +20,7 @@ import { auto } from "@cloudinary/url-gen/actions/resize";
 import { autoGravity } from "@cloudinary/url-gen/qualifiers/gravity";
 import { defaultImage } from "@cloudinary/url-gen/actions/delivery";
 import BackBtn from "../../../components/BackBtn/BackBtn";
+import { Link } from "react-router-dom";
 
 
 export default function ViewProduct(props) {
@@ -144,9 +145,11 @@ export default function ViewProduct(props) {
                   <p className="negritas">Lo que deberías saber de este artículo:</p>
                   <p className="card-text">{product.description}</p>
                   <p>Material: <span className="badge text-bg-primary">{product.material}</span></p>
-                  <p>Artesano: <span className="negritas">{product.user.first_name} {product.user.last_name}</span></p>
                 </div>
-                {renderButtons()}
+                <div className="d-flex flex-column gap-2">
+                  <small>*Podrás modificar las cantidades en <Link target="_blank" to={'/store/cart/' + context.currentUser._id}>tu carrito</Link></small>
+                  {renderButtons()}
+                </div>
               </div>
             </div>
           </>
