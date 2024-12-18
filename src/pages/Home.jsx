@@ -175,7 +175,7 @@ export default function Home({ props }) {
             <ul className="p-0 d-flex flex-column gap-4">
               <li className="d-flex align-items-center gap-2"><span className="pi pi-map-marker"></span><span><span className="negritas">Taller:</span> Av del Puerto 215, Piso 6 of 619, Bahía Grande, Nordelta Tigre</span></li>
               <li className="d-flex align-items-center gap-2"><span className="pi pi-whatsapp"></span><span><span className="negritas">Whatsapp:</span> 11 6826-5868</span></li>
-              <li className="d-flex align-items-center gap-2"> <span className="pi pi-instagram"></span><span><span className="negritas">Instagram:</span> <a className="decoration-none" href='https://www.instagram.com/candidagres/' target="_blank">candidagres</a></span></li>
+              <li className="d-flex align-items-center gap-2"> <span className="pi pi-instagram"></span><span><span className="negritas">Instagram:</span> <a className="decoration-none" href='https://www.instagram.com/candidagres/' target="_blank" rel="noreferrer">candidagres</a></span></li>
             </ul>
           </div>
           <div className="col-12 col-xl-6 rounded-4 overflow-hidden p-0 map-cont">

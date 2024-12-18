@@ -147,7 +147,7 @@ export default function ViewProduct(props) {
                   <p>Material: <span className="badge text-bg-primary">{product.material}</span></p>
                 </div>
                 <div className="d-flex flex-column gap-2">
-                  <small>*Podrás modificar las cantidades en <Link target="_blank" to={'/store/cart/' + context.currentUser._id}>tu carrito</Link></small>
+                  <small>*Podrás modificar las cantidades en <Link target="_blank" rel="noreferrer" to={'/store/cart/' + context.currentUser._id}>tu carrito</Link></small>
                   {renderButtons()}
                 </div>
               </div>
