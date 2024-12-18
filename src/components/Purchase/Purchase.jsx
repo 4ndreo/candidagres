@@ -18,10 +18,6 @@ export default function Purchase({ props }) {
           <p><span className="negritas">Importe total:</span> ${props.purchase.totalCost}</p>
           <p><span className="negritas">Cantidad total:</span> {props.purchase.totalQuantity} artículos</p>
           <p><span className="negritas">Demora estimada:</span> {props.purchase.totalDelay} días</p>
-          {props.purchase.delivered_at ?
-            <p><span className="negritas">Fecha de entrega:</span> {DateTime.fromISO(props.purchase?.delivered_at, { setZone: true }).toFormat('dd-MM-yyyy')}</p> :
-            <p><span className="negritas">Estado de la entrega:</span> En proceso</p>
-          }
         </div>
         <div className="purchase-items">
           <h2>Artículos</h2>
