@@ -50,3 +50,25 @@
 .cont-home .classes-row {
     flex-direction: row-reverse;
 }
+
+.cont-home .contact-row {
+    flex-direction: row-reverse;
+}
+
+.cont-home iframe {
+    width: 100%;
+    height: 500px;
+}
+
+.cont-home .contact-row li>span.pi {
+    color: var(--main-blue);
+    font-weight: 600;
+}
+
+@media screen and (max-width: 768px) {
+    .cont-home .map-cont {
+        margin: auto;
+        width: 95%;
+
+    }
+}

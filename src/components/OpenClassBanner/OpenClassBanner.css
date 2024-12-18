@@ -49,6 +49,10 @@
 }
 
 @media screen and (max-width: 768px) {
+    .open-class-banner-cont {
+        padding: 1rem;
+    }
+
     .open-class-banner-cont .submit-btn {
         width: 100%;
     }
