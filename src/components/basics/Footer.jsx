@@ -14,7 +14,7 @@ export default function Footer() {
           <ul className="p-0 d-flex flex-column gap-2 w-75">
             <li className="d-flex align-items-center gap-2"><span className="pi pi-map-marker"></span><span><span className="negritas">Taller:</span> Av del Puerto 215, Piso 6 Of. 619, Bahía Grande, Nordelta Tigre</span></li>
             <li className="d-flex align-items-center gap-2"><span className="pi pi-whatsapp"></span><span><span className="negritas">Whatsapp:</span> 11 6826-5868</span></li>
-            <li className="d-flex align-items-center gap-2"> <span className="pi pi-instagram"></span><span><span className="negritas">Instagram:</span> <a className="decoration-none" href='https://www.instagram.com/candidagres/' target="_blank">candidagres</a></span></li>
+            <li className="d-flex align-items-center gap-2"> <span className="pi pi-instagram"></span><span><span className="negritas">Instagram:</span> <a className="decoration-none" href='https://www.instagram.com/candidagres/' target="_blank" rel="noreferrer">candidagres</a></span></li>
           </ul>
         </div>
         <div className="navigation">
