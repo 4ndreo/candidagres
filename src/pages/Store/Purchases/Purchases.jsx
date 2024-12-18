@@ -2,7 +2,6 @@ import "./Purchases.css";
 
 import * as purchasesService from "../../../services/purchases.service";
 
-import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 
 import Loader from "../../../components/basics/Loader";
@@ -12,8 +11,6 @@ import Paginator from "../../../components/Paginator/Paginator";
 
 
 export default function Purchases() {
-    const params = useParams();
-
     const [request, setRequest] = useState({
         page: 0,
         limit: 5,
@@ -22,7 +19,7 @@ export default function Purchases() {
     });
 
     const fetchPurchases = async (request) => {
-        const result = await purchasesService.findQuery({ ...request, filter: JSON.stringify(request.filter), sort: JSON.stringify(request.sort) });
+        const result = await purchasesService.findOwn({ ...request, filter: JSON.stringify(request.filter), sort: JSON.stringify(request.sort) });
         return result[0];
     }
 
@@ -51,20 +48,6 @@ export default function Purchases() {
         refetch();
     }, [request, refetch]);
 
-    // const fetchPurchases = async (request, signal) => {
-    //     const result = await purchasesService.findByIdUser(request, signal);
-    //     return result;
-    // }
-
-    // const { data: purchases, isLoading, isError, error } = useQuery(
-    //     'purchases',
-    //     async ({ signal }) => fetchPurchases(params?.idUsuario, signal),
-    //     {
-    //         staleTime: 1000,
-    //         retry: 2,
-    //     }
-    // );
-
     const renderError = () => {
         return (
             <div className="alert alert-danger" role="alert">
@@ -83,10 +66,10 @@ export default function Purchases() {
             {isError ?
                 renderError() :
 
-                purchases.data.length > 0 ?
+                purchases?.data?.length > 0 ?
                     <>
                         <ul className="cont-purchases">
-                            {purchases.data.map((purchase, index) => (
+                            {purchases?.data?.map((purchase, index) => (
                                 <li key={index}>
                                     <Purchase props={{ purchase: purchase, index: index }}></Purchase>
                                 </li>
