@@ -19,12 +19,15 @@ export default function Footer() {
         </div>
         <div className="navigation">
           <ul className="">
-          {/* <ul className="d-flex gap-5 flex-wrap justify-content-between"> */}
+            {/* <ul className="d-flex gap-5 flex-wrap justify-content-between"> */}
             <li><span className="negritas">Inicio</span>
-              <li><HashLink to="/#workshop">Taller</HashLink></li>
-              <li><HashLink to="/#classes">Clases</HashLink></li>
-              <li><HashLink to="/#students">Alumnos</HashLink></li>
-              <li><HashLink to="/#contact">Contacto</HashLink></li>
+              <ul>
+
+                <li><HashLink to="/#workshop">Taller</HashLink></li>
+                <li><HashLink to="/#classes">Clases</HashLink></li>
+                <li><HashLink to="/#students">Alumnos</HashLink></li>
+                <li><HashLink to="/#contact">Contacto</HashLink></li>
+              </ul>
             </li>
             {context.token ? (
               <>
