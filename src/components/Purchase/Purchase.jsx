@@ -4,7 +4,14 @@ import { DateTime } from "luxon";
 export default function Purchase({ props }) {
   return (
     <div className="cont-purchase">
-      <p className="purchase-date">{DateTime.fromISO(props.purchase.created_at, { setZone: true }).toLocaleString(DateTime.DATETIME_FULL)}</p>
+      <div className={"purchase-date " + (props.purchase.delivered_at ? 'bg-success ' : 'bg-warning')}>
+        <div className={"purchase-date-body d-flex justify-content-between " + (props.purchase.delivered_at ? 'text-success' : 'text-secondary')}>
+
+
+          <span>{DateTime.fromISO(props.purchase.created_at, { setZone: true }).toLocaleString(DateTime.DATETIME_FULL)}</span>
+          <span className="fst-italic d-flex align-items-center gap-1"><span className={props.purchase.delivered_at ? 'pi pi-check' : 'pi pi-clock'}></span>Entrega: {props.purchase.delivered_at ? DateTime.fromISO(props.purchase?.delivered_at, { setZone: true }).toFormat('dd-MM-yyyy') : 'En proceso'}</span>
+        </div>
+      </div>
       <div className="purchase-details">
         <div className="purchase-summary">
           <h2>Resumen</h2>

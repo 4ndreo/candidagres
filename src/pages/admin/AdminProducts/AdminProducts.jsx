@@ -50,7 +50,7 @@ export default function AdminProducts({ props }) {
         'productsAdmin',
         () => fetchProducts(request),
         {
-            staleTime: Infinity,
+            staleTime: 300000,
             retry: 2,
         }
     );
