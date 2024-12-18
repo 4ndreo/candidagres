@@ -8,7 +8,34 @@
     /* position: fixed;
     bottom: 0; */
 }
-.footer p {
+
+.footer {
     color: white;
-    text-align: center;
+}
+
+/* .footer ul {
+    padding: 0;
+    margin: 0;
+} */
+.footer ul {
+    padding: 0;
+    margin: 0;
+}
+
+.footer .navigation>ul {
+    width: 100%;
+
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.footer li {
+    list-style-type: none;
+}
+
+.footer a {
+    color: white;
+    text-decoration: none;
 }

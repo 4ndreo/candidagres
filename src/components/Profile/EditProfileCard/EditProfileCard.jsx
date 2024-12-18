@@ -102,11 +102,26 @@ export default function EditProfileCard({ props }) {
 
     return (
         <div className="card cont-edit-profile-card">
-            <BackBtn props={{url: '/profile', customClass: 'position-absolute'}} />
+            <BackBtn props={{ url: '/profile', customClass: 'position-absolute' }} />
             <AdvancedImage className="avatar-img" cldImg={img} alt="Imagen de perfil del usuario" />
             <form onSubmit={handleSubmit} noValidate>
                 <div className="d-flex flex-column flex-sm-row justify-content-between gap-3">
-
+                    <div className="d-flex flex-column w-100">
+                        <label htmlFor="email">Email</label>
+                        <input
+                            className={"form-control w-100 " + (errors.email ? 'is-invalid' : '')}
+                            id="email"
+                            name="email"
+                            type="email"
+                            defaultValue={props.data?.email}
+                            disabled
+                        />
+                        <small className="form-text text-danger">
+                            {errors.email}
+                        </small>
+                    </div>
+                </div>
+                <div className="d-flex flex-column flex-sm-row justify-content-between gap-3">
                     <div className="d-flex flex-column w-100">
                         <label htmlFor="first_name">Nombre</label>
                         <input

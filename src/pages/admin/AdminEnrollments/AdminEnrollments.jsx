@@ -343,6 +343,10 @@ export default function AdminEnrollments({ props }) {
           Nombre: '',
           Apellido: '',
           'Cuota': total,
+          'Semana 1': '',
+          'Semana 2': '',
+          'Semana 3': '',
+          'Semana 4': '',
           Pagado: '',
         }
 
@@ -352,6 +356,10 @@ export default function AdminEnrollments({ props }) {
             subtotalRow.Comisión = '';
             subtotalRow.Nombre = row.user.first_name;
             subtotalRow.Apellido = row.user.last_name;
+            subtotalRow['Semana 1'] = '';
+            subtotalRow['Semana 2'] = '';
+            subtotalRow['Semana 3'] = '';
+            subtotalRow['Semana 4'] = '';
             subtotalRow.Pagado = '';
           }
         });
@@ -365,7 +373,11 @@ export default function AdminEnrollments({ props }) {
             Nombre: row.user.first_name,
             Apellido: row.user.last_name,
             Cuota: row.shift.class.price,
-            Pagado: ''
+            'Semana 1': '',
+            'Semana 2': '',
+            'Semana 3': '',
+            'Semana 4': '',
+            Pagado: '',
           }
         );
       });

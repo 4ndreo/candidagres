@@ -34,7 +34,7 @@ export default function Home({ props }) {
           </h1>
           <p className="slogan">Tu imaginación, en tus manos.</p>
         </section>
-        <section className="row justify-content-between g-4">
+        <section className="row justify-content-between g-4" id="workshop">
           <div className="taller-data col-12 col-md-5">
             <h2>Taller</h2>
             <p>
@@ -65,7 +65,7 @@ export default function Home({ props }) {
             />
           </div>
         </section>
-        <section className="classes-row row justify-content-between g-4">
+        <section className="classes-row row justify-content-between g-4" id="classes">
           <div className="taller-data col-12 col-md-5">
             <h2>Clases</h2>
             <p>
@@ -98,7 +98,7 @@ export default function Home({ props }) {
             alt="Taller donde se imparten las clases en Cándida Gres."
           />
         </section>
-        <section className="alumnos ">
+        <section id="students">
           <div className="taller-data mb-5">
             <h2>Alumnas y alumnos</h2>
             <p>
@@ -168,6 +168,19 @@ export default function Home({ props }) {
             </Swiper>
           </div>
 
+        </section>
+        <section className="contact-row row justify-content-between g-4" id="contact">
+          <div className="taller-data col-12 col-xl-5">
+            <h2>Contactanos</h2>
+            <ul className="p-0 d-flex flex-column gap-4">
+              <li className="d-flex align-items-center gap-2"><span className="pi pi-map-marker"></span><span><span className="negritas">Taller:</span> Av del Puerto 215, Piso 6 of 619, Bahía Grande, Nordelta Tigre</span></li>
+              <li className="d-flex align-items-center gap-2"><span className="pi pi-whatsapp"></span><span><span className="negritas">Whatsapp:</span> 11 6826-5868</span></li>
+              <li className="d-flex align-items-center gap-2"> <span className="pi pi-instagram"></span><span><span className="negritas">Instagram:</span> <a className="decoration-none" href='https://www.instagram.com/candidagres/' target="_blank">candidagres</a></span></li>
+            </ul>
+          </div>
+          <div className="col-12 col-xl-6 rounded-4 overflow-hidden p-0 map-cont">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3292.154999060103!2d-58.6502908235186!3d-34.39740604663305!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bca1d244596239%3A0xfbd1bff6e48c05fd!2sAv.%20del%20Puerto%20215%2C%20B1670%20Rinc%C3%B3n%20de%20Milberg%2C%20Provincia%20de%20Buenos%20Aires!5e0!3m2!1ses!2sar!4v1734476923909!5m2!1ses!2sar" allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
+          </div>
         </section>
       </div>
     </main>
