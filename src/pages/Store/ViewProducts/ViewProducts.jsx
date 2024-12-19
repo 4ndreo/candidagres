@@ -70,21 +70,22 @@ export default function ViewProducts({ props }) {
                 <h1 className="mb-4">{props.title}</h1>
                 {isError ?
                     renderError() :
-
-                    <ul>
-                        {products?.data?.map((item) => {
-                            return (
-                                <li key={item._id}>
-                                    <StoreProduct props={{ item }}></StoreProduct>
-                                </li>
-                            );
-                        })}
-                    </ul>
+                    products?.data?.length === 0 ?
+                        <ul>
+                            {products?.data?.map((item) => {
+                                return (
+                                    <li key={item._id}>
+                                        <StoreProduct props={{ item }}></StoreProduct>
+                                    </li>
+                                );
+                            })}
+                        </ul>
+                        :
+                        <p>No hay productos disponibles.</p>
                 }
             </div>
             {products?.data.length > 0 &&
                 <Paginator props={{ pages: products?.pages ?? 0, count: products?.count ?? 0, page: request.page, limit: request.limit, handlePaginate: handlePaginate, handlePaginateNext: handlePaginateNext, handlePaginatePrevious: handlePaginatePrevious }} />
-
             }
         </>
     )
