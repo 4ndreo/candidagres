@@ -46,7 +46,7 @@ export default function AdminPurchases({ props }) {
         'purchasesAdmin',
         () => fetchPurchases(request),
         {
-            staleTime: Infinity,
+            staleTime: 300000,
             retry: 2,
         }
     );

@@ -46,7 +46,7 @@ export default function AdminOpenClassEnrollments({ props }) {
     'enrollments',
     async ({ signal }) => fetchEnrollments({ ...request, filter: JSON.stringify(request.filter), sort: JSON.stringify(request.sort) }, signal),
     {
-      staleTime: Infinity,
+      staleTime: 300000,
       retry: 2,
     }
   );

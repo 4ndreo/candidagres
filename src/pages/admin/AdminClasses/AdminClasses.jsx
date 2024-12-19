@@ -47,7 +47,7 @@ export default function AdminClasses({ props }) {
     'classes',
     async ({ signal }) => fetchClasses(request, signal),
     {
-      staleTime: Infinity,
+      staleTime: 300000,
       retry: 2,
     }
   );

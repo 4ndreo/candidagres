@@ -66,7 +66,7 @@ export default function AdminEnrollments({ props }) {
     'enrollments',
     async ({ signal }) => fetchEnrollments({ ...request, filter: JSON.stringify(request.filter), sort: JSON.stringify(request.sort) }, signal),
     {
-      staleTime: Infinity,
+      staleTime: 300000,
       retry: 2,
     }
   );
@@ -75,7 +75,7 @@ export default function AdminEnrollments({ props }) {
     'shifts',
     async ({ signal }) => fetchShifts(request.filter.filter(x => x.field === 'shift.id_class').length > 0 ? { filter: JSON.stringify([{ field: "id_class", value: request.filter.filter(x => x.field === 'shift.id_class')[0].value }]) } : { filter: JSON.stringify([{ "field": "undefined", "value": "undefined" }]) }, signal),
     {
-      staleTime: Infinity,
+      staleTime: 300000,
       retry: 2,
     }
   );
@@ -84,7 +84,7 @@ export default function AdminEnrollments({ props }) {
     'classesEnrollments',
     async ({ signal }) => fetchClasses(signal),
     {
-      staleTime: Infinity,
+      staleTime: 300000,
       retry: 2,
     }
   );
@@ -93,7 +93,7 @@ export default function AdminEnrollments({ props }) {
     'usersEnrollments',
     async ({ signal }) => fetchUsers(signal),
     {
-      staleTime: Infinity,
+      staleTime: 300000,
       retry: 2,
     }
   );
