@@ -17,7 +17,7 @@ import Torno from "../img/torno.jpeg";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 // import required modules
-import { FreeMode, Pagination } from "swiper";
+import { Autoplay, FreeMode } from "swiper";
 import OpenClassBanner from "../components/OpenClassBanner/OpenClassBanner";
 
 export default function Home({ props }) {
@@ -117,10 +117,12 @@ export default function Home({ props }) {
               slidesPerView={window.innerWidth < 500 ? 1.5 : 3.5}
               spaceBetween={30}
               freeMode={true}
-              // pagination={{
-              //   clickable: true,
-              // }}
-              modules={[FreeMode, Pagination]}
+              grabCursor={true}
+              autoplay={{
+                delay: 2500,
+                disableOnInteraction: false,
+              }}
+              modules={[Autoplay, FreeMode]}
               className="mySwipe col-12"
             >
               <SwiperSlide>
