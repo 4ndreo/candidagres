@@ -70,7 +70,7 @@ export default function ViewProducts({ props }) {
                 <h1 className="mb-4">{props.title}</h1>
                 {isError ?
                     renderError() :
-                    products?.data?.length === 0 ?
+                    products?.data?.length >= 0 ?
                         <ul>
                             {products?.data?.map((item) => {
                                 return (

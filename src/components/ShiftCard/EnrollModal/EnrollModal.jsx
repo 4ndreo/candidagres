@@ -83,7 +83,7 @@ export default function EnrollModal({ props }) {
         className={savingEnrollment ? "btn-loading" : "btn btn-primary btn-icon"}
         onClick={createEnrollment}>
         <span className="pi pi-plus"></span>
-        {savingEnrollment ? <LoaderMini></LoaderMini> : "Inscribirse en este horario"}
+        {savingEnrollment ? <LoaderMini></LoaderMini> : "Confirmar inscripción"}
       </button>
     )
   }
