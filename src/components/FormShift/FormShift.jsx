@@ -62,7 +62,7 @@ export default function FormShift({ props }) {
     'classesShiftForm',
     fetchClasses,
     {
-      staleTime: Infinity,
+      staleTime: 300000,
       retry: 2,
     }
   );

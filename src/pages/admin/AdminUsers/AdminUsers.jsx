@@ -51,7 +51,7 @@ export default function AdminUsers({ props }) {
         'usersAdmin',
         () => fetchUsers(request),
         {
-            staleTime: Infinity,
+            staleTime: 300000,
             retry: 2,
         }
     );

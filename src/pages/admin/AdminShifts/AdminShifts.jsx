@@ -55,7 +55,7 @@ export default function AdminShifts({ props }) {
     'shifts',
     async ({ signal }) => fetchShifts(request, signal),
     {
-      staleTime: Infinity,
+      staleTime: 300000,
       retry: 2,
     }
   );
@@ -64,7 +64,7 @@ export default function AdminShifts({ props }) {
     'classesShifts',
     async ({ signal }) => fetchClasses(signal),
     {
-      staleTime: Infinity,
+      staleTime: 300000,
       retry: 2,
     }
   );
