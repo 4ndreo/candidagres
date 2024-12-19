@@ -43,7 +43,7 @@ export default function AdminClasses({ props }) {
     return result[0];
   }
 
-  const { data: classes, isLoading, isError, error, refetch } = useQuery(
+  const { data: classes, isLoading, isError, error, refetch, isRefetching } = useQuery(
     'classes',
     async ({ signal }) => fetchClasses(request, signal),
     {
@@ -157,10 +157,9 @@ export default function AdminClasses({ props }) {
     }
   }
 
-  if (isLoading) {
+  if (isRefetching || isLoading) {
     return <Loader></Loader>
   }
-
   const renderFilterMenu = React.forwardRef(({ onClick }, ref) => (
     <Button
       className="btn-filter"

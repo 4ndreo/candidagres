@@ -42,7 +42,7 @@ export default function AdminPurchases({ props }) {
         return result[0];
     }
 
-    const { data: purchases, isLoading, isError, error, refetch } = useQuery(
+    const { data: purchases, isLoading, isError, error, refetch, isRefetching } = useQuery(
         'purchasesAdmin',
         () => fetchPurchases(request),
         {
@@ -195,7 +195,7 @@ export default function AdminPurchases({ props }) {
         }
     }
 
-    if (isLoading) {
+    if (isRefetching || isLoading) {
         return <Loader></Loader>
     }
 

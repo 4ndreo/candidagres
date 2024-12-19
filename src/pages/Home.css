@@ -68,7 +68,7 @@
 @media screen and (max-width: 768px) {
     .cont-home .map-cont {
         margin: auto;
+        margin-top: 1.5rem;
         width: 95%;
-
     }
 }
