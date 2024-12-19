@@ -44,14 +44,15 @@
   color: gray;
 }
 
-.item-dia {
+.item-day {
   /* width: auto; */
+  min-width: 150px;
   width: 100%;
   height: calc(70px * 15 + 45px);
   padding: 0.15rem;
 }
 
-.item-dia h2 {
+.item-day h2 {
   text-align: center;
   font-size: 1.25rem;
   font-weight: 600;
