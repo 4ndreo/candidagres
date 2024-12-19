@@ -3,7 +3,7 @@ import "./FormUser.css";
 
 // React
 import React, { useEffect, useState } from "react";
-import {useNavigate, useParams} from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 // Services
 import * as usersService from "../../services/users.service";
@@ -272,10 +272,12 @@ export default function FormUser({ props }) {
                   className={"form-control w-100 " + (errors.role ? 'is-invalid' : '')}
                   id="role"
                   name="role"
-                  defaultValue={initialForm?.role}
+                  defaultValue={initialForm?.role ?? 0}
                   onChange={(e) => handleChange(e)}
                   required
                 >
+                  <option disabled value="0">Elegir...</option>
+
                   {roles.map((role) => (
                     <option key={role.id} value={role.id}>{role.name}</option>
                   ))}
