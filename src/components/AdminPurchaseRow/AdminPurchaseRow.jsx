@@ -17,6 +17,8 @@ export default function AdminPurchaseRow({ props }) {
   const [show, setShow] = useState(false);
   const [showView, setShowView] = useState(false);
   const [errors, setErrors] = useState({});
+  const [loadingDelivery, setLoadingDelivery] = useState(false);
+
 
   const handleClose = () => setShow(false);
   const handleShow = (selected) => { setShow(true); setDelivering(selected) };
@@ -26,6 +28,7 @@ export default function AdminPurchaseRow({ props }) {
   }
 
   async function handleConfirmDelivery(item) {
+    setLoadingDelivery(true);
     try {
       const delivered = await purchasesService.setDelivered(item);
       if (delivered.err) {
@@ -35,9 +38,11 @@ export default function AdminPurchaseRow({ props }) {
         props.setShowToast({ show: true, title: 'Éxito', message: 'La compra se marcó como entregada', variant: 'success', position: 'top-end' });
         props.refetch();
       }
+      setLoadingDelivery(false);
     } catch (err) {
       props.setShowToast({ show: true, title: 'Error al marcar la compra como entregada', message: 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end' });
       handleClose();
+      setLoadingDelivery(false);
     }
   }
 
@@ -189,23 +194,26 @@ export default function AdminPurchaseRow({ props }) {
           </Modal.Body>
           <Modal.Footer>
             <button
-              onClick={() => { handleClose(); }}
+              onClick={handleClose}
               className="btn btn-link btn-close-link"
               type="button"
               data-toggle="tooltip"
               data-placement="top">
-              <span>Cerrar</span>
+              <span>Cancelar</span>
             </button>
             <button
               className="btn btn-success"
-              type="submit"
+              type={loadingDelivery ? "button" : "submit"}
               data-toggle="tooltip"
               data-placement="top">
-              <span className='pi pi-check'></span><span> Confirmar Entrega</span>
+              {loadingDelivery ?
+                <><span className='pi pi-spin pi-spinner'></span><span> Confirmando...</span> </> :
+                <><span className='pi pi-check'></span><span> Confirmar Entrega</span></>
+              }
             </button>
           </Modal.Footer>
         </Form>
-      </Modal>
+      </Modal >
     </>
   )
 }

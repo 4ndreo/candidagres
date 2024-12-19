@@ -80,7 +80,7 @@ function App() {
           <Route path="*" element={<Home props={{ setShowToast }} />} />
 
           {/* Classes */}
-          <Route path="classes" element={<ClassesPage />} />
+          <Route path="classes" element={<ClassesPage props={{ title: "Clases disponibles en el taller", setShowToast }} />} />
           <Route path="classes/:id/shifts" element={<ShiftsPage props={{ setShowToast }} />} />
 
           {/* Admin */}
@@ -144,9 +144,9 @@ function App() {
 
           {/* Store */}
           <Route path="/store" element={<StorePage />}>
-            <Route path="" element={<ViewProducts />} title={"Tienda"} />
+            <Route path="" element={<ViewProducts props={{ title: "Productos", setShowToast }} />} />
             <Route path="item/:id" element={<ViewProduct />} />
-            <Route path="cart/:idUsuario" element={<Cart />} title={"Compras"} />
+            <Route path="cart/:idUsuario" element={<Cart props={{ title: "Carrito", setShowToast }} />} />
             <Route path="purchases/:idUsuario" element={<Purchases />} title={"Historial"} />
           </Route>
 

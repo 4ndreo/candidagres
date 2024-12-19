@@ -231,7 +231,6 @@ export default function AdminUsers({ props }) {
                 <Paginator props={{ pages: users?.pages ?? 0, count: users?.count ?? 0, page: request.page, limit: request.limit, handlePaginate: handlePaginate, handlePaginateNext: handlePaginateNext, handlePaginatePrevious: handlePaginatePrevious }} />
 
             }
-            {/* <CustomToast props={{ data: showToast, setShowToast: setShowToast }} /> */}
 
         </div>
     );

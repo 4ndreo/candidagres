@@ -23,7 +23,7 @@ import BackBtn from "../../../components/BackBtn/BackBtn";
 import { Link } from "react-router-dom";
 
 
-export default function ViewProduct(props) {
+export default function ViewProduct() {
   const context = useContext(AuthContext);
   const params = useParams();
   const productId = params.id

@@ -3,7 +3,7 @@ import { Toast, ToastContainer } from "react-bootstrap";
 
 export default function CustomToast({ props }) {
   return <ToastContainer
-    className="custom-toast p-3"
+    className="custom-toast position-fixed p-3"
     position={props.data?.position}
     style={{ zIndex: 10 }}
   >

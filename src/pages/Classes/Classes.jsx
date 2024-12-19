@@ -12,11 +12,8 @@ import * as classesService from "../../services/classes.service";
 import Loader from "../../components/basics/Loader";
 import ClassPreview from "../../components/ClassPreview/ClassPreview";
 import Paginator from "../../components/Paginator/Paginator";
-import CustomToast from "../../components/basics/CustomToast/CustomToast";
 
-export default function ClassesPage() {
-  const [showToast, setShowToast] = useState(null);
-
+export default function ClassesPage({ props }) {
   const [request, setRequest] = useState({
     page: 0,
     limit: 12,
@@ -31,7 +28,7 @@ export default function ClassesPage() {
 
   const { data: classesData, isLoading, isError, error, refetch } = useQuery(
     'classesData',
-    async ({signal}) => fetchClasses(request, signal),
+    async ({ signal }) => fetchClasses(request, signal),
     {
       staleTime: 60000,
       retry: 2,
@@ -69,7 +66,7 @@ export default function ClassesPage() {
   return (
     <main className="container main">
       <div className="classes-cont">
-        <h1 className="mb-4">Clases disponibles en el taller</h1>
+        <h1 className="mb-4">{props.title}</h1>
         {isError ?
           renderError() :
           <ul className="classes-list">
@@ -89,7 +86,6 @@ export default function ClassesPage() {
         <Paginator props={{ pages: classesData?.pages ?? 0, count: classesData?.count ?? 0, page: request.page, limit: request.limit, handlePaginate: handlePaginate, handlePaginateNext: handlePaginateNext, handlePaginatePrevious: handlePaginatePrevious }} />
 
       }
-      <CustomToast props={{ data: showToast, setShowToast: setShowToast }} />
     </main>
   );
 }
