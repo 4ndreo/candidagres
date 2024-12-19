@@ -21,7 +21,7 @@ export default function EnrollmentsProfileCard({ props }) {
         return result[0];
     }
 
-    const { data: enrollments, isLoading, isError, error, refetch } = useQuery(
+    const { data: enrollments, isLoading, isError, error, refetch, isRefetching } = useQuery(
         'enrollmentsProfile',
         async ({ signal }) => fetchEnrollments({ ...request, filter: JSON.stringify(request.filter), sort: JSON.stringify(request.sort) }, signal),
         {
@@ -64,7 +64,7 @@ export default function EnrollmentsProfileCard({ props }) {
         return <p className="mb-0 text-start"><span className="negritas">Total de cuotas mensuales:</span> ${enrollments?.totalAmount}</p>
     }
 
-    if (isLoading) {
+    if (isRefetching || isLoading) {
         return <Loader></Loader>
     }
 
