@@ -42,7 +42,7 @@ export default function AdminOpenClassEnrollments({ props }) {
     return result[0];
   }
 
-  const { data: enrollments, isLoading, isError, error, refetch } = useQuery(
+  const { data: enrollments, isLoading, isError, error, refetch, isRefetching } = useQuery(
     'enrollments',
     async ({ signal }) => fetchEnrollments({ ...request, filter: JSON.stringify(request.filter), sort: JSON.stringify(request.sort) }, signal),
     {
@@ -165,7 +165,7 @@ export default function AdminOpenClassEnrollments({ props }) {
     }
   }
 
-  if (isLoading) {
+  if (isRefetching || isLoading) {
     return <Loader></Loader>
   }
 

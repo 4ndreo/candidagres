@@ -51,7 +51,7 @@ export default function AdminShifts({ props }) {
     return result;
   }
 
-  const { data: shifts, isLoading, isError, error, refetch } = useQuery(
+  const { data: shifts, isLoading, isError, error, refetch, isRefetching } = useQuery(
     'shifts',
     async ({ signal }) => fetchShifts(request, signal),
     {
@@ -192,10 +192,9 @@ export default function AdminShifts({ props }) {
     }
   }
 
-  if (isLoading) {
+  if (isRefetching || isLoading) {
     return <Loader></Loader>
   }
-
   const renderFilterMenu = React.forwardRef(({ onClick }, ref) => (
     <Button
       className="btn-filter"

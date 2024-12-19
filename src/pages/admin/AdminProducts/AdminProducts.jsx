@@ -46,7 +46,7 @@ export default function AdminProducts({ props }) {
         return result[0];
     }
 
-    const { data: products, isLoading, isError, error, refetch } = useQuery(
+    const { data: products, isLoading, isError, error, refetch, isRefetching } = useQuery(
         'productsAdmin',
         () => fetchProducts(request),
         {
@@ -156,7 +156,7 @@ export default function AdminProducts({ props }) {
         }
     }
 
-    if (isLoading) {
+    if (isRefetching || isLoading) {
         return <Loader></Loader>
     }
 

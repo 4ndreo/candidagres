@@ -62,7 +62,7 @@ export default function AdminEnrollments({ props }) {
     return result;
   }
 
-  const { data: enrollments, isLoading, isError, error, refetch } = useQuery(
+  const { data: enrollments, isLoading, isError, error, refetch, isRefetching } = useQuery(
     'enrollments',
     async ({ signal }) => fetchEnrollments({ ...request, filter: JSON.stringify(request.filter), sort: JSON.stringify(request.sort) }, signal),
     {
@@ -260,7 +260,7 @@ export default function AdminEnrollments({ props }) {
     return <p className="mb-0 text-start"><span className="negritas">Total de cuotas mensuales:</span> ${enrollments?.totalAmount}</p>
   }
 
-  if (isLoading) {
+  if (isRefetching || isLoading) {
     return <Loader></Loader>
   }
 

@@ -47,7 +47,7 @@ export default function AdminUsers({ props }) {
         return result[0];
     }
 
-    const { data: users, isLoading, isError, error, refetch } = useQuery(
+    const { data: users, isLoading, isError, error, refetch, isRefetching } = useQuery(
         'usersAdmin',
         () => fetchUsers(request),
         {
@@ -157,7 +157,7 @@ export default function AdminUsers({ props }) {
         }
     }
 
-    if (isLoading) {
+    if (isRefetching || isLoading) {
         return <Loader></Loader>
     }
 
