@@ -3,7 +3,7 @@ import "./FormShift.css";
 
 // React
 import React, { useEffect, useState } from "react";
-import {useNavigate, useParams} from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 
 // Services
@@ -20,6 +20,7 @@ import BackBtn from "../BackBtn/BackBtn";
 
 export default function FormShift({ props }) {
   const [isLoading, setIsLoading] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
 
   let navigate = useNavigate();
   const params = useParams();
@@ -90,6 +91,7 @@ export default function FormShift({ props }) {
   }
 
   function handleSubmit(e) {
+    setIsSaving(true);
     e.preventDefault();
     if (params?.id) {
       shiftsService
@@ -106,10 +108,12 @@ export default function FormShift({ props }) {
           if (!resp.err) {
             props.setShowToast({ show: true, title: 'Éxito', message: 'La comisión ha sido modificada.', variant: 'success', position: 'top-end' });
             navigate("/admin/shifts");
+            setIsSaving(false);
           } else {
             setErrors(resp.err);
+            setIsSaving(false);
           }
-        }).catch((err) => props.setShowToast({ show: true, title: 'Error al modificar la comisión', message: 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end' }));
+        }).catch((err) => { props.setShowToast({ show: true, title: 'Error al modificar la comisión', message: 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end' }); setIsSaving(false); });
 
     } else {
       shiftsService
@@ -126,10 +130,12 @@ export default function FormShift({ props }) {
           if (!resp.err) {
             props.setShowToast({ show: true, title: 'Éxito', message: 'La comisión ha sido creada.', variant: 'success', position: 'top-end' });
             navigate("/admin/shifts");
+            setIsSaving(false);
           } else {
             setErrors(resp.err);
+            setIsSaving(false);
           }
-        }).catch((err) => props.setShowToast({ show: true, title: 'Error al crear la comisión', message: 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end' }));
+        }).catch((err) => { props.setShowToast({ show: true, title: 'Error al crear la comisión', message: 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end' }); setIsSaving(false); });
     }
   }
 
@@ -297,8 +303,16 @@ export default function FormShift({ props }) {
 
             </div>
           </div>
-          <button type="submit" className="btn btn-primary mt-4">
-            Guardar comisión
+          <button
+            className="btn btn-primary mt-4"
+            type={isSaving ? "button" : "submit"}
+            disabled={isSaving}
+            data-toggle="tooltip"
+            data-placement="top">
+            {isSaving ?
+              <><span className='pi pi-spin pi-spinner'></span><span> Guardando...</span> </> :
+              <span> Guardar comisión</span>
+            }
           </button>
         </form>
       }

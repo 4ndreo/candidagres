@@ -10,6 +10,7 @@ import BackBtn from "../BackBtn/BackBtn";
 
 export default function FormClass({ props }) {
   const [isLoading, setIsLoading] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
 
   let navigate = useNavigate();
   const params = useParams();
@@ -59,6 +60,7 @@ export default function FormClass({ props }) {
 
   function handleSubmit(e) {
     e.preventDefault();
+    setIsSaving(true);
     if (params?.id) {
       classesService
         .update(params?.id, {
@@ -72,10 +74,14 @@ export default function FormClass({ props }) {
           if (!resp.err) {
             props.setShowToast({ show: true, title: 'Éxito', message: 'La clase ha sido modificada.', variant: 'success', position: 'top-end' });
             navigate("/admin/classes");
+            setIsSaving(false);
+
           } else {
             setErrors(resp.err);
+            setIsSaving(false);
+
           }
-        }).catch((err) => props.setShowToast({ show: true, title: 'Error al modificar el clase', message: 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end' }));
+        }).catch((err) => { props.setShowToast({ show: true, title: 'Error al modificar el clase', message: 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end' }); setIsSaving(false); });
 
     } else {
       classesService
@@ -90,10 +96,15 @@ export default function FormClass({ props }) {
           if (!resp.err) {
             props.setShowToast({ show: true, title: 'Éxito', message: 'La clase ha sido creada.', variant: 'success', position: 'top-end' });
             navigate("/admin/classes");
+            setIsSaving(false);
           } else {
             setErrors(resp.err);
+            setIsSaving(false);
           }
-        }).catch((err) => props.setShowToast({ show: true, title: 'Error al crear el clase', message: 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end' }));
+        }).catch((err) => {
+          props.setShowToast({ show: true, title: 'Error al crear el clase', message: 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end' });
+          setIsSaving(false);
+        });
     }
   }
 
@@ -219,8 +230,16 @@ export default function FormClass({ props }) {
               </small>
             </div>
           </div>
-          <button type="submit" className="btn btn-primary mt-4">
-            Guardar clase
+          <button
+            className="btn btn-primary mt-4"
+            type={isSaving ? "button" : "submit"}
+            disabled={isSaving}
+            data-toggle="tooltip"
+            data-placement="top">
+            {isSaving ?
+              <><span className='pi pi-spin pi-spinner'></span><span> Guardando...</span> </> :
+              <span> Guardar clase</span>
+            }
           </button>
         </form>
       }

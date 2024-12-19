@@ -1,7 +1,7 @@
 import "./FormProduct.css";
 import React, { useEffect, useState } from "react";
 import * as productsService from "../../services/products.service";
-import { useNavigate, useParams} from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../basics/Loader";
 
 // Cloudinary
@@ -17,6 +17,7 @@ export default function FormProduct({ props }) {
   const [file, setFile] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [fileDataURL, setFileDataURL] = useState(null);
+  const [isSaving, setIsSaving] = useState(false);
 
   let navigate = useNavigate();
   const params = useParams();
@@ -68,6 +69,7 @@ export default function FormProduct({ props }) {
 
   function handleSubmit(e) {
     e.preventDefault();
+    setIsSaving(true);
     let body = new FormData();
     Object.entries(form).forEach(([key, value]) => {
       body.append(key, value);
@@ -80,10 +82,14 @@ export default function FormProduct({ props }) {
           if (!resp.err) {
             props.setShowToast({ show: true, title: 'Éxito', message: 'El producto se ha modificado.', variant: 'success', position: 'top-end' });
             navigate("/admin/products");
+            setIsSaving(false);
+
           } else {
             setErrors(resp.err);
+            setIsSaving(false);
+
           }
-        }).catch((err) => props.setShowToast({ show: true, title: 'Error al modificar el producto', message: 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end' }));
+        }).catch((err) => { props.setShowToast({ show: true, title: 'Error al modificar el producto', message: 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end' }); setIsSaving(false); });
 
     } else {
       productsService
@@ -92,10 +98,14 @@ export default function FormProduct({ props }) {
           if (!resp.err) {
             props.setShowToast({ show: true, title: 'Éxito', message: 'El producto se ha creado.', variant: 'success', position: 'top-end' });
             navigate("/admin/products");
+            setIsSaving(false);
+
           } else {
             setErrors(resp.err);
+            setIsSaving(false);
+
           }
-        }).catch((err) => props.setShowToast({ show: true, title: 'Error al crear el producto', message: 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end' }));
+        }).catch((err) => { props.setShowToast({ show: true, title: 'Error al crear el producto', message: 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end' }); setIsSaving(false); });
     }
   }
 
@@ -285,8 +295,16 @@ export default function FormProduct({ props }) {
             </div>
           </div>
 
-          <button type="submit" className="btn btn-primary">
-            Guardar producto
+          <button
+            className="btn btn-primary mt-4"
+            type={isSaving ? "button" : "submit"}
+            disabled={isSaving}
+            data-toggle="tooltip"
+            data-placement="top">
+            {isSaving ?
+              <><span className='pi pi-spin pi-spinner'></span><span> Guardando...</span> </> :
+              <span> Guardar producto</span>
+            }
           </button>
         </form>
       }
