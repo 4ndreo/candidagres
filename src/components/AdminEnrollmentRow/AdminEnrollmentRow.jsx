@@ -72,7 +72,7 @@ export default function AdminEnrollmentRow({ props }) {
       </tr>
       <Modal show={show} onHide={handleClose} size="lg" variant="white" className="modal-delete">
         <Modal.Header className="modal-title" closeButton>
-          <Modal.Title className="negritas">¿Seguro querés eliminar la inscripción de {deleting?.user?.first_name}?</Modal.Title>
+          <Modal.Title className="negritas">¿Seguro querés eliminar la inscripción de {deleting?.user?.first_name} {deleting?.user?.last_name}?</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <p><span className="negritas">Esta acción es irreversible</span></p>
@@ -84,7 +84,7 @@ export default function AdminEnrollmentRow({ props }) {
             type="button"
             data-toggle="tooltip"
             data-placement="top">
-            <span>Cerrar</span>
+            <span>Cancelar</span>
           </button>
           <button
             onClick={() => { handleConfirmDelete(deleting); handleClose(); }}

@@ -13,18 +13,16 @@ import * as cartsService from "../../../services/carts.service";
 import Loader from "../../../components/basics/Loader";
 import { CartProduct } from "../../../components/CartProduct/CartProduct";
 import { calculateDelay, calculateTotalCost, calculateTotalQuantity } from "../../../utils/utils";
-import CustomToast from "../../../components/basics/CustomToast/CustomToast";
 
 // External Libraries
 import { Button, Card } from "react-bootstrap";
 import { initMercadoPago } from '@mercadopago/sdk-react'
 
 
-export default function Cart() {
+export default function Cart({ props }) {
     const params = useParams();
 
     const [initPoint, setInitPoint] = useState(null);
-    const [showToast, setShowToast] = useState(null);
 
     initMercadoPago(process.env.REACT_APP_MP_PUBLIC_KEY, { locale: 'es-AR' });
 
@@ -84,7 +82,7 @@ export default function Cart() {
         }
         return cart.items.map((item) => {
             return (
-                <CartProduct key={item._id} props={{ idUser: params?.idUsuario, item: item, refetch: refetch, setInitPoint: setInitPoint, setShowToast: setShowToast }} ></CartProduct>
+                <CartProduct key={item._id} props={{ idUser: params?.idUsuario, item: item, refetch: refetch, setInitPoint: setInitPoint, setShowToast: props.setShowToast }} ></CartProduct>
             )
         })
     }
@@ -126,7 +124,7 @@ export default function Cart() {
 
     return (
         <div>
-            <h1 className="mb-4">Carrito</h1>
+            <h1 className="mb-4">{props.title}</h1>
             <div className="cont-cart d-flex justify-content-between gap-3">
                 <div className="detalle">
                     {isError ?
@@ -155,7 +153,6 @@ export default function Cart() {
                     </Card.Footer>
                 </Card>
             </div>
-            <CustomToast props={{ data: showToast, setShowToast: setShowToast }} />
         </div>
     );
 }

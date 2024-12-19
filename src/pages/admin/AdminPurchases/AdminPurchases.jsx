@@ -34,7 +34,7 @@ export default function AdminPurchases({ props }) {
         page: 0,
         limit: 10,
         filter: [{ "field": "created_at", "value": { "date_from": DateTime.fromJSDate(new Date()).minus({ month: 1 }).toFormat('yyyy-MM-dd'), "date_to": DateTime.fromJSDate(new Date()).toFormat('yyyy-MM-dd') } }],
-        sort: { field: 'undefined', direction: 1 },
+        sort: { field: 'created_at', direction: -1 },
     });
 
     const fetchPurchases = async (request) => {
@@ -268,7 +268,6 @@ export default function AdminPurchases({ props }) {
                 <Paginator props={{ pages: purchases?.pages ?? 0, count: purchases?.count ?? 0, page: request.page, limit: request.limit, handlePaginate: handlePaginate, handlePaginateNext: handlePaginateNext, handlePaginatePrevious: handlePaginatePrevious }} />
 
             }
-            {/* <CustomToast props={{ data: showToast, setShowToast: setShowToast }} /> */}
 
         </div>
     );

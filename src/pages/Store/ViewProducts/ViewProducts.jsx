@@ -13,7 +13,7 @@ import Loader from "../../../components/basics/Loader";
 import StoreProduct from "../../../components/StoreProduct/StoreProduct";
 import Paginator from "../../../components/Paginator/Paginator";
 
-export default function ViewProducts() {
+export default function ViewProducts({ props }) {
 
     const [request, setRequest] = useState({
         page: 0,
@@ -67,7 +67,7 @@ export default function ViewProducts() {
     return (
         <>
             <div className="cont-list-products">
-                <h1 className="mb-4">Productos</h1>
+                <h1 className="mb-4">{props.title}</h1>
                 {isError ?
                     renderError() :
 

@@ -5,7 +5,7 @@ export default function Purchase({ props }) {
   return (
     <div className="cont-purchase">
       <div className={"purchase-date " + (props.purchase.delivered_at ? 'bg-success ' : 'bg-warning')}>
-        <div className={"purchase-date-body d-flex justify-content-between " + (props.purchase.delivered_at ? 'text-success' : 'text-secondary')}>
+        <div className={"purchase-date-body d-flex flex-column flex-md-row justify-content-between " + (props.purchase.delivered_at ? 'text-success' : 'text-secondary')}>
 
 
           <span>{DateTime.fromISO(props.purchase.created_at, { setZone: true }).toLocaleString(DateTime.DATETIME_FULL)}</span>

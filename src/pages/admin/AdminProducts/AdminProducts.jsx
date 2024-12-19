@@ -230,7 +230,6 @@ export default function AdminProducts({ props }) {
                 <Paginator props={{ pages: products?.pages ?? 0, count: products?.count ?? 0, page: request.page, limit: request.limit, handlePaginate: handlePaginate, handlePaginateNext: handlePaginateNext, handlePaginatePrevious: handlePaginatePrevious }} />
 
             }
-            {/* <CustomToast props={{ data: showToast, setShowToast: setShowToast }} /> */}
 
         </div>
     );

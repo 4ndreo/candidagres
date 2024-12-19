@@ -107,7 +107,7 @@ export default function AdminProductRow({ props }) {
             type="button"
             data-toggle="tooltip"
             data-placement="top">
-            <span>Cerrar</span>
+            <span>Cancelar</span>
           </button>
           <button
             onClick={() => { handleConfirmDelete(deleting); handleClose(); }}
