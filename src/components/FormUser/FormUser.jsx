@@ -26,6 +26,7 @@ export default function FormUser({ props }) {
   let navigate = useNavigate();
   const params = useParams();
 
+  const [isSaving, setIsSaving] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [initialForm, setInitialForm] = useState();
   const [form, setForm] = useState({});
@@ -68,6 +69,7 @@ export default function FormUser({ props }) {
 
   function handleSubmit(e) {
     e.preventDefault();
+    setIsSaving(true);
     if (params?.id) {
       usersService
         .update(params?.id, form)
@@ -75,10 +77,12 @@ export default function FormUser({ props }) {
           if (!resp.err) {
             props.setShowToast({ show: true, title: 'Éxito', message: 'Se ha modificado el usuario.', variant: 'success', position: 'top-end' });
             navigate("/admin/users");
+            setIsSaving(false);
           } else {
             setErrors(resp.err);
+            setIsSaving(false);
           }
-        }).catch((err) => props.setShowToast({ show: true, title: 'Error al modificar el usuario', message: 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end' }));
+        }).catch((err) => { props.setShowToast({ show: true, title: 'Error al modificar el usuario', message: 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end' }); setIsSaving(false); });
 
     } else {
       usersService
@@ -87,10 +91,12 @@ export default function FormUser({ props }) {
           if (!resp.err) {
             props.setShowToast({ show: true, title: 'Éxito', message: 'Se ha creado el usuario.', variant: 'success', position: 'top-end' });
             navigate("/admin/users");
+            setIsSaving(false);
           } else {
             setErrors(resp.err);
+            setIsSaving(false);
           }
-        }).catch((err) => props.setShowToast({ show: true, title: 'Error al crear el usuario', message: 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end' }));
+        }).catch((err) => { props.setShowToast({ show: true, title: 'Error al crear el usuario', message: 'Inténtelo de nuevo más tarde', variant: 'danger', position: 'top-end' }); setIsSaving(false); });
     }
   }
 
@@ -287,8 +293,16 @@ export default function FormUser({ props }) {
                 </small>
               </div>
             </div>
-            <button type="submit" className="btn btn-primary">
-              Guardar cambios
+            <button
+              className="btn btn-primary mt-4"
+              type={isSaving ? "button" : "submit"}
+              disabled={isSaving}
+              data-toggle="tooltip"
+              data-placement="top">
+              {isSaving ?
+                <><span className='pi pi-spin pi-spinner'></span><span> Guardando...</span> </> :
+                <span> Guardar usuario</span>
+              }
             </button>
           </form>
         </>
