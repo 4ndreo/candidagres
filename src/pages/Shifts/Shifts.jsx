@@ -58,7 +58,7 @@ export default function ShiftsPage({ props }) {
           <ul className="cont-list-days">
             {weekdays.map((weekday) => {
               return (
-                <li key={weekday.id} className="item-dia">
+                <li key={weekday.id} className="item-day">
                   <h2> {weekday.name}</h2>
                   <div className="cont-shift-card">
                     {classData?.shifts.map((shift) => {
