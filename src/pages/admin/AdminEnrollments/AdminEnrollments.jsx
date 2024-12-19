@@ -385,6 +385,23 @@ export default function AdminEnrollments({ props }) {
       subtotalData.push(subtotalRow);
       subtotalRowsIndex.push(subtotalData.length + 1);
 
+      subtotalRow = {
+        Clase: '',
+        Comisión: '',
+        [tab.column]: '',
+        Nombre: '',
+        Apellido: 'Total General',
+        'Cuota': enrollmentsExcel.totalAmount,
+        'Semana 1': '',
+        'Semana 2': '',
+        'Semana 3': '',
+        'Semana 4': '',
+        Pagado: '',
+      }
+      subtotalData.push(subtotalRow);
+      subtotalRowsIndex.push(subtotalData.length + 1);
+
+
       if (items && items?.length > 0) {
         const worksheet = workbook.addWorksheet(tab.label);
         worksheet.addTable({

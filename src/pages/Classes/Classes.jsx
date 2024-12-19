@@ -69,7 +69,7 @@ export default function ClassesPage() {
   return (
     <main className="container main">
       <div className="classes-cont">
-        <h1 className="mb-4">Clases disponibles</h1>
+        <h1 className="mb-4">Clases disponibles en el taller</h1>
         {isError ?
           renderError() :
           <ul className="classes-list">
