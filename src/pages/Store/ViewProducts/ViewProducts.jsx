@@ -2,7 +2,7 @@
 import "./ViewProducts.css";
 
 // React
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useQuery } from "react-query";
 
 // Services
@@ -12,8 +12,13 @@ import * as productsService from "../../../services/products.service";
 import Loader from "../../../components/basics/Loader";
 import StoreProduct from "../../../components/StoreProduct/StoreProduct";
 import Paginator from "../../../components/Paginator/Paginator";
+import { AuthContext } from "../../../App";
+import { Link } from "react-router-dom";
 
 export default function ViewProducts({ props }) {
+
+    const context = useContext(AuthContext);
+
 
     const [request, setRequest] = useState({
         page: 0,
@@ -67,7 +72,10 @@ export default function ViewProducts({ props }) {
     return (
         <>
             <div className="cont-list-products">
-                <h1 className="mb-4">{props.title}</h1>
+                <div className="d-flex justify-content-between align-items-center mb-4">
+                    <h1 className="mb-0">{props.title}</h1>
+                    <Link to={"/store/cart/" + context.currentUser._id} className="btn  btn-outline-primary btn-icon"><span className="pi pi-shopping-cart"></span>Carrito</Link>
+                </div>
                 {isError ?
                     renderError() :
                     products?.data?.length >= 0 ?
