@@ -16,9 +16,10 @@ import Torno from "../img/torno.jpeg";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 
-// import required modules
 import { Autoplay, FreeMode } from "swiper";
 import OpenClassBanner from "../components/OpenClassBanner/OpenClassBanner";
+import 'lazysizes';
+import 'lazysizes/plugins/parent-fit/ls.parent-fit';
 
 export default function Home({ props }) {
 
@@ -59,9 +60,10 @@ export default function Home({ props }) {
           <div className="col-12 col-md-6">
 
             <img
-              className="w-100"
-              src={Taller_Img}
+              className="w-100 lazyload"
+              data-src={Taller_Img}
               alt="Taller donde se imparten las clases en Cándida Gres."
+              loading="lazy"
             />
           </div>
         </section>
@@ -93,9 +95,10 @@ export default function Home({ props }) {
             </p>
           </div>
           <img
-            className="col-12 col-md-6"
-            src={Clases_Img}
+            className="col-12 col-md-6 lazyload"
+            data-src={Clases_Img}
             alt="Taller donde se imparten las clases en Cándida Gres."
+            loading="lazy"
           />
         </section>
         <section id="students">
@@ -127,44 +130,56 @@ export default function Home({ props }) {
             >
               <SwiperSlide>
                 <img
-                  className="home-swiper-img"
-                  src={Cuenco_Azul}
+                  className="home-swiper-img lazyload"
+                  data-src={Cuenco_Azul}
                   alt="Taller donde se imparten las clases en Cándida Gres."
+                  loading="lazy"
+
                 />
               </SwiperSlide>
               <SwiperSlide>
                 <img
-                  className="home-swiper-img"
-                  src={Pote_Blanco}
+                  className="home-swiper-img lazyload"
+                  data-src={Pote_Blanco}
                   alt="Taller donde se imparten las clases en Cándida Gres."
+                  loading="lazy"
+
                 />
               </SwiperSlide>
               <SwiperSlide>
                 <img
-                  className="home-swiper-img"
-                  src={Cuenco_Rosado}
+                  className="home-swiper-img lazyload"
+                  data-src={Cuenco_Rosado}
                   alt="Taller donde se imparten las clases en Cándida Gres."
+                  loading="lazy"
+
                 />
               </SwiperSlide>
               <SwiperSlide>
                 <img
-                  className="home-swiper-img"
-                  src={Cuenco_Marron}
+                  className="home-swiper-img lazyload"
+                  data-src={Cuenco_Marron}
                   alt="Taller donde se imparten las clases en Cándida Gres."
+                  loading="lazy"
+
                 />
               </SwiperSlide>
               <SwiperSlide>
                 <img
-                  className="home-swiper-img"
-                  src={Torno}
+                  className="home-swiper-img lazyload"
+                  data-src={Torno}
                   alt="Taller donde se imparten las clases en Cándida Gres."
+                  loading="lazy"
+
                 />
               </SwiperSlide>
               <SwiperSlide>
                 <img
-                  className="home-swiper-img"
-                  src={Plato_Blanco}
+                  className="home-swiper-img lazyload"
+                  data-src={Plato_Blanco}
                   alt="Taller donde se imparten las clases en Cándida Gres."
+                  loading="lazy"
+
                 />
               </SwiperSlide>
             </Swiper>
