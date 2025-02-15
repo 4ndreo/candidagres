@@ -1,4 +1,4 @@
-<p align="center"><a href="https://candidagres.com" target="_blank"><img src="https://res.cloudinary.com/du6q3fppu/image/upload/v1732242557/jyyj80spczglaugxmyj5.svg" width="200" alt="Cándida Gres Logo"></a></p>
+<p align="center"><a href="https://candidagres.pages.dev" target="_blank"><img src="https://res.cloudinary.com/du6q3fppu/image/upload/v1732242557/jyyj80spczglaugxmyj5.svg" width="200" alt="Cándida Gres Logo"></a></p>
 
 
 # Cándida Gres
