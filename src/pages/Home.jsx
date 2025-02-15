@@ -26,9 +26,9 @@ export default function Home({ props }) {
   return (
     <main className="container main">
       <div className="cont-home">
-        <section>
+        {/* <section>
           <OpenClassBanner props={{ setShowToast: props.setShowToast }} />
-        </section>
+        </section> */}
         <section className="welcome-cont">
           <h1 className="title">
             ¡Bienvenidas y bienvenidos a Cándida Gres!
