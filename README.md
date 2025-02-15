@@ -66,7 +66,7 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 
 
-[front-url]: https://img.shields.io/website?url=https%3A%2F%2Fcandidagres.com&style=for-the-badge&label=SITE%20STATUS
+[front-url]: https://img.shields.io/website?url=https%3A%2F%2Fcandidagres.pages.dev&style=for-the-badge&label=SITE%20STATUS
 
 [license-image]: https://img.shields.io/badge/unlicensed-blue.svg?style=for-the-badge&label=license
 
