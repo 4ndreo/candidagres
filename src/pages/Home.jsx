@@ -17,7 +17,7 @@ import Torno from "../img/torno.jpeg";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import { Autoplay, FreeMode } from "swiper";
-import OpenClassBanner from "../components/OpenClassBanner/OpenClassBanner";
+// import OpenClassBanner from "../components/OpenClassBanner/OpenClassBanner";
 import 'lazysizes';
 import 'lazysizes/plugins/parent-fit/ls.parent-fit';
 
